@@ -1,4 +1,14 @@
 .DS_Store
+.idea
+algorithms/DeepPPI/data
+algorithms/SPRINT/data
+algorithms/SPRINT/HSP
+algorithms/SPRINT/PPI_dataset
+algorithms/SPRINT/lib
+KaHIP/bin
+KaHIP/build
+KaHIP/include
+network_data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -17,7 +27,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
