@@ -1,0 +1,4 @@
+1.  Use training and validation set, save weights. (output mirror-double or mirror-medium)
+2. Load these weights and test them on the valisation set => give validation performance measurements. (output mirror-double_test-val or mirror-medium_test-val)
+3. Run spot_min_loss.py on step 1's output to see when to stop final training. This give you an epoch number E.
+4. Re train using training AND validation sets as training set, use the test set for testing, and stop at epoch E. => give final performance measurements. (output test-mirror-double_train-val or test-mirror-medium_train-val)

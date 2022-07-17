@@ -1,0 +1,1626 @@
+Model:
+IMFC(
+  (fc1): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc1d): Dropout(p=0.2)
+  (fc2): Linear(in_features=1000, out_features=200, bias=True)
+  (fc2d): Dropout(p=0.5)
+  (fc3): Linear(in_features=400, out_features=200, bias=True)
+  (fc3d): Dropout(p=0.5)
+  (fc4): Linear(in_features=200, out_features=100, bias=True)
+  (fc4d): Dropout(p=0.5)
+  (fc5): Linear(in_features=100, out_features=2, bias=True)
+  (fc5d): Dropout(p=0.2)
+  (norm1a): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=True)
+  (norm1b): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm3): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm4): BatchNorm1d(100, eps=1e-05, momentum=0.1, affine=True)
+)
+Optimizer: Adam
+Epochs: 200
+01:17:41:42
+Size of batches: 9 
+Learning rate: 0.001
+Momentum: 0.0 
+Prediction versus Ouput
+Interactions predicted : 6088
+Interactions not predicted : 177
+Absences of Interaction predicted : 75
+Absences of Interaction not predicted : 7328
+Recall : 0.9717478052673584
+Precision : 0.4537865235539654
+Interactions predicted : 6101
+Interactions not predicted : 164
+Absences of Interaction predicted : 68
+Absences of Interaction not predicted : 7335
+Recall : 0.9738228252194733
+Precision : 0.4540785948198869
+Interactions predicted : 6150
+Interactions not predicted : 115
+Absences of Interaction predicted : 87
+Absences of Interaction not predicted : 7316
+Recall : 0.9816440542697525
+Precision : 0.4567057775137383
+Interactions predicted : 6125
+Interactions not predicted : 140
+Absences of Interaction predicted : 108
+Absences of Interaction not predicted : 7295
+Recall : 0.9776536312849162
+Precision : 0.456408345752608
+Interactions predicted : 5968
+Interactions not predicted : 297
+Absences of Interaction predicted : 188
+Absences of Interaction not predicted : 7215
+Recall : 0.9525937749401436
+Precision : 0.45270424030948947
+Interactions predicted : 5908
+Interactions not predicted : 357
+Absences of Interaction predicted : 119
+Absences of Interaction not predicted : 7284
+Recall : 0.9430167597765363
+Precision : 0.4478471801091571
+Interactions predicted : 5893
+Interactions not predicted : 372
+Absences of Interaction predicted : 128
+Absences of Interaction not predicted : 7275
+Recall : 0.9406225059856345
+Precision : 0.4475243013365735
+Interactions predicted : 6131
+Interactions not predicted : 134
+Absences of Interaction predicted : 92
+Absences of Interaction not predicted : 7311
+Recall : 0.978611332801277
+Precision : 0.45610772206516886
+Interactions predicted : 5991
+Interactions not predicted : 274
+Absences of Interaction predicted : 172
+Absences of Interaction not predicted : 7231
+Recall : 0.9562649640861931
+Precision : 0.45310845560429586
+Interactions predicted : 6047
+Interactions not predicted : 218
+Absences of Interaction predicted : 151
+Absences of Interaction not predicted : 7252
+Recall : 0.9652035115722266
+Precision : 0.45469584179261596
+Interactions predicted : 6029
+Interactions not predicted : 236
+Absences of Interaction predicted : 85
+Absences of Interaction not predicted : 7318
+Recall : 0.9623304070231444
+Precision : 0.45171199520491495
+Interactions predicted : 6144
+Interactions not predicted : 121
+Absences of Interaction predicted : 72
+Absences of Interaction not predicted : 7331
+Recall : 0.9806863527533919
+Precision : 0.45595547309833023
+Interactions predicted : 6080
+Interactions not predicted : 185
+Absences of Interaction predicted : 66
+Absences of Interaction not predicted : 7337
+Recall : 0.9704708699122107
+Precision : 0.45315644331817845
+Interactions predicted : 6079
+Interactions not predicted : 186
+Absences of Interaction predicted : 141
+Absences of Interaction not predicted : 7262
+Recall : 0.9703112529928173
+Precision : 0.45566299377857733
+Interactions predicted : 5891
+Interactions not predicted : 374
+Absences of Interaction predicted : 112
+Absences of Interaction not predicted : 7291
+Recall : 0.9403032721468476
+Precision : 0.4468972841753907
+Interactions predicted : 6072
+Interactions not predicted : 193
+Absences of Interaction predicted : 67
+Absences of Interaction not predicted : 7336
+Recall : 0.969193934557063
+Precision : 0.4528639618138425
+Interactions predicted : 5983
+Interactions not predicted : 282
+Absences of Interaction predicted : 140
+Absences of Interaction not predicted : 7263
+Recall : 0.9549880287310455
+Precision : 0.4516835271025215
+Interactions predicted : 6088
+Interactions not predicted : 177
+Absences of Interaction predicted : 89
+Absences of Interaction not predicted : 7314
+Recall : 0.9717478052673584
+Precision : 0.4542605581256529
+Interactions predicted : 6098
+Interactions not predicted : 167
+Absences of Interaction predicted : 75
+Absences of Interaction not predicted : 7328
+Recall : 0.973343974461293
+Precision : 0.4541933561745866
+Interactions predicted : 6153
+Interactions not predicted : 112
+Absences of Interaction predicted : 66
+Absences of Interaction not predicted : 7337
+Recall : 0.982122905027933
+Precision : 0.45611564121571535
+Interactions predicted : 6066
+Interactions not predicted : 199
+Absences of Interaction predicted : 152
+Absences of Interaction not predicted : 7251
+Recall : 0.9682362330407023
+Precision : 0.45550799729668845
+Interactions predicted : 6136
+Interactions not predicted : 129
+Absences of Interaction predicted : 81
+Absences of Interaction not predicted : 7322
+Recall : 0.9794094173982442
+Precision : 0.4559369891514341
+Interactions predicted : 6140
+Interactions not predicted : 125
+Absences of Interaction predicted : 63
+Absences of Interaction not predicted : 7340
+Recall : 0.9800478850758181
+Precision : 0.45548961424332346
+Interactions predicted : 6158
+Interactions not predicted : 107
+Absences of Interaction predicted : 61
+Absences of Interaction not predicted : 7342
+Recall : 0.9829209896249003
+Precision : 0.45614814814814814
+Interactions predicted : 6126
+Interactions not predicted : 139
+Absences of Interaction predicted : 88
+Absences of Interaction not predicted : 7315
+Recall : 0.9778132482043097
+Precision : 0.45576965999553604
+Interactions predicted : 6061
+Interactions not predicted : 204
+Absences of Interaction predicted : 91
+Absences of Interaction not predicted : 7312
+Recall : 0.967438148443735
+Precision : 0.4532266507141255
+Interactions predicted : 6116
+Interactions not predicted : 149
+Absences of Interaction predicted : 65
+Absences of Interaction not predicted : 7338
+Recall : 0.9762170790103751
+Precision : 0.45458599672959715
+Interactions predicted : 5975
+Interactions not predicted : 290
+Absences of Interaction predicted : 104
+Absences of Interaction not predicted : 7299
+Recall : 0.9537110933758979
+Precision : 0.45012806991110443
+Interactions predicted : 6071
+Interactions not predicted : 194
+Absences of Interaction predicted : 70
+Absences of Interaction not predicted : 7333
+Recall : 0.9690343176376696
+Precision : 0.4529245001492092
+Interactions predicted : 6111
+Interactions not predicted : 154
+Absences of Interaction predicted : 64
+Absences of Interaction not predicted : 7339
+Recall : 0.9754189944134078
+Precision : 0.4543494423791822
+Interactions predicted : 6068
+Interactions not predicted : 197
+Absences of Interaction predicted : 77
+Absences of Interaction not predicted : 7326
+Recall : 0.9685554668794892
+Precision : 0.4530386740331492
+Interactions predicted : 6074
+Interactions not predicted : 191
+Absences of Interaction predicted : 65
+Absences of Interaction not predicted : 7338
+Recall : 0.96951316839585
+Precision : 0.4528780196838652
+Interactions predicted : 6062
+Interactions not predicted : 203
+Absences of Interaction predicted : 67
+Absences of Interaction not predicted : 7336
+Recall : 0.9675977653631285
+Precision : 0.45245559038662486
+Interactions predicted : 6051
+Interactions not predicted : 214
+Absences of Interaction predicted : 75
+Absences of Interaction not predicted : 7328
+Recall : 0.9658419792498005
+Precision : 0.4522759548546229
+Interactions predicted : 6071
+Interactions not predicted : 194
+Absences of Interaction predicted : 111
+Absences of Interaction not predicted : 7292
+Recall : 0.9690343176376696
+Precision : 0.45431415101399386
+Interactions predicted : 6065
+Interactions not predicted : 200
+Absences of Interaction predicted : 106
+Absences of Interaction not predicted : 7297
+Recall : 0.9680766161213089
+Precision : 0.45389911689866785
+Interactions predicted : 5971
+Interactions not predicted : 294
+Absences of Interaction predicted : 143
+Absences of Interaction not predicted : 7260
+Recall : 0.9530726256983241
+Precision : 0.4512886403144131
+Interactions predicted : 6105
+Interactions not predicted : 160
+Absences of Interaction predicted : 77
+Absences of Interaction not predicted : 7326
+Recall : 0.9744612928970471
+Precision : 0.45454545454545453
+Interactions predicted : 5952
+Interactions not predicted : 313
+Absences of Interaction predicted : 116
+Absences of Interaction not predicted : 7287
+Recall : 0.9500399042298484
+Precision : 0.4495807840471335
+Interactions predicted : 6028
+Interactions not predicted : 237
+Absences of Interaction predicted : 122
+Absences of Interaction not predicted : 7281
+Recall : 0.962170790103751
+Precision : 0.45292659102862726
+Interactions predicted : 5972
+Interactions not predicted : 293
+Absences of Interaction predicted : 148
+Absences of Interaction not predicted : 7255
+Recall : 0.9532322426177174
+Precision : 0.45150071822786725
+Interactions predicted : 5992
+Interactions not predicted : 273
+Absences of Interaction predicted : 138
+Absences of Interaction not predicted : 7265
+Recall : 0.9564245810055866
+Precision : 0.45198762917703855
+Interactions predicted : 5997
+Interactions not predicted : 268
+Absences of Interaction predicted : 124
+Absences of Interaction not predicted : 7279
+Recall : 0.9572226656025539
+Precision : 0.4517173847544441
+Interactions predicted : 6029
+Interactions not predicted : 236
+Absences of Interaction predicted : 105
+Absences of Interaction not predicted : 7298
+Recall : 0.9623304070231444
+Precision : 0.45238988519546786
+Interactions predicted : 5998
+Interactions not predicted : 267
+Absences of Interaction predicted : 112
+Absences of Interaction not predicted : 7291
+Recall : 0.9573822825219473
+Precision : 0.45135074121453833
+Interactions predicted : 6010
+Interactions not predicted : 255
+Absences of Interaction predicted : 135
+Absences of Interaction not predicted : 7268
+Recall : 0.9592976855546688
+Precision : 0.45262840789275494
+Interactions predicted : 6040
+Interactions not predicted : 225
+Absences of Interaction predicted : 100
+Absences of Interaction not predicted : 7303
+Recall : 0.9640861931364725
+Precision : 0.4526718129356217
+Interactions predicted : 6039
+Interactions not predicted : 226
+Absences of Interaction predicted : 128
+Absences of Interaction not predicted : 7275
+Recall : 0.963926576217079
+Precision : 0.45358269490761605
+Interactions predicted : 6102
+Interactions not predicted : 163
+Absences of Interaction predicted : 55
+Absences of Interaction not predicted : 7348
+Recall : 0.9739824421388668
+Precision : 0.4536802973977695
+Interactions predicted : 6116
+Interactions not predicted : 149
+Absences of Interaction predicted : 107
+Absences of Interaction not predicted : 7296
+Recall : 0.9762170790103751
+Precision : 0.4560095436922159
+Interactions predicted : 6125
+Interactions not predicted : 140
+Absences of Interaction predicted : 72
+Absences of Interaction not predicted : 7331
+Recall : 0.9776536312849162
+Precision : 0.4551872770511296
+Interactions predicted : 6064
+Interactions not predicted : 201
+Absences of Interaction predicted : 100
+Absences of Interaction not predicted : 7303
+Recall : 0.9679169992019154
+Precision : 0.4536545223311139
+Interactions predicted : 6057
+Interactions not predicted : 208
+Absences of Interaction predicted : 116
+Absences of Interaction not predicted : 7287
+Recall : 0.9667996807661612
+Precision : 0.4539118705035971
+Interactions predicted : 6049
+Interactions not predicted : 216
+Absences of Interaction predicted : 66
+Absences of Interaction not predicted : 7337
+Recall : 0.9655227454110136
+Precision : 0.4518900343642612
+Interactions predicted : 6012
+Interactions not predicted : 253
+Absences of Interaction predicted : 130
+Absences of Interaction not predicted : 7273
+Recall : 0.9596169193934557
+Precision : 0.4525404591644712
+Interactions predicted : 6064
+Interactions not predicted : 201
+Absences of Interaction predicted : 94
+Absences of Interaction not predicted : 7309
+Recall : 0.9679169992019154
+Precision : 0.4534509833246093
+Interactions predicted : 6002
+Interactions not predicted : 263
+Absences of Interaction predicted : 87
+Absences of Interaction not predicted : 7316
+Recall : 0.9580207501995212
+Precision : 0.4506682685087851
+Interactions predicted : 6053
+Interactions not predicted : 212
+Absences of Interaction predicted : 91
+Absences of Interaction not predicted : 7312
+Recall : 0.9661612130885874
+Precision : 0.45289936401047515
+Interactions predicted : 6035
+Interactions not predicted : 230
+Absences of Interaction predicted : 72
+Absences of Interaction not predicted : 7331
+Recall : 0.9632881085395052
+Precision : 0.4515187789914709
+Interactions predicted : 6044
+Interactions not predicted : 221
+Absences of Interaction predicted : 83
+Absences of Interaction not predicted : 7320
+Recall : 0.9647246608140463
+Precision : 0.452259802454355
+Interactions predicted : 6038
+Interactions not predicted : 227
+Absences of Interaction predicted : 59
+Absences of Interaction not predicted : 7344
+Recall : 0.9637669592976855
+Precision : 0.451203108653415
+Interactions predicted : 5984
+Interactions not predicted : 281
+Absences of Interaction predicted : 92
+Absences of Interaction not predicted : 7311
+Recall : 0.955147645650439
+Precision : 0.45009402030838663
+Interactions predicted : 6041
+Interactions not predicted : 224
+Absences of Interaction predicted : 81
+Absences of Interaction not predicted : 7322
+Recall : 0.964245810055866
+Precision : 0.45206914614981664
+Interactions predicted : 6123
+Interactions not predicted : 142
+Absences of Interaction predicted : 70
+Absences of Interaction not predicted : 7333
+Recall : 0.9773343974461293
+Precision : 0.455038644470868
+Interactions predicted : 6082
+Interactions not predicted : 183
+Absences of Interaction predicted : 106
+Absences of Interaction not predicted : 7297
+Recall : 0.9707901037509976
+Precision : 0.45459301891023246
+Interactions predicted : 6097
+Interactions not predicted : 168
+Absences of Interaction predicted : 72
+Absences of Interaction not predicted : 7331
+Recall : 0.9731843575418995
+Precision : 0.454051236222818
+Interactions predicted : 6107
+Interactions not predicted : 158
+Absences of Interaction predicted : 136
+Absences of Interaction not predicted : 7267
+Recall : 0.974780526735834
+Precision : 0.45663227157170627
+Interactions predicted : 6040
+Interactions not predicted : 225
+Absences of Interaction predicted : 76
+Absences of Interaction not predicted : 7327
+Recall : 0.9640861931364725
+Precision : 0.4518590558838932
+Interactions predicted : 6132
+Interactions not predicted : 133
+Absences of Interaction predicted : 98
+Absences of Interaction not predicted : 7305
+Recall : 0.9787709497206704
+Precision : 0.45635186425541413
+Interactions predicted : 6159
+Interactions not predicted : 106
+Absences of Interaction predicted : 75
+Absences of Interaction not predicted : 7328
+Recall : 0.9830806065442937
+Precision : 0.45666197078668347
+Interactions predicted : 6061
+Interactions not predicted : 204
+Absences of Interaction predicted : 103
+Absences of Interaction not predicted : 7300
+Recall : 0.967438148443735
+Precision : 0.4536337100516428
+Interactions predicted : 6130
+Interactions not predicted : 135
+Absences of Interaction predicted : 44
+Absences of Interaction not predicted : 7359
+Recall : 0.9784517158818835
+Precision : 0.45444436207280003
+Interactions predicted : 6200
+Interactions not predicted : 65
+Absences of Interaction predicted : 62
+Absences of Interaction not predicted : 7341
+Recall : 0.9896249002394254
+Precision : 0.457868695074219
+Interactions predicted : 6083
+Interactions not predicted : 182
+Absences of Interaction predicted : 93
+Absences of Interaction not predicted : 7310
+Recall : 0.9709497206703911
+Precision : 0.4541924886134548
+Interactions predicted : 6051
+Interactions not predicted : 214
+Absences of Interaction predicted : 82
+Absences of Interaction not predicted : 7321
+Recall : 0.9658419792498005
+Precision : 0.45251271313191743
+Interactions predicted : 6112
+Interactions not predicted : 153
+Absences of Interaction predicted : 70
+Absences of Interaction not predicted : 7333
+Recall : 0.9755786113328013
+Precision : 0.45459278542209
+Interactions predicted : 6049
+Interactions not predicted : 216
+Absences of Interaction predicted : 77
+Absences of Interaction not predicted : 7326
+Recall : 0.9655227454110136
+Precision : 0.4522616822429907
+Interactions predicted : 6100
+Interactions not predicted : 165
+Absences of Interaction predicted : 47
+Absences of Interaction not predicted : 7356
+Recall : 0.9736632083000798
+Precision : 0.4533293697978597
+Interactions predicted : 6062
+Interactions not predicted : 203
+Absences of Interaction predicted : 73
+Absences of Interaction not predicted : 7330
+Recall : 0.9675977653631285
+Precision : 0.45265830346475505
+Interactions predicted : 6127
+Interactions not predicted : 138
+Absences of Interaction predicted : 64
+Absences of Interaction not predicted : 7339
+Recall : 0.9779728651237031
+Precision : 0.45499777216693893
+Interactions predicted : 6145
+Interactions not predicted : 120
+Absences of Interaction predicted : 53
+Absences of Interaction not predicted : 7350
+Recall : 0.9808459696727854
+Precision : 0.45535383475361246
+Interactions predicted : 6103
+Interactions not predicted : 162
+Absences of Interaction predicted : 63
+Absences of Interaction not predicted : 7340
+Recall : 0.9741420590582601
+Precision : 0.45399092464479657
+Interactions predicted : 6218
+Interactions not predicted : 47
+Absences of Interaction predicted : 43
+Absences of Interaction not predicted : 7360
+Recall : 0.9924980047885076
+Precision : 0.4579466784504345
+Interactions predicted : 6094
+Interactions not predicted : 171
+Absences of Interaction predicted : 59
+Absences of Interaction not predicted : 7344
+Recall : 0.972705506783719
+Precision : 0.45349010269385326
+Interactions predicted : 6050
+Interactions not predicted : 215
+Absences of Interaction predicted : 88
+Absences of Interaction not predicted : 7315
+Recall : 0.965682362330407
+Precision : 0.45267489711934156
+Interactions predicted : 6094
+Interactions not predicted : 171
+Absences of Interaction predicted : 52
+Absences of Interaction not predicted : 7351
+Recall : 0.972705506783719
+Precision : 0.45325399776868724
+Interactions predicted : 6102
+Interactions not predicted : 163
+Absences of Interaction predicted : 138
+Absences of Interaction not predicted : 7265
+Recall : 0.9739824421388668
+Precision : 0.4564973442058802
+Interactions predicted : 6017
+Interactions not predicted : 248
+Absences of Interaction predicted : 104
+Absences of Interaction not predicted : 7299
+Recall : 0.960415003990423
+Precision : 0.45186242114749176
+Interactions predicted : 6202
+Interactions not predicted : 63
+Absences of Interaction predicted : 60
+Absences of Interaction not predicted : 7343
+Recall : 0.9899441340782122
+Precision : 0.4578811369509044
+Interactions predicted : 6041
+Interactions not predicted : 224
+Absences of Interaction predicted : 73
+Absences of Interaction not predicted : 7330
+Recall : 0.964245810055866
+Precision : 0.45179866876075087
+Interactions predicted : 6047
+Interactions not predicted : 218
+Absences of Interaction predicted : 87
+Absences of Interaction not predicted : 7316
+Recall : 0.9652035115722266
+Precision : 0.4525181471226521
+Interactions predicted : 6088
+Interactions not predicted : 177
+Absences of Interaction predicted : 88
+Absences of Interaction not predicted : 7315
+Recall : 0.9717478052673584
+Precision : 0.4542266656718645
+Interactions predicted : 6016
+Interactions not predicted : 249
+Absences of Interaction predicted : 97
+Absences of Interaction not predicted : 7306
+Recall : 0.9602553870710295
+Precision : 0.4515838462693289
+Interactions predicted : 6121
+Interactions not predicted : 144
+Absences of Interaction predicted : 55
+Absences of Interaction not predicted : 7348
+Recall : 0.9770151636073424
+Precision : 0.45445096146707253
+Interactions predicted : 6056
+Interactions not predicted : 209
+Absences of Interaction predicted : 96
+Absences of Interaction not predicted : 7307
+Recall : 0.9666400638467677
+Precision : 0.45319164858190525
+Interactions predicted : 6113
+Interactions not predicted : 152
+Absences of Interaction predicted : 90
+Absences of Interaction not predicted : 7313
+Recall : 0.9757382282521947
+Precision : 0.4553105913898406
+Interactions predicted : 6158
+Interactions not predicted : 107
+Absences of Interaction predicted : 85
+Absences of Interaction not predicted : 7318
+Recall : 0.9829209896249003
+Precision : 0.45696052241021073
+Interactions predicted : 6144
+Interactions not predicted : 121
+Absences of Interaction predicted : 70
+Absences of Interaction not predicted : 7333
+Recall : 0.9806863527533919
+Precision : 0.45588780885953845
+Interactions predicted : 6010
+Interactions not predicted : 255
+Absences of Interaction predicted : 142
+Absences of Interaction not predicted : 7261
+Recall : 0.9592976855546688
+Precision : 0.45286715394469146
+Interactions predicted : 6136
+Interactions not predicted : 129
+Absences of Interaction predicted : 79
+Absences of Interaction not predicted : 7324
+Recall : 0.9794094173982442
+Precision : 0.45586924219910846
+Interactions predicted : 6015
+Interactions not predicted : 250
+Absences of Interaction predicted : 101
+Absences of Interaction not predicted : 7302
+Recall : 0.960095770151636
+Precision : 0.45167830592475783
+Interactions predicted : 6156
+Interactions not predicted : 109
+Absences of Interaction predicted : 73
+Absences of Interaction not predicted : 7330
+Recall : 0.9826017557861133
+Precision : 0.4564733798012754
+Interactions predicted : 6121
+Interactions not predicted : 144
+Absences of Interaction predicted : 76
+Absences of Interaction not predicted : 7327
+Recall : 0.9770151636073424
+Precision : 0.45516061867935753
+Interactions predicted : 5994
+Interactions not predicted : 271
+Absences of Interaction predicted : 185
+Absences of Interaction not predicted : 7218
+Recall : 0.9567438148443735
+Precision : 0.4536784741144414
+Interactions predicted : 6146
+Interactions not predicted : 119
+Absences of Interaction predicted : 50
+Absences of Interaction not predicted : 7353
+Recall : 0.9810055865921787
+Precision : 0.45529298466553075
+Interactions predicted : 6086
+Interactions not predicted : 179
+Absences of Interaction predicted : 139
+Absences of Interaction not predicted : 7264
+Recall : 0.9714285714285714
+Precision : 0.45588014981273406
+Interactions predicted : 6097
+Interactions not predicted : 168
+Absences of Interaction predicted : 99
+Absences of Interaction not predicted : 7304
+Recall : 0.9731843575418995
+Precision : 0.45496604730990226
+Interactions predicted : 6143
+Interactions not predicted : 122
+Absences of Interaction predicted : 68
+Absences of Interaction not predicted : 7335
+Recall : 0.9805267358339984
+Precision : 0.45577978928624424
+Interactions predicted : 6135
+Interactions not predicted : 130
+Absences of Interaction predicted : 82
+Absences of Interaction not predicted : 7321
+Recall : 0.9792498004788508
+Precision : 0.4559304399524376
+Interactions predicted : 6134
+Interactions not predicted : 131
+Absences of Interaction predicted : 87
+Absences of Interaction not predicted : 7316
+Recall : 0.9790901835594573
+Precision : 0.45605947955390336
+Interactions predicted : 6037
+Interactions not predicted : 228
+Absences of Interaction predicted : 143
+Absences of Interaction not predicted : 7260
+Recall : 0.9636073423782922
+Precision : 0.4540121831992179
+Interactions predicted : 6087
+Interactions not predicted : 178
+Absences of Interaction predicted : 168
+Absences of Interaction not predicted : 7235
+Recall : 0.9715881883479649
+Precision : 0.4569133763699144
+Interactions predicted : 5985
+Interactions not predicted : 280
+Absences of Interaction predicted : 169
+Absences of Interaction not predicted : 7234
+Recall : 0.9553072625698324
+Precision : 0.45275739465920267
+Interactions predicted : 5980
+Interactions not predicted : 285
+Absences of Interaction predicted : 185
+Absences of Interaction not predicted : 7218
+Recall : 0.9545091779728652
+Precision : 0.45309895438702835
+Interactions predicted : 6014
+Interactions not predicted : 251
+Absences of Interaction predicted : 121
+Absences of Interaction not predicted : 7282
+Recall : 0.9599361532322426
+Precision : 0.45231648616125153
+Interactions predicted : 6081
+Interactions not predicted : 184
+Absences of Interaction predicted : 119
+Absences of Interaction not predicted : 7284
+Recall : 0.9706304868316041
+Precision : 0.45499438832772165
+Interactions predicted : 6044
+Interactions not predicted : 221
+Absences of Interaction predicted : 101
+Absences of Interaction not predicted : 7302
+Recall : 0.9647246608140463
+Precision : 0.4528697737149708
+Interactions predicted : 6025
+Interactions not predicted : 240
+Absences of Interaction predicted : 141
+Absences of Interaction not predicted : 7262
+Recall : 0.9616919393455706
+Precision : 0.45345074132610824
+Interactions predicted : 6020
+Interactions not predicted : 245
+Absences of Interaction predicted : 134
+Absences of Interaction not predicted : 7269
+Recall : 0.9608938547486033
+Precision : 0.45300624576717585
+Interactions predicted : 6046
+Interactions not predicted : 219
+Absences of Interaction predicted : 114
+Absences of Interaction not predicted : 7289
+Recall : 0.9650438946528332
+Precision : 0.4533933258342707
+Interactions predicted : 5963
+Interactions not predicted : 302
+Absences of Interaction predicted : 184
+Absences of Interaction not predicted : 7219
+Recall : 0.9517956903431763
+Precision : 0.4523592778030648
+Interactions predicted : 6029
+Interactions not predicted : 236
+Absences of Interaction predicted : 156
+Absences of Interaction not predicted : 7247
+Recall : 0.9623304070231444
+Precision : 0.45412774932208494
+Interactions predicted : 5996
+Interactions not predicted : 269
+Absences of Interaction predicted : 194
+Absences of Interaction not predicted : 7209
+Recall : 0.9570630486831604
+Precision : 0.4540704278682317
+Interactions predicted : 6008
+Interactions not predicted : 257
+Absences of Interaction predicted : 145
+Absences of Interaction not predicted : 7258
+Recall : 0.9589784517158819
+Precision : 0.4528870797527514
+Interactions predicted : 6119
+Interactions not predicted : 146
+Absences of Interaction predicted : 98
+Absences of Interaction not predicted : 7305
+Recall : 0.9766959297685555
+Precision : 0.4558253873659118
+Interactions predicted : 6024
+Interactions not predicted : 241
+Absences of Interaction predicted : 144
+Absences of Interaction not predicted : 7259
+Recall : 0.9615323224261771
+Precision : 0.4535120078295566
+Interactions predicted : 6034
+Interactions not predicted : 231
+Absences of Interaction predicted : 130
+Absences of Interaction not predicted : 7273
+Recall : 0.9631284916201117
+Precision : 0.45344555497106787
+Interactions predicted : 5992
+Interactions not predicted : 273
+Absences of Interaction predicted : 149
+Absences of Interaction not predicted : 7254
+Recall : 0.9564245810055866
+Precision : 0.4523629775026423
+Interactions predicted : 5995
+Interactions not predicted : 270
+Absences of Interaction predicted : 123
+Absences of Interaction not predicted : 7280
+Recall : 0.9569034317637669
+Precision : 0.45160075329566857
+Interactions predicted : 5946
+Interactions not predicted : 319
+Absences of Interaction predicted : 231
+Absences of Interaction not predicted : 7172
+Recall : 0.9490822027134876
+Precision : 0.4532703155968898
+Interactions predicted : 5978
+Interactions not predicted : 287
+Absences of Interaction predicted : 134
+Absences of Interaction not predicted : 7269
+Recall : 0.9541899441340782
+Precision : 0.45127198611006264
+Interactions predicted : 5984
+Interactions not predicted : 281
+Absences of Interaction predicted : 191
+Absences of Interaction not predicted : 7212
+Recall : 0.955147645650439
+Precision : 0.4534707487117308
+Interactions predicted : 5998
+Interactions not predicted : 267
+Absences of Interaction predicted : 189
+Absences of Interaction not predicted : 7214
+Recall : 0.9573822825219473
+Precision : 0.45398122918558886
+Interactions predicted : 5997
+Interactions not predicted : 268
+Absences of Interaction predicted : 225
+Absences of Interaction not predicted : 7178
+Recall : 0.9572226656025539
+Precision : 0.455180265654649
+Interactions predicted : 6037
+Interactions not predicted : 228
+Absences of Interaction predicted : 127
+Absences of Interaction not predicted : 7276
+Recall : 0.9636073423782922
+Precision : 0.45346653646811386
+Interactions predicted : 5914
+Interactions not predicted : 351
+Absences of Interaction predicted : 217
+Absences of Interaction not predicted : 7186
+Recall : 0.9439744612928971
+Precision : 0.45145038167938933
+Interactions predicted : 5956
+Interactions not predicted : 309
+Absences of Interaction predicted : 125
+Absences of Interaction not predicted : 7278
+Recall : 0.9506783719074222
+Precision : 0.4500528940607526
+Interactions predicted : 6034
+Interactions not predicted : 231
+Absences of Interaction predicted : 146
+Absences of Interaction not predicted : 7257
+Recall : 0.9631284916201117
+Precision : 0.45399142276728616
+Interactions predicted : 6024
+Interactions not predicted : 241
+Absences of Interaction predicted : 120
+Absences of Interaction not predicted : 7283
+Recall : 0.9615323224261771
+Precision : 0.4526940707898099
+Interactions predicted : 6040
+Interactions not predicted : 225
+Absences of Interaction predicted : 141
+Absences of Interaction not predicted : 7262
+Recall : 0.9640861931364725
+Precision : 0.4540670575853255
+Interactions predicted : 6018
+Interactions not predicted : 247
+Absences of Interaction predicted : 163
+Absences of Interaction not predicted : 7240
+Recall : 0.9605746209098165
+Precision : 0.45391461758938
+Interactions predicted : 5951
+Interactions not predicted : 314
+Absences of Interaction predicted : 173
+Absences of Interaction not predicted : 7230
+Recall : 0.9498802873104549
+Precision : 0.45148319550868676
+Interactions predicted : 6025
+Interactions not predicted : 240
+Absences of Interaction predicted : 83
+Absences of Interaction not predicted : 7320
+Recall : 0.9616919393455706
+Precision : 0.4514799550393406
+Interactions predicted : 6055
+Interactions not predicted : 210
+Absences of Interaction predicted : 94
+Absences of Interaction not predicted : 7309
+Recall : 0.9664804469273743
+Precision : 0.45308290930859024
+Interactions predicted : 6012
+Interactions not predicted : 253
+Absences of Interaction predicted : 102
+Absences of Interaction not predicted : 7301
+Recall : 0.9596169193934557
+Precision : 0.451588672725907
+Interactions predicted : 5985
+Interactions not predicted : 280
+Absences of Interaction predicted : 165
+Absences of Interaction not predicted : 7238
+Recall : 0.9553072625698324
+Precision : 0.4526204340921122
+Interactions predicted : 5981
+Interactions not predicted : 284
+Absences of Interaction predicted : 131
+Absences of Interaction not predicted : 7272
+Recall : 0.9546687948922585
+Precision : 0.45129404663095146
+Interactions predicted : 6021
+Interactions not predicted : 244
+Absences of Interaction predicted : 125
+Absences of Interaction not predicted : 7278
+Recall : 0.9610534716679968
+Precision : 0.45274080757951723
+Interactions predicted : 6025
+Interactions not predicted : 240
+Absences of Interaction predicted : 141
+Absences of Interaction not predicted : 7262
+Recall : 0.9616919393455706
+Precision : 0.45345074132610824
+Interactions predicted : 6066
+Interactions not predicted : 199
+Absences of Interaction predicted : 122
+Absences of Interaction not predicted : 7281
+Recall : 0.9682362330407023
+Precision : 0.454484153742414
+Interactions predicted : 6083
+Interactions not predicted : 182
+Absences of Interaction predicted : 98
+Absences of Interaction not predicted : 7305
+Recall : 0.9709497206703911
+Precision : 0.45436211532715864
+Interactions predicted : 6038
+Interactions not predicted : 227
+Absences of Interaction predicted : 113
+Absences of Interaction not predicted : 7290
+Recall : 0.9637669592976855
+Precision : 0.453031212484994
+Interactions predicted : 6041
+Interactions not predicted : 224
+Absences of Interaction predicted : 121
+Absences of Interaction not predicted : 7282
+Recall : 0.964245810055866
+Precision : 0.4534264054642348
+Interactions predicted : 6122
+Interactions not predicted : 143
+Absences of Interaction predicted : 110
+Absences of Interaction not predicted : 7293
+Recall : 0.9771747805267358
+Precision : 0.4563548266865449
+Interactions predicted : 6025
+Interactions not predicted : 240
+Absences of Interaction predicted : 128
+Absences of Interaction not predicted : 7275
+Recall : 0.9616919393455706
+Precision : 0.45300751879699247
+Interactions predicted : 5987
+Interactions not predicted : 278
+Absences of Interaction predicted : 109
+Absences of Interaction not predicted : 7294
+Recall : 0.9556264964086193
+Precision : 0.45079436789398386
+Interactions predicted : 5950
+Interactions not predicted : 315
+Absences of Interaction predicted : 226
+Absences of Interaction not predicted : 7177
+Recall : 0.9497206703910615
+Precision : 0.45326426449302964
+Interactions predicted : 6176
+Interactions not predicted : 89
+Absences of Interaction predicted : 84
+Absences of Interaction not predicted : 7319
+Recall : 0.9857940941739824
+Precision : 0.4576509818451278
+Interactions predicted : 6125
+Interactions not predicted : 140
+Absences of Interaction predicted : 74
+Absences of Interaction not predicted : 7329
+Recall : 0.9776536312849162
+Precision : 0.45525494276795003
+Interactions predicted : 6127
+Interactions not predicted : 138
+Absences of Interaction predicted : 82
+Absences of Interaction not predicted : 7321
+Recall : 0.9779728651237031
+Precision : 0.45560678167757285
+Interactions predicted : 6006
+Interactions not predicted : 259
+Absences of Interaction predicted : 197
+Absences of Interaction not predicted : 7206
+Recall : 0.958659217877095
+Precision : 0.45458673932788374
+Interactions predicted : 6006
+Interactions not predicted : 259
+Absences of Interaction predicted : 161
+Absences of Interaction not predicted : 7242
+Recall : 0.958659217877095
+Precision : 0.4533514492753623
+Interactions predicted : 5998
+Interactions not predicted : 267
+Absences of Interaction predicted : 177
+Absences of Interaction not predicted : 7226
+Recall : 0.9573822825219473
+Precision : 0.4535692679975802
+Interactions predicted : 5983
+Interactions not predicted : 282
+Absences of Interaction predicted : 153
+Absences of Interaction not predicted : 7250
+Recall : 0.9549880287310455
+Precision : 0.4521272576135419
+Interactions predicted : 5973
+Interactions not predicted : 292
+Absences of Interaction predicted : 155
+Absences of Interaction not predicted : 7248
+Recall : 0.9533918595371109
+Precision : 0.4517812570909916
+Interactions predicted : 6075
+Interactions not predicted : 190
+Absences of Interaction predicted : 131
+Absences of Interaction not predicted : 7272
+Recall : 0.9696727853152434
+Precision : 0.45515846257585973
+Interactions predicted : 5931
+Interactions not predicted : 334
+Absences of Interaction predicted : 171
+Absences of Interaction not predicted : 7232
+Recall : 0.9466879489225858
+Precision : 0.45058117450429236
+Interactions predicted : 5848
+Interactions not predicted : 417
+Absences of Interaction predicted : 179
+Absences of Interaction not predicted : 7224
+Recall : 0.933439744612929
+Precision : 0.4473684210526316
+Interactions predicted : 5930
+Interactions not predicted : 335
+Absences of Interaction predicted : 173
+Absences of Interaction not predicted : 7230
+Recall : 0.9465283320031923
+Precision : 0.4506079027355623
+Interactions predicted : 5994
+Interactions not predicted : 271
+Absences of Interaction predicted : 127
+Absences of Interaction not predicted : 7276
+Recall : 0.9567438148443735
+Precision : 0.45169555388093446
+Interactions predicted : 5934
+Interactions not predicted : 331
+Absences of Interaction predicted : 157
+Absences of Interaction not predicted : 7246
+Recall : 0.9471667996807661
+Precision : 0.4502276176024279
+Interactions predicted : 6109
+Interactions not predicted : 156
+Absences of Interaction predicted : 110
+Absences of Interaction not predicted : 7293
+Recall : 0.9750997605746209
+Precision : 0.455827488434562
+Interactions predicted : 6117
+Interactions not predicted : 148
+Absences of Interaction predicted : 107
+Absences of Interaction not predicted : 7296
+Recall : 0.9763766959297685
+Precision : 0.45605010064862445
+Interactions predicted : 5982
+Interactions not predicted : 283
+Absences of Interaction predicted : 178
+Absences of Interaction not predicted : 7225
+Recall : 0.954828411811652
+Precision : 0.45294162186719167
+Interactions predicted : 6006
+Interactions not predicted : 259
+Absences of Interaction predicted : 138
+Absences of Interaction not predicted : 7265
+Recall : 0.958659217877095
+Precision : 0.45256574485720746
+Interactions predicted : 5945
+Interactions not predicted : 320
+Absences of Interaction predicted : 246
+Absences of Interaction not predicted : 7157
+Recall : 0.9489225857940942
+Precision : 0.45374751946267744
+Interactions predicted : 6131
+Interactions not predicted : 134
+Absences of Interaction predicted : 129
+Absences of Interaction not predicted : 7274
+Recall : 0.978611332801277
+Precision : 0.457366654233495
+Interactions predicted : 6027
+Interactions not predicted : 238
+Absences of Interaction predicted : 150
+Absences of Interaction not predicted : 7253
+Recall : 0.9620111731843576
+Precision : 0.45384036144578316
+Interactions predicted : 5953
+Interactions not predicted : 312
+Absences of Interaction predicted : 154
+Absences of Interaction not predicted : 7249
+Recall : 0.9501995211492418
+Precision : 0.45091652779881836
+Interactions predicted : 5853
+Interactions not predicted : 412
+Absences of Interaction predicted : 157
+Absences of Interaction not predicted : 7246
+Recall : 0.9342378292098963
+Precision : 0.44682800213756774
+Interactions predicted : 6065
+Interactions not predicted : 200
+Absences of Interaction predicted : 136
+Absences of Interaction not predicted : 7267
+Recall : 0.9680766161213089
+Precision : 0.4549204920492049
+Interactions predicted : 6102
+Interactions not predicted : 163
+Absences of Interaction predicted : 138
+Absences of Interaction not predicted : 7265
+Recall : 0.9739824421388668
+Precision : 0.4564973442058802
+Interactions predicted : 6015
+Interactions not predicted : 250
+Absences of Interaction predicted : 206
+Absences of Interaction not predicted : 7197
+Recall : 0.960095770151636
+Precision : 0.45526793823796546
+Interactions predicted : 6023
+Interactions not predicted : 242
+Absences of Interaction predicted : 150
+Absences of Interaction not predicted : 7253
+Recall : 0.9613727055067837
+Precision : 0.4536758059656523
+Interactions predicted : 6103
+Interactions not predicted : 162
+Absences of Interaction predicted : 145
+Absences of Interaction not predicted : 7258
+Recall : 0.9741420590582601
+Precision : 0.4567771873362772
+Interactions predicted : 5956
+Interactions not predicted : 309
+Absences of Interaction predicted : 138
+Absences of Interaction not predicted : 7265
+Recall : 0.9506783719074222
+Precision : 0.4504954239467514
+Interactions predicted : 6064
+Interactions not predicted : 201
+Absences of Interaction predicted : 160
+Absences of Interaction not predicted : 7243
+Recall : 0.9679169992019154
+Precision : 0.4557000075148418
+Interactions predicted : 5980
+Interactions not predicted : 285
+Absences of Interaction predicted : 149
+Absences of Interaction not predicted : 7254
+Recall : 0.9545091779728652
+Precision : 0.4518664047151277
+Interactions predicted : 5857
+Interactions not predicted : 408
+Absences of Interaction predicted : 177
+Absences of Interaction not predicted : 7226
+Recall : 0.9348762968874701
+Precision : 0.44768019567377515
+Interactions predicted : 6092
+Interactions not predicted : 173
+Absences of Interaction predicted : 101
+Absences of Interaction not predicted : 7302
+Recall : 0.9723862729449322
+Precision : 0.4548305211288637
+Interactions predicted : 6087
+Interactions not predicted : 178
+Absences of Interaction predicted : 112
+Absences of Interaction not predicted : 7291
+Recall : 0.9715881883479649
+Precision : 0.45500074749588876
+Interactions predicted : 6029
+Interactions not predicted : 236
+Absences of Interaction predicted : 130
+Absences of Interaction not predicted : 7273
+Recall : 0.9623304070231444
+Precision : 0.45324011426853106
+Interactions predicted : 6025
+Interactions not predicted : 240
+Absences of Interaction predicted : 133
+Absences of Interaction not predicted : 7270
+Recall : 0.9616919393455706
+Precision : 0.45317788642346746
+Interactions predicted : 5997
+Interactions not predicted : 268
+Absences of Interaction predicted : 164
+Absences of Interaction not predicted : 7239
+Recall : 0.9572226656025539
+Precision : 0.4530825022665458
+Interactions predicted : 5871
+Interactions not predicted : 394
+Absences of Interaction predicted : 191
+Absences of Interaction not predicted : 7212
+Recall : 0.9371109337589785
+Precision : 0.4487502866315065
+Interactions predicted : 5991
+Interactions not predicted : 274
+Absences of Interaction predicted : 228
+Absences of Interaction not predicted : 7175
+Recall : 0.9562649640861931
+Precision : 0.4550356980100258
+Interactions predicted : 5873
+Interactions not predicted : 392
+Absences of Interaction predicted : 237
+Absences of Interaction not predicted : 7166
+Recall : 0.9374301675977653
+Precision : 0.45041797683871465
+Interactions predicted : 5959
+Interactions not predicted : 306
+Absences of Interaction predicted : 183
+Absences of Interaction not predicted : 7220
+Recall : 0.9511572226656025
+Precision : 0.4521587373852341
+Interactions predicted : 5944
+Interactions not predicted : 321
+Absences of Interaction predicted : 144
+Absences of Interaction not predicted : 7259
+Recall : 0.9487629688747007
+Precision : 0.45020071195940314
+Interactions predicted : 5980
+Interactions not predicted : 285
+Absences of Interaction predicted : 146
+Absences of Interaction not predicted : 7257
+Recall : 0.9545091779728652
+Precision : 0.4517639948628843
+Training Loss over epochs
+0 : 0.5818501399179253
+1 : 0.5377393553121176
+2 : 0.519127249177993
+3 : 0.5110381106561762
+4 : 0.5065294984761217
+5 : 0.5002383905333204
+6 : 0.49734451796689
+7 : 0.49354400317705027
+8 : 0.4904792648339923
+9 : 0.4865108768348047
+10 : 0.4824778995684271
+11 : 0.4823440394542466
+12 : 0.48075297449837795
+13 : 0.47827985745375984
+14 : 0.47804991161014676
+15 : 0.47577191002183655
+16 : 0.4747155469118234
+17 : 0.47324679050058527
+18 : 0.4724588290882378
+19 : 0.47183430221840705
+20 : 0.47145792717285206
+21 : 0.4713967907210891
+22 : 0.47072977240752106
+23 : 0.46869106441589026
+24 : 0.46936298371499646
+25 : 0.4697284657860179
+26 : 0.46833751893059217
+27 : 0.4680835875950246
+28 : 0.4661893256310377
+29 : 0.46531905414420677
+30 : 0.4652382830206328
+31 : 0.4653702755193393
+32 : 0.46402232547633776
+33 : 0.4645587277178863
+34 : 0.4645675856265576
+35 : 0.4644117326741553
+36 : 0.46417112830519713
+37 : 0.4640521246830727
+38 : 0.46279012207966086
+39 : 0.4632209160088865
+40 : 0.46451754239012155
+41 : 0.46409672153282605
+42 : 0.46223884967152995
+43 : 0.46313050209219847
+44 : 0.4635518184952882
+45 : 0.4620102182997266
+46 : 0.4617203555198967
+47 : 0.46065441866159673
+48 : 0.4596441585029628
+49 : 0.46064917537131356
+50 : 0.4605140947995313
+51 : 0.4598417867209356
+52 : 0.46054170862365246
+53 : 0.461022318287786
+54 : 0.459827091089785
+55 : 0.45954535187154294
+56 : 0.4608847850300114
+57 : 0.4590910714258283
+58 : 0.4579656065432775
+59 : 0.4599809132057623
+60 : 0.4591007429663586
+61 : 0.45824041941525473
+62 : 0.4581769844753239
+63 : 0.4578443856607506
+64 : 0.45791784085880427
+65 : 0.45882313267000024
+66 : 0.4582513380460846
+67 : 0.457816369794763
+68 : 0.45769348335297516
+69 : 0.4570410873276017
+70 : 0.45744842440527755
+71 : 0.4558356186552271
+72 : 0.4563554766728056
+73 : 0.45720121306653944
+74 : 0.4565497064299987
+75 : 0.45721314014829534
+76 : 0.4561556039729478
+77 : 0.4564826794810149
+78 : 0.45633225665502264
+79 : 0.45681740294995965
+80 : 0.4555895089524178
+81 : 0.4560741183590567
+82 : 0.4561904995779792
+83 : 0.456482692890588
+84 : 0.45449784825929185
+85 : 0.45462775249052567
+86 : 0.4555106355066868
+87 : 0.45483744615958166
+88 : 0.45533345304588996
+89 : 0.4553484316470005
+90 : 0.45437152321141605
+91 : 0.4543207444993924
+92 : 0.4557239197717123
+93 : 0.45531838163758015
+94 : 0.4552417486258388
+95 : 0.4554419557161931
+96 : 0.45582471356644694
+97 : 0.4546789962492925
+98 : 0.4546813595283177
+99 : 0.4548332823816396
+100 : 0.45404304631709425
+101 : 0.45404782958493095
+102 : 0.45372428629973
+103 : 0.45452080520313354
+104 : 0.45450480872072746
+105 : 0.45426039005684
+106 : 0.453991436569715
+107 : 0.45444925508198475
+108 : 0.45465463882690593
+109 : 0.4538491910122946
+110 : 0.4559409799183675
+111 : 0.4538971538317215
+112 : 0.4541549062185237
+113 : 0.4540759102270562
+114 : 0.45331324677169815
+115 : 0.4549343594799789
+116 : 0.45433787346514265
+117 : 0.45358036422183884
+118 : 0.45312547259790786
+119 : 0.4541555539897134
+120 : 0.453728897622788
+121 : 0.4529022243086115
+122 : 0.45375399075136946
+123 : 0.45333644575023874
+124 : 0.4541293935121028
+125 : 0.45343670729826185
+126 : 0.4536527307126959
+127 : 0.45275066541750103
+128 : 0.4528903557471551
+129 : 0.4526591218927011
+130 : 0.4532829770179889
+131 : 0.4537965737413253
+132 : 0.4538228749875611
+133 : 0.4533535214702197
+134 : 0.4530418025483652
+135 : 0.45366868980726915
+136 : 0.4532265133878531
+137 : 0.4535194960645755
+138 : 0.4518814607988583
+139 : 0.4538025807786781
+140 : 0.4536697920123566
+141 : 0.45371650935573565
+142 : 0.45379503793550785
+143 : 0.45381835912123375
+144 : 0.4533831019679457
+145 : 0.453631952787686
+146 : 0.45273076899651443
+147 : 0.453221721489413
+148 : 0.45289389414244824
+149 : 0.45420970049664344
+150 : 0.45069727827578654
+151 : 0.45197558441776803
+152 : 0.45270059737850654
+153 : 0.45271219023168185
+154 : 0.4524331808502359
+155 : 0.4523196473820727
+156 : 0.4518118555809975
+157 : 0.45342427662889306
+158 : 0.45260780642485593
+159 : 0.4524796902446477
+160 : 0.4530499409522357
+161 : 0.4525890477028653
+162 : 0.4536527706126771
+163 : 0.4526771474108321
+164 : 0.452374795951614
+165 : 0.4530846296484862
+166 : 0.45094903266798875
+167 : 0.4525533128832766
+168 : 0.45240991946050985
+169 : 0.4516670756240718
+170 : 0.4522470254027847
+171 : 0.45195893417328725
+172 : 0.45220896426022816
+173 : 0.45132208698707305
+174 : 0.45229189903535144
+175 : 0.4513134816327219
+176 : 0.45150480815109784
+177 : 0.4515471909002603
+178 : 0.45147136451383935
+179 : 0.45186501811082164
+180 : 0.45126244595539894
+181 : 0.4521468378257547
+182 : 0.4515042511508933
+183 : 0.45158325637156216
+184 : 0.452029920871571
+185 : 0.4517914626329087
+186 : 0.45199570728047017
+187 : 0.45089623444874033
+188 : 0.4515902272054228
+189 : 0.4524520858263632
+190 : 0.45071993035178143
+191 : 0.4512146425101959
+192 : 0.45175685458054543
+193 : 0.4513630271595797
+194 : 0.45159670176241484
+195 : 0.45127955596718616
+196 : 0.4506944332628765
+197 : 0.4515488286541605
+198 : 0.4518892833098872
+199 : 0.4514128957624533
+Testing Loss
+0 / -0.5534948617988396 
+1 / -0.5494954159597666 
+2 / -0.5437630914748018 
+3 / -0.5446028416902494 
+4 / -0.5507976952551307 
+5 / -0.5588773369691201 
+6 / -0.5589681076179702 
+7 / -0.5446512376472291 
+8 / -0.5488116456839934 
+9 / -0.5457175855639815 
+10 / -0.5501357678086167 
+11 / -0.5453084260824299 
+12 / -0.5501559310255187 
+13 / -0.5478100946829558 
+14 / -0.5595934502425538 
+15 / -0.5504070843787067 
+16 / -0.5529169981757334 
+17 / -0.5471964720407596 
+18 / -0.5482628018462103 
+19 / -0.5450397342692194 
+20 / -0.5455650676321486 
+21 / -0.5450428804049926 
+22 / -0.5458614534579143 
+23 / -0.5450354327290251 
+24 / -0.5460674213257086 
+25 / -0.5493636077040042 
+26 / -0.5484722860672244 
+27 / -0.5548786895468261 
+28 / -0.5495874930042287 
+29 / -0.5470513216667224 
+30 / -0.5498020314829607 
+31 / -0.5493663110123264 
+32 / -0.5507534891113219 
+33 / -0.5515751735653874 
+34 / -0.5478090619748636 
+35 / -0.548003807375912 
+36 / -0.5529289003009022 
+37 / -0.5479040464002021 
+38 / -0.5562215040804706 
+39 / -0.550119315238894 
+40 / -0.5525169131921449 
+41 / -0.5513270122417612 
+42 / -0.5525898303125795 
+43 / -0.5509190125615923 
+44 / -0.5527383853639166 
+45 / -0.5511978315588154 
+46 / -0.5510644289559626 
+47 / -0.5505919878925115 
+48 / -0.5495123912772438 
+49 / -0.5455830902581257 
+50 / -0.5483186063525214 
+51 / -0.5482513476898349 
+52 / -0.5471765639220945 
+53 / -0.5521261119303343 
+54 / -0.549477997458557 
+55 / -0.5487629987406102 
+56 / -0.5545553976405978 
+57 / -0.5506773430255316 
+58 / -0.5523689273480311 
+59 / -0.5532091214224619 
+60 / -0.5530751468371099 
+61 / -0.5544967039154833 
+62 / -0.5519104406442605 
+63 / -0.5489239632632354 
+64 / -0.5481370399066948 
+65 / -0.5479643095685219 
+66 / -0.5441533109378854 
+67 / -0.551819473005249 
+68 / -0.544759397223687 
+69 / -0.5441433325252768 
+70 / -0.5485695982293758 
+71 / -0.547522235546195 
+72 / -0.5421525624656077 
+73 / -0.5481598293231227 
+74 / -0.5513160361395895 
+75 / -0.5482203513348167 
+76 / -0.5519175760539309 
+77 / -0.5501976854480888 
+78 / -0.5509409673075756 
+79 / -0.5469695428609482 
+80 / -0.5458933721992114 
+81 / -0.5480511729297771 
+82 / -0.5425325232679794 
+83 / -0.5475639344096828 
+84 / -0.551551589646691 
+85 / -0.5489313155008748 
+86 / -0.5446339828104863 
+87 / -0.5523191610015921 
+88 / -0.5437093943241826 
+89 / -0.5530862396009899 
+90 / -0.5510853550043567 
+91 / -0.5480474153632936 
+92 / -0.5524209684614525 
+93 / -0.5481646819195044 
+94 / -0.5491041021490808 
+95 / -0.5465460623911897 
+96 / -0.5453113774925873 
+97 / -0.5452079004642939 
+98 / -0.5499103811374572 
+99 / -0.5447451684027854 
+100 / -0.5518102132150267 
+101 / -0.5462736150384527 
+102 / -0.5472532482997506 
+103 / -0.5480755579290318 
+104 / -0.5455860278885043 
+105 / -0.5454696695316429 
+106 / -0.5465666831270021 
+107 / -0.5454379102409304 
+108 / -0.5453856069940756 
+109 / -0.544312483535355 
+110 / -0.5480406670586981 
+111 / -0.5435895910861985 
+112 / -0.5499732539246028 
+113 / -0.5499576899079505 
+114 / -0.5510190165511475 
+115 / -0.5459834940802913 
+116 / -0.5503416234787843 
+117 / -0.5483959664744718 
+118 / -0.5495160521390248 
+119 / -0.5502346834159488 
+120 / -0.55110429596473 
+121 / -0.5480806600146507 
+122 / -0.5459249179731893 
+123 / -0.549638789623079 
+124 / -0.5455347927452728 
+125 / -0.5485937036737404 
+126 / -0.5493660991552002 
+127 / -0.5502118464285721 
+128 / -0.5524598111027533 
+129 / -0.5474158279238006 
+130 / -0.5529735423730227 
+131 / -0.5481947879731437 
+132 / -0.547144998041162 
+133 / -0.5451867538973241 
+134 / -0.5478248888627195 
+135 / -0.5503393870872256 
+136 / -0.5548561163799499 
+137 / -0.5473640022474977 
+138 / -0.5500578113772211 
+139 / -0.548111946608308 
+140 / -0.5467810180114646 
+141 / -0.552082316513057 
+142 / -0.5540689182202676 
+143 / -0.5499836717531572 
+144 / -0.5523143807912491 
+145 / -0.5493274411583592 
+146 / -0.5525501403842397 
+147 / -0.5498403412890037 
+148 / -0.5479242004322649 
+149 / -0.5471814874486132 
+150 / -0.549101766214689 
+151 / -0.5495579119909655 
+152 / -0.5493292390056894 
+153 / -0.5441677997504336 
+154 / -0.5494256187993783 
+155 / -0.5535390583304527 
+156 / -0.5477969994970558 
+157 / -0.5422747956739341 
+158 / -0.5462870497891067 
+159 / -0.5459678134673938 
+160 / -0.5461608442272283 
+161 / -0.5487580038297998 
+162 / -0.5483407719905011 
+163 / -0.5492305782035921 
+164 / -0.5511056708036262 
+165 / -0.5469530915464339 
+166 / -0.5520526445609748 
+167 / -0.5576734545279461 
+168 / -0.5533824698040348 
+169 / -0.5521756934669161 
+170 / -0.5541138428559453 
+171 / -0.5450979918253087 
+172 / -0.5448097101205748 
+173 / -0.549628772866216 
+174 / -0.5506247650123558 
+175 / -0.5470240506419495 
+176 / -0.5415051822531013 
+177 / -0.5483134994838553 
+178 / -0.5520232150219092 
+179 / -0.5587618984895899 
+180 / -0.5474262512071139 
+181 / -0.5453973470545282 
+182 / -0.5451870178808557 
+183 / -0.547599337138713 
+184 / -0.5436477110483086 
+185 / -0.5539185524248197 
+186 / -0.5450173174875479 
+187 / -0.5489692506688045 
+188 / -0.5579681814034191 
+189 / -0.5471762470989335 
+190 / -0.5462280139216662 
+191 / -0.5496463618436619 
+192 / -0.5498846167387851 
+193 / -0.5492553659900598 
+194 / -0.5565125832116624 
+195 / -0.5453391503755838 
+196 / -0.5533752421304758 
+197 / -0.5507510644291715 
+198 / -0.554521200995444 
+199 / -0.5507961702759473 

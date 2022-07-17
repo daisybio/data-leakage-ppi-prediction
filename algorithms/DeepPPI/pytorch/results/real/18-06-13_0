@@ -1,0 +1,20 @@
+Model:
+IMConv(
+  (conv1): Conv1d(2, 20, kernel_size=(80,), stride=(20,))
+  (conv1d): Dropout(p=0.2)
+  (conv2): Conv1d(20, 10, kernel_size=(80,), stride=(20,))
+  (conv2d): Dropout(p=0.5)
+  (fc0): Linear(in_features=130, out_features=60, bias=True)
+  (fc0d): Dropout(p=0.5)
+  (fc1): Linear(in_features=60, out_features=2, bias=True)
+  (fc1d): Dropout(p=0.2)
+  (batch_norm1): BatchNorm1d(20, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (batch_norm2): BatchNorm1d(10, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (batch_norm3): BatchNorm1d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)
+Optimizer: Adadelta
+Epochs: 300
+02:02:20:44
+Size of batches: 9 
+Learning rate: 0.01
+Momentum: 0.1 

@@ -1,0 +1,100 @@
+Model:
+IMFC(
+  (fc1): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc1d): Dropout(p=0.2)
+  (fc2): Linear(in_features=1000, out_features=200, bias=True)
+  (fc2d): Dropout(p=0.5)
+  (fc3): Linear(in_features=400, out_features=200, bias=True)
+  (fc3d): Dropout(p=0.5)
+  (fc4): Linear(in_features=200, out_features=100, bias=True)
+  (fc4d): Dropout(p=0.5)
+  (fc5): Linear(in_features=100, out_features=2, bias=True)
+  (fc5d): Dropout(p=0.2)
+  (norm1a): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=True)
+  (norm1b): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm3): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm4): BatchNorm1d(100, eps=1e-05, momentum=0.1, affine=True)
+)
+Optimizer: Adam
+Epochs: 1
+01:00:09:01
+Size of batches: 9 
+Learning rate: 0.1
+Momentum: 0.0 
+Prediction versus Ouput
+Prediction : Variable containing:
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+[torch.cuda.FloatTensor of size 6x2 (GPU 1)]
+, Truth : Variable containing:
+ 1
+[torch.cuda.LongTensor of size 1 (GPU 1)]
+
+Prediction : Variable containing:
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+[torch.cuda.FloatTensor of size 6x2 (GPU 1)]
+, Truth : Variable containing:
+ 1
+[torch.cuda.LongTensor of size 1 (GPU 1)]
+
+Prediction : Variable containing:
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+[torch.cuda.FloatTensor of size 6x2 (GPU 1)]
+, Truth : Variable containing:
+ 0
+[torch.cuda.LongTensor of size 1 (GPU 1)]
+
+Prediction : Variable containing:
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+[torch.cuda.FloatTensor of size 6x2 (GPU 1)]
+, Truth : Variable containing:
+ 0
+[torch.cuda.LongTensor of size 1 (GPU 1)]
+
+Prediction : Variable containing:
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+[torch.cuda.FloatTensor of size 6x2 (GPU 1)]
+, Truth : Variable containing:
+ 0
+[torch.cuda.LongTensor of size 1 (GPU 1)]
+
+Prediction : Variable containing:
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+ 0  1
+[torch.cuda.FloatTensor of size 6x2 (GPU 1)]
+, Truth : Variable containing:
+ 0
+[torch.cuda.LongTensor of size 1 (GPU 1)]
+
+Training Loss over epochs
+0 : 0.8156709743637296
+Testing Loss over epochs
+0 / -0.45749195200468246 

@@ -1,0 +1,1400 @@
+Epoch: 0 Loss: 0.6119616677739882
+Epoch: 0 TestLoss: 0.5715033738959209
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 1 Loss: 0.5711915686623533
+Epoch: 1 TestLoss: 0.5532409418019978
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 2 Loss: 0.5572752286463848
+Epoch: 2 TestLoss: 0.5549024445971517
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 3 Loss: 0.548871126601207
+Epoch: 3 TestLoss: 0.5511142471737076
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 4 Loss: 0.542362144786667
+Epoch: 4 TestLoss: 0.5475171599509878
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 5 Loss: 0.5404862888086223
+Epoch: 5 TestLoss: 0.5651948570786494
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 6 Loss: 0.5343405152077655
+Epoch: 6 TestLoss: 0.5691200889077911
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 7 Loss: 0.5339017199339504
+Epoch: 7 TestLoss: 0.5449873809668625
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 8 Loss: 0.5292335496574474
+Epoch: 8 TestLoss: 0.5472990745623488
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 9 Loss: 0.5299822537668214
+Epoch: 9 TestLoss: 0.5459469915142805
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 10 Loss: 0.5261806735169703
+Epoch: 10 TestLoss: 0.5425518612860587
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 11 Loss: 0.5260390425281851
+Epoch: 11 TestLoss: 0.5364443036262355
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 12 Loss: 0.524494396323313
+Epoch: 12 TestLoss: 0.54726039457991
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 13 Loss: 0.5212602112828645
+Epoch: 13 TestLoss: 0.5369583656469004
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 14 Loss: 0.5193461533691053
+Epoch: 14 TestLoss: 0.5346211557338417
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 15 Loss: 0.5216734066267017
+Epoch: 15 TestLoss: 0.5541556485788774
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 16 Loss: 0.5181726901045276
+Epoch: 16 TestLoss: 0.5384561573470026
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 17 Loss: 0.5182634887920621
+Epoch: 17 TestLoss: 0.555471893244052
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 18 Loss: 0.5172379981207541
+Epoch: 18 TestLoss: 0.541126965386218
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 19 Loss: 0.519047677242171
+Epoch: 19 TestLoss: 0.5495441966990752
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 20 Loss: 0.5134065501345275
+Epoch: 20 TestLoss: 0.5305131729414214
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 21 Loss: 0.5131688461635
+Epoch: 21 TestLoss: 0.5473578485753197
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 22 Loss: 0.5141984005291524
+Epoch: 22 TestLoss: 0.5316190120418204
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 23 Loss: 0.5115774480143306
+Epoch: 23 TestLoss: 0.5305605287270341
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 24 Loss: 0.5114363669505196
+Epoch: 24 TestLoss: 0.5340470601312591
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 25 Loss: 0.5119997880982458
+Epoch: 25 TestLoss: 0.531285778141559
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 26 Loss: 0.5116618106563036
+Epoch: 26 TestLoss: 0.5390204888993898
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 27 Loss: 0.511022373724816
+Epoch: 27 TestLoss: 0.5340180637580385
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 28 Loss: 0.5109295712751427
+Epoch: 28 TestLoss: 0.527266122721286
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 29 Loss: 0.5072580523541149
+Epoch: 29 TestLoss: 0.5341573327317516
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 30 Loss: 0.5088622461407052
+Epoch: 30 TestLoss: 0.530088475125032
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 31 Loss: 0.5089147085710933
+Epoch: 31 TestLoss: 0.5386653532924658
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 32 Loss: 0.5078477500632753
+Epoch: 32 TestLoss: 0.537901326399084
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 33 Loss: 0.508843866262461
+Epoch: 33 TestLoss: 0.5434048242576994
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 34 Loss: 0.5088497597428581
+Epoch: 34 TestLoss: 0.5381957003909452
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 35 Loss: 0.5073086796306959
+Epoch: 35 TestLoss: 0.5425350008075056
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 36 Loss: 0.5065675437509287
+Epoch: 36 TestLoss: 0.5296051628606376
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 37 Loss: 0.5039291036709932
+Epoch: 37 TestLoss: 0.5373751121696618
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 38 Loss: 0.5059785464306902
+Epoch: 38 TestLoss: 0.5330777312662994
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 39 Loss: 0.5045900787909171
+Epoch: 39 TestLoss: 0.5315452429122802
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 40 Loss: 0.5045424507545098
+Epoch: 40 TestLoss: 0.5467141443415975
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 41 Loss: 0.5085375028336405
+Epoch: 41 TestLoss: 0.5337741893653741
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 42 Loss: 0.5060920195631342
+Epoch: 42 TestLoss: 0.5226255529215366
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 43 Loss: 0.504285566354214
+Epoch: 43 TestLoss: 0.5339719932139321
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 44 Loss: 0.5045385905245554
+Epoch: 44 TestLoss: 0.5271911089414039
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 45 Loss: 0.5034285360137059
+Epoch: 45 TestLoss: 0.5269942746713282
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 46 Loss: 0.5018183715374093
+Epoch: 46 TestLoss: 0.5349037246263477
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 47 Loss: 0.503639077086334
+Epoch: 47 TestLoss: 0.5258595213394329
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 48 Loss: 0.5024255765163471
+Epoch: 48 TestLoss: 0.5298756182385636
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 49 Loss: 0.5015742472413734
+Epoch: 49 TestLoss: 0.5264281201099212
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 50 Loss: 0.5015062876131569
+Epoch: 50 TestLoss: 0.5276354357473746
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 51 Loss: 0.502392284113363
+Epoch: 51 TestLoss: 0.5263676609182204
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 52 Loss: 0.5029267775686627
+Epoch: 52 TestLoss: 0.5337159762413557
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 53 Loss: 0.5027124216319465
+Epoch: 53 TestLoss: 0.529552387112339
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 54 Loss: 0.5007632164665458
+Epoch: 54 TestLoss: 0.5369077171407529
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 55 Loss: 0.5003402028422941
+Epoch: 55 TestLoss: 0.5288533052837845
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 56 Loss: 0.4988359485188322
+Epoch: 56 TestLoss: 0.5275385293881727
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 57 Loss: 0.5009411863582794
+Epoch: 57 TestLoss: 0.5242281404326874
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 58 Loss: 0.5010799145792753
+Epoch: 58 TestLoss: 0.5184333497952187
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 59 Loss: 0.4983268275459542
+Epoch: 59 TestLoss: 0.5229645096482957
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 60 Loss: 0.49989475323096444
+Epoch: 60 TestLoss: 0.5207966027472289
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 61 Loss: 0.5005699357371759
+Epoch: 61 TestLoss: 0.5218411992394788
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 62 Loss: 0.49954578854514065
+Epoch: 62 TestLoss: 0.5327348065090207
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 63 Loss: 0.49839980435638315
+Epoch: 63 TestLoss: 0.5253574002685693
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 64 Loss: 0.49860002058762093
+Epoch: 64 TestLoss: 0.5258391293598121
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 65 Loss: 0.49987494125152676
+Epoch: 65 TestLoss: 0.524943239989077
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 66 Loss: 0.49990966076084686
+Epoch: 66 TestLoss: 0.5264280522239463
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 67 Loss: 0.500946951385466
+Epoch: 67 TestLoss: 0.5157619821317091
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 68 Loss: 0.4982839119171366
+Epoch: 68 TestLoss: 0.5252930950248036
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 69 Loss: 0.49968040746059866
+Epoch: 69 TestLoss: 0.5283782233794531
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 70 Loss: 0.49749453938395954
+Epoch: 70 TestLoss: 0.5159800380494534
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 71 Loss: 0.49769163058115773
+Epoch: 71 TestLoss: 0.520495423089352
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 72 Loss: 0.49773390831074354
+Epoch: 72 TestLoss: 0.5238912852188283
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 73 Loss: 0.49899128645629054
+Epoch: 73 TestLoss: 0.5236433525383036
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 74 Loss: 0.49793297418411286
+Epoch: 74 TestLoss: 0.516177134731725
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 75 Loss: 0.49626087172862765
+Epoch: 75 TestLoss: 0.5305629556102993
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 76 Loss: 0.49718865059416745
+Epoch: 76 TestLoss: 0.5149662597794473
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 77 Loss: 0.49720825521342255
+Epoch: 77 TestLoss: 0.5291621659691306
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 78 Loss: 0.49779177371475075
+Epoch: 78 TestLoss: 0.5377290142770396
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 79 Loss: 0.4978636499686896
+Epoch: 79 TestLoss: 0.5249355592799528
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 80 Loss: 0.4963468438137665
+Epoch: 80 TestLoss: 0.5259386062543574
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 81 Loss: 0.49508307423291725
+Epoch: 81 TestLoss: 0.5363488139632085
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 82 Loss: 0.49580540307109044
+Epoch: 82 TestLoss: 0.536544431544969
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 83 Loss: 0.4956045340345532
+Epoch: 83 TestLoss: 0.5498863263527204
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 84 Loss: 0.496163505559145
+Epoch: 84 TestLoss: 0.5282297715226356
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 85 Loss: 0.496441460338752
+Epoch: 85 TestLoss: 0.5274362474383406
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 86 Loss: 0.4962347707035591
+Epoch: 86 TestLoss: 0.526565187065302
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 87 Loss: 0.49631584616016705
+Epoch: 87 TestLoss: 0.5401464882678793
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 88 Loss: 0.4961387603582031
+Epoch: 88 TestLoss: 0.5281257248470788
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 89 Loss: 0.4947488704303161
+Epoch: 89 TestLoss: 0.5271463636499697
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 90 Loss: 0.4945265536230569
+Epoch: 90 TestLoss: 0.5181981160133458
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 91 Loss: 0.4970894982773966
+Epoch: 91 TestLoss: 0.5266500274697905
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 92 Loss: 0.4949856202658125
+Epoch: 92 TestLoss: 0.5213208414411419
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 93 Loss: 0.4968454777350503
+Epoch: 93 TestLoss: 0.5229631147914579
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 94 Loss: 0.49717291442822736
+Epoch: 94 TestLoss: 0.5244432287953003
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 95 Loss: 0.49573409922389083
+Epoch: 95 TestLoss: 0.5215922900902656
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 96 Loss: 0.4955049077460434
+Epoch: 96 TestLoss: 0.5198195379991646
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 97 Loss: 0.49275858118850463
+Epoch: 97 TestLoss: 0.5292942408697976
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 98 Loss: 0.49385749401722767
+Epoch: 98 TestLoss: 0.5317699642628998
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 99 Loss: 0.4935687395413141
+Epoch: 99 TestLoss: 0.5298267401098542
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 100 Loss: 0.49545879491779965
+Epoch: 100 TestLoss: 0.5200922651129715
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 101 Loss: 0.49569933324963944
+Epoch: 101 TestLoss: 0.5189387655969876
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 102 Loss: 0.4921817457083224
+Epoch: 102 TestLoss: 0.5297555257990098
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 103 Loss: 0.49487937174818414
+Epoch: 103 TestLoss: 0.5172836176608437
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 104 Loss: 0.4955200919949541
+Epoch: 104 TestLoss: 0.5129649946267123
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 105 Loss: 0.4923540551312314
+Epoch: 105 TestLoss: 0.5238228118974353
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 106 Loss: 0.4931221207506295
+Epoch: 106 TestLoss: 0.5200676036083388
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 107 Loss: 0.4948332572909692
+Epoch: 107 TestLoss: 0.5152001291740209
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 108 Loss: 0.49254699395328594
+Epoch: 108 TestLoss: 0.521947571241894
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 109 Loss: 0.4941343145324166
+Epoch: 109 TestLoss: 0.5296268783703791
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 110 Loss: 0.4945602093356826
+Epoch: 110 TestLoss: 0.5251653170268159
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 111 Loss: 0.4905664747115378
+Epoch: 111 TestLoss: 0.5272368923339852
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 112 Loss: 0.49030739001274737
+Epoch: 112 TestLoss: 0.5188082195676695
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 113 Loss: 0.4902933646002058
+Epoch: 113 TestLoss: 0.5184770506752978
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 114 Loss: 0.49340028108481243
+Epoch: 114 TestLoss: 0.5252096736626489
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 115 Loss: 0.494986246036078
+Epoch: 115 TestLoss: 0.5197769889914923
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 116 Loss: 0.49206423946890265
+Epoch: 116 TestLoss: 0.5341908975733558
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 117 Loss: 0.49289128078337285
+Epoch: 117 TestLoss: 0.5202232422162679
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 118 Loss: 0.49233796591031775
+Epoch: 118 TestLoss: 0.524215022408896
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 119 Loss: 0.4907492167823284
+Epoch: 119 TestLoss: 0.5277065166019019
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 120 Loss: 0.4936266697018328
+Epoch: 120 TestLoss: 0.5236062146712368
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 121 Loss: 0.4929272224724901
+Epoch: 121 TestLoss: 0.5322310248679294
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 122 Loss: 0.49236825940677276
+Epoch: 122 TestLoss: 0.5332532877640519
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 123 Loss: 0.49252829728920994
+Epoch: 123 TestLoss: 0.5243149892363522
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 124 Loss: 0.49406662916995836
+Epoch: 124 TestLoss: 0.5252931525274993
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 125 Loss: 0.49126049750605655
+Epoch: 125 TestLoss: 0.5158909771581613
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 126 Loss: 0.4923367333286563
+Epoch: 126 TestLoss: 0.5229041622480105
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 127 Loss: 0.4910059249004644
+Epoch: 127 TestLoss: 0.5420541443259945
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 128 Loss: 0.4922753888150756
+Epoch: 128 TestLoss: 0.5232128415595798
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 129 Loss: 0.4907667440217225
+Epoch: 129 TestLoss: 0.5329183116489801
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 130 Loss: 0.4937035404108919
+Epoch: 130 TestLoss: 0.516428762813008
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 131 Loss: 0.49134546698886467
+Epoch: 131 TestLoss: 0.5256294223747303
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 132 Loss: 0.49292203812446883
+Epoch: 132 TestLoss: 0.5269731592026098
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 133 Loss: 0.49339812184424237
+Epoch: 133 TestLoss: 0.5301275428211197
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 134 Loss: 0.4893691121040303
+Epoch: 134 TestLoss: 0.5276098534713407
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 135 Loss: 0.49229868492838347
+Epoch: 135 TestLoss: 0.5302196745116144
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 136 Loss: 0.4923233352172206
+Epoch: 136 TestLoss: 0.5213691063938275
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 137 Loss: 0.4915136282170019
+Epoch: 137 TestLoss: 0.5302266539242102
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 138 Loss: 0.4896940668731447
+Epoch: 138 TestLoss: 0.5309649926068177
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 139 Loss: 0.49082198412276273
+Epoch: 139 TestLoss: 0.5266053814714612
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 140 Loss: 0.4908284211594453
+Epoch: 140 TestLoss: 0.5152811038719132
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 141 Loss: 0.4906871745293573
+Epoch: 141 TestLoss: 0.5238700265297598
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 142 Loss: 0.49146603877543615
+Epoch: 142 TestLoss: 0.525646438694049
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 143 Loss: 0.4921235315278442
+Epoch: 143 TestLoss: 0.5250606078928174
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 144 Loss: 0.4898413984073712
+Epoch: 144 TestLoss: 0.5198258217538627
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 145 Loss: 0.48946143008196946
+Epoch: 145 TestLoss: 0.523185392661265
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 146 Loss: 0.4900758743070245
+Epoch: 146 TestLoss: 0.5283570191186528
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 147 Loss: 0.4899012140431685
+Epoch: 147 TestLoss: 0.5267304975996249
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 148 Loss: 0.4906713981101652
+Epoch: 148 TestLoss: 0.5239105450241824
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 149 Loss: 0.4904646151623994
+Epoch: 149 TestLoss: 0.5174881398049858
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 150 Loss: 0.490087935788717
+Epoch: 150 TestLoss: 0.5286407575800575
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 151 Loss: 0.4891962830491234
+Epoch: 151 TestLoss: 0.5212052036681858
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 152 Loss: 0.4897123217621955
+Epoch: 152 TestLoss: 0.5256513719508827
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 153 Loss: 0.49146343765189704
+Epoch: 153 TestLoss: 0.5273464340667541
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 154 Loss: 0.4889081563355305
+Epoch: 154 TestLoss: 0.5231392719145926
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 155 Loss: 0.4895076041732684
+Epoch: 155 TestLoss: 0.5170066850268077
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 156 Loss: 0.4900360306921781
+Epoch: 156 TestLoss: 0.5249237561517198
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 157 Loss: 0.4906828965664224
+Epoch: 157 TestLoss: 0.5233850221179331
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 158 Loss: 0.4900024219253246
+Epoch: 158 TestLoss: 0.5250448996180989
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 159 Loss: 0.49010658247477923
+Epoch: 159 TestLoss: 0.5225508285259551
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 160 Loss: 0.4915349775330974
+Epoch: 160 TestLoss: 0.5226983909225618
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 161 Loss: 0.48920212197861157
+Epoch: 161 TestLoss: 0.5183952743586023
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 162 Loss: 0.49144779249245607
+Epoch: 162 TestLoss: 0.5277118726601056
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 163 Loss: 0.48859490589126775
+Epoch: 163 TestLoss: 0.521879926589905
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 164 Loss: 0.4912448654078244
+Epoch: 164 TestLoss: 0.5190900724892523
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 165 Loss: 0.49030290587701253
+Epoch: 165 TestLoss: 0.5197426463764314
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 166 Loss: 0.4898154752738075
+Epoch: 166 TestLoss: 0.5306946700354365
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 167 Loss: 0.4898058007942598
+Epoch: 167 TestLoss: 0.5103883193334292
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 168 Loss: 0.48849665979276097
+Epoch: 168 TestLoss: 0.5191506289811312
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 169 Loss: 0.48855871535226786
+Epoch: 169 TestLoss: 0.5325214048776147
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 170 Loss: 0.4893492757587163
+Epoch: 170 TestLoss: 0.5174960800699229
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 171 Loss: 0.48817206439824334
+Epoch: 171 TestLoss: 0.5304707538490236
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 172 Loss: 0.4885170626275273
+Epoch: 172 TestLoss: 0.5098056531733925
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 173 Loss: 0.4885897417483771
+Epoch: 173 TestLoss: 0.5204977163069772
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 174 Loss: 0.4896389073571132
+Epoch: 174 TestLoss: 0.5092337609366573
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 175 Loss: 0.48997253575017274
+Epoch: 175 TestLoss: 0.5138761403356897
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 176 Loss: 0.48797829414340355
+Epoch: 176 TestLoss: 0.5124470641084815
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 177 Loss: 0.48860923869852413
+Epoch: 177 TestLoss: 0.520261201688097
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 178 Loss: 0.489515258306573
+Epoch: 178 TestLoss: 0.5120294908787166
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 179 Loss: 0.489533775332416
+Epoch: 179 TestLoss: 0.5196575237176975
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 180 Loss: 0.4886483286099878
+Epoch: 180 TestLoss: 0.5173476234422918
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 181 Loss: 0.4892287227936312
+Epoch: 181 TestLoss: 0.5210685797443437
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 182 Loss: 0.48643596512061577
+Epoch: 182 TestLoss: 0.5204132125370329
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 183 Loss: 0.48931448615456946
+Epoch: 183 TestLoss: 0.5086135230402449
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 184 Loss: 0.48865170947100955
+Epoch: 184 TestLoss: 0.5117673653763639
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 185 Loss: 0.4887141333153894
+Epoch: 185 TestLoss: 0.5163815992205402
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 186 Loss: 0.4871623507349123
+Epoch: 186 TestLoss: 0.5109320760279118
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 187 Loss: 0.48977872512432397
+Epoch: 187 TestLoss: 0.5194402738843077
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 188 Loss: 0.49006487062623477
+Epoch: 188 TestLoss: 0.5199288743078482
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 189 Loss: 0.48741826862538373
+Epoch: 189 TestLoss: 0.5112847181476973
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 190 Loss: 0.48863682602242414
+Epoch: 190 TestLoss: 0.5233025286005434
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 191 Loss: 0.4895059571558212
+Epoch: 191 TestLoss: 0.5232461802105406
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 192 Loss: 0.4884878806782114
+Epoch: 192 TestLoss: 0.5221303180230791
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 193 Loss: 0.48892338112227257
+Epoch: 193 TestLoss: 0.5153402155006285
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 194 Loss: 0.4876169402582849
+Epoch: 194 TestLoss: 0.5161326416785305
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 195 Loss: 0.4888215895875881
+Epoch: 195 TestLoss: 0.5180726321574921
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 196 Loss: 0.4880410083666184
+Epoch: 196 TestLoss: 0.5103428264502583
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 197 Loss: 0.48675787015144945
+Epoch: 197 TestLoss: 0.5118052621342336
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 198 Loss: 0.48596112221567733
+Epoch: 198 TestLoss: 0.5199598364307408
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0
+Epoch: 199 Loss: 0.48778422697421786
+Epoch: 199 TestLoss: 0.5071888831900615
+True Positives: 13668
+False Positives: 0
+True Negatives: 0
+False Negatives: 0
+Recall 1.0 Precision 1.0

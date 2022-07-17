@@ -31,7 +31,7 @@ def load_data(name, encoding, dataset='regular', partition=False, partition_trai
     return X_train, y_train, X_test, y_test
 
 
-if __name__ == "__main__":
+def run_partitioning_tests():
     for name in ['du', 'guo', 'huang', 'pan', 'richoux']:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             for partition_train in ['both', '0']:
@@ -50,3 +50,36 @@ if __name__ == "__main__":
                         scores = learn_SVM(X_train, y_train, X_test, y_test)
                         export_scores(scores,
                                       f'results/partition_tests/{name}_{encoding}_SVM_tr{partition_train}_test_{partition_test}.csv')
+
+
+def run_simpler_algorithms():
+    for name in ['richoux', 'du', 'guo', 'pan']:
+        for encoding in ['PCA', 'MDS', 'node2vec']:
+            if name == 'richoux':
+                for dataset in ['regular', 'strict']:
+                    print(
+                        f'##### {name} dataset: {dataset}, {encoding} encoding')
+                    X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
+                                                                 partition=False, dataset=dataset)
+                    scores = learn_rf(X_train, y_train, X_test, y_test)
+                    export_scores(scores,
+                                  f'results/{name}_{encoding}_{dataset}_RF.csv')
+                    scores = learn_SVM(X_train, y_train, X_test, y_test)
+                    export_scores(scores,
+                                  f'results/{name}_{encoding}_{dataset}_SVM.csv')
+            else:
+                print(
+                    f'##### {name} dataset, {encoding} encoding')
+                X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
+                                                             partition=False)
+                scores = learn_rf(X_train, y_train, X_test, y_test)
+                export_scores(scores,
+                              f'results/{name}_{encoding}_RF.csv')
+                scores = learn_SVM(X_train, y_train, X_test, y_test)
+                export_scores(scores,
+                              f'results/{name}_{encoding}_SVM.csv')
+
+
+if __name__ == "__main__":
+    run_simpler_algorithms()
+    run_partitioning_tests()

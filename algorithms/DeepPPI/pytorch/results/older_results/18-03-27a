@@ -1,0 +1,18 @@
+Model:
+InteractionModel(
+  (conv1): Conv1d(2, 20, kernel_size=(80,), stride=(20,))
+  (conv2): Conv1d(20, 10, kernel_size=(80,), stride=(20,))
+  (fc0): Linear(in_features=130, out_features=60, bias=True)
+  (fc1): Linear(in_features=60, out_features=2, bias=True)
+  (batch_norm1): BatchNorm1d(20, eps=1e-05, momentum=0.1, affine=True)
+  (batch_norm2): BatchNorm1d(10, eps=1e-05, momentum=0.1, affine=True)
+  (batch_norm3): BatchNorm1d(60, eps=1e-05, momentum=0.1, affine=True)
+)Optimizer: SGD
+Epochs: 2
+00:07:41
+Size of batches: 9 
+Learning rate: 0.003
+Momentum: 0.0 
+Training Loss over epochs
+0 : 0.6465083481912594
+1 : 0.6146959013891016
