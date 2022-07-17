@@ -1,0 +1,20 @@
+Model:
+InteractionModel(
+  (conv1): Conv1d(2, 20, kernel_size=(80,), stride=(20,))
+  (conv2): Conv1d(20, 10, kernel_size=(80,), stride=(20,))
+  (fc0): Linear(in_features=130, out_features=60, bias=True)
+  (fc1): Linear(in_features=60, out_features=2, bias=True)
+)
+Epochs: 1
+00:17:01
+Size of batches: 9 
+Learning rate: 0.001
+Momentum: 0.0 
+Training Loss over epochs
+0 : 0.692803580528582
+ Testing Loss over epochs
+0 / Variable containing:
+1.00000e-05 *
+  5.0252
+[torch.cuda.FloatTensor of size 1 (GPU 1)]
+ 

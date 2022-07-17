@@ -1,0 +1,23 @@
+Model:
+IMFC(
+  (fc1): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc1d): Dropout(p=0.2)
+  (fc2): Linear(in_features=1000, out_features=200, bias=True)
+  (fc2d): Dropout(p=0.5)
+  (fc3): Linear(in_features=400, out_features=200, bias=True)
+  (fc3d): Dropout(p=0.5)
+  (fc4): Linear(in_features=200, out_features=100, bias=True)
+  (fc4d): Dropout(p=0.5)
+  (fc5): Linear(in_features=100, out_features=2, bias=True)
+  (fc5d): Dropout(p=0.2)
+  (norm1a): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (norm1b): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (norm3): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (norm4): BatchNorm1d(100, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)
+Optimizer: Adadelta
+Epochs: 300
+02:06:29:50
+Size of batches: 9 
+Learning rate: 0.001
+Momentum: 0.1 

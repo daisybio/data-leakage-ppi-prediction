@@ -1,0 +1,1 @@
+time python main.py -model 1 -gpu 3 -o 1 -epochs 100 -save new_data_fc1_adam_256 -f new_data_fc1_adam_256 -b 256 -data ../data/new_small_train.txt -val ../data/new_small_val.txt

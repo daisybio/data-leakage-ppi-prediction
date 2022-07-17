@@ -10,12 +10,12 @@ def calculate_scores(y_true, y_pred):
     spec = tn / (tn + fp)
     f1 = f1_score(y_true, y_pred)
     mcc = matthews_corrcoef(y_true, y_pred)
-    print('Accuracy:', acc)
-    print('Precision:', prec)
-    print('Sensitivity/Recall:', sens)
-    print('Specificity:', spec)
-    print('F1:', f1)
-    print('MCC:', mcc)
+    print('Accuracy:', round(acc, 4))
+    print('Precision:', round(prec, 4))
+    print('Sensitivity/Recall:', round(sens, 4))
+    print('Specificity:', round(spec, 4))
+    print('F1:', round(f1, 4))
+    print('MCC:', round(mcc, 4))
     return {'Accuracy': acc,
             'Precision': prec,
             'Sensitivity': sens,

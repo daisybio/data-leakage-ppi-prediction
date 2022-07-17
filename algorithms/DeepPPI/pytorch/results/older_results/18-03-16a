@@ -1,0 +1,37 @@
+Model:
+InteractionModelFC(
+  (fc1a): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc1b): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc2a): Linear(in_features=1000, out_features=200, bias=True)
+  (fc2b): Linear(in_features=1000, out_features=200, bias=True)
+  (fc3): Linear(in_features=400, out_features=200, bias=True)
+  (fc4): Linear(in_features=200, out_features=100, bias=True)
+  (fc5): Linear(in_features=100, out_features=2, bias=True)
+)
+Epochs: 10
+01:41:55
+Size of batches: 1 
+Learning rate: 0.001
+Momentum: 0.0 
+Training Loss over epochs
+0 : 0.6925350779775372
+ 1 : 0.6875068286995819
+ 2 : 0.5513378211308646
+ 3 : 0.485914919759127
+ 4 : 0.4741358704191965
+ 5 : 0.469565435982874
+ 6 : 0.46702696258973
+ 7 : 0.46531350711621644
+ 8 : 0.4640725315799088
+ 9 : 0.4637755108231601
+ Testing Loss over epochs
+0 / 5.036627511547102e-05 
+1 / 4.9120758358389395e-05 
+2 / 4.783842369684667e-05 
+3 / 4.384695860913895e-05 
+4 / 4.548463574321956e-05 
+5 / 4.416768828632011e-05 
+6 / 4.630304315777068e-05 
+7 / 4.58378348531688e-05 
+8 / 4.707658112954548e-05 
+9 / 4.714760881988557e-05 

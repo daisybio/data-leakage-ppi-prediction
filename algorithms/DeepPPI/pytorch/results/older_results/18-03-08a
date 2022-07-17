@@ -1,0 +1,22 @@
+Model:
+InteractionModel(
+  (conv1): Conv1d(2, 20, kernel_size=(60,), stride=(10,))
+  (conv2): Conv1d(20, 10, kernel_size=(60,), stride=(10,))
+  (fc0): Linear(in_features=550, out_features=60, bias=True)
+  (fc1): Linear(in_features=60, out_features=2, bias=True)
+)
+Epochs: 10
+00:35:01
+Size of batches: 18
+Learning rate: 0.001
+Loss over epochs
+0.6929493938224034
+0.6928418260245564
+0.6927819436696316
+0.6927369511123547
+0.6926972403273521
+0.6926535574040368
+0.692598280817967
+0.6925338714147109
+0.69247019899335
+0.6923980014003104

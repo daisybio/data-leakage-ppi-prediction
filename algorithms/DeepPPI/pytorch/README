@@ -1,0 +1,56 @@
+Libs utilisées actuellement:
+* torch==0.40
+* pandas==0.20.2
+* matplotlib (pour l'affichage des résultats
+Utilise également CUDA (pas de tests pour le moment pour en vérifier la disponibilité
+
+
+Fichiers exécutables (python [nomdufichier]) actuellement :
+* main.py : lance le réseau sur les données du jeu de données data0118.txt
+* data.py : contient un début de dataset (torch.dataset) pour mieux gérer les entrées, affiche pour le moment uniquement la lecture des données
+* tests.py : comprend des tests simples et un peu obsolètes
+
+Autres fichiers :
+* deep.py : contient la définition d'un réseau de neurones prenant en entrée un fichier formaté en : NomProtéine1 NomProtéine2 Séquence1 Séquence2 Interaction.
+* data0118.txt : contient un premier jeu de données de 88 éléments (le réseau utilise des batchs dont la taille doit être un multiple du nombre de GPUs utilisés, l'élément supplémentaire est dans datasup.txt)
+
+TODO:
+* Update README
+
+=============
+
+Current libs in use:
+* torch==0.40
+* pandas==0.20.2
+* matplotlib for results display
+Also using CUDA without checks for availability
+
+To use the program :
+python main.py -h offers all information for required parameters
+
+Executable files (python [name])
+* main.py: starts the network on the data in data0118.txt
+* infos_data.py: does small statistics on the data files
+* results/result_display.py: makes graph out of a result file
+* data/formatter.py: formats a file of [Protein1 Protein2 Seq1 Seq2 Interaction] lines into 20AA sequences parts
+* data/miniscript.py: Makes files of 1 million lines max each, to avoid having huge files or too many small ones (out of for example split20)
+
+
+Other files:
+* networks/: contains the various neural network models separated in files
+* deep.py: deals with the training and testing functions
+
+Data:
+* data/small_train.txt : the dataset for training, taking only sequences of less than 1166 amino acids (to avoid problems with huge sequences (34000))
+* data/small_test.txt : the dataset for testing.
+* data0118.txt: contains 88 data samples (batches need to be a multiplier of the number of GPUs, the excess data can be found in datasup.txt)
+* liste_donnees.txt: contains all the data [Protein1 Protein2 Seq1 Seq2 Interaction] file from march 2018
+* split20: contains all the data from liste_donnees.txt but with sequences of 20AA (hence so many more lines, huge file) (to generate it, run formatter.py
+
+
+
+TODO:
+* correct problems with the test dataset not going properly
+* more experiences
+* LSTM over sequence
+* FC on 20AA sequences over the CCIPL

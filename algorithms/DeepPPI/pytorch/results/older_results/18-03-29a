@@ -1,0 +1,28 @@
+Model:
+InteractionModelFC(
+  (fc1a): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc1b): Linear(in_features=23320, out_features=1000, bias=True)
+  (fc2a): Linear(in_features=1000, out_features=200, bias=True)
+  (fc2b): Linear(in_features=1000, out_features=200, bias=True)
+  (fc3): Linear(in_features=400, out_features=200, bias=True)
+  (fc4): Linear(in_features=200, out_features=100, bias=True)
+  (fc5): Linear(in_features=100, out_features=2, bias=True)
+  (norm1a): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=True)
+  (norm1b): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm2a): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=True)
+  (norm2b): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm3): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)
+  (norm4): BatchNorm1d(100, eps=1e-05, momentum=0.1, affine=True)
+)
+Optimizer: Adam
+Epochs: 2
+00:11:43
+Size of batches: 9 
+Learning rate: 0.001
+Momentum: 0.0 
+Training Loss over epochs
+0 : 0.5679775905287262
+1 : 0.518880597807916
+Testing Loss over epochs
+0 / 0.1264552772503029 
+1 / 0.12726068515892017 
