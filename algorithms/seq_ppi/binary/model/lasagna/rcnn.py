@@ -1,12 +1,3 @@
-#import keras
-#from keras.models import Sequential, Model
-#from keras.layers import Dense, Activation, Dropout, Embedding, LSTM, Bidirectional, BatchNormalization, merge, add
-#from keras.layers.core import Flatten, Reshape
-#from keras.layers.merge import Concatenate, concatenate, subtract, multiply
-#from keras.layers.convolutional import Conv1D
-#from keras.layers.pooling import MaxPooling1D, AveragePooling1D, GlobalAveragePooling1D
-#from keras.optimizers import Adam,  RMSprop
-#import keras.backend.tensorflow_backend as KTF
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -21,12 +12,10 @@ import os
 import tensorflow as tf
 import numpy as np
 from tqdm import tqdm
-from keras import Model
-from keras.layers import Input, GRU, Conv1D, Bidirectional, MaxPooling1D, concatenate, GlobalAveragePooling1D, multiply, Dense, LeakyReLU
-from tensorflow.keras.optimizers import Adam, RMSprop
-#from numpy import linalg as LA
-#import scipy
-
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Input, GRU, Bidirectional, MaxPool1D, GlobalAveragePooling1D, Dense, LeakyReLU, Conv1D, concatenate, multiply
+from tensorflow.keras.optimizers import Adam,  RMSprop
+from sklearn.model_selection import KFold
 
 def get_session(gpu_fraction=0.25):
     '''Assume that you have 6GB of GPU memory and want to allocate ~2GB'''
@@ -41,6 +30,7 @@ def get_session(gpu_fraction=0.25):
         return tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options))
 
 tf.compat.v1.keras.backend.set_session(get_session())
+
 
 # Note: if you use another PPI dataset, this needs to be changed to a corresponding dictionary file.
 id2seq_file = '../../../yeast/preprocessed/protein.dictionary.tsv'
@@ -59,14 +49,14 @@ sid = 0
 
 seq_size = 2000
 emb_files = ['../../../embeddings/default_onehot.txt', '../../../embeddings/string_vec5.txt', '../../../embeddings/CTCoding_onehot.txt', '../../../embeddings/vec5_CTC.txt']
-use_emb = 1
+use_emb = 3
 hidden_dim = 25
 n_epochs=50
 
 # ds_file, label_index, rst_file, use_emb, hidden_dim
 ds_file = '../../../yeast/preprocessed/protein.actions.tsv'
 label_index = 2
-rst_file = 'results/15k_onehot_cnn.txt'
+rst_file = 'results/yeast_wvctc_rcnn_25_5.txt'
 sid1_index = 0
 sid2_index = 1
 if len(sys.argv) > 1:
@@ -143,27 +133,27 @@ def build_model():
     l5=Conv1D(hidden_dim, 3)
     r5=Bidirectional(GRU(hidden_dim, return_sequences=True))
     l6=Conv1D(hidden_dim, 3)
-    s1=MaxPooling1D(3)(l1(seq_input1))
+    s1=MaxPool1D(3)(l1(seq_input1))
     s1=concatenate([r1(s1), s1])
-    s1=MaxPooling1D(3)(l2(s1))
+    s1=MaxPool1D(3)(l2(s1))
     s1=concatenate([r2(s1), s1])
-    s1=MaxPooling1D(3)(l3(s1))
+    s1=MaxPool1D(3)(l3(s1))
     s1=concatenate([r3(s1), s1])
-    s1=MaxPooling1D(3)(l4(s1))
+    s1=MaxPool1D(3)(l4(s1))
     s1=concatenate([r4(s1), s1])
-    s1=MaxPooling1D(3)(l5(s1))
+    s1=MaxPool1D(3)(l5(s1))
     s1=concatenate([r5(s1), s1])
     s1=l6(s1)
     s1=GlobalAveragePooling1D()(s1)
-    s2=MaxPooling1D(3)(l1(seq_input2))
+    s2=MaxPool1D(3)(l1(seq_input2))
     s2=concatenate([r1(s2), s2])
-    s2=MaxPooling1D(3)(l2(s2))
+    s2=MaxPool1D(3)(l2(s2))
     s2=concatenate([r2(s2), s2])
-    s2=MaxPooling1D(3)(l3(s2))
+    s2=MaxPool1D(3)(l3(s2))
     s2=concatenate([r3(s2), s2])
-    s2=MaxPooling1D(3)(l4(s2))
+    s2=MaxPool1D(3)(l4(s2))
     s2=concatenate([r4(s2), s2])
-    s2=MaxPooling1D(3)(l5(s2))
+    s2=MaxPool1D(3)(l5(s2))
     s2=concatenate([r5(s2), s2])
     s2=l6(s2)
     s2=GlobalAveragePooling1D()(s2)
@@ -177,10 +167,9 @@ def build_model():
     return merge_model
 
 batch_size1 = 256
-adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
-rms = RMSprop(learning_rate=0.001)
+#adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
+#rms = RMSprop(learning_rate=0.001)
 
-from sklearn.model_selection import KFold, ShuffleSplit
 kf = KFold(n_splits=5, shuffle=True)
 tries = 5
 cur = 0
@@ -209,7 +198,6 @@ num_true_neg = 0.
 num_false_neg = 0.
 
 for train, test in train_test:
-    merge_model = None
     merge_model = build_model()
     adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
     rms = RMSprop(learning_rate=0.001)
