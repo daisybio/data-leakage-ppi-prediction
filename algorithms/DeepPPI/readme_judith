@@ -1,0 +1,202 @@
+The models from the paper are:
+
+fc2_20_2dense
+
+1st configuration regular (find best #epochs):
+-train ../data/mirror/medium_1166_train_mirror.txt
+-val ../data/mirror/medium_1166_val_mirror.txt
+-model fc2_20_2dense
+-epochs 25 -batch 2048 -save false
+
+--> lowest validation loss at epoch 8, val_loss=0.2480, val_acc = 0.9194
+
+2nd configuration regular:
+-train ../data/mirror/medium_1166_train_mirror.txt
+-val ../data/mirror/medium_1166_val_mirror.txt
+-model fc2_20_2dense
+-epochs 8 -batch 2048 -save false
+
+-->
+Validation accuracy:  0.9166
+Validation precision: 0.9315
+Validation recall:    0.9008
+Validation F1-score:  0.9159
+
+
+3rd configuration regular:
+-train ../data/mirror/medium_1166_train_mirror.txt
+-val ../data/mirror/medium_1166_val_mirror.txt
+-test ../data/mirror/medium_1166_test_mirror.txt
+-model fc2_20_2dense
+-epochs 8 -batch 2048 -save false
+
+-->
+Test accuracy:  0.9119943976402283
+Test precision: 0.9237804878048781
+Test recall:    0.8982680605398659
+Test F1-score:  0.9108456609445457
+
+1st configuration strict (find best #epochs):
+-train ../data/mirror/double/double-medium_1166_train_mirror.txt
+-val ../data/mirror/double/double-medium_1166_val_mirror.txt
+-model fc2_20_2dense
+-epochs 25
+-batch 2048
+-save false
+
+--> lowest validation loss at epoch 8, val_loss=0.20675, val_acc = 0.930193
+
+2nd configuration strict
+-train ../data/mirror/double/double-medium_1166_train_mirror.txt
+-val ../data/mirror/double/double-medium_1166_val_mirror.txt
+-model fc2_20_2dense
+-epochs 8
+-batch 2048
+-save false
+
+-->
+Validation accuracy:  0.9252
+Validation precision: 0.9207
+Validation recall:    0.9253
+Validation F1-score:  0.9230
+
+3rd configuration strict:
+-train ../data/mirror/double/double-medium_1166_train_mirror.txt
+-val ../data/mirror/double/double-medium_1166_val_mirror.txt
+-test ../data/mirror/double/test_double_mirror.txt
+-model fc2_20_2dense
+-epochs 8
+-batch 2048
+-save false
+
+-->
+Test accuracy: 0.762499988079071
+Test precision: 0.4346153846153846
+Test recall: 0.8248175182481752
+Test F1-score: 0.5692695214105794
+
+
+and
+
+lstm32_3conv3_2dense_shared
+
+1st configuration regular:
+-train ../data/mirror/medium_1166_train_mirror.txt
+-val ../data/mirror/medium_1166_val_mirror.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 50 -batch 2048 -save false
+
+--> lowest validation loss at epoch 11: val_loss: 0.4836, val_acc: 0.8152
+
+2nd configuration regular:
+-train ../data/mirror/medium_1166_train_mirror.txt
+-val ../data/mirror/medium_1166_val_mirror.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 11 -batch 2048 -save false
+
+Validation accuracy:  0.8070
+Validation precision: 0.7713
+Validation recall:    0.8217
+Validation F1-score:  0.7957
+
+3rd configuration regular:
+-train ../data/mirror/medium_1166_train_mirror.txt
+-val ../data/mirror/medium_1166_val_mirror.txt
+-test ../data/mirror/medium_1166_test_mirror.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 11 -batch 2048 -save false
+
+-->
+Test accuracy: 0.5552085041999817
+Test precision: 0.8039152759948652
+Test recall: 0.8088472715531159
+Test F1-score: 0.8063737324963784
+
+Configuration strict:
+-train ../data/mirror/double/double-medium_1166_train_mirror.txt
+-val ../data/mirror/double/double-medium_1166_val_mirror.txt
+-test ../data/mirror/double/test_double_mirror.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 275 -batch 2048 -save false
+
+mirror:
+medium_1166 train: 85,104, medium_1166 val 12,822: medium_1166 test: 12,806
+
+mirror/double:
+train: 91,036, val: 12,506, test: 720
+
+tiny dataset:
+train: 16, validation: 2, test: 2
+
+small dataset:
+train: 1600, validation: 200, test: 200
+
+medium dataset:
+train: 52,606, validation: 6574, test: 6574
+
+double:
+double-medium train: 57,722, double-medium val: 6412, test_double: 460
+double_not_unique: 3538
+double_true_unique: 78
+medium_with_double: 3616
+medium_without_double: 64,718
+medium_without_double_shuffled: 64,718
+
+unique:
+train: 54,020, val: 6,002, test_unique: 5,975, test_true_unique: 320, test_not_unique: 5,655
+medium_with_unique: 5975
+medium_without_unique: 62,359
+medium_without_unique_shuffled: 62,359
+
+mirror/unique_and_double:
+train: 129,455, val: 17,853, test: 5749
+
+unique_and_double:
+train: 82,216, val: 9,134, test: 2,910
+
+
+Tests I ran:
+
+fc2_20_2dense
+
+-train ../data/partition0.txt
+-val ../data/partition1.txt
+-model fc2_20_2dense
+-epochs 25 -batch 2048 -save false
+
+-train ../data/partition0.txt
+-test ../data/partition1.txt
+-model fc2_20_2dense
+-epochs 25 -batch 2048 -save false
+
+-train ../data/partition0.txt
+-val ../data/both_partitions.txt
+-model fc2_20_2dense
+-epochs 25 -batch 2048 -save false
+
+-train ../data/partition0.txt
+-test ../data/both_partitions.txt
+-model fc2_20_2dense
+-epochs 25 -batch 2048 -save false
+
+lstm32_3conv3_2dense_shared
+
+-train ../data/partition0.txt
+-val ../data/partition1.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 50 -batch 2048 -save false
+
+-train ../data/partition0.txt
+-test ../data/partition1.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 25 -batch 2048 -save false
+
+-train ../data/partition0.txt
+-val ../data/both_partitions.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 50 -batch 2048 -save false
+
+-train ../data/partition0.txt
+-test ../data/both_partitions.txt
+-model lstm32_3conv3_2dense_shared
+-epochs 25 -batch 2048 -save false
