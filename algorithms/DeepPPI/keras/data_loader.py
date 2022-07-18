@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from keras import utils as ut
+#from keras import utils as ut
 
 def letter2number( letter ):
     '''
