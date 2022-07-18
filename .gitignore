@@ -5,6 +5,10 @@ algorithms/SPRINT/data
 algorithms/SPRINT/HSP
 algorithms/SPRINT/PPI_dataset
 algorithms/SPRINT/lib
+algorithms/DeepPPI/keras/results2
+algorithms/DeepFE-PPI/dataset/11188/different_size_represented_data
+algorithms/DeepFE-PPI/dataset/c1c2c3
+algorithms/DeepFE-PPI/dataset/human/different_size_represented_data
 KaHIP/bin
 KaHIP/build
 KaHIP/include
