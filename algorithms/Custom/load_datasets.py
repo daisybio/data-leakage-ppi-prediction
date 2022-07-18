@@ -347,6 +347,62 @@ def load_richoux(encoding, dataset='regular'):
     return X_train, y_train, X_test, y_test
 
 
+def read_deepFE_files(file_name):
+    #    # read sample from a file
+    prots = []
+    counter = 0
+    with open(file_name, 'r') as fp:
+        i = 0
+        for line in fp:
+            if i % 2 == 0:
+                uniprot_id = line.strip().split('|')[1].split(':')[1]
+                if uniprot_id == '':
+                    counter += 1
+                prots.append(uniprot_id)
+            i = i + 1
+    print(f'{counter} unmatched IDs ...')
+    return prots
+
+
+def process_pairs(listA, listB, label, encoding, emd, id_dict):
+    ppis = []
+    for i in range(len(listA)):
+        u_id0 = listA[i]
+        u_id1 = listB[i]
+        if u_id0 != '' and u_id1 != '' and u_id0 in id_dict.keys() and u_id1 in id_dict.keys():
+            id0 = id_dict[u_id0]
+            id1 = id_dict[u_id1]
+            if encoding == 'node2vec' and id0 in emd.keys() and id1 in emd.keys():
+                ppis.append([listA[i], listB[i], label])
+            elif encoding != 'node2vec':
+                ppis.append([listA[i], listB[i], label])
+    return ppis
+
+
+def load_huang(encoding):
+    print(f'Loading {encoding} encoding ...')
+    emd, id_dict = load_encoding(encoding=encoding, organism='human')
+    file_1 = '../DeepFE-PPI/dataset/human/positive/Protein_A.txt'
+    file_2 = '../DeepFE-PPI/dataset/human/positive/Protein_B.txt'
+    file_3 = '../DeepFE-PPI/dataset/human/negative/Protein_A.txt'
+    file_4 = '../DeepFE-PPI/dataset/human/negative/Protein_B.txt'
+    #  index for protein
+    pos_A = read_deepFE_files(file_1)
+    pos_B = read_deepFE_files(file_2)
+    neg_A = read_deepFE_files(file_3)
+    neg_B = read_deepFE_files(file_4)
+
+    # all pairs
+    ppis = process_pairs(pos_A, pos_B, 1, encoding, emd, id_dict)
+    ppis_neg = process_pairs(neg_A, neg_B, 0, encoding, emd, id_dict)
+    ppis.extend(ppis_neg)
+    ppis = np.array(ppis)
+    ppis = balance_set(ppis, id_dict, encoding, emd)
+    X, y = make_X_y(np.array(ppis), emd, id_dict)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    return X_train, y_train, X_test, y_test
+
+
 def read_in_partitions(lines, id_dict, emd, encoding, label):
     from tqdm import tqdm
     ppis = []

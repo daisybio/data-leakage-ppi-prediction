@@ -1,4 +1,4 @@
-from load_datasets import load_du, load_guo, load_pan, load_richoux, load_partition_datasets
+from load_datasets import load_du, load_guo, load_pan, load_richoux, load_huang, load_partition_datasets
 from learn_models import learn_rf, learn_SVM
 
 
@@ -26,6 +26,9 @@ def load_data(name, encoding, dataset='regular', partition=False, partition_trai
     elif name == 'richoux':
         print('Loading Richoux et al. human dataset ...')
         X_train, y_train, X_test, y_test = load_richoux(encoding=encoding, dataset=dataset)
+    elif name == 'huang':
+        print('Loading Huang et al. human dataset ...')
+        X_train, y_train, X_test, y_test = load_huang(encoding=encoding)
     print(f'Train: {sum(y_train)} positive PPIs, {len(y_train) - sum(y_train)} negative PPIs, all: {len(y_train)}')
     print(f'Test: {sum(y_test)} positive PPIs, {len(y_test) - sum(y_test)} negative PPIs, all: {len(y_test)}')
     return X_train, y_train, X_test, y_test
@@ -53,7 +56,8 @@ def run_partitioning_tests():
 
 
 def run_simpler_algorithms():
-    for name in ['richoux', 'du', 'guo', 'pan']:
+    dataset_list = ['du', 'guo', 'pan', 'richoux', 'huang']
+    for name in dataset_list:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             if name == 'richoux':
                 for dataset in ['regular', 'strict']:
@@ -82,4 +86,4 @@ def run_simpler_algorithms():
 
 if __name__ == "__main__":
     run_simpler_algorithms()
-    run_partitioning_tests()
+    #run_partitioning_tests()
