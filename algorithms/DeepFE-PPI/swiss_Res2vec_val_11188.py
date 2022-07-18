@@ -224,10 +224,10 @@ def read_traingingData(file_name):
               
 def get_training_dataset(wv,  maxlen,size):
 
-    file_1 = 'dataset/training and test dataset/positive/Protein_A.txt'
-    file_2 = 'dataset/training and test dataset/positive/Protein_B.txt'
-    file_3 = 'dataset/training and test dataset/negative/Protein_A.txt'
-    file_4 = 'dataset/training and test dataset/negative/Protein_B.txt'
+    file_1 = 'dataset/training_and_test_dataset/positive/Protein_A.txt'
+    file_2 = 'dataset/training_and_test_dataset/positive/Protein_B.txt'
+    file_3 = 'dataset/training_and_test_dataset/negative/Protein_A.txt'
+    file_4 = 'dataset/training_and_test_dataset/negative/Protein_B.txt'
     # positive seq protein A
     pos_seq_protein_A = read_traingingData(file_1)
     pos_seq_protein_B = read_traingingData(file_2)
