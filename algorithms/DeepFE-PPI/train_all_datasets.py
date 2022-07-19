@@ -212,6 +212,7 @@ def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_
     print('Representing proteins ...')
     feature_protein_A = protein_representation(wv, tokened_token_pos_neg_seq_protein_A, maxlen, size)
     feature_protein_B = protein_representation(wv, tokened_token_pos_neg_seq_protein_B, maxlen, size)
+    # TODO: this takes up way too much space and it does not have to
     feature_protein_AB = np.hstack((np.array(feature_protein_A), np.array(feature_protein_B)))
     #  create label
     label = np.ones(len(feature_protein_A))
