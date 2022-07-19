@@ -428,7 +428,9 @@ def convert_richoux_training_to_deepFE(regular=True):
 
 # %%
 if __name__ == "__main__":
-    for dataset in ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']:
+    #datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
+    datasets = ['richoux_strict', 'richoux_regular']
+    for dataset in datasets:
         print(f'Dataset: {dataset}')
         # load dictionary
         model_wv = Word2Vec.load('model/word2vec/wv_swissProt_size_20_window_4.model')
