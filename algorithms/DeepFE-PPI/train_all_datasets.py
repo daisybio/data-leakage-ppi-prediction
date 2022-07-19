@@ -262,9 +262,9 @@ def get_training_dataset(wv, maxlen, size, dataset):
         pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
             regular=False)
 
-    pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B)
-    feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A,
-                                                       pos_seq_protein_B, neg_seq_protein_B)
+    #pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B)
+    feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A[:1000], neg_seq_protein_A[:1500],
+                                                       pos_seq_protein_B[:1000], neg_seq_protein_B[:1500])
     return feature_protein_AB, label
 
 
@@ -455,9 +455,9 @@ if __name__ == "__main__":
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
             print('###########################')
             print(
-                f'The {dataset} dataset contains {int(len(y[:, 0]))} samples ({int(sum(y[:, 0]))} positives, {int(len(y[:, 0])) - int(sum(y[:, 0]))} negatives).\n'
-                f'80/20 training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
-                f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
+                f'The {dataset} dataset contains {int(len(y[:, 1]))} samples ({int(sum(y[:, 1]))} positives, {int(len(y[:, 1])) - int(sum(y[:, 1]))} negatives).\n'
+                f'80/20 training/test split results in train: {int(len(y_train[:, 1]))} ({int(sum(y_train[:, 1]))}/{int(len(y_train[:, 1])) - int(sum(y_train[:, 1]))}),'
+                f' test: {int(len(y_test[:, 1]))} ({int(sum(y_test[:, 1]))}/{int(len(y_test[:, 1])) - int(sum(y_test[:, 1]))})')
             print('###########################')
         else:
             X_train = X
