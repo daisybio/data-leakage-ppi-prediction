@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
 from keras import backend as K
+import random
 
 
 def mkdir(path):
@@ -219,6 +220,19 @@ def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_
     return feature_protein_AB, label
 
 
+def balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B):
+    pos_len = len(pos_seq_protein_A)
+    neg_len = len(neg_seq_protein_A)
+    if pos_len > neg_len:
+        pass
+    else:
+        print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
+        to_delete = set(random.sample(range(neg_len), neg_len - pos_len))
+        neg_seq_protein_A = [x for i, x in enumerate(neg_seq_protein_A) if not i in to_delete]
+        neg_seq_protein_B = [x for i, x in enumerate(neg_seq_protein_B) if not i in to_delete]
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
+
+
 def get_training_dataset(wv, maxlen, size, dataset):
     datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
     if dataset not in datasets:
@@ -248,6 +262,7 @@ def get_training_dataset(wv, maxlen, size, dataset):
         pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
             regular=False)
 
+    pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B)
     feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A,
                                                        pos_seq_protein_B, neg_seq_protein_B)
     return feature_protein_AB, label
@@ -413,7 +428,7 @@ def convert_richoux_training_to_deepFE(regular=True):
 
 # %%
 if __name__ == "__main__":
-    for dataset in ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']:
+    for dataset in ['du','pan', 'richoux_strict', 'richoux_regular', 'guo','huang',]:
         print(f'Dataset: {dataset}')
         # load dictionary
         model_wv = Word2Vec.load('model/word2vec/wv_swissProt_size_20_window_4.model')
