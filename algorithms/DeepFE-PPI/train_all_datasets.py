@@ -154,7 +154,7 @@ def protein_representation(wv, tokened_seq_protein, maxlen, size):
     represented_protein = []
     for i in range(len(tokened_seq_protein)):
         temp_sentence = []
-        if i % 1000 == 0:
+        if i % 5000 == 0:
             print(f'Processing PPI {i}/{len(tokened_seq_protein)}')
         for j in range(maxlen):
             if tokened_seq_protein[i][j] == 'J':
@@ -412,107 +412,107 @@ def convert_richoux_training_to_deepFE(regular=True):
 
 # %%
 if __name__ == "__main__":
-    dataset = 'du'
-    print(f'Dataset: {dataset}')
-    # load dictionary
-    model_wv = Word2Vec.load('model/word2vec/wv_swissProt_size_20_window_4.model')
+    for dataset in ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']:
+        print(f'Dataset: {dataset}')
+        # load dictionary
+        model_wv = Word2Vec.load('model/word2vec/wv_swissProt_size_20_window_4.model')
 
-    size = 20
-    window = 4
-    maxlen = 850
-    batch_size = 256
-    nb_epoch = 45
-    sequence_len = size * maxlen
+        size = 20
+        window = 4
+        maxlen = 850
+        batch_size = 256
+        nb_epoch = 45
+        sequence_len = size * maxlen
 
-    # get training data
-    t_start = time()
-    X, y = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset)
-    y = utils.to_categorical(y)
-    print('dataset is loaded')
+        # get training data
+        t_start = time()
+        X, y = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset)
+        y = utils.to_categorical(y)
+        print('dataset is loaded')
 
-    # scaler
-    scaler = StandardScaler().fit(X)
-    X = scaler.transform(X)
+        # scaler
+        scaler = StandardScaler().fit(X)
+        X = scaler.transform(X)
 
-    if dataset not in ['richoux_regular', 'richoux_strict']:
-        print('Splitting dataset in train/test')
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        print('###########################')
-        print(
-            f'The {dataset} dataset contains {int(len(y[:, 0]))} samples ({int(sum(y[:, 0]))} positives, {int(len(y[:, 0])) - int(sum(y[:, 0]))} negatives).\n'
-            f'80/20 training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
-            f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
-        print('###########################')
-    else:
-        X_train = X
-        y_train = y
-        X_test, y_test = get_test_richoux(model_wv.wv, maxlen, size, dataset)
-        print('###########################')
-        print(
-            f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
-            f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
-            f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
-        print('###########################')
+        if dataset not in ['richoux_regular', 'richoux_strict']:
+            print('Splitting dataset in train/test')
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            print('###########################')
+            print(
+                f'The {dataset} dataset contains {int(len(y[:, 0]))} samples ({int(sum(y[:, 0]))} positives, {int(len(y[:, 0])) - int(sum(y[:, 0]))} negatives).\n'
+                f'80/20 training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+                f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
+            print('###########################')
+        else:
+            X_train = X
+            y_train = y
+            X_test, y_test = get_test_richoux(model_wv.wv, maxlen, size, dataset)
+            print('###########################')
+            print(
+                f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
+                f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+                f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
+            print('###########################')
 
-    result_dir = f'result/custom/{dataset}/'
-    mkdir(result_dir)
-    plot_dir = f'plot/custom/{dataset}/'
-    mkdir(plot_dir)
+        result_dir = f'result/custom/{dataset}/'
+        mkdir(result_dir)
+        plot_dir = f'plot/custom/{dataset}/'
+        mkdir(plot_dir)
 
-    X_train_left = X_train[:, 0:sequence_len]
-    X_train_right = X_train[:, sequence_len:sequence_len * 2]
+        X_train_left = X_train[:, 0:sequence_len]
+        X_train_right = X_train[:, sequence_len:sequence_len * 2]
 
-    X_test_left = X_test[:, 0:sequence_len]
-    X_test_right = X_test[:, sequence_len:sequence_len * 2]
+        X_test_left = X_test[:, 0:sequence_len]
+        X_test_right = X_test[:, sequence_len:sequence_len * 2]
 
-    # turn to np.array
-    X_train_left = np.array(X_train_left)
-    X_train_right = np.array(X_train_right)
+        # turn to np.array
+        X_train_left = np.array(X_train_left)
+        X_train_right = np.array(X_train_right)
 
-    X_test_left = np.array(X_test_left)
-    X_test_right = np.array(X_test_right)
+        X_test_left = np.array(X_test_left)
+        X_test_right = np.array(X_test_right)
 
-    model = merged_DBN_functional(sequence_len)
-    sgd = tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.9, decay=0.001)
+        model = merged_DBN_functional(sequence_len)
+        sgd = tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.9, decay=0.001)
 
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=sgd,
-                  metrics=[tf.keras.metrics.Precision()])
-    # feed data into model
-    hist = model.fit(
-        {'left': X_train_left, 'right': X_train_right},
-        {'ppi_pred': y_train},
-        epochs=nb_epoch,
-        batch_size=batch_size,
-        verbose=1
-    )
+        model.compile(loss='categorical_crossentropy',
+                      optimizer=sgd,
+                      metrics=[tf.keras.metrics.Precision()])
+        # feed data into model
+        hist = model.fit(
+            {'left': X_train_left, 'right': X_train_right},
+            {'ppi_pred': y_train},
+            epochs=nb_epoch,
+            batch_size=batch_size,
+            verbose=1
+        )
 
-    print('******   model created!  ******')
-    training_vis(hist, plot_dir, f'training_vis_{dataset}')
-    predictions_test = model.predict([X_test_left, X_test_right])
+        print('******   model created!  ******')
+        training_vis(hist, plot_dir, f'training_vis_{dataset}')
+        predictions_test = model.predict([X_test_left, X_test_right])
 
-    auc_test = roc_auc_score(y_test[:, 1], predictions_test[:, 1])
-    pr_test = average_precision_score(y_test[:, 1], predictions_test[:, 1])
+        auc_test = roc_auc_score(y_test[:, 1], predictions_test[:, 1])
+        pr_test = average_precision_score(y_test[:, 1], predictions_test[:, 1])
 
-    label_predict_test = utils.categorical_probas_to_classes(predictions_test)
-    tp_test, fp_test, tn_test, fn_test, accuracy_test, precision_test, sensitivity_test, recall_test, specificity_test, MCC_test, f1_score_test, _, _, _ = utils.calculate_performace(
-        len(label_predict_test), label_predict_test, y_test[:, 1])
-    print(' ===========  test ===========')
+        label_predict_test = utils.categorical_probas_to_classes(predictions_test)
+        tp_test, fp_test, tn_test, fn_test, accuracy_test, precision_test, sensitivity_test, recall_test, specificity_test, MCC_test, f1_score_test, _, _, _ = utils.calculate_performace(
+            len(label_predict_test), label_predict_test, y_test[:, 1])
+        print(' ===========  test ===========')
 
-    scores = {'Accuracy': [round(accuracy_test, 4)],
-              'Precision': [round(precision_test, 4)],
-              'Recall': [round(recall_test, 4)],
-              'Specificity': [round(specificity_test, 4)],
-              'MCC': [round(MCC_test, 4)],
-              'F1': [round(f1_score_test, 4)],
-              'AUC': [round(auc_test, 4)],
-              'AUPR': [round(pr_test, 4)]}
+        scores = {'Accuracy': [round(accuracy_test, 4)],
+                  'Precision': [round(precision_test, 4)],
+                  'Recall': [round(recall_test, 4)],
+                  'Specificity': [round(specificity_test, 4)],
+                  'MCC': [round(MCC_test, 4)],
+                  'F1': [round(f1_score_test, 4)],
+                  'AUC': [round(auc_test, 4)],
+                  'AUPR': [round(pr_test, 4)]}
 
-    sc = pd.DataFrame.from_dict(scores, orient='index', columns=['Score'])
-    with pd.option_context('display.max_rows', None,
-                           'display.max_columns', None,
-                           'display.precision', 4,
-                           ):
-        print(sc)
-    sc.to_csv(result_dir + f'scores_{dataset}.csv')
-    print(f'time elapsed: {time() - t_start}')
+        sc = pd.DataFrame.from_dict(scores, orient='index', columns=['Score'])
+        with pd.option_context('display.max_rows', None,
+                               'display.max_columns', None,
+                               'display.precision', 4,
+                               ):
+            print(sc)
+        sc.to_csv(result_dir + f'scores_{dataset}.csv')
+        print(f'time elapsed: {time() - t_start}')
