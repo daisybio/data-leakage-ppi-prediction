@@ -1,6 +1,10 @@
 .DS_Store
 .idea
-algorithms/DeepPPI/data
+algorithms/DeepPPI/data/double
+algorithms/DeepPPI/data/scripts
+algorithms/DeepPPI/data/unique
+algorithms/DeepPPI/data/unique_and_double
+algorithms/DeepPPI/data/*txt
 algorithms/SPRINT/data
 algorithms/SPRINT/HSP
 algorithms/SPRINT/PPI_dataset
