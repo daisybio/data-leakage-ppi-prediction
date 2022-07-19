@@ -1,8 +1,8 @@
 import os
+from sklearn.metrics import roc_auc_score, average_precision_score
 import keras
 from time import time
 from keras.layers import BatchNormalization, Dense, Dropout, concatenate
-from sklearn.metrics import roc_auc_score, average_precision_score
 import numpy as np
 import utils.tools as utils
 from keras.regularizers import l2
@@ -13,6 +13,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
+from keras import backend as K
 
 
 def mkdir(path):
@@ -516,3 +517,4 @@ if __name__ == "__main__":
             print(sc)
         sc.to_csv(result_dir + f'scores_{dataset}.csv')
         print(f'time elapsed: {time() - t_start}')
+        K.clear_session()
