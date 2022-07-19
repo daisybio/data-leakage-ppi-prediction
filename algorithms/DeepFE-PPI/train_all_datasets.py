@@ -2,7 +2,7 @@ import os
 import keras
 from time import time
 from keras.layers import BatchNormalization, Dense, Dropout, concatenate
-from sklearn.metrics import roc_auc_score,average_precision_score
+from sklearn.metrics import roc_auc_score, average_precision_score
 import numpy as np
 import utils.tools as utils
 from keras.regularizers import l2
@@ -13,6 +13,17 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
+
+
+def mkdir(path):
+    folder = os.path.exists(path)
+    if not folder:
+        os.makedirs(path)
+        print("---  new folder...  ---")
+        print("---  OK  ---")
+
+    else:
+        print("---  There is this folder!  ---")
 
 
 def averagenum(num):
@@ -150,6 +161,8 @@ def protein_representation(wv, tokened_seq_protein, maxlen, size):
     represented_protein = []
     for i in range(len(tokened_seq_protein)):
         temp_sentence = []
+        if i % 1000 == 0:
+            print(f'Processing PPI {i}/{len(tokened_seq_protein)}')
         for j in range(maxlen):
             if tokened_seq_protein[i][j] == 'J':
                 temp_sentence.extend(np.zeros(size))
@@ -157,6 +170,14 @@ def protein_representation(wv, tokened_seq_protein, maxlen, size):
                 temp_sentence.extend(wv[tokened_seq_protein[i][j]])
         represented_protein.append(np.array(temp_sentence))
     return represented_protein
+
+
+def read_deepFE_files(file1, file2, file3, file4):
+    pos_seq_protein_A = read_trainingData(file1)
+    pos_seq_protein_B = read_trainingData(file2)
+    neg_seq_protein_A = read_trainingData(file3)
+    neg_seq_protein_B = read_trainingData(file4)
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
 
 
 def read_trainingData(file_name):
@@ -170,25 +191,8 @@ def read_trainingData(file_name):
     return seq
 
 
-def get_training_dataset(wv, maxlen, size, dataset):
-    datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
-    if dataset not in datasets:
-        raise ValueError(f'Dataset must be in {datasets}!')
-    if dataset == 'guo':
-        file_1 = 'dataset/training_and_test_dataset/positive/Protein_A.txt'
-        file_2 = 'dataset/training_and_test_dataset/positive/Protein_B.txt'
-        file_3 = 'dataset/training_and_test_dataset/negative/Protein_A.txt'
-        file_4 = 'dataset/training_and_test_dataset/negative/Protein_B.txt'
-    elif dataset == 'huang':
-        file_1 = 'dataset/human/positive/Protein_A.txt'
-        file_2 = 'dataset/human/positive/Protein_B.txt'
-        file_3 = 'dataset/human/negative/Protein_A.txt'
-        file_4 = 'dataset/human/negative/Protein_B.txt'
-    # positive seq protein A
-    pos_seq_protein_A = read_trainingData(file_1)
-    pos_seq_protein_B = read_trainingData(file_2)
-    neg_seq_protein_A = read_trainingData(file_3)
-    neg_seq_protein_B = read_trainingData(file_4)
+def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A, pos_seq_protein_B,
+                           neg_seq_protein_B):
     # put pos and neg together
     pos_neg_seq_protein_A = copy.deepcopy(pos_seq_protein_A)
     pos_neg_seq_protein_A.extend(neg_seq_protein_A)
@@ -197,15 +201,20 @@ def get_training_dataset(wv, maxlen, size, dataset):
     seq = []
     seq.extend(pos_neg_seq_protein_A)
     seq.extend(pos_neg_seq_protein_B)
+    print(
+        f'Read in dataset! {len(pos_neg_seq_protein_A)} PPIs, {len(pos_seq_protein_A)} positives, {len(neg_seq_protein_A)} negatives')
     max_min_avg_length(seq)
 
     # token
+    print('Making token ...')
     token_pos_neg_seq_protein_A = token(pos_neg_seq_protein_A)
     token_pos_neg_seq_protein_B = token(pos_neg_seq_protein_B)
     # padding
+    print('Padding ...')
     tokened_token_pos_neg_seq_protein_A = padding_J(token_pos_neg_seq_protein_A, maxlen)
     tokened_token_pos_neg_seq_protein_B = padding_J(token_pos_neg_seq_protein_B, maxlen)
     # protein reprsentation
+    print('Representing proteins ...')
     feature_protein_A = protein_representation(wv, tokened_token_pos_neg_seq_protein_A, maxlen, size)
     feature_protein_B = protein_representation(wv, tokened_token_pos_neg_seq_protein_B, maxlen, size)
     feature_protein_AB = np.hstack((np.array(feature_protein_A), np.array(feature_protein_B)))
@@ -216,15 +225,51 @@ def get_training_dataset(wv, maxlen, size, dataset):
     return feature_protein_AB, label
 
 
-def mkdir(path):
-    folder = os.path.exists(path)
-    if not folder:
-        os.makedirs(path)
-        print("---  new folder...  ---")
-        print("---  OK  ---")
-
+def get_training_dataset(wv, maxlen, size, dataset):
+    datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
+    if dataset not in datasets:
+        raise ValueError(f'Dataset must be in {datasets}!')
+    if dataset == 'guo':
+        file_1 = 'dataset/training_and_test_dataset/positive/Protein_A.txt'
+        file_2 = 'dataset/training_and_test_dataset/positive/Protein_B.txt'
+        file_3 = 'dataset/training_and_test_dataset/negative/Protein_A.txt'
+        file_4 = 'dataset/training_and_test_dataset/negative/Protein_B.txt'
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_deepFE_files(file_1, file_2,
+                                                                                                       file_3, file_4)
+    elif dataset == 'huang':
+        file_1 = 'dataset/human/positive/Protein_A.txt'
+        file_2 = 'dataset/human/positive/Protein_B.txt'
+        file_3 = 'dataset/human/negative/Protein_A.txt'
+        file_4 = 'dataset/human/negative/Protein_B.txt'
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_deepFE_files(file_1, file_2,
+                                                                                                       file_3, file_4)
+    elif dataset == 'du':
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_du_to_deepFE()
+    elif dataset == 'pan':
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_pan_to_deepFE()
+    elif dataset == 'richoux_regular':
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
+            regular=True)
     else:
-        print("---  There is this folder!  ---")
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
+            regular=False)
+
+    feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A,
+                                                       pos_seq_protein_B, neg_seq_protein_B)
+    return feature_protein_AB, label
+
+
+def get_test_richoux(wv, maxlen, size, dataset):
+    if dataset == 'richoux_regular':
+        # 12,806
+        path_to_test = '../DeepPPI/data/mirror/medium_1166_test_mirror.txt'
+    else:
+        # 720
+        path_to_test = '../DeepPPI/data/mirror/double/test_double_mirror.txt'
+    pos_A_test, pos_B_test, neg_A_test, neg_B_test = read_richoux_file(path_to_test)
+    feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_A_test, neg_A_test,
+                                                       pos_B_test, neg_B_test)
+    return feature_protein_AB, label
 
 
 def make_swissprot_to_dict(organism='yeast'):
@@ -262,9 +307,119 @@ def make_swissprot_to_dict(organism='yeast'):
     f.close()
     return prefix_dict, seq_dict
 
+
+def convert_du_to_deepFE():
+    prefix_dict, seq_dict = make_swissprot_to_dict(organism='yeast')
+    pos_seq_protein_A = []
+    pos_seq_protein_B = []
+    neg_seq_protein_A = []
+    neg_seq_protein_B = []
+    with open('../../Datasets_PPIs/Du_yeast_DIP/SupplementaryS1.csv', 'r') as f:
+        for line in f:
+            ppi = line.strip().split(',')
+            if ppi[0] in seq_dict.keys() and ppi[1] in seq_dict.keys():
+                seq1 = seq_dict[ppi[0]]
+                seq2 = seq_dict[ppi[1]]
+                label = ppi[2]
+                if label == '1':
+                    pos_seq_protein_A.append(seq1)
+                    pos_seq_protein_B.append(seq2)
+                else:
+                    neg_seq_protein_A.append(seq1)
+                    neg_seq_protein_B.append(seq2)
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
+
+
+def make_pan_seq_dict():
+    seq_dict = {}
+    with open('../../Datasets_PPIs/Pan_human_HPRD/SEQ-Supp-ABCD.tsv', 'r') as f:
+        for line in f:
+            line_split = line.strip().split('\t')
+            seq_dict[line_split[0]] = line_split[1]
+    return seq_dict
+
+
+def convert_pan_to_deepFE():
+    pan_seq_dict = make_pan_seq_dict()
+    pos_seq_protein_A = []
+    pos_seq_protein_B = []
+    neg_seq_protein_A = []
+    neg_seq_protein_B = []
+    with open('../../Datasets_PPIs/Pan_human_HPRD/Supp-AB.tsv', 'r') as f:
+        for line in f:
+            if line.startswith('v1'):
+                # header
+                continue
+            else:
+                line_split_pan = line.strip().split('\t')
+                id1 = line_split_pan[0]
+                id2 = line_split_pan[1]
+                seq1 = pan_seq_dict[id1]
+                seq2 = pan_seq_dict[id2]
+                label = line_split_pan[2]
+                if label == '1':
+                    pos_seq_protein_A.append(seq1)
+                    pos_seq_protein_B.append(seq2)
+                else:
+                    neg_seq_protein_A.append(seq1)
+                    neg_seq_protein_B.append(seq2)
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
+
+
+def read_richoux_file(path):
+    pos_seq_protein_A = []
+    pos_seq_protein_B = []
+    neg_seq_protein_A = []
+    neg_seq_protein_B = []
+    with open(path, 'r') as f:
+        for line in f:
+            line_split = line.strip().split(' ')
+            if len(line_split) == 1:
+                continue
+            else:
+                seq1 = line_split[2]
+                seq2 = line_split[3]
+                label = line_split[4]
+                if label == '1':
+                    pos_seq_protein_A.append(seq1)
+                    pos_seq_protein_B.append(seq2)
+                else:
+                    neg_seq_protein_A.append(seq1)
+                    neg_seq_protein_B.append(seq2)
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
+
+
+def convert_richoux_training_to_deepFE(regular=True):
+    if regular is True:
+        # 85,104
+        path_to_train = '../DeepPPI/data/mirror/medium_1166_train_mirror.txt'
+        # 12,822
+        path_to_val = '../DeepPPI/data/mirror/medium_1166_val_mirror.txt'
+    else:
+        # 91,036
+        path_to_train = '../DeepPPI/data/mirror/double/double-medium_1166_train_mirror.txt'
+        # 12,506
+        path_to_val = '../DeepPPI/data/mirror/double/double-medium_1166_val_mirror.txt'
+    pos_seq_protein_A = []
+    pos_seq_protein_B = []
+    neg_seq_protein_A = []
+    neg_seq_protein_B = []
+    pos_A_train, pos_B_train, neg_A_train, neg_B_train = read_richoux_file(path_to_train)
+    pos_seq_protein_A.extend(pos_A_train)
+    pos_seq_protein_B.extend(pos_B_train)
+    neg_seq_protein_A.extend(neg_A_train)
+    neg_seq_protein_B.extend(neg_B_train)
+    pos_A_val, pos_B_val, neg_A_val, neg_B_val = read_richoux_file(path_to_val)
+    pos_seq_protein_A.extend(pos_A_val)
+    pos_seq_protein_B.extend(pos_B_val)
+    neg_seq_protein_A.extend(neg_A_val)
+    neg_seq_protein_B.extend(neg_B_val)
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
+
+
 # %%
 if __name__ == "__main__":
-    dataset = 'guo'
+    dataset = 'du'
     print(f'Dataset: {dataset}')
     # load dictionary
     model_wv = Word2Vec.load('model/word2vec/wv_swissProt_size_20_window_4.model')
@@ -286,13 +441,25 @@ if __name__ == "__main__":
     scaler = StandardScaler().fit(X)
     X = scaler.transform(X)
 
-    print('Splitting dataset in train/test')
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    print('###########################')
-    print(f'The {dataset} dataset contains {int(len(y[:, 0]))} samples ({int(sum(y[:, 0]))} positives, {int(len(y[:, 0]))-int(sum(y[:, 0]))} negatives).\n'
-          f'80/20 training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0]))-int(sum(y_train[:, 0]))}),'
-          f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0]))-int(sum(y_test[:, 0]))})')
-    print('###########################')
+    if dataset not in ['richoux_regular', 'richoux_strict']:
+        print('Splitting dataset in train/test')
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        print('###########################')
+        print(
+            f'The {dataset} dataset contains {int(len(y[:, 0]))} samples ({int(sum(y[:, 0]))} positives, {int(len(y[:, 0])) - int(sum(y[:, 0]))} negatives).\n'
+            f'80/20 training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+            f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
+        print('###########################')
+    else:
+        X_train = X
+        y_train = y
+        X_test, y_test = get_test_richoux(model_wv.wv, maxlen, size, dataset)
+        print('###########################')
+        print(
+            f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
+            f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+            f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
+        print('###########################')
 
     result_dir = f'result/custom/{dataset}/'
     mkdir(result_dir)
@@ -348,11 +515,11 @@ if __name__ == "__main__":
               'AUC': [round(auc_test, 4)],
               'AUPR': [round(pr_test, 4)]}
 
-    sc = pd.DataFrame.from_dict(scores)
-    sc.to_csv(result_dir + f'scores_{dataset}.csv')
+    sc = pd.DataFrame.from_dict(scores, orient='index', columns=['Score'])
     with pd.option_context('display.max_rows', None,
                            'display.max_columns', None,
-                           'display.precision', 3,
+                           'display.precision', 4,
                            ):
         print(sc)
+    sc.to_csv(result_dir + f'scores_{dataset}.csv')
     print(f'time elapsed: {time() - t_start}')
