@@ -457,7 +457,7 @@ for size in sizes:
                         {'left': X_train_left, 'right': X_train_right},
                         {'ppi_pred': y_train},
                         epochs=nb_epoch,
-                        batch_size=nb_epoch,
+                        batch_size=batch_size,
                         verbose=1
                     )
                     print('******   model created!  ******')
