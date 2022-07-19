@@ -8,6 +8,7 @@ algorithms/DeepPPI/data/*txt
 algorithms/SPRINT/HSP
 algorithms/SPRINT/PPI_dataset
 algorithms/SPRINT/lib
+algorithms/SPRINT/bin
 algorithms/DeepPPI/keras/results2
 algorithms/DeepFE-PPI/dataset/11188/different_size_represented_data
 algorithms/DeepFE-PPI/dataset/c1c2c3
