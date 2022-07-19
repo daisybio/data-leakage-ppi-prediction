@@ -129,13 +129,6 @@ def read_file(file_name):
     return pro_swissProt[1:]
 
 
-def get_res2vec_data():
-    file_name = 'dataset/uniprot_sprot.fasta'
-    pro_swissProt = read_file(file_name)
-
-    return pro_swissProt
-
-
 def token(dataset):
     token_dataset = []
     for i in range(len(dataset)):
