@@ -425,7 +425,8 @@ def convert_richoux_training_to_deepFE(regular=True):
 
 # %%
 if __name__ == "__main__":
-    datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
+    #datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
+    datasets = ['pan', 'richoux_strict', 'richoux_regular']
     for dataset in datasets:
         print(f'Dataset: {dataset}')
         # load dictionary

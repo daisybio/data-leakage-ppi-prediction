@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=1
 #SBATCH --job-name=run_deepFE
-#SBATCH --output=%x.%j.txt
-#SBATCH --error=%x.%j.err
-#SBATCH --mem=70G
+#SBATCH --output=deepFE.out
+#SBATCH --error=deepFE.err
+#SBATCH --mem=90G
 
 python train_all_datasets.py
