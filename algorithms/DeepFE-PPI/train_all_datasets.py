@@ -152,19 +152,20 @@ def padding_J(protein, maxlen):
     return padded_protein
 
 
-def protein_representation(wv, tokened_seq_protein, maxlen, size):
-    represented_protein = []
-    for i in range(len(tokened_seq_protein)):
-        temp_sentence = []
+def protein_representation(wv, pos_seq_protein_A, pos_seq_protein_B, maxlen, size, feature_protein_AB):
+    for i in range(len(pos_seq_protein_A)):
         if i % 5000 == 0:
-            print(f'Processing PPI {i}/{len(tokened_seq_protein)}')
+            print(f'Processing PPI {i}/{len(pos_seq_protein_A)}')
         for j in range(maxlen):
-            if tokened_seq_protein[i][j] == 'J':
-                temp_sentence.extend(np.zeros(size))
+            if pos_seq_protein_A[i][j] == 'J':
+                feature_protein_AB[i][j*size:j*size+size] = np.zeros(size)
             else:
-                temp_sentence.extend(wv[tokened_seq_protein[i][j]])
-        represented_protein.append(np.array(temp_sentence))
-    return represented_protein
+                feature_protein_AB[i][j*size:j*size+size] = wv[pos_seq_protein_A[i][j]]
+            if pos_seq_protein_B[i][j] == 'J':
+                feature_protein_AB[i][j*size+maxlen*size:j*size+size+maxlen*size] = np.zeros(size)
+            else:
+                feature_protein_AB[i][j*size+maxlen*size:j*size+size+maxlen*size] = wv[pos_seq_protein_B[i][j]]
+    return feature_protein_AB
 
 
 def read_deepFE_files(file1, file2, file3, file4):
@@ -188,35 +189,30 @@ def read_trainingData(file_name):
 
 def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A, pos_seq_protein_B,
                            neg_seq_protein_B):
-    # put pos and neg together
-    pos_neg_seq_protein_A = copy.deepcopy(pos_seq_protein_A)
-    pos_neg_seq_protein_A.extend(neg_seq_protein_A)
-    pos_neg_seq_protein_B = copy.deepcopy(pos_seq_protein_B)
-    pos_neg_seq_protein_B.extend(neg_seq_protein_B)
-    seq = []
-    seq.extend(pos_neg_seq_protein_A)
-    seq.extend(pos_neg_seq_protein_B)
+    # remember lengths
+    len_pos = len(pos_seq_protein_A)
+    n_ppis = len(pos_seq_protein_A) + len(neg_seq_protein_A)
+    # edit: trying to save space, save pos and neg in pos_seq
+    pos_seq_protein_A.extend(neg_seq_protein_A)
+    pos_seq_protein_B.extend(neg_seq_protein_B)
     print(
-        f'Read in dataset! {len(pos_neg_seq_protein_A)} PPIs, {len(pos_seq_protein_A)} positives, {len(neg_seq_protein_A)} negatives')
-    max_min_avg_length(seq)
+        f'Read in dataset! {n_ppis} PPIs, {len_pos} positives, {n_ppis-len_pos} negatives')
 
     # token
     print('Making token ...')
-    token_pos_neg_seq_protein_A = token(pos_neg_seq_protein_A)
-    token_pos_neg_seq_protein_B = token(pos_neg_seq_protein_B)
+    pos_seq_protein_A = token(pos_seq_protein_A)
+    pos_seq_protein_B = token(pos_seq_protein_B)
     # padding
     print('Padding ...')
-    tokened_token_pos_neg_seq_protein_A = padding_J(token_pos_neg_seq_protein_A, maxlen)
-    tokened_token_pos_neg_seq_protein_B = padding_J(token_pos_neg_seq_protein_B, maxlen)
-    # protein reprsentation
+    pos_seq_protein_A = padding_J(pos_seq_protein_A, maxlen)
+    pos_seq_protein_B = padding_J(pos_seq_protein_B, maxlen)
     print('Representing proteins ...')
-    feature_protein_A = protein_representation(wv, tokened_token_pos_neg_seq_protein_A, maxlen, size)
-    feature_protein_B = protein_representation(wv, tokened_token_pos_neg_seq_protein_B, maxlen, size)
-    # TODO: this takes up way too much space and it does not have to
-    feature_protein_AB = np.hstack((np.array(feature_protein_A), np.array(feature_protein_B)))
+    feature_protein_AB = np.zeros(shape=(n_ppis, 2 * maxlen * size))
+    feature_protein_AB = protein_representation(wv, pos_seq_protein_A, pos_seq_protein_B, maxlen, size, feature_protein_AB)
     #  create label
-    label = np.ones(len(feature_protein_A))
-    label[len(pos_seq_protein_A):] = 0
+    print("creating labels ...")
+    label = np.ones(n_ppis)
+    label[len_pos:] = 0
 
     return feature_protein_AB, label
 
@@ -429,8 +425,7 @@ def convert_richoux_training_to_deepFE(regular=True):
 
 # %%
 if __name__ == "__main__":
-    #datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
-    datasets = ['richoux_strict', 'richoux_regular']
+    datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
     for dataset in datasets:
         print(f'Dataset: {dataset}')
         # load dictionary
@@ -478,18 +473,6 @@ if __name__ == "__main__":
         plot_dir = f'plot/custom/{dataset}/'
         mkdir(plot_dir)
 
-        X_train_left = X_train[:, 0:sequence_len]
-        X_train_right = X_train[:, sequence_len:sequence_len * 2]
-
-        X_test_left = X_test[:, 0:sequence_len]
-        X_test_right = X_test[:, sequence_len:sequence_len * 2]
-
-        # turn to np.array
-        X_train_left = np.array(X_train_left)
-        X_train_right = np.array(X_train_right)
-
-        X_test_left = np.array(X_test_left)
-        X_test_right = np.array(X_test_right)
 
         model = merged_DBN_functional(sequence_len)
         sgd = tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.9, decay=0.001)
@@ -499,7 +482,8 @@ if __name__ == "__main__":
                       metrics=[tf.keras.metrics.Precision()])
         # feed data into model
         hist = model.fit(
-            {'left': X_train_left, 'right': X_train_right},
+            {'left': np.array(X_train[:, 0:sequence_len]),
+             'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
             {'ppi_pred': y_train},
             epochs=nb_epoch,
             batch_size=batch_size,
@@ -508,7 +492,8 @@ if __name__ == "__main__":
 
         print('******   model created!  ******')
         training_vis(hist, plot_dir, f'training_vis_{dataset}')
-        predictions_test = model.predict([X_test_left, X_test_right])
+        predictions_test = model.predict([np.array(X_test[:, 0:sequence_len]),
+                                          np.array(X_test[:, sequence_len:sequence_len * 2])])
 
         auc_test = roc_auc_score(y_test[:, 1], predictions_test[:, 1])
         pr_test = average_precision_score(y_test[:, 1], predictions_test[:, 1])
