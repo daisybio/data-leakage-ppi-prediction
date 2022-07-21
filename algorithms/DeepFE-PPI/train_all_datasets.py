@@ -300,7 +300,7 @@ def get_test_richoux(wv, maxlen, size, dataset):
 def get_test_partition(wv, maxlen, size, dataset):
     ds_split = dataset.split('_')
     name = ds_split[0]
-    if name in ['duo', 'guo']:
+    if name in ['du', 'guo']:
         organism = 'yeast'
     else:
         organism = 'human'
