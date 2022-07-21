@@ -230,34 +230,53 @@ def balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, ne
     return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
 
 
-def get_training_dataset(wv, maxlen, size, dataset):
-    datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
+def get_training_dataset(wv, maxlen, size, dataset, partition):
+    if partition:
+        datasets=['guo_both_0','guo_both_1','guo_0_1',
+                'huang_both_0', 'huang_both_1', 'huang_0_1',
+                'du_both_0', 'du_both_1', 'du_0_1',
+                'pan_both_0', 'pan_both_1', 'pan_0_1',
+                'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+    else:
+        datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
     if dataset not in datasets:
         raise ValueError(f'Dataset must be in {datasets}!')
-    if dataset == 'guo':
-        file_1 = 'dataset/training_and_test_dataset/positive/Protein_A.txt'
-        file_2 = 'dataset/training_and_test_dataset/positive/Protein_B.txt'
-        file_3 = 'dataset/training_and_test_dataset/negative/Protein_A.txt'
-        file_4 = 'dataset/training_and_test_dataset/negative/Protein_B.txt'
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_deepFE_files(file_1, file_2,
-                                                                                                       file_3, file_4)
-    elif dataset == 'huang':
-        file_1 = 'dataset/human/positive/Protein_A.txt'
-        file_2 = 'dataset/human/positive/Protein_B.txt'
-        file_3 = 'dataset/human/negative/Protein_A.txt'
-        file_4 = 'dataset/human/negative/Protein_B.txt'
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_deepFE_files(file_1, file_2,
-                                                                                                       file_3, file_4)
-    elif dataset == 'du':
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_du_to_deepFE()
-    elif dataset == 'pan':
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_pan_to_deepFE()
-    elif dataset == 'richoux_regular':
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
-            regular=True)
+    if partition:
+        ds_split = dataset.split('_')
+        name = ds_split[0]
+        if name in ['duo', 'guo']:
+            organism='yeast'
+        else:
+            organism='human'
+        train_partition = ds_split[1]
+        train_file_pos = f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt'
+        train_file_neg = f'../SPRINT/data/partitions/{name}_partition_{train_partition}_neg.txt'
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_partition_files(train_file_pos, train_file_neg, organism)
     else:
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
-            regular=False)
+        if dataset == 'guo':
+            file_1 = 'dataset/training_and_test_dataset/positive/Protein_A.txt'
+            file_2 = 'dataset/training_and_test_dataset/positive/Protein_B.txt'
+            file_3 = 'dataset/training_and_test_dataset/negative/Protein_A.txt'
+            file_4 = 'dataset/training_and_test_dataset/negative/Protein_B.txt'
+            pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_deepFE_files(file_1, file_2,
+                                                                                                           file_3, file_4)
+        elif dataset == 'huang':
+            file_1 = 'dataset/human/positive/Protein_A.txt'
+            file_2 = 'dataset/human/positive/Protein_B.txt'
+            file_3 = 'dataset/human/negative/Protein_A.txt'
+            file_4 = 'dataset/human/negative/Protein_B.txt'
+            pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_deepFE_files(file_1, file_2,
+                                                                                                           file_3, file_4)
+        elif dataset == 'du':
+            pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_du_to_deepFE()
+        elif dataset == 'pan':
+            pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_pan_to_deepFE()
+        elif dataset == 'richoux_regular':
+            pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
+                regular=True)
+        else:
+            pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = convert_richoux_training_to_deepFE(
+                regular=False)
 
     pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B)
     feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A,
@@ -273,6 +292,24 @@ def get_test_richoux(wv, maxlen, size, dataset):
         # 720
         path_to_test = '../DeepPPI/data/mirror/double/test_double_mirror.txt'
     pos_A_test, pos_B_test, neg_A_test, neg_B_test = read_richoux_file(path_to_test)
+    feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_A_test, neg_A_test,
+                                                       pos_B_test, neg_B_test)
+    return feature_protein_AB, label
+
+
+def get_test_partition(wv, maxlen, size, dataset):
+    ds_split = dataset.split('_')
+    name = ds_split[0]
+    if name in ['duo', 'guo']:
+        organism = 'yeast'
+    else:
+        organism = 'human'
+    test_partition = ds_split[2]
+    test_file_pos = f'../SPRINT/data/partitions/{name}_partition_{test_partition}_pos.txt'
+    test_file_neg = f'../SPRINT/data/partitions/{name}_partition_{test_partition}_neg.txt'
+    pos_A_test, pos_B_test, neg_A_test, neg_B_test = read_partition_files(test_file_pos,
+                                                                                                      test_file_neg,
+                                                                                                      organism)
     feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_A_test, neg_A_test,
                                                        pos_B_test, neg_B_test)
     return feature_protein_AB, label
@@ -423,10 +460,34 @@ def convert_richoux_training_to_deepFE(regular=True):
     return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
 
 
+def convert_edgelist_to_seqlist(file, seq_dict):
+    seq_A = []
+    seq_B = []
+    with open(file, 'r') as f:
+        for line in f:
+            ppi = line.strip().split(' ')
+            if ppi[0] in seq_dict.keys() and ppi[1] in seq_dict.keys():
+                seq_A.append(seq_dict[ppi[0]])
+                seq_B.append(seq_dict[ppi[1]])
+    return seq_A, seq_B
+
+
+def read_partition_files(pos_file, neg_file, organism):
+    prefix_dict, seq_dict = make_swissprot_to_dict(organism=organism)
+    pos_seq_protein_A, pos_seq_protein_B = convert_edgelist_to_seqlist(pos_file, seq_dict)
+    neg_seq_protein_A, neg_seq_protein_B = convert_edgelist_to_seqlist(neg_file, seq_dict)
+    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
+
+
 # %%
 if __name__ == "__main__":
-    #datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
-    datasets = ['richoux_strict', 'richoux_regular']
+    partition=True
+    #datasets = ['guo', 'huang', 'du', 'pan', 'richoux_strict', 'richoux_regular']
+    datasets = ['guo_both_0','guo_both_1','guo_0_1',
+                'huang_both_0', 'huang_both_1', 'huang_0_1',
+                'du_both_0', 'du_both_1', 'du_0_1',
+                'pan_both_0', 'pan_both_1', 'pan_0_1',
+                'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     for dataset in datasets:
         print(f'Dataset: {dataset}')
         # load dictionary
@@ -441,7 +502,7 @@ if __name__ == "__main__":
 
         # get training data
         t_start = time()
-        X, y = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset)
+        X, y = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset, partition=partition)
         y = utils.to_categorical(y)
         print('dataset is loaded')
 
@@ -449,7 +510,7 @@ if __name__ == "__main__":
         scaler = StandardScaler().fit(X)
         X = scaler.transform(X)
 
-        if dataset not in ['richoux_regular', 'richoux_strict']:
+        if not partition and dataset not in ['richoux_regular', 'richoux_strict']:
             print('Splitting dataset in train/test')
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
             print('###########################')
@@ -461,7 +522,10 @@ if __name__ == "__main__":
         else:
             X_train = X
             y_train = y
-            X_test, y_test = get_test_richoux(model_wv.wv, maxlen, size, dataset)
+            if not partition:
+                X_test, y_test = get_test_richoux(model_wv.wv, maxlen, size, dataset)
+            else:
+                X_test, y_test = get_test_partition(model_wv.wv, maxlen, size, dataset)
             y_test = utils.to_categorical(y_test)
             X_test = scaler.transform(X_test)
             print('###########################')
@@ -470,11 +534,16 @@ if __name__ == "__main__":
                 f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
                 f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
             print('###########################')
-
-        result_dir = f'result/custom/{dataset}/'
-        mkdir(result_dir)
-        plot_dir = f'plot/custom/{dataset}/'
-        mkdir(plot_dir)
+        if partition:
+            result_dir = f'result/custom/{dataset.split("_")[0]}/'
+            mkdir(result_dir)
+            plot_dir = f'plot/custom/{dataset.split("_")[0]}/'
+            mkdir(plot_dir)
+        else:
+            result_dir = f'result/custom/{dataset}/'
+            mkdir(result_dir)
+            plot_dir = f'plot/custom/{dataset}/'
+            mkdir(plot_dir)
 
 
         model = merged_DBN_functional(sequence_len)
