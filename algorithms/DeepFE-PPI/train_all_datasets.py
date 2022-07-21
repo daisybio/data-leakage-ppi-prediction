@@ -377,12 +377,8 @@ def read_richoux_file(path):
     pos_seq_protein_B = []
     neg_seq_protein_A = []
     neg_seq_protein_B = []
-    counter = 0
     with open(path, 'r') as f:
         for line in f:
-            if counter > 1000:
-                break
-            counter += 1
             line_split = line.strip().split(' ')
             if len(line_split) == 1:
                 continue
