@@ -1,4 +1,6 @@
 Dataset	AUC	AUPR
+du	0.7866	0.6381
+guo	0.6342	0.6371
 huang	0.7346	0.7395
 pan	0.8702	0.89
 richoux_regular	0.9806	0.9867

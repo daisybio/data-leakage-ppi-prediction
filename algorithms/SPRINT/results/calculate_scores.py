@@ -33,7 +33,7 @@ if partition:
 else:
     result_file = open("original/all_results.tsv", "w")
     result_file.write("Dataset\tAUC\tAUPR\n")
-    for dataset in ["huang", "pan", "richoux_regular", "richoux_strict"]:
+    for dataset in ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict"]:
         print(f"########## Dataset: {dataset} ##########")
         y_pred = []
         y_true = []
