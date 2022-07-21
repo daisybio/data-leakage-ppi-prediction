@@ -21,8 +21,6 @@ def process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t):
     class_labels = np.zeros(shape=(n_ppi, 2))
     nr_ppi = 0
     for ppi in ppis:
-        if id2index.get(ppi[0]) is None or id2index.get(ppi[1]) is None:
-            continue
         idx0 = id2index.get(ppi[0])
         idx1 = id2index.get(ppi[1])
         embedded_0 = seq2t.embed_normalized(seqs[idx0], seq_size)
@@ -64,7 +62,7 @@ def read_in_dataset(dataset, test, partition, seq_size):
             partition = ds_split[2]
         file_pos = f'../../../../SPRINT/data/partitions/{name}_partition_{partition}_pos.txt'
         file_neg = f'../../../../SPRINT/data/partitions/{name}_partition_{partition}_neg.txt'
-        ppis = read_ppis_from_sprint(file_pos, file_neg)
+        ppis = read_ppis_from_sprint(file_pos, file_neg, id2index)
     else:
         if dataset in ['guo', 'du']:
             organism='yeast'
@@ -77,22 +75,32 @@ def read_in_dataset(dataset, test, partition, seq_size):
             prefix='test'
         train_file_pos = f'../../../../SPRINT/data/original/{dataset}_{prefix}_pos.txt'
         train_file_neg = f'../../../../SPRINT/data/original/{dataset}_{prefix}_neg.txt'
-        ppis = read_ppis_from_sprint(train_file_pos, train_file_neg)
+        ppis = read_ppis_from_sprint(train_file_pos, train_file_neg, id2index)
     print('Embedding ...')
     X, class_labels = process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t)
     return dim, X, class_labels
 
 
-def read_ppis_from_sprint(pos_file, neg_file):
+def read_ppis_from_sprint(pos_file, neg_file, id2index):
     ppis = []
+    pos_count = 0
     with open(pos_file, 'r') as f:
         for line in f:
             line_split = line.strip().split(' ')
+            if id2index.get(line_split[0]) is None or id2index.get(line_split[1]) is None:
+                continue
             ppis.append([line_split[0], line_split[1], '1'])
+            pos_count += 1
+    neg_count = 0
     with open(neg_file, 'r') as f:
         for line in f:
+            if neg_count == pos_count:
+                break
             line_split = line.strip().split(' ')
+            if id2index.get(line_split[0]) is None or id2index.get(line_split[1]) is None:
+                continue
             ppis.append([line_split[0], line_split[1], '0'])
+            neg_count += 1
     return ppis
 
 
@@ -226,7 +234,6 @@ if __name__ == '__main__':
             f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
             f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
         print('###########################')
-
         print('Building model ...')
         merge_model = build_model(seq_size, dim)
         adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
