@@ -244,7 +244,7 @@ def get_training_dataset(wv, maxlen, size, dataset, partition):
     if partition:
         ds_split = dataset.split('_')
         name = ds_split[0]
-        if name in ['duo', 'guo']:
+        if name in ['du', 'guo']:
             organism='yeast'
         else:
             organism='human'
@@ -483,9 +483,9 @@ def read_partition_files(pos_file, neg_file, organism):
 if __name__ == "__main__":
     partition=True
     #datasets = ['guo', 'huang', 'du', 'pan', 'richoux_strict', 'richoux_regular']
-    datasets = ['guo_both_0','guo_both_1','guo_0_1',
-                'huang_both_0', 'huang_both_1', 'huang_0_1',
-                'du_both_0', 'du_both_1', 'du_0_1',
+    #'guo_both_0','guo_both_1','guo_0_1',
+    #            'huang_both_0', 'huang_both_1', 'huang_0_1',
+    datasets = ['du_both_0', 'du_both_1', 'du_0_1',
                 'pan_both_0', 'pan_both_1', 'pan_0_1',
                 'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     for dataset in datasets:
