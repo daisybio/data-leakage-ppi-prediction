@@ -377,8 +377,12 @@ def read_richoux_file(path):
     pos_seq_protein_B = []
     neg_seq_protein_A = []
     neg_seq_protein_B = []
+    counter = 0
     with open(path, 'r') as f:
         for line in f:
+            if counter > 1000:
+                break
+            counter += 1
             line_split = line.strip().split(' ')
             if len(line_split) == 1:
                 continue
@@ -426,7 +430,7 @@ def convert_richoux_training_to_deepFE(regular=True):
 # %%
 if __name__ == "__main__":
     #datasets = ['guo','huang','du','pan', 'richoux_strict', 'richoux_regular']
-    datasets = ['pan', 'richoux_strict', 'richoux_regular']
+    datasets = ['richoux_strict', 'richoux_regular']
     for dataset in datasets:
         print(f'Dataset: {dataset}')
         # load dictionary
@@ -462,6 +466,8 @@ if __name__ == "__main__":
             X_train = X
             y_train = y
             X_test, y_test = get_test_richoux(model_wv.wv, maxlen, size, dataset)
+            y_test = utils.to_categorical(y_test)
+            X_test = scaler.transform(X_test)
             print('###########################')
             print(
                 f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
