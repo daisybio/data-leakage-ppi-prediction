@@ -1,4 +1,10 @@
 Dataset	Train	Test	AUC	AUPR
+du	both	0	0.6894	0.6997
+du	both	1	0.6913	0.7233
+du	0	1	0.5192	0.543
+guo	both	0	0.6769	0.6869
+guo	both	1	0.6253	0.6693
+guo	0	1	0.483	0.5185
 huang	both	0	0.6597	0.6699
 huang	both	1	0.5976	0.6283
 huang	0	1	0.4891	0.5011

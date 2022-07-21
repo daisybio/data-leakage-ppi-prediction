@@ -11,6 +11,21 @@
 
 # run other datasets huang, richoux, pan;
 # Train on both, test on 0. Train on both, test on 1. Train on 0, test on 1:
+for DATASET in du guo
+do
+  for TRAIN in "both" "0"
+  do
+    for TEST in "0" "1"
+    do
+      if [ "$TRAIN" = "0" ] && [ "$TEST" = "0" ]
+      then
+        continue
+      fi
+      echo dataset ${DATASET}, training on ${TRAIN}, testing on ${TEST}
+      bin/predict_interactions -p ../../Datasets_PPIs/SwissProt/yeast_swissprot_oneliner.fasta -h HSP/pre_computed_yeast_HSP -tr data/partitions/${DATASET}_partition_${TRAIN}_pos.txt -pos data/partitions/${DATASET}_partition_${TEST}_pos.txt -neg data/partitions/${DATASET}_partition_${TEST}_neg.txt -o results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}.txt
+    done
+  done
+done
 
 for DATASET in huang richoux pan
 do

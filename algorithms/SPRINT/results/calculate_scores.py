@@ -9,11 +9,11 @@ def calculate_auc_aupr(y_pred, y_true):
     return auc, aupr
 
 
-partition=False
+partition=True
 if partition:
     result_file = open("partitions/all_results.tsv", "w")
     result_file.write("Dataset\tTrain\tTest\tAUC\tAUPR\n")
-    for dataset in ["huang", "richoux", "pan"]:
+    for dataset in ["du","guo","huang", "richoux", "pan"]:
         print(f"########## Dataset: {dataset} ##########")
         for train in ["both", "0"]:
             for test in ["0", "1"]:
