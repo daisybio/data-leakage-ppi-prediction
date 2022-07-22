@@ -359,10 +359,7 @@ if __name__ == '__main__':
     ppis_test = parse_ppis(test_set_pos, test_set_neg, seq_dict)
     print("Loading training data")
     train_data, labels = custom_load_data(ppis_train, seq_dict)
-    print(f'{len(labels)} protein pairs in training!')
-    with open(f'results_custom/{file_name}.csv', 'w') as f:
-        f.write(f'variable,value\n')
-        f.write(f'n_train,{len(labels)}\n')
+    print(f'{len(labels)} protein pairs in training ({sum(labels)}/{len(labels)-sum(labels)})!')
 
     callbacks_list = [callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
                                                   verbose=1),
@@ -388,8 +385,11 @@ if __name__ == '__main__':
 
     print("Loading test data")
     test_data, test_labels = custom_load_data(ppis_test, seq_dict)
-    print(f'{len(test_labels)} protein pairs in test!')
-    with open(f'results_custom/{file_name}.csv', 'a') as f:
+    print(f'{len(test_labels)} protein pairs in test ({sum(labels)}/{len(labels)-sum(labels)})!')
+    with open(f'results_custom/{file_name}.csv', 'w') as f:
+        f.write(f'variable,value\n')
+        f.write(f'n,{len(labels)+len(test_labels)}')
+        f.write(f'n_train,{len(labels)}\n')
         f.write(f'n_test,{len(test_labels)}\n')
     score, acc = model.evaluate(test_data, test_labels)
     predict = model.predict(test_data, batch_size=batch_size, verbose=1)
