@@ -183,8 +183,8 @@ def write_results(path, y_true, y_pred):
     import pandas as pd
     from sklearn.metrics import roc_auc_score, average_precision_score
     print(' ===========  test ===========')
-    auc_test = roc_auc_score(y_test[:, 1], y_pred[:, 1])
-    pr_test = average_precision_score(y_test[:, 1], y_pred[:, 1])
+    auc_test = roc_auc_score(y_true[:, 1], y_pred[:, 1])
+    pr_test = average_precision_score(y_true[:, 1], y_pred[:, 1])
     tp_test, fp_test, tn_test, fn_test, accuracy_test, precision_test, sensitivity_test, recall_test, specificity_test, MCC_test, f1_score_test = calculate_performace(
         len(y_pred), y_pred[:, 1], y_true[:, 1])
 
