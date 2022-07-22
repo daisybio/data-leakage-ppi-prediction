@@ -105,7 +105,7 @@ def read_ppis_from_sprint(pos_file, neg_file, id2index):
 
 
 def build_model(seq_size, dim):
-    hidden_dim = 25
+    hidden_dim = 50
     seq_input1 = Input(shape=(seq_size, dim), name='seq1')
     seq_input2 = Input(shape=(seq_size, dim), name='seq2')
     l1=Conv1D(hidden_dim, 3)
@@ -153,45 +153,57 @@ def build_model(seq_size, dim):
     return merge_model
 
 
-def write_results(path, y_true, y_pred):
-    # copy below
-    num_hit = 0.
-    num_total = 0.
-    num_pos = 0.
-    num_true_pos = 0.
-    num_false_pos = 0.
-    num_true_neg = 0.
-    num_false_neg = 0.
-    for i in range(len(y_true)):
-        num_total += 1
-        if np.argmax(y_true) == np.argmax(y_pred[i]):
-            num_hit += 1
-        if y_true[i][0] > 0.:
-            num_pos += 1.
-            if y_pred[i][0] > y_pred[i][1]:
-                num_true_pos += 1
+def calculate_performace(test_num, pred_y, labels):
+    tp = 0
+    fp = 0
+    tn = 0
+    fn = 0
+    for index in range(test_num):
+        if labels[index] == 1:
+            if labels[index] == pred_y[index]:
+                tp = tp + 1
             else:
-                num_false_neg += 1
+                fn = fn + 1
         else:
-            if y_pred[i][0] > y_pred[i][1]:
-                num_false_pos += 1
+            if labels[index] == pred_y[index]:
+                tn = tn + 1
             else:
-                num_true_neg += 1
-    # something was wrong with the accuracy: accuracy = num_hit / num_total
-    accuracy = (num_true_pos + num_true_neg) / num_total
-    prec = num_true_pos / (num_true_pos + num_false_pos)
-    recall = num_true_pos / num_pos
-    spec = num_true_neg / (num_true_neg + num_false_neg)
-    f1 = 2. * prec * recall / (prec + recall)
-    mcc = (num_true_pos * num_true_neg - num_false_pos * num_false_neg) / (
-                (num_true_pos + num_true_neg) * (num_true_pos + num_false_neg) * (num_false_pos + num_true_neg) * (
-                    num_false_pos + num_false_neg)) ** 0.5
-    print(accuracy, prec, recall, spec, f1, mcc)
+                fp = fp + 1
+    accuracy = float(tp + tn) / test_num
+    precision = float(tp) / (tp + fp + 1e-06)
+    sensitivity = float(tp) / (tp + fn + 1e-06)
+    recall = float(tp) / (tp + fn + 1e-06)
+    specificity = float(tn) / (tn + fp + 1e-06)
+    f1_score = float(2 * tp) / (2 * tp + fp + fn + 1e-06)
+    MCC = float(tp * tn - fp * fn) / (np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
+    return tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score
 
-    with open(path, 'w') as fp:
-        fp.write('acc=' + str(accuracy) + '\tprec=' + str(prec) + '\trecall=' + str(recall) + '\tspec=' + str(
-            spec) + '\tf1=' + str(f1) + '\tmcc=' + str(mcc)+'\n')
-        fp.write(f'TP={num_true_pos}, FP={num_false_pos}, TN={num_true_neg}, FN={num_false_neg}')
+
+def write_results(path, y_true, y_pred):
+    import pandas as pd
+    from sklearn.metrics import roc_auc_score, average_precision_score
+    print(' ===========  test ===========')
+    auc_test = roc_auc_score(y_test[:, 1], y_pred[:, 1])
+    pr_test = average_precision_score(y_test[:, 1], y_pred[:, 1])
+    tp_test, fp_test, tn_test, fn_test, accuracy_test, precision_test, sensitivity_test, recall_test, specificity_test, MCC_test, f1_score_test = calculate_performace(
+        len(y_pred), y_pred[:, 1], y_true[:, 1])
+
+    scores = {'Accuracy': [round(accuracy_test, 4)],
+              'Precision': [round(precision_test, 4)],
+              'Recall': [round(recall_test, 4)],
+              'Specificity': [round(specificity_test, 4)],
+              'MCC': [round(MCC_test, 4)],
+              'F1': [round(f1_score_test, 4)],
+              'AUC': [round(auc_test, 4)],
+              'AUPR': [round(pr_test, 4)]}
+
+    sc = pd.DataFrame.from_dict(scores, orient='index', columns=['Score'])
+    with pd.option_context('display.max_rows', None,
+                           'display.max_columns', None,
+                           'display.precision', 4,
+                           ):
+        print(sc)
+    sc.to_csv(path)
 
 
 def read_in_seqdict(organism):
@@ -217,10 +229,37 @@ def read_in_seqdict(organism):
     return id2index, seqs
 
 
+def training_vis(hist, path):
+    import matplotlib.pyplot as plt
+    #from deepfe-ppi
+    loss = hist.history['loss']
+    acc = hist.history['accuracy']
+
+    # make a figure
+    fig = plt.figure(figsize=(8, 4))
+    # subplot loss
+    ax1 = fig.add_subplot(121)
+    ax1.plot(loss, label='train_loss')
+    ax1.set_xlabel('Epochs')
+    ax1.set_ylabel('Loss')
+    ax1.set_title('Loss on Training Data')
+    ax1.legend()
+    # subplot acc
+    ax2 = fig.add_subplot(122)
+    ax2.plot(acc, label='train_accuracy')
+    ax2.set_xlabel('Epochs')
+    ax2.set_ylabel('Accuracy')
+    ax2.set_title('Accuracy on Training Data')
+    ax2.legend()
+    plt.tight_layout()
+    plt.savefig(path)
+    plt.show()
+
+
 if __name__ == '__main__':
     partition=False
     seq_size = 2000
-    n_epochs = 20
+    n_epochs = 100
     batch_size = 256
     for dataset in ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']:
         print(f'####################### {dataset} Dataset #######################')
@@ -238,9 +277,10 @@ if __name__ == '__main__':
         merge_model = build_model(seq_size, dim)
         adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
         merge_model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
-        merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
+        hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
+        training_vis(hist, f'results/training_vis_{dataset}')
         print('Predicting ...')
         y_pred = merge_model.predict(X_test)
         print('Exporting results ...')
-        write_results(path=f'results/{dataset}.txt', y_true=y_test, y_pred=y_pred)
+        write_results(path=f'results/{dataset}.csv', y_true=y_test, y_pred=y_pred)
 
