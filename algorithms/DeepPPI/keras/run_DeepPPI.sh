@@ -7,13 +7,7 @@
 #SBATCH --error=deepPPI.err
 #SBATCH --mem=15G
 
-for DATASET in guo huang du pan richoux_regular richoux_strict
-do
-  echo dataset ${DATASET}
-  python train_all_datasets.py -name original_${DATASET} -train_pos ../../SPRINT/data/original/${DATASET}_train_pos.txt -train_neg ../../SPRINT/data/original/${DATASET}_train_neg.txt -test_pos ../../SPRINT/data/original/${DATASET}_test_pos.txt -test_neg ../../SPRINT/data/original/${DATASET}_test_neg.txt -model fc2_20_2dense -epochs 25 -batch 2048
-done
-
-for DATASET in guo huang du pan richoux_regular richoux_strict
+for DATASET in richoux guo huang du pan
 do
   for TRAIN in "both" "0"
   do
@@ -28,3 +22,10 @@ do
     done
   done
 done
+
+for DATASET in guo huang du pan richoux_regular richoux_strict
+do
+  echo dataset ${DATASET}
+  python train_all_datasets.py -name original_${DATASET} -train_pos ../../SPRINT/data/original/${DATASET}_train_pos.txt -train_neg ../../SPRINT/data/original/${DATASET}_train_neg.txt -test_pos ../../SPRINT/data/original/${DATASET}_test_pos.txt -test_neg ../../SPRINT/data/original/${DATASET}_test_neg.txt -model fc2_20_2dense -epochs 25 -batch 2048
+done
+
