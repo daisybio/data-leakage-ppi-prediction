@@ -371,7 +371,7 @@ if __name__ == '__main__':
         model = abstract_model.get_model()
 
     optimizer, optimizer_name = factory_optimizer(optimizer_name, lr)
-
+    print(f'Model: {model_name}')
     model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['acc'])
 
     print("Training model")
