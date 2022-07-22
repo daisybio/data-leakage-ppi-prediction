@@ -244,25 +244,21 @@ def training_vis(hist, path):
     #from deepfe-ppi
     loss = hist.history['loss']
     acc = hist.history['acc']
-    val_loss = hist.history['val_loss']
-    val_acc = hist.history['val_acc']
     # make a figure
     fig = plt.figure(figsize=(8, 4))
     # subplot loss
     ax1 = fig.add_subplot(121)
     ax1.plot(loss, label='train_loss')
-    ax1.plot(val_loss, label='val_loss')
     ax1.set_xlabel('Epochs')
     ax1.set_ylabel('Loss')
-    ax1.set_title('Loss on Training/Validation Data')
+    ax1.set_title('Loss on Training Data')
     ax1.legend()
     # subplot acc
     ax2 = fig.add_subplot(122)
     ax2.plot(acc, label='train_accuracy')
-    ax2.plot(val_acc, label='val_accuracy')
     ax2.set_xlabel('Epochs')
     ax2.set_ylabel('Accuracy')
-    ax2.set_title('Accuracy on Training/Validation Data')
+    ax2.set_title('Accuracy on Training Data')
     ax2.legend()
     plt.tight_layout()
     plt.savefig(path)
@@ -387,8 +383,7 @@ if __name__ == '__main__':
                         labels,
                         epochs=epochs,
                         batch_size=batch_size,
-                        callbacks=callbacks_list,
-                        validation_split=0.2)
+                        callbacks=callbacks_list)
     training_vis(history, f'results_custom/training_vis_{file_name}')
 
     print("Loading test data")
