@@ -54,7 +54,7 @@ def read_in_dataset(dataset, test, partition, seq_size):
     if partition:
         ds_split = dataset.split('_')
         name = ds_split[0]
-        if name in ['du_both_0', 'du_both_1', 'du_0_1', 'guo_both_0', 'guo_both_1', 'guo_0_1']:
+        if dataset in ['du_both_0', 'du_both_1', 'du_0_1', 'guo_both_0', 'guo_both_1', 'guo_0_1']:
             organism='yeast'
         else:
             organism='human'
@@ -260,11 +260,15 @@ def training_vis(hist, path):
 
 
 if __name__ == '__main__':
-    partition=False
+    partition=True
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
-    for dataset in ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']:
+    for dataset in ['guo_both_0', 'guo_both_1', 'guo_0_1',
+                    'huang_both_0', 'huang_both_1', 'huang_0_1',
+                    'du_both_0', 'du_both_1', 'du_0_1',
+                    'pan_both_0', 'pan_both_1', 'pan_0_1',
+                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']:
         print(f'####################### {dataset} Dataset #######################')
         print('Reading training data ...')
         dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size)
