@@ -14,6 +14,9 @@ import tensorflow as tf
 from tensorflow.keras.optimizers import Adam,  RMSprop
 import numpy as np
 
+#tf.config.threading.set_intra_op_parallelism_threads(1)
+#tf.config.threading.set_inter_op_parallelism_threads(32)
+
 
 def process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t):
     n_ppi = len(ppis)
@@ -105,7 +108,7 @@ def read_ppis_from_sprint(pos_file, neg_file, id2index):
 
 
 def build_model(seq_size, dim):
-    hidden_dim = 50
+    hidden_dim = 25
     seq_input1 = Input(shape=(seq_size, dim), name='seq1')
     seq_input2 = Input(shape=(seq_size, dim), name='seq2')
     l1=Conv1D(hidden_dim, 3)
@@ -153,22 +156,22 @@ def build_model(seq_size, dim):
     return merge_model
 
 
-def calculate_performace(test_num, pred_y, labels):
+def calculate_performace(test_num, pred_y, true_y):
     tp = 0
     fp = 0
     tn = 0
     fn = 0
     for index in range(test_num):
-        if labels[index] == 1:
-            if labels[index] == pred_y[index]:
-                tp = tp + 1
+        if true_y[index][0] > 0.:
+            if pred_y[index][0] > pred_y[index][1]:
+                tp += + 1
             else:
-                fn = fn + 1
+                fn += 1
         else:
-            if labels[index] == pred_y[index]:
-                tn = tn + 1
-            else:
+            if pred_y[index][0] > pred_y[index][1]:
                 fp = fp + 1
+            else:
+                tn = tn + 1
     accuracy = float(tp + tn) / test_num
     precision = float(tp) / (tp + fp + 1e-06)
     sensitivity = float(tp) / (tp + fn + 1e-06)
@@ -183,10 +186,10 @@ def write_results(path, y_true, y_pred):
     import pandas as pd
     from sklearn.metrics import roc_auc_score, average_precision_score
     print(' ===========  test ===========')
-    auc_test = roc_auc_score(y_true[:, 1], y_pred[:, 1])
-    pr_test = average_precision_score(y_true[:, 1], y_pred[:, 1])
+    auc_test = roc_auc_score(y_true, y_pred)
+    pr_test = average_precision_score(y_true, y_pred)
     tp_test, fp_test, tn_test, fn_test, accuracy_test, precision_test, sensitivity_test, recall_test, specificity_test, MCC_test, f1_score_test = calculate_performace(
-        len(y_pred), y_pred[:, 1], y_true[:, 1])
+        len(y_pred), y_pred, y_true)
 
     scores = {'Accuracy': [round(accuracy_test, 4)],
               'Precision': [round(precision_test, 4)],
@@ -259,7 +262,7 @@ def training_vis(hist, path):
 if __name__ == '__main__':
     partition=False
     seq_size = 2000
-    n_epochs = 100
+    n_epochs = 50
     batch_size = 256
     for dataset in ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']:
         print(f'####################### {dataset} Dataset #######################')
@@ -277,6 +280,7 @@ if __name__ == '__main__':
         merge_model = build_model(seq_size, dim)
         adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
         merge_model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
+        print(f'Dim train: {X_train[0].shape}')
         hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
         training_vis(hist, f'results/training_vis_{dataset}')
         print('Predicting ...')
