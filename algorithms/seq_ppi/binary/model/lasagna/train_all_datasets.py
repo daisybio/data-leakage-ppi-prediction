@@ -13,6 +13,7 @@ from keras.layers import Input, GRU, Bidirectional, MaxPool1D, GlobalAveragePool
 import tensorflow as tf
 from tensorflow.keras.optimizers import Adam,  RMSprop
 import numpy as np
+from time import time
 
 #tf.config.threading.set_intra_op_parallelism_threads(1)
 #tf.config.threading.set_inter_op_parallelism_threads(32)
@@ -38,7 +39,7 @@ def process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t):
     return X, class_labels
 
 
-def read_in_dataset(dataset, test, partition, seq_size):
+def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
     if partition:
         datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
                     'huang_both_0', 'huang_both_1', 'huang_0_1',
@@ -76,8 +77,13 @@ def read_in_dataset(dataset, test, partition, seq_size):
             prefix='train'
         else:
             prefix='test'
-        train_file_pos = f'../../../../SPRINT/data/original/{dataset}_{prefix}_pos.txt'
-        train_file_neg = f'../../../../SPRINT/data/original/{dataset}_{prefix}_neg.txt'
+        if rewired:
+            folder = 'rewired'
+        else:
+            folder = 'original'
+        print(f'Getting {folder} ...')
+        train_file_pos = f'../../../../SPRINT/data/{folder}/{dataset}_{prefix}_pos.txt'
+        train_file_neg = f'../../../../SPRINT/data/{folder}/{dataset}_{prefix}_neg.txt'
         ppis = read_ppis_from_sprint(train_file_pos, train_file_neg, id2index)
     print('Embedding ...')
     X, class_labels = process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t)
@@ -260,20 +266,30 @@ def training_vis(hist, path):
 
 
 if __name__ == '__main__':
-    partition=True
+    partition = False
+    rewired = True
+    if rewired:
+        prefix = 'rewired_'
+    else:
+        prefix = ''
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
-    for dataset in ['guo_both_0', 'guo_both_1', 'guo_0_1',
+    if partition:
+        datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
                     'huang_both_0', 'huang_both_1', 'huang_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
-                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']:
+                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+    else:
+        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+    for dataset in datasets:
+        t_start = time()
         print(f'####################### {dataset} Dataset #######################')
         print('Reading training data ...')
-        dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size)
+        dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size, rewired=rewired)
         print('Reading test data ...')
-        dim_test, X_test, y_test = read_in_dataset(dataset=dataset, test=True, partition=partition, seq_size=seq_size)
+        dim_test, X_test, y_test = read_in_dataset(dataset=dataset, test=True, partition=partition, seq_size=seq_size, rewired=rewired)
         print('###########################')
         print(
             f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
@@ -286,9 +302,11 @@ if __name__ == '__main__':
         merge_model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
         print(f'Dim train: {X_train[0].shape}')
         hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
-        training_vis(hist, f'results/training_vis_{dataset}')
+        training_vis(hist, f'results/{prefix}training_vis_{dataset}')
         print('Predicting ...')
         y_pred = merge_model.predict(X_test)
         print('Exporting results ...')
-        write_results(path=f'results/{dataset}.csv', y_true=y_test, y_pred=y_pred)
+        write_results(path=f'results/{prefix}{dataset}.csv', y_true=y_test, y_pred=y_pred)
+        with open(f'results/time_{prefix}{dataset}.txt', 'w') as f:
+            f.write(str(time() - t_start))
 

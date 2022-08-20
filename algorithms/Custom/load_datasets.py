@@ -86,38 +86,46 @@ def make_X_y(ppis, emb, id_dict):
     return X, y
 
 
-def load_du(encoding='PCA'):
-    emd, id_dict = load_encoding(encoding=encoding, organism='yeast')
-    f = open('../../Datasets_PPIs/Du_yeast_DIP/SupplementaryS1.csv').readlines()
-    pos_ppis = list()
-    neg_ppis = list()
-    for line in tqdm(f):
-        if line.startswith('proteinA'):
-            # header
-            continue
-        line_split = line.strip().split(',')
-        if line_split[2] == '1':
+def read_from_SPRINT(encoding, emd, id_dict, path, label):
+    ppis = []
+    with open(path, 'r') as f:
+        for line in f:
+            line_split = line.strip().split(' ')
+            uid0 = line_split[0]
+            uid1 = line_split[1]
             if encoding == 'node2vec':
-                id0 = id_dict[line_split[0]]
-                id1 = id_dict[line_split[1]]
+                id0 = id_dict[uid0]
+                id1 = id_dict[uid1]
                 if id0 in emd.keys() and id1 in emd.keys():
-                    pos_ppis.append(line_split)
+                    ppis.append([id0, id1, label])
             else:
-                pos_ppis.append(line_split)
-        else:
-            if encoding == 'node2vec':
-                id0 = id_dict[line_split[0]]
-                id1 = id_dict[line_split[1]]
-                if id0 in emd.keys() and id1 in emd.keys():
-                    neg_ppis.append(line_split)
-            else:
-                neg_ppis.append(line_split)
-    to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - len(pos_ppis)))
-    neg_ppis = [x for i, x in enumerate(neg_ppis) if not i in to_delete]
-    pos_ppis.extend(neg_ppis)
-    ppis = np.array(pos_ppis)
-    X, y = make_X_y(ppis, emd, id_dict)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+                if id_dict.get(uid0) is not None and id_dict.get(uid1) is not None:
+                    ppis.append([uid0, uid0, label])
+    return ppis
+
+
+def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
+    if dataset in ['guo', 'du']:
+        organism = 'yeast'
+    else:
+        organism = 'human'
+    emd, id_dict = load_encoding(encoding=encoding, organism=organism)
+    if rewire:
+        folder = 'rewired'
+    else:
+        folder = 'original'
+    train_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_pos.txt', '1')
+    train_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_neg.txt', '0')
+    train_pos.extend(train_neg)
+    train_pos = balance_set(train_pos, id_dict, encoding, emd)
+
+    test_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_pos.txt', '1')
+    test_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_neg.txt', '0')
+    test_pos.extend(test_neg)
+    test_pos = balance_set(train_pos, id_dict, encoding, emd)
+
+    X_train, y_train = make_X_y(train_pos, emd, id_dict)
+    X_test, y_test = make_X_y(test_pos, emd, id_dict)
     return X_train, y_train, X_test, y_test
 
 
@@ -168,32 +176,6 @@ def balance_set(ppis, id_dict, encoding, emd):
     return ppis
 
 
-def load_guo(encoding='PCA'):
-    emd, id_dict = load_encoding(encoding=encoding, organism='yeast')
-    f = open('../../Datasets_PPIs/Guo_yeast_DIP/protein.actions.tsv').readlines()
-    ppis = list()
-    unknown_prots = []
-    for line in tqdm(f):
-        line_split = line.strip().split('\t')
-        if line_split[0] in id_dict.keys() and line_split[1] in id_dict.keys():
-            id0 = id_dict[line_split[0]]
-            id1 = id_dict[line_split[1]]
-            if encoding == 'node2vec' and id0 in emd.keys() and id1 in emd.keys():
-                ppis.append(line_split)
-            elif encoding != 'node2vec':
-                ppis.append(line_split)
-        else:
-            if line_split[0] in id_dict.keys():
-                unknown_prots.append(line_split[0])
-            else:
-                unknown_prots.append(line_split[1])
-    print(f'{len(unknown_prots)} unknown proteins: {unknown_prots}')
-    ppis = balance_set(ppis, id_dict, encoding, emd)
-    X, y = make_X_y(np.array(ppis), emd, id_dict)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    return X_train, y_train, X_test, y_test
-
-
 def make_swissprot_to_dict(path_to_swissprot):
     prefix_dict = {}
     seq_dict = {}
@@ -225,182 +207,6 @@ def make_swissprot_to_dict(path_to_swissprot):
             last_seq += line.strip()
     f.close()
     return prefix_dict, seq_dict
-
-
-def iterate_pan(prefix_dict, seq_dict, path_to_pan):
-    lines = open(path_to_pan, 'r').readlines()
-    encountered_ids = []
-    n = 30
-    unmapped = 0
-    mapping_dict = dict()
-    for line in lines:
-        old_id = line.strip().split('\t')[0]
-        if old_id not in encountered_ids:
-            encountered_ids.append(old_id)
-            seq = line.strip().split('\t')[1]
-            first_n = seq[0:n]
-            if first_n not in prefix_dict.keys():
-                uniprot_id = ''
-            elif isinstance(prefix_dict[first_n], list):
-                uniprot_ids = prefix_dict[first_n]
-                uniprot_id = ''
-                for id in uniprot_ids:
-                    # just take the first mapped ID
-                    if seq_dict[id] == seq:
-                        uniprot_id = id
-                        break
-            else:
-                uniprot_id = prefix_dict[first_n]
-            if uniprot_id == '':
-                unmapped += 1
-            mapping_dict[old_id] = uniprot_id
-    print(f'#unmapped IDs: {unmapped}')
-    return mapping_dict
-
-
-def load_pan(encoding):
-    from tqdm import tqdm
-    prefix_dict, seq_dict = make_swissprot_to_dict('../../network_data/Swissprot/human_swissprot.fasta')
-    print('Mapping Protein IDs ...')
-    mapping_dict = iterate_pan(prefix_dict, seq_dict, '../../Datasets_PPIs/Pan_human_HPRD/SEQ-Supp-ABCD.tsv')
-    print(f'Loading {encoding} encoding ...')
-    emd, id_dict = load_encoding(encoding=encoding, organism='human')
-    ppis = []
-    lines = open('../../Datasets_PPIs/Pan_human_HPRD/Supp-AB.tsv', 'r').readlines()
-    for line in tqdm(lines):
-        if line.startswith('v1'):
-            # header
-            continue
-        else:
-            line_split_pan = line.strip().split('\t')
-            id0_pan = line_split_pan[0]
-            id1_pan = line_split_pan[1]
-            label = line_split_pan[2]
-            if id0_pan in mapping_dict.keys() and id1_pan in mapping_dict.keys() and \
-                    mapping_dict[id0_pan] in id_dict.keys() and mapping_dict[id1_pan] in id_dict.keys():
-                uniprot_id0 = mapping_dict[id0_pan]
-                id0 = id_dict[uniprot_id0]
-                uniprot_id1 = mapping_dict[id1_pan]
-                id1 = id_dict[uniprot_id1]
-                if encoding == 'node2vec' and id0 in emd.keys() and id1 in emd.keys():
-                    ppis.append([uniprot_id0, uniprot_id1, label])
-                elif encoding != 'node2vec':
-                    ppis.append([uniprot_id0, uniprot_id1, label])
-    ppis = balance_set(ppis, id_dict, encoding, emd)
-    X, y = make_X_y(np.array(ppis), emd, id_dict)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    return X_train, y_train, X_test, y_test
-
-
-def read_in_richoux(path, ppis, id_dict, emd, encoding):
-    from tqdm import tqdm
-    lines = open(path, 'r').readlines()
-    for line in tqdm(lines):
-        line_split = line.strip().split(' ')
-        if len(line_split) == 1:
-            continue
-        else:
-            id0_richoux = line_split[0]
-            id1_richoux = line_split[1]
-            label = line_split[4]
-            if id0_richoux in id_dict.keys() and id1_richoux in id_dict.keys():
-                id0 = id_dict[line_split[0]]
-                id1 = id_dict[line_split[1]]
-                if encoding == 'node2vec' and id0 in emd.keys() and id1 in emd.keys():
-                    ppis.append([id0_richoux, id1_richoux, label])
-                elif encoding != 'node2vec':
-                    ppis.append([id0_richoux, id1_richoux, label])
-    return ppis
-
-
-def load_richoux(encoding, dataset='regular'):
-    datasets = {'regular', 'strict'}
-    if dataset not in datasets:
-        raise ValueError("dataset must be one of %r." % datasets)
-    print(f'Loading {encoding} encoding ...')
-    emd, id_dict = load_encoding(encoding=encoding, organism='human')
-    if dataset == 'regular':
-        #85,104
-        path_to_train = '../DeepPPI/data/mirror/medium_1166_train_mirror.txt'
-        #12,822
-        path_to_val = '../DeepPPI/data/mirror/medium_1166_val_mirror.txt'
-        #12,806
-        path_to_test = '../DeepPPI/data/mirror/medium_1166_test_mirror.txt'
-    else:
-        #91,036
-        path_to_train = '../DeepPPI/data/mirror/double/double-medium_1166_train_mirror.txt'
-        #12,506
-        path_to_val = '../DeepPPI/data/mirror/double/double-medium_1166_val_mirror.txt'
-        #720
-        path_to_test = '../DeepPPI/data/mirror/double/test_double_mirror.txt'
-    X_train = []
-    ppis_val = []
-    X_test = []
-    for path, ppi_list in {path_to_train: X_train, path_to_val: ppis_val, path_to_test: X_test}.items():
-        ppi_list = read_in_richoux(path, ppi_list, id_dict, emd, encoding)
-    # join train and val
-    X_train.extend(ppis_val)
-    X_train = balance_set(X_train, id_dict, encoding, emd)
-    X_train, y_train = make_X_y(np.array(X_train), emd, id_dict)
-    X_test = balance_set(X_test, id_dict, encoding, emd)
-    X_test, y_test = make_X_y(np.array(X_test), emd, id_dict)
-    return X_train, y_train, X_test, y_test
-
-
-def read_deepFE_files(file_name):
-    #    # read sample from a file
-    prots = []
-    counter = 0
-    with open(file_name, 'r') as fp:
-        i = 0
-        for line in fp:
-            if i % 2 == 0:
-                uniprot_id = line.strip().split('|')[1].split(':')[1]
-                if uniprot_id == '':
-                    counter += 1
-                prots.append(uniprot_id)
-            i = i + 1
-    print(f'{counter} unmatched IDs ...')
-    return prots
-
-
-def process_pairs(listA, listB, label, encoding, emd, id_dict):
-    ppis = []
-    for i in range(len(listA)):
-        u_id0 = listA[i]
-        u_id1 = listB[i]
-        if u_id0 != '' and u_id1 != '' and u_id0 in id_dict.keys() and u_id1 in id_dict.keys():
-            id0 = id_dict[u_id0]
-            id1 = id_dict[u_id1]
-            if encoding == 'node2vec' and id0 in emd.keys() and id1 in emd.keys():
-                ppis.append([listA[i], listB[i], label])
-            elif encoding != 'node2vec':
-                ppis.append([listA[i], listB[i], label])
-    return ppis
-
-
-def load_huang(encoding):
-    print(f'Loading {encoding} encoding ...')
-    emd, id_dict = load_encoding(encoding=encoding, organism='human')
-    file_1 = '../DeepFE-PPI/dataset/human/positive/Protein_A.txt'
-    file_2 = '../DeepFE-PPI/dataset/human/positive/Protein_B.txt'
-    file_3 = '../DeepFE-PPI/dataset/human/negative/Protein_A.txt'
-    file_4 = '../DeepFE-PPI/dataset/human/negative/Protein_B.txt'
-    #  index for protein
-    pos_A = read_deepFE_files(file_1)
-    pos_B = read_deepFE_files(file_2)
-    neg_A = read_deepFE_files(file_3)
-    neg_B = read_deepFE_files(file_4)
-
-    # all pairs
-    ppis = process_pairs(pos_A, pos_B, 1, encoding, emd, id_dict)
-    ppis_neg = process_pairs(neg_A, neg_B, 0, encoding, emd, id_dict)
-    ppis.extend(ppis_neg)
-    ppis = np.array(ppis)
-    ppis = balance_set(ppis, id_dict, encoding, emd)
-    X, y = make_X_y(np.array(ppis), emd, id_dict)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    return X_train, y_train, X_test, y_test
 
 
 def read_in_partitions(lines, id_dict, emd, encoding, label):

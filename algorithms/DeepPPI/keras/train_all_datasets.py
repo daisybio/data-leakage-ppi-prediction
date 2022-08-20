@@ -3,6 +3,7 @@ import sys
 import datetime
 import argparse
 from contextlib import redirect_stdout
+from time import time
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -320,7 +321,7 @@ def write_results(path, y_true, y_pred):
 
 
 if __name__ == '__main__':
-
+    t_start = time()
     # To make sure TS is only booking the right amount of GPU memory, instead of all memory available
     config = tf.compat.v1.ConfigProto()
     config.gpu_options.allow_growth = True
@@ -360,7 +361,6 @@ if __name__ == '__main__':
     print("Loading training data")
     train_data, labels = custom_load_data(ppis_train, seq_dict)
     print(f'{len(labels)} protein pairs in training ({sum(labels)}/{len(labels)-sum(labels)})!')
-
     callbacks_list = [callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
                                                   verbose=1),
                       callbacks.EarlyStopping(monitor='acc', patience=patience, verbose=1)]
@@ -402,3 +402,5 @@ if __name__ == '__main__':
     predict = np.reshape(predict, -1)
     print('Exporting results ...')
     write_results(path=f'results_custom/{file_name}.csv', y_true=test_labels, y_pred=predict)
+    with open(f'results_custom/time_{file_name}.txt', 'w') as f:
+        f.write(str(time() - t_start))
