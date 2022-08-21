@@ -93,13 +93,13 @@ def read_from_SPRINT(encoding, emd, id_dict, path, label):
             line_split = line.strip().split(' ')
             uid0 = line_split[0]
             uid1 = line_split[1]
-            if encoding == 'node2vec':
-                id0 = id_dict[uid0]
-                id1 = id_dict[uid1]
-                if id0 in emd.keys() and id1 in emd.keys():
-                    ppis.append([id0, id1, label])
-            else:
-                if id_dict.get(uid0) is not None and id_dict.get(uid1) is not None:
+            if id_dict.get(uid0) is not None and id_dict.get(uid1) is not None:
+                if encoding == 'node2vec':
+                    id0 = id_dict[uid0]
+                    id1 = id_dict[uid1]
+                    if id0 in emd.keys() and id1 in emd.keys():
+                        ppis.append([uid0, uid1, label])
+                else:
                     ppis.append([uid0, uid0, label])
     return ppis
 

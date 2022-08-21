@@ -48,7 +48,7 @@ def run_simpler_algorithms(rewire=False):
         prefix = 'rewired_'
     else:
         prefix = ''
-    dataset_list = ['huang', 'guo', 'du', 'pan', 'richoux']
+    dataset_list = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     for name in dataset_list:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             if name == 'richoux':
