@@ -1,0 +1,1 @@
+bin/predict_interactions -p data/Uniprot_human_protein_sequences.fasta -h  -t  235.73s user 6.24s system 95% cpu 4:12.72 total
