@@ -239,19 +239,19 @@ def load_partition_datasets(encoding, dataset, partition_train, partiton_test):
         organism='human'
     print(f'Loading {encoding} encoding ...')
     emd, id_dict = load_encoding(encoding=encoding, organism=organism)
-    train_pos = open(f'../SPRINT/data/{dataset}_partition_{partition_train}_pos.txt').readlines()
+    train_pos = open(f'../SPRINT/data/partitions/{dataset}_partition_{partition_train}_pos.txt').readlines()
     X_train = read_in_partitions(lines=train_pos,
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='1')
-    train_neg = open(f'../SPRINT/data/{dataset}_partition_{partition_train}_neg.txt').readlines()
+    train_neg = open(f'../SPRINT/data/partitions/{dataset}_partition_{partition_train}_neg.txt').readlines()
     X_train.extend(read_in_partitions(lines=train_neg,
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='0'))
-    test_pos = open(f'../SPRINT/data/{dataset}_partition_{partiton_test}_pos.txt').readlines()
+    test_pos = open(f'../SPRINT/data/partitions/{dataset}_partition_{partiton_test}_pos.txt').readlines()
     X_test = read_in_partitions(lines=test_pos,
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='1')
-    test_neg = open(f'../SPRINT/data/{dataset}_partition_{partiton_test}_neg.txt').readlines()
+    test_neg = open(f'../SPRINT/data/partitions/{dataset}_partition_{partiton_test}_neg.txt').readlines()
     X_test.extend(read_in_partitions(lines=test_neg,
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='0'))
