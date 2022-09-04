@@ -6,7 +6,7 @@ import networkx as nx
 
 def run_kahip():
     process = subprocess.Popen(['./KaHIP/deploy/kaffpa',
-                                './network_data/SIMAP2/only_yeast_incomplete.graph',
+                                './network_data/SIMAP2/only_yeast_bitscore.graph',
                                 '--seed=1234',
                                 '--output_filename="./network_data/SIMAP2/only_yeast_partition_bitscore.txt"',
                                 '--k=2',
@@ -18,7 +18,7 @@ def run_kahip():
     print(stderr)
 
     process = subprocess.Popen(['./KaHIP/deploy/kaffpa',
-                                './network_data/SIMAP2/only_human_incomplete.graph',
+                                './network_data/SIMAP2/only_human_bitscore.graph',
                                 '--seed=1234',
                                 '--output_filename="./network_data/SIMAP2/only_human_partition_bitscore.txt"',
                                 '--k=2',
