@@ -50,29 +50,29 @@ def run_simpler_algorithms(rewire=False):
         prefix = ''
     dataset_list = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     for name in dataset_list:
-        for encoding in ['PCA', 'MDS', 'node2vec']:
+        for encoding in ['node2vec']:
             if name == 'richoux':
                 for dataset in ['regular', 'strict']:
-                    t_start = time()
+                    #t_start = time()
                     print(
                         f'##### {name} dataset: {dataset}, {encoding} encoding')
                     X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
                                                                  partition=False, dataset=dataset, rewire=rewire)
-                    time_preprocess = time() - t_start
+                    #time_preprocess = time() - t_start
                     scores = learn_rf(X_train, y_train, X_test, y_test)
-                    export_scores(scores,
-                                  f'results/{prefix}{name}_{encoding}_{dataset}_RF.csv')
-                    time_elapsed_rf = time() - t_start
+                    #export_scores(scores,
+                    #              f'results/{prefix}{name}_{encoding}_{dataset}_RF.csv')
+                    #time_elapsed_rf = time() - t_start
                     print(f'time elapsed: {time_elapsed_rf}')
-                    with open( f'results/time_{prefix}{name}_{encoding}_{dataset}.txt', 'w') as f:
-                        f.write(f'RF\t{time_elapsed_rf}\n')
-                    scores = learn_SVM(X_train, y_train, X_test, y_test)
-                    export_scores(scores,
-                                  f'results/{prefix}{name}_{encoding}_{dataset}_SVM.csv')
-                    time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
-                    print(f'time elapsed: {time_elapsed_svm}')
-                    with open(f'results/time_{prefix}{name}_{encoding}_{dataset}.txt', 'a') as f:
-                        f.write(f'SVM\t{time_elapsed_svm}')
+                    #with open( f'results/time_{prefix}{name}_{encoding}_{dataset}.txt', 'w') as f:
+                    #    f.write(f'RF\t{time_elapsed_rf}\n')
+                    #scores = learn_SVM(X_train, y_train, X_test, y_test)
+                    #export_scores(scores,
+                    #              f'results/{prefix}{name}_{encoding}_{dataset}_SVM.csv')
+                    #time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
+                    #print(f'time elapsed: {time_elapsed_svm}')
+                    #with open(f'results/time_{prefix}{name}_{encoding}_{dataset}.txt', 'a') as f:
+                    #    f.write(f'SVM\t{time_elapsed_svm}')
 
             else:
                 t_start = time()

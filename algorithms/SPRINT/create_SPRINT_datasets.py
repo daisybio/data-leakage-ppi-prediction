@@ -1,7 +1,7 @@
 from sklearn.model_selection import train_test_split
 
 
-def generate_RDPN(ppis, expected=True):
+def generate_RDPN(ppis, expected=True, add_mirrors=False):
     import numpy as np
     import networkx as nx
     print('Rewiring ...')
@@ -65,6 +65,9 @@ def generate_RDPN(ppis, expected=True):
         uid1 = neg_g.nodes[int(edge.split()[1])]['uid']
         ppis_rewired.append([uid0, uid1, '0'])
         idx += 1
+    if add_mirrors:
+        mirror_edgelist = [[ppi[1], ppi[0], ppi[2]] for ppi in ppis_rewired]
+        ppis_rewired.extend(mirror_edgelist)
 
     return ppis_rewired
 
@@ -210,7 +213,7 @@ def rewrite_richoux(dataset='regular', rewired=False):
     ppis_train.extend(ppis_val)
     ppis_test = read_richoux_file(path_to_test)
     if rewired:
-        ppis_train = generate_RDPN(ppis_train)
+        ppis_train = generate_RDPN(ppis_train, add_mirrors=True)
     print(f'Richoux {dataset}: n={len(ppis_train) + len(ppis_test)}')
     print(f'n_train={len(ppis_train)}, n_test={len(ppis_test)}')
     write_sprint(ppis_train, f'richoux_{dataset}_train')

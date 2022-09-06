@@ -80,6 +80,7 @@ all_results <- all_results[, Model := factor(Model,
                                                       "RF_node2vec",  "SVM_node2vec", "SPRINT", 
                                                       "deepPPI_FC", "deepPPI_LSTM",  
                                                       "DeepFE", "PIPR"))]
+fwrite(all_results, file='results/rewired.csv')
 
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
