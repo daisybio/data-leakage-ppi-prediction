@@ -100,7 +100,7 @@ def read_from_SPRINT(encoding, emd, id_dict, path, label):
                     if id0 in emd.keys() and id1 in emd.keys():
                         ppis.append([uid0, uid1, label])
                 else:
-                    ppis.append([uid0, uid0, label])
+                    ppis.append([uid0, uid1, label])
     return ppis
 
 
