@@ -5,7 +5,7 @@
 #SBATCH --job-name=DeepPPI
 #SBATCH --output=deepPPI.out
 #SBATCH --error=deepPPI.err
-#SBATCH --mem=15G
+#SBATCH --mem=90G
 
 echo original
 for DATASET in guo huang du pan richoux_regular richoux_strict
