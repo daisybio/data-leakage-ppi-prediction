@@ -1,4 +1,4 @@
-import os
+import sys, os
 from sklearn.metrics import roc_auc_score, average_precision_score
 import keras
 from time import time
@@ -208,19 +208,6 @@ def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_
     return feature_protein_AB, label
 
 
-def balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B):
-    pos_len = len(pos_seq_protein_A)
-    neg_len = len(neg_seq_protein_A)
-    if pos_len > neg_len:
-        pass
-    else:
-        print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
-        to_delete = set(random.sample(range(neg_len), neg_len - pos_len))
-        neg_seq_protein_A = [x for i, x in enumerate(neg_seq_protein_A) if not i in to_delete]
-        neg_seq_protein_B = [x for i, x in enumerate(neg_seq_protein_B) if not i in to_delete]
-    return pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B
-
-
 def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
     if partition:
         datasets=['guo_both_0','guo_both_1','guo_0_1',
@@ -259,7 +246,6 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
                                                                                                        train_file_neg,
                                                                                                        organism)
 
-    pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = balance_datasets(pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B)
     feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A,
                                                        pos_seq_protein_B, neg_seq_protein_B)
     return feature_protein_AB, label
@@ -359,8 +345,21 @@ def read_sprint_files(pos_file, neg_file, organism):
 
 # %%
 if __name__ == "__main__":
-    partition = False
-    rewired = True
+    args = sys.argv[1:]
+    print(f'########################### {args[0]} ###########################')
+    if args[0] == 'original':
+        partition = False
+        rewired = False
+        prefix = 'original_'
+    elif args[0] == 'rewired':
+        partition = False
+        rewired = True
+        prefix = 'rewired_'
+    else:
+        partition = True
+        rewired = False
+        prefix = 'partition_'
+
     if not partition:
         datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
     else:
@@ -369,10 +368,7 @@ if __name__ == "__main__":
                     'du_both_0', 'du_both_1', 'du_0_1',
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
                     'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
-    if rewired:
-        prefix = 'rewired_'
-    else:
-        prefix = ''
+
     for dataset in datasets:
         print(f'Dataset: {dataset}')
         # load dictionary

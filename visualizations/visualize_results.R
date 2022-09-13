@@ -66,4 +66,10 @@ rownames(annotation_col) <- colnames(result_mat)
 pheatmap(result_mat, 
          annotation_col = annotation_col, 
          cluster_rows = FALSE,
-         cluster_cols = FALSE)
+         cluster_cols = FALSE,
+         gaps_row = 6,
+         gaps_col = c(6,12),
+         filename = './heatmap_results.png',
+         width=8,
+         height=5)
+

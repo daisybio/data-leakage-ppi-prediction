@@ -178,7 +178,6 @@ def make_parser():
 
 def parse_ppis(pos_file, neg_file, seq_dict, max_len=1166):
     ppis = []
-    pos_count = 0
     with open(pos_file, 'r') as f:
         for line in f:
             line_split = line.strip().split(' ')
@@ -190,12 +189,8 @@ def parse_ppis(pos_file, neg_file, seq_dict, max_len=1166):
             if len(seq_dict.get(id0)) > max_len or len(seq_dict.get(id1)) > max_len:
                 continue
             ppis.append([id0, id1, label])
-            pos_count += 1
-    neg_count = 0
     with open(neg_file, 'r') as f:
         for line in f:
-            if neg_count == pos_count:
-                break
             line_split = line.strip().split(' ')
             id0 = line_split[0]
             id1 = line_split[1]
@@ -205,7 +200,6 @@ def parse_ppis(pos_file, neg_file, seq_dict, max_len=1166):
             if len(seq_dict.get(id0)) > max_len or len(seq_dict.get(id1)) > max_len:
                 continue
             ppis.append([id0, id1, label])
-            neg_count += 1
     return ppis
 
 
@@ -239,31 +233,6 @@ def read_in_seqdict(organism):
             seq_dict[last_id] = seq
         line_count += 1
     return seq_dict
-
-def training_vis(hist, path):
-    import matplotlib.pyplot as plt
-    #from deepfe-ppi
-    loss = hist.history['loss']
-    acc = hist.history['acc']
-    # make a figure
-    fig = plt.figure(figsize=(8, 4))
-    # subplot loss
-    ax1 = fig.add_subplot(121)
-    ax1.plot(loss, label='train_loss')
-    ax1.set_xlabel('Epochs')
-    ax1.set_ylabel('Loss')
-    ax1.set_title('Loss on Training Data')
-    ax1.legend()
-    # subplot acc
-    ax2 = fig.add_subplot(122)
-    ax2.plot(acc, label='train_accuracy')
-    ax2.set_xlabel('Epochs')
-    ax2.set_ylabel('Accuracy')
-    ax2.set_title('Accuracy on Training Data')
-    ax2.legend()
-    plt.tight_layout()
-    plt.savefig(path)
-    plt.show()
 
 
 def calculate_performace(test_num, pred_y, labels):
@@ -381,7 +350,6 @@ if __name__ == '__main__':
                         epochs=epochs,
                         batch_size=batch_size,
                         callbacks=callbacks_list)
-    training_vis(history, f'results_custom/training_vis_{file_name}')
 
     print("Loading test data")
     test_data, test_labels = custom_load_data(ppis_test, seq_dict)
@@ -402,5 +370,5 @@ if __name__ == '__main__':
     predict = np.reshape(predict, -1)
     print('Exporting results ...')
     write_results(path=f'results_custom/{file_name}.csv', y_true=test_labels, y_pred=predict)
-    with open(f'results_custom/time_{file_name}.txt', 'w') as f:
-        f.write(str(time() - t_start))
+    with open(f'results_custom/all_times.txt', 'a+') as f:
+        f.write(f'{file_name}\t{time() - t_start}\n')

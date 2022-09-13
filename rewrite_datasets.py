@@ -1,3 +1,4 @@
+from rewrite_utils_SPRINT import write_SPRINT
 
 
 def partition_pairs(simap_dict, pairs):
@@ -29,8 +30,26 @@ def partition_pairs(simap_dict, pairs):
 
 def adapt_sizes(pos, neg, partition_dict, partition, all_pairs):
     import random
+    # no duplicates
+    pos_len = len(pos)
+    pos = {(ppi[0], ppi[1], ppi[2]) for ppi in pos}
+    print(f'{pos_len-len(pos)} duplicates in positive dataset!')
     pos_len = len(pos)
     neg_len = len(neg)
+    neg = {(ppi[0], ppi[1], ppi[2]) for ppi in neg}
+    print(f'{neg_len - len(neg)} duplicates in negative dataset!')
+    neg_len = len(neg)
+    # no overlaps between positives and negatives
+    pos_ppis = pos.copy()
+    pos_ppis = pos_ppis.union({(ppi[1], ppi[0], ppi[2]) for ppi in pos_ppis})
+    neg_ppis = neg.copy()
+    neg_ppis = neg_ppis.union({(ppi[1], ppi[0], ppi[2]) for ppi in neg_ppis})
+    intersect_ppis = pos_ppis.intersection(neg_ppis)
+    print(f'Number of overlaps between pos and neg: {len(intersect_ppis)}')
+    pos = pos - intersect_ppis
+    neg = neg - intersect_ppis
+    pos = [[ppi[0], ppi[1], ppi[2]] for ppi in pos]
+    neg = [[ppi[0], ppi[1], ppi[2]] for ppi in neg]
     if neg_len > pos_len:
         # randomly drop some negative samples
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)... ')
@@ -65,12 +84,11 @@ def adapt_sizes(pos, neg, partition_dict, partition, all_pairs):
     return pos, neg
 
 
-def rearrange_deepFE_dataset(yeast=True, sprint=False):
+def rearrange_guo_huang_dataset(guo=True):
     import numpy as np
     import pandas as pd
-    from rewrite_utils_DeepFE import read_NO, write_deepFE
-    from rewrite_utils_SPRINT import write_SPRINT
-    if yeast:
+    from rewrite_utils_DeepFE import read_NO
+    if guo:
         file_1 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/positive/Protein_A.txt'
         file_2 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/positive/Protein_B.txt'
         file_3 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/negative/Protein_A.txt'
@@ -104,7 +122,7 @@ def rearrange_deepFE_dataset(yeast=True, sprint=False):
         pairs.append([neg_NO_A[i], neg_NO_B[i], 0])
     pairs = np.array(pairs)
 
-    if yeast:
+    if guo:
         simap_dict = pd.read_csv(
             'network_data/SIMAP2/yeast_networks/only_yeast_partition_nodelist.txt',
             index_col=0, squeeze=True, sep='\t').to_dict()
@@ -115,76 +133,41 @@ def rearrange_deepFE_dataset(yeast=True, sprint=False):
 
     only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg = partition_pairs(
         simap_dict, pairs)
+    print('Cleaning and balancing partition 0 ...')
     only_partition_0_pos, only_partition_0_neg = adapt_sizes(only_partition_0_pos, only_partition_0_neg, simap_dict, 0,
                                                              pairs)
+    print('Cleaning and balancing partition 1 ...')
     only_partition_1_pos, only_partition_1_neg = adapt_sizes(only_partition_1_pos, only_partition_1_neg, simap_dict, 1,
                                                              pairs)
+    print('Cleaning and balancing partition both ...')
     both_partitions_pos, both_partitions_neg = adapt_sizes(both_partitions_pos, both_partitions_neg, simap_dict, -1,
                                                            pairs)
-    if not sprint:
-        print('writing positive files: only partition 0 ...')
-        if yeast:
-            folder = '11188'
-        else:
-            folder = 'human'
-        write_deepFE(
-            pathA=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/positive/Protein_A_0.txt',
-            pathB=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/positive/Protein_B_0.txt',
-            data=only_partition_0_pos, header_dict=header_dict, seq_dict=seq_dict)
-        print('writing negative files: only partition 0 ...')
-        write_deepFE(
-            pathA=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/negative/Protein_A_0.txt',
-            pathB=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/negative/Protein_B_0.txt',
-            data=only_partition_0_neg, header_dict=header_dict, seq_dict=seq_dict)
-        print('writing positive files: only partition 1 ...')
-        write_deepFE(
-            pathA=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/positive/Protein_A_1.txt',
-            pathB=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/positive/Protein_B_1.txt',
-            data=only_partition_1_pos, header_dict=header_dict, seq_dict=seq_dict)
-        print('writing negative files: only partition 1 ...')
-        write_deepFE(
-            pathA=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/negative/Protein_A_1.txt',
-            pathB=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/negative/Protein_B_1.txt',
-            data=only_partition_1_neg, header_dict=header_dict, seq_dict=seq_dict)
-        print('writing positive files: both partitions ...')
-        write_deepFE(
-            pathA=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/positive/Protein_A_both.txt',
-            pathB=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/positive/Protein_B_both.txt',
-            data=both_partitions_pos, header_dict=header_dict, seq_dict=seq_dict)
-        print('writing negative files: both partitions ...')
-        write_deepFE(
-            pathA=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/negative/Protein_A_both.txt',
-            pathB=f'/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/{folder}/negative/Protein_B_both.txt',
-            data=both_partitions_neg, header_dict=header_dict, seq_dict=seq_dict)
+    if guo:
+        prefix='guo'
     else:
-        if yeast:
-            prefix='guo'
-        else:
-            prefix='huang'
-        print(f'writing positive files: only partition 0: {len(only_partition_0_pos)} proteins...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/{prefix}_partition_0_pos.txt',
-            data=only_partition_0_pos)
-        print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/{prefix}_partition_0_neg.txt',
-                                 data=only_partition_0_neg)
-        print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/{prefix}_partition_1_pos.txt',
-                                 data=only_partition_1_pos)
-        print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/{prefix}_partition_1_neg.txt',
-                                 data=only_partition_1_neg)
-        print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/{prefix}_partition_both_pos.txt',
-                                 data=both_partitions_pos)
-        print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/{prefix}_partition_both_neg.txt',
-                                 data=both_partitions_neg)
+        prefix='huang'
+    print(f'writing positive files: only partition 0: {len(only_partition_0_pos)} proteins...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/{prefix}_partition_0_pos.txt',
+        data=only_partition_0_pos)
+    print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/{prefix}_partition_0_neg.txt',
+                             data=only_partition_0_neg)
+    print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/{prefix}_partition_1_pos.txt',
+                             data=only_partition_1_pos)
+    print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/{prefix}_partition_1_neg.txt',
+                             data=only_partition_1_neg)
+    print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/{prefix}_partition_both_pos.txt',
+                             data=both_partitions_pos)
+    print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/{prefix}_partition_both_neg.txt',
+                             data=both_partitions_neg)
 
 
-def rearrange_deepPPI_dataset(sprint=False):
-    from rewrite_utils_DeepPPI import write_deepPPI
+def rearrange_richoux_dataset():
     import pandas as pd
-    from rewrite_utils_SPRINT import write_SPRINT
     seq_dict = dict()
     pairs = []
     file = open('algorithms/DeepPPI/data/full_data.txt', 'r')
@@ -207,91 +190,41 @@ def rearrange_deepPPI_dataset(sprint=False):
 
     only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg = partition_pairs(
         simap_dict, pairs)
-
+    print('Cleaning and balancing partition 0 ...')
     only_partition_0_pos, only_partition_0_neg = adapt_sizes(pos=only_partition_0_pos, neg=only_partition_0_neg, partition_dict=simap_dict, partition=0,
                                                              all_pairs=pairs)
+    print('Cleaning and balancing partition 1 ...')
     only_partition_1_pos, only_partition_1_neg = adapt_sizes(pos=only_partition_1_pos, neg=only_partition_1_neg,
                                                              partition_dict=simap_dict, partition=1,
                                                              all_pairs=pairs)
+    print('Cleaning and balancing partition both ...')
     both_partitions_pos, both_partitions_neg = adapt_sizes(pos=both_partitions_pos, neg=both_partitions_neg,
                                                            partition_dict=simap_dict, partition=-1,
                                                            all_pairs=pairs)
-    if not sprint:
-        only_partition_0_pos.extend(only_partition_0_neg)
-        write_deepPPI(path='algorithms/DeepPPI/data/partition0.txt', all_pairs=only_partition_0_pos, seq_dict=seq_dict)
-
-        only_partition_1_pos.extend(only_partition_1_neg)
-        write_deepPPI(path='algorithms/DeepPPI/data/partition1.txt',
-                      all_pairs=only_partition_1_pos, seq_dict=seq_dict)
-
-        both_partitions_pos.extend(both_partitions_neg)
-        write_deepPPI(path='algorithms/DeepPPI/data/both_partitions.txt',
-                      all_pairs=both_partitions_pos, seq_dict=seq_dict)
-    else:
-        print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/richoux_partition_0_pos.txt',
-                     data=only_partition_0_pos)
-        print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/richoux_partition_0_neg.txt',
-                     data=only_partition_0_neg)
-        print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/richoux_partition_1_pos.txt',
-                     data=only_partition_1_pos)
-        print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/richoux_partition_1_neg.txt',
-                     data=only_partition_1_neg)
-        print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/richoux_partition_both_pos.txt',
-                     data=both_partitions_pos)
-        print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/richoux_partition_both_neg.txt',
-                     data=both_partitions_neg)
+    print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/richoux_partition_0_pos.txt',
+                 data=only_partition_0_pos)
+    print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/richoux_partition_0_neg.txt',
+                 data=only_partition_0_neg)
+    print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/richoux_partition_1_pos.txt',
+                 data=only_partition_1_pos)
+    print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/richoux_partition_1_neg.txt',
+                 data=only_partition_1_neg)
+    print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/richoux_partition_both_pos.txt',
+                 data=both_partitions_pos)
+    print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/richoux_partition_both_neg.txt',
+                 data=both_partitions_neg)
 
 
-def rearrange_pipr():
+def rearrange_pan_dataset():
     import pandas as pd
-    from rewrite_utils_PIPR import write_pipr
-    directory = 'algorithms/seq_ppi/yeast/preprocessed/'
-    pairs = []
-    file = open(directory+'protein.actions.tsv', 'r')
-    for line in file:
-        all_info = line.rstrip('\n').split('\t')
-        id_1 = all_info[0]
-        id_2 = all_info[1]
-        label = all_info[2]
-        pairs.append([id_1, id_2, label])
-    file.close()
-    print(f'{len(pairs)} PPIs!')
-    simap_dict = pd.read_csv(
-        'network_data/SIMAP2/yeast_networks/only_yeast_partition_nodelist.txt',
-        index_col=0, squeeze=True, sep='\t').to_dict()
-
-    only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg = partition_pairs(
-        simap_dict, pairs)
-
-    only_partition_0_pos, only_partition_0_neg = adapt_sizes(pos=only_partition_0_pos, neg=only_partition_0_neg,
-                                                             partition_dict=simap_dict, partition=0,
-                                                             all_pairs=pairs)
-    only_partition_0_pos.extend(only_partition_0_neg)
-    write_pipr(path=directory+'protein.actions_partition0.tsv', all_pairs=only_partition_0_pos)
-
-    only_partition_1_pos, only_partition_1_neg = adapt_sizes(pos=only_partition_1_pos, neg=only_partition_1_neg,
-                                                             partition_dict=simap_dict, partition=1,
-                                                             all_pairs=pairs)
-    only_partition_1_pos.extend(only_partition_1_neg)
-    write_pipr(path=directory + 'protein.actions_partition1.tsv', all_pairs=only_partition_1_pos)
-
-    both_partitions_pos, both_partitions_neg = adapt_sizes(pos=both_partitions_pos, neg=both_partitions_neg,
-                                                             partition_dict=simap_dict, partition=-1,
-                                                             all_pairs=pairs)
-    both_partitions_pos.extend(both_partitions_neg)
-    write_pipr(path=directory + 'protein.actions_both_partitions.tsv', all_pairs=both_partitions_pos)
-
-
-def rearrange_pan_dataset(sprint=True):
-    import pandas as pd
-    from rewrite_utils_SPRINT import write_SPRINT
-    from algorithms.Custom.load_datasets import make_swissprot_to_dict, iterate_pan
+    from algorithms.Custom.load_datasets import make_swissprot_to_dict
+    from algorithms.SPRINT.create_SPRINT_datasets import iterate_pan
     from tqdm import tqdm
     prefix_dict, seq_dict = make_swissprot_to_dict('network_data/Swissprot/human_swissprot.fasta')
     print('Mapping Protein IDs ...')
@@ -319,38 +252,37 @@ def rearrange_pan_dataset(sprint=True):
 
     only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg = partition_pairs(
         simap_dict, pairs)
+    print('Cleaning and balancing partition 0 ...')
     only_partition_0_pos, only_partition_0_neg = adapt_sizes(pos=only_partition_0_pos, neg=only_partition_0_neg,
                                                              partition_dict=simap_dict, partition=0,
                                                              all_pairs=pairs)
+    print('Cleaning and balancing partition 1 ...')
     only_partition_1_pos, only_partition_1_neg = adapt_sizes(only_partition_1_pos, only_partition_1_neg, simap_dict, 1,
                                                              pairs)
+    print('Cleaning and balancing partition both ...')
     both_partitions_pos, both_partitions_neg = adapt_sizes(both_partitions_pos, both_partitions_neg, simap_dict, -1,
                                                            pairs)
-    if not sprint:
-        pass
-    else:
-        print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/pan_partition_0_pos.txt',
-                     data=only_partition_0_pos)
-        print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/pan_partition_0_neg.txt',
-                     data=only_partition_0_neg)
-        print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/pan_partition_1_pos.txt',
-                     data=only_partition_1_pos)
-        print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/pan_partition_1_neg.txt',
-                     data=only_partition_1_neg)
-        print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/pan_partition_both_pos.txt',
-                     data=both_partitions_pos)
-        print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/pan_partition_both_neg.txt',
-                     data=both_partitions_neg)
+    print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/pan_partition_0_pos.txt',
+                 data=only_partition_0_pos)
+    print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/pan_partition_0_neg.txt',
+                 data=only_partition_0_neg)
+    print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/pan_partition_1_pos.txt',
+                 data=only_partition_1_pos)
+    print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/pan_partition_1_neg.txt',
+                 data=only_partition_1_neg)
+    print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/pan_partition_both_pos.txt',
+                 data=both_partitions_pos)
+    print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/pan_partition_both_neg.txt',
+                 data=both_partitions_neg)
 
 
-def rearrange_du_dataset(sprint=True):
-    from rewrite_utils_SPRINT import write_SPRINT
+def rearrange_du_dataset():
     from tqdm import tqdm
     import pandas as pd
     f = open('Datasets_PPIs/Du_yeast_DIP/SupplementaryS1.csv').readlines()
@@ -368,38 +300,45 @@ def rearrange_du_dataset(sprint=True):
 
     only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg = partition_pairs(
         simap_dict, ppis)
+    print('Cleaning and balancing partition 0 ...')
     only_partition_0_pos, only_partition_0_neg = adapt_sizes(pos=only_partition_0_pos, neg=only_partition_0_neg,
                                                              partition_dict=simap_dict, partition=0,
                                                              all_pairs=ppis)
+    print('Cleaning and balancing partition 1 ...')
     only_partition_1_pos, only_partition_1_neg = adapt_sizes(only_partition_1_pos, only_partition_1_neg, simap_dict, 1,
                                                              ppis)
+    print('Cleaning and balancing partition both ...')
     both_partitions_pos, both_partitions_neg = adapt_sizes(both_partitions_pos, both_partitions_neg, simap_dict, -1,
                                                            ppis)
-    if not sprint:
-        pass
-    else:
-        print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/du_partition_0_pos.txt',
-                     data=only_partition_0_pos)
-        print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/du_partition_0_neg.txt',
-                     data=only_partition_0_neg)
-        print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/du_partition_1_pos.txt',
-                     data=only_partition_1_pos)
-        print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/du_partition_1_neg.txt',
-                     data=only_partition_1_neg)
-        print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/du_partition_both_pos.txt',
-                     data=both_partitions_pos)
-        print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
-        write_SPRINT(path=f'algorithms/SPRINT/data/du_partition_both_neg.txt',
-                     data=both_partitions_neg)
+
+    print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/du_partition_0_pos.txt',
+                 data=only_partition_0_pos)
+    print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/du_partition_0_neg.txt',
+                 data=only_partition_0_neg)
+    print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/du_partition_1_pos.txt',
+                 data=only_partition_1_pos)
+    print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/du_partition_1_neg.txt',
+                 data=only_partition_1_neg)
+    print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/du_partition_both_pos.txt',
+                 data=both_partitions_pos)
+    print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/du_partition_both_neg.txt',
+                 data=both_partitions_neg)
+
 
 if __name__ == '__main__':
-    # rearrange_deepFE_dataset(yeast=False, sprint=True)
-    # rearrange_deepPPI_dataset(sprint=True)
-    # rearrange_pipr()
-    # rearrange_pan_dataset(sprint=True)
-    rearrange_du_dataset(sprint=True)
+    print('############################ GUO DATASET ############################')
+    rearrange_guo_huang_dataset(guo=True)
+    print('############################ HUANG DATASET ############################')
+    rearrange_guo_huang_dataset(guo=False)
+    print('############################ RICHOUX DATASET ############################')
+    rearrange_richoux_dataset()
+    print('############################ PAN DATASET ############################')
+    rearrange_pan_dataset()
+    print('############################ DU DATASET ############################')
+    rearrange_du_dataset()

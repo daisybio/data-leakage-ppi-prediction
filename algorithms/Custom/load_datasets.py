@@ -122,7 +122,7 @@ def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
     test_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_pos.txt', '1')
     test_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_neg.txt', '0')
     test_pos.extend(test_neg)
-    test_pos = balance_set(train_pos, id_dict, encoding, emd)
+    test_pos = balance_set(test_pos, id_dict, encoding, emd)
 
     X_train, y_train = make_X_y(train_pos, emd, id_dict)
     X_test, y_test = make_X_y(test_pos, emd, id_dict)

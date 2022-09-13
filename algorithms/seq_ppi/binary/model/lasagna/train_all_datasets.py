@@ -92,24 +92,18 @@ def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
 
 def read_ppis_from_sprint(pos_file, neg_file, id2index):
     ppis = []
-    pos_count = 0
     with open(pos_file, 'r') as f:
         for line in f:
             line_split = line.strip().split(' ')
             if id2index.get(line_split[0]) is None or id2index.get(line_split[1]) is None:
                 continue
             ppis.append([line_split[0], line_split[1], '1'])
-            pos_count += 1
-    neg_count = 0
     with open(neg_file, 'r') as f:
         for line in f:
-            if neg_count == pos_count:
-                break
             line_split = line.strip().split(' ')
             if id2index.get(line_split[0]) is None or id2index.get(line_split[1]) is None:
                 continue
             ppis.append([line_split[0], line_split[1], '0'])
-            neg_count += 1
     return ppis
 
 
@@ -238,40 +232,21 @@ def read_in_seqdict(organism):
     return id2index, seqs
 
 
-def training_vis(hist, path):
-    import matplotlib.pyplot as plt
-    #from deepfe-ppi
-    loss = hist.history['loss']
-    acc = hist.history['accuracy']
-
-    # make a figure
-    fig = plt.figure(figsize=(8, 4))
-    # subplot loss
-    ax1 = fig.add_subplot(121)
-    ax1.plot(loss, label='train_loss')
-    ax1.set_xlabel('Epochs')
-    ax1.set_ylabel('Loss')
-    ax1.set_title('Loss on Training Data')
-    ax1.legend()
-    # subplot acc
-    ax2 = fig.add_subplot(122)
-    ax2.plot(acc, label='train_accuracy')
-    ax2.set_xlabel('Epochs')
-    ax2.set_ylabel('Accuracy')
-    ax2.set_title('Accuracy on Training Data')
-    ax2.legend()
-    plt.tight_layout()
-    plt.savefig(path)
-    plt.show()
-
-
 if __name__ == '__main__':
-    partition = False
-    rewired = True
-    if rewired:
+    args = sys.argv[1:]
+    print(f'########################### {args[0]} ###########################')
+    if args[0] == 'original':
+        partition = False
+        rewired = False
+        prefix = 'original_'
+    elif args[0] == 'rewired':
+        partition = False
+        rewired = True
         prefix = 'rewired_'
     else:
-        prefix = ''
+        partition = True
+        rewired = False
+        prefix = 'partition_'
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
@@ -302,11 +277,10 @@ if __name__ == '__main__':
         merge_model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
         print(f'Dim train: {X_train[0].shape}')
         hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
-        training_vis(hist, f'results/{prefix}training_vis_{dataset}')
         print('Predicting ...')
         y_pred = merge_model.predict(X_test)
         print('Exporting results ...')
         write_results(path=f'results/{prefix}{dataset}.csv', y_true=y_test, y_pred=y_pred)
-        with open(f'results/time_{prefix}{dataset}.txt', 'w') as f:
-            f.write(str(time() - t_start))
+        with open(f'results/all_times.txt', 'a+') as f:
+            f.write(f'{prefix}{dataset}\t{time() - t_start}')
 

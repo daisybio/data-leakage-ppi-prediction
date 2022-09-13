@@ -22,7 +22,7 @@ do
         continue
       fi
       echo dataset ${DATASET}, training on ${TRAIN}, testing on ${TEST}
-      bin/predict_interactions -p ../../Datasets_PPIs/SwissProt/yeast_swissprot_oneliner.fasta -h HSP/pre_computed_yeast_HSP -tr data/partitions/${DATASET}_partition_${TRAIN}_pos.txt -pos data/partitions/${DATASET}_partition_${TEST}_pos.txt -neg data/partitions/${DATASET}_partition_${TEST}_neg.txt -o results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}.txt
+      { time bin/predict_interactions -p ../../Datasets_PPIs/SwissProt/yeast_swissprot_oneliner.fasta -h HSP/pre_computed_yeast_HSP -tr data/partitions/${DATASET}_partition_${TRAIN}_pos.txt -pos data/partitions/${DATASET}_partition_${TEST}_pos.txt -neg data/partitions/${DATASET}_partition_${TEST}_neg.txt -o results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}.txt ; } 2> results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}_time.txt
     done
   done
 done
@@ -38,7 +38,7 @@ do
         continue
       fi
       echo dataset ${DATASET}, training on ${TRAIN}, testing on ${TEST}
-      bin/predict_interactions -p data/Uniprot_human_protein_sequences.fasta -h HSP/pre_computed_HSP -tr data/partitions/${DATASET}_partition_${TRAIN}_pos.txt -pos data/partitions/${DATASET}_partition_${TEST}_pos.txt -neg data/partitions/${DATASET}_partition_${TEST}_neg.txt -o results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}.txt
+      { time bin/predict_interactions -p data/Uniprot_human_protein_sequences.fasta -h HSP/pre_computed_HSP -tr data/partitions/${DATASET}_partition_${TRAIN}_pos.txt -pos data/partitions/${DATASET}_partition_${TEST}_pos.txt -neg data/partitions/${DATASET}_partition_${TEST}_neg.txt -o results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}.txt ; } 2> results/partitions/${DATASET}_train_${TRAIN}_test_${TEST}_time.txt
     done
   done
 done

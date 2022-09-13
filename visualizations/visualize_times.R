@@ -79,7 +79,7 @@ all_times <- all_times[, Model := factor(Model,
                                                   "deepPPI_FC", "deepPPI_LSTM",  
                                                   "DeepFE", "PIPR"))]
 all_times <- all_times[, dataset := factor(dataset, 
-                                           levels = c("huang", "guo", "du", "richoux-regular", "richoux-strict", "pan"))]
+                                           levels = c("huang", "guo", "du", "pan", "richoux-regular", "richoux-strict"))]
 
 
 # visualization
@@ -87,8 +87,9 @@ ggplot(all_times, aes(x=dataset, y = Time, color = Model, group=Model))+
   geom_line(size=2, alpha=0.5)+
   geom_point(size=3)+
   scale_x_discrete(labels=c("huang" = "Huang (4,242)", "guo" = "Guo (7,656)",
-                            "du" = "Du (24,478)", "richoux-regular" = "Richoux regular (33,682)",
-                            "richoux-strict" = "Richoux strict (34,026)", "pan" = "Pan (38,956)"),
+                            "du" = "Du (24,478)", "pan" = "Pan (38,956)",
+                            "richoux-regular" = "Richoux regular (67,364)",
+                            "richoux-strict" = "Richoux strict (68,052)"),
                    )+
   labs(x = "Dataset (n training)", y = "Time [s]") +
   geom_hline(yintercept = 1800, color='red') +

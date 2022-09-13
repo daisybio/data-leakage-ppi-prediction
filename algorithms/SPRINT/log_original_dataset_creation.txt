@@ -1,0 +1,63 @@
+/Users/judithbernett/miniforge3/envs/pipr/bin/python /Users/judithbernett/PycharmProjects/PPIs_MA/algorithms/SPRINT/create_SPRINT_datasets.py
+############################ GUO DATASET ############################
+Original number of PPIs: 11188(5594 pos/5594 neg)
+Number of duplicates: 24
+Number of overlaps between pos and neg: 0
+Current status: n=11164,n_train=8931 (4483 pos/4448 neg), n_test=2233 (1098 pos/1135 neg)
+sampling more negatives (4483 positives, 4448 negatives)...
+randomly dropping negatives (1098 positives, 1135 negatives)...
+New status: n=11162,n_train=8966 (4483 pos/4483 neg), n_test=2196 (1098 pos/1098 neg)
+############################ HUANG DATASET ############################
+Original number of PPIs: 7419(3345 pos/4074 neg)
+Number of duplicates: 0
+Number of overlaps between pos and neg: 0
+Current status: n=7419,n_train=5935 (2658 pos/3277 neg), n_test=1484 (687 pos/797 neg)
+randomly dropping negatives (2658 positives, 3277 negatives)...
+randomly dropping negatives (687 positives, 797 negatives)...
+New status: n=6690,n_train=5316 (2658 pos/2658 neg), n_test=1374 (687 pos/687 neg)
+############################ DU DATASET ############################
+Original number of PPIs: 65852(17257 pos/48594 neg)
+Number of duplicates: 2511
+Number of overlaps between pos and neg: 0
+Current status: n=63341,n_train=50672 (13757 pos/36914 neg), n_test=12669 (3499 pos/9170 neg)
+randomly dropping negatives (13757 positives, 36914 negatives)...
+randomly dropping negatives (3499 positives, 9170 negatives)...
+New status: n=34512,n_train=27514 (13757 pos/13757 neg), n_test=6998 (3499 pos/3499 neg)
+############################ PAN DATASET ############################
+Mapping Protein IDs ...
+#unmapped IDs: 812
+Original number of PPIs: 65171(31536 pos/33635 neg)
+Number of duplicates: 55
+Number of overlaps between pos and neg: 0
+Current status: n=65116,n_train=52092 (25207 pos/26885 neg), n_test=13024 (6274 pos/6750 neg)
+randomly dropping negatives (25207 positives, 26885 negatives)...
+randomly dropping negatives (6274 positives, 6750 negatives)...
+New status: n=62962,n_train=50414 (25207 pos/25207 neg), n_test=12548 (6274 pos/6274 neg)
+############################ RICHOUX REGULAR DATASET ############################
+Cleaning train+val dataset
+Original number of PPIs: 97926(38748 pos/59178 neg)
+Number of duplicates: 5047
+Number of overlaps between pos and neg: 0
+Cleaning test dataset
+Original number of PPIs: 12806(6232 pos/6574 neg)
+Number of duplicates: 0
+Number of overlaps between pos and neg: 0
+Current status: n=105685,n_train=92879 (33702 pos/59177 neg), n_test=12806 (6232 pos/6574 neg)
+randomly dropping negatives (33702 positives, 59177 negatives)...
+randomly dropping negatives (6232 positives, 6574 negatives)...
+New status: n=79868,n_train=67404 (33702 pos/33702 neg), n_test=12464 (6232 pos/6232 neg)
+############################ RICHOUX STRICT DATASET ############################
+Cleaning train+val dataset
+Original number of PPIs: 103542(39412 pos/64130 neg)
+Number of duplicates: 5341
+Number of overlaps between pos and neg: 0
+Cleaning test dataset
+Original number of PPIs: 720(260 pos/460 neg)
+Number of duplicates: 0
+Number of overlaps between pos and neg: 0
+Current status: n=98921,n_train=98201 (34072 pos/64129 neg), n_test=720 (260 pos/460 neg)
+randomly dropping negatives (34072 positives, 64129 negatives)...
+randomly dropping negatives (260 positives, 460 negatives)...
+New status: n=68664,n_train=68144 (34072 pos/34072 neg), n_test=520 (260 pos/260 neg)
+
+Process finished with exit code 0

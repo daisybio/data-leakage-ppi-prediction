@@ -9,7 +9,7 @@ def export_scores(scores, path):
             f.write(f'{key},{value}\n')
 
 
-def load_data(name, encoding, dataset='regular', partition=False, partition_train='0', partition_test='1', rewire=False):
+def load_data(name, encoding, partition=False, partition_train='0', partition_test='1', rewire=False):
     if partition:
         print(f"Loading partition datasets for {name}, train on {partition_train}, test on {partition_test}")
         X_train, y_train, X_test, y_test = load_partition_datasets(encoding=encoding, dataset=name,
@@ -22,81 +22,72 @@ def load_data(name, encoding, dataset='regular', partition=False, partition_trai
     return X_train, y_train, X_test, y_test
 
 
-def run_partitioning_tests(rewire=False):
-    for name in ['du', 'guo', 'huang', 'pan', 'richoux']:
+def run_partitioning_tests():
+    for name in ['guo', 'huang', 'du', 'pan', 'richoux']:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             for partition_train in ['both', '0']:
                 for partition_test in ['0', '1']:
                     if partition_train == '0' and partition_test == '0':
                         continue
                     else:
+                        t_start = time()
                         print(
                             f'##### {name} dataset, {encoding} encoding, train: {partition_train}, test: {partition_test}')
                         X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
                                                                      partition=True, partition_train=partition_train,
-                                                                     partition_test=partition_test, rewire=rewire)
+                                                                     partition_test=partition_test, rewire=False)
+                        time_preprocess = time() - t_start
                         scores = learn_rf(X_train, y_train, X_test, y_test)
                         export_scores(scores,
-                                      f'results/partition_tests/{name}_{encoding}_RF_tr{partition_train}_test_{partition_test}.csv')
+                                      f'results/partition_tests/{name}_{encoding}_RF_{partition_train}_{partition_test}.csv')
+                        time_elapsed_rf = time() - t_start
+                        print(f'time elapsed: {time_elapsed_rf}')
+                        with open(f'results/time_partition_{name}_{encoding}.txt', 'a+') as f:
+                            f.write(f'{partition_train}\t{partition_test}\tRF\t{time_elapsed_rf}\n')
+
                         scores = learn_SVM(X_train, y_train, X_test, y_test)
                         export_scores(scores,
-                                      f'results/partition_tests/{name}_{encoding}_SVM_tr{partition_train}_test_{partition_test}.csv')
+                                      f'results/partition_tests/{name}_{encoding}_SVM_{partition_train}_{partition_test}.csv')
+                        time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
+                        print(f'time elapsed: {time_elapsed_svm}')
+                        with open(f'results/time_partition_{name}_{encoding}.txt', 'a') as f:
+                            f.write(f'{partition_train}\t{partition_test}\tSVM\t{time_elapsed_svm}\n')
 
 
 def run_simpler_algorithms(rewire=False):
     if rewire:
         prefix = 'rewired_'
     else:
-        prefix = ''
-    dataset_list = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+        prefix = 'original_'
+    dataset_list = ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     for name in dataset_list:
-        for encoding in ['node2vec']:
-            if name == 'richoux':
-                for dataset in ['regular', 'strict']:
-                    #t_start = time()
-                    print(
-                        f'##### {name} dataset: {dataset}, {encoding} encoding')
-                    X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
-                                                                 partition=False, dataset=dataset, rewire=rewire)
-                    #time_preprocess = time() - t_start
-                    scores = learn_rf(X_train, y_train, X_test, y_test)
-                    #export_scores(scores,
-                    #              f'results/{prefix}{name}_{encoding}_{dataset}_RF.csv')
-                    #time_elapsed_rf = time() - t_start
-                    print(f'time elapsed: {time_elapsed_rf}')
-                    #with open( f'results/time_{prefix}{name}_{encoding}_{dataset}.txt', 'w') as f:
-                    #    f.write(f'RF\t{time_elapsed_rf}\n')
-                    #scores = learn_SVM(X_train, y_train, X_test, y_test)
-                    #export_scores(scores,
-                    #              f'results/{prefix}{name}_{encoding}_{dataset}_SVM.csv')
-                    #time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
-                    #print(f'time elapsed: {time_elapsed_svm}')
-                    #with open(f'results/time_{prefix}{name}_{encoding}_{dataset}.txt', 'a') as f:
-                    #    f.write(f'SVM\t{time_elapsed_svm}')
-
-            else:
-                t_start = time()
-                print(
-                    f'##### {name} dataset, {encoding} encoding')
-                X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
-                                                             partition=False, rewire=rewire)
-                time_preprocess = time() - t_start
-                scores = learn_rf(X_train, y_train, X_test, y_test)
-                export_scores(scores,
-                              f'results/{prefix}{name}_{encoding}_RF.csv')
-                time_elapsed_rf = time() - t_start
-                print(f'time elapsed: {time_elapsed_rf}')
-                with open(f'results/time_{prefix}{name}_{encoding}.txt', 'w') as f:
-                    f.write(f'RF\t{time_elapsed_rf}\n')
-                scores = learn_SVM(X_train, y_train, X_test, y_test)
-                export_scores(scores,
-                              f'results/{prefix}{name}_{encoding}_SVM.csv')
-                time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
-                print(f'time elapsed: {time_elapsed_svm}')
-                with open(f'results/time_{prefix}{name}_{encoding}.txt', 'a') as f:
-                    f.write(f'SVM\t{time_elapsed_svm}')
+        for encoding in ['PCA', 'MDS', 'node2vec']:
+            t_start = time()
+            print(
+                f'##### {name} dataset, {encoding} encoding')
+            X_train, y_train, X_test, y_test = load_data(name=name, encoding=encoding,
+                                                         partition=False, rewire=rewire)
+            time_preprocess = time() - t_start
+            scores = learn_rf(X_train, y_train, X_test, y_test)
+            export_scores(scores,
+                          f'results/{prefix}{name}_{encoding}_RF.csv')
+            time_elapsed_rf = time() - t_start
+            print(f'time elapsed: {time_elapsed_rf}')
+            with open(f'results/time_{prefix}{name}_{encoding}.txt', 'w') as f:
+                f.write(f'RF\t{time_elapsed_rf}\n')
+            scores = learn_SVM(X_train, y_train, X_test, y_test)
+            export_scores(scores,
+                          f'results/{prefix}{name}_{encoding}_SVM.csv')
+            time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
+            print(f'time elapsed: {time_elapsed_svm}')
+            with open(f'results/time_{prefix}{name}_{encoding}.txt', 'a') as f:
+                f.write(f'SVM\t{time_elapsed_svm}')
 
 
 if __name__ == "__main__":
+    print('########################### ORIGINAL ###########################')
+    run_simpler_algorithms(rewire=False)
+    print('########################### REWIRED ###########################')
     run_simpler_algorithms(rewire=True)
-    #run_partitioning_tests()
+    print('########################### PARTITION ###########################')
+    run_partitioning_tests()
