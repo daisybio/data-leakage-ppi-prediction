@@ -5,7 +5,7 @@
 #SBATCH --job-name=runp_PIPR
 #SBATCH --output=part_PIPR.out
 #SBATCH --error=part_PIPR.err
-#SBATCH --mem=90G
+#SBATCH --mem=150G
 
 python train_all_datasets.py original
 python train_all_datasets.py rewired

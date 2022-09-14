@@ -1,1 +1,4 @@
-bin/predict_interactions -p  -h HSP/pre_computed_yeast_HSP -tr  -pos  -neg  -  28.86s user 0.39s system 96% cpu 30.171 total
+
+real	0m59.548s
+user	0m59.163s
+sys	0m0.240s
