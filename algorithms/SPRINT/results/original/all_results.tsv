@@ -1,7 +1,7 @@
 Dataset	AUC	AUPR
-du	0.7866	0.6381
-guo	0.6342	0.6371
-huang	0.7346	0.7395
-pan	0.8702	0.89
-richoux_regular	0.9806	0.9867
-richoux_strict	0.8183	0.779
+du	0.783	0.7345
+guo	0.6351	0.6252
+huang	0.7274	0.7497
+pan	0.8701	0.8917
+richoux_regular	0.9809	0.9871
+richoux_strict	0.816	0.8088

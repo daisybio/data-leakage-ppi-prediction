@@ -27,7 +27,7 @@ all_results <- rbind(all_results, custom_results[, c('Model', 'Dataset', 'Accura
 
 # deepFE
 deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^rewired_scores_(du|guo|huang|pan|richoux_regular|richoux_strict).csv', recursive = TRUE)), fread)
-file_names <- list.files(deepFE_res)[-5]
+file_names <- list.files(deepFE_res)[-c(5, 8)]
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(deepFE_results) <- file_names
 deepFE_results <- rbindlist(deepFE_results, idcol = 'Dataset')
@@ -68,7 +68,7 @@ all_results <- rbind(all_results, pipr_results[, c('Model', 'Dataset', 'Accuracy
 sprint_results <- fread(paste0(sprint_res, 'all_results.tsv'))
 sprint_results$Model <- 'SPRINT'
 colnames(sprint_results) <- c('Dataset', 'Accuracy', 'AUPR', 'Model')
-sprint_results$Dataset[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', sprint_results$Dataset[grepl('richoux', file_names, fixed=TRUE)])
+sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)])
 all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', 'Accuracy')])
 
 # visualization

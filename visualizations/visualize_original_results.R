@@ -13,14 +13,12 @@ sprint_res <- '../algorithms/SPRINT/results/original/'
 all_results <- data.table(Model=character(), Dataset=character(), Accuracy=numeric())
 
 # custom
-custom_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern='^(du|guo|huang|pan|richoux).*.csv')), fread)
-file_names <- tstrsplit(list.files(custom_res, pattern='^(du|guo|huang|pan|richoux).*.csv'), '.csv', keep=1)[[1]]
+custom_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern='^original_(du|guo|huang|pan|richoux).*.csv')), fread)
+file_names <- tstrsplit(list.files(custom_res, pattern='^original_(du|guo|huang|pan|richoux).*.csv'), '.csv', keep=1)[[1]]
+file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
-custom_results[, c('dataset', 'encoding') := tstrsplit(filename, '_', keep=c(1,2))]
-custom_results[, method := as.character(lapply(strsplit(as.character(custom_results$filename), split='_'), tail, n=1))]
-custom_results[dataset == 'richoux']$dataset <- custom_results[dataset == 'richoux', 
-                                                                ifelse(grepl('regular', filename, fixed=TRUE), 'richoux-regular', 'richoux-strict')]
+custom_results[, c('dataset', 'encoding', 'method') := tstrsplit(filename, '_', keep=c(2,3,4))]
 custom_results[, Model := paste(method, encoding, sep = '_')]
 custom_results <- custom_results[V1 == 'Accuracy']
 colnames(custom_results) <- c('filename', 'Measure', 'Accuracy', 'Dataset', 'Encoding', 'Method', 'Model')
@@ -28,8 +26,8 @@ colnames(custom_results) <- c('filename', 'Measure', 'Accuracy', 'Dataset', 'Enc
 all_results <- rbind(all_results, custom_results[, c('Model', 'Dataset', 'Accuracy')])
 
 # deepFE
-deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^scores_(du|guo|huang|pan|richoux_regular|richoux_strict).csv', recursive = TRUE)), fread)
-file_names <- list.files(deepFE_res)[-5]
+deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^original_scores_(du|guo|huang|pan|richoux_regular|richoux_strict).csv', recursive = TRUE)), fread)
+file_names <- list.files(deepFE_res)[-c(5, 8)]
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(deepFE_results) <- file_names
 deepFE_results <- rbindlist(deepFE_results, idcol = 'Dataset')
@@ -42,7 +40,6 @@ all_results <- rbind(all_results, deepFE_results[, c('Model', 'Dataset', 'Accura
 # deepPPI
 deepPPI_results <- lapply(paste0(deepPPI_res, list.files(deepPPI_res, pattern='original_(du|guo|huang|pan|richoux).*.csv')), fread)
 file_names <- tstrsplit(list.files(deepPPI_res, pattern='original_(du|guo|huang|pan|richoux).*.csv'), '.csv', keep=1)[[1]]
-file_names[!grepl('LSTM', file_names, fixed=TRUE)] <- paste('FC',file_names[!grepl('LSTM', file_names, fixed=TRUE)], sep='_')
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(deepPPI_results) <- file_names
 deepPPI_results <- rbindlist(deepPPI_results, idcol='filename')
@@ -70,7 +67,7 @@ all_results <- rbind(all_results, pipr_results[, c('Model', 'Dataset', 'Accuracy
 sprint_results <- fread(paste0(sprint_res, 'all_results.tsv'))
 sprint_results$Model <- 'SPRINT'
 colnames(sprint_results) <- c('Dataset', 'Accuracy', 'AUPR', 'Model')
-sprint_results$Dataset[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', sprint_results$Dataset[grepl('richoux', file_names, fixed=TRUE)])
+sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)])
 all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', 'Accuracy')])
 
 # visualization
@@ -94,7 +91,7 @@ ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   ylim(0.5, 1.0)+
   #scale_y_continuous(limits=c(0.5, 1.0),oob = rescale_none)+
   labs(x = "Dataset (n training)", y = "Accuracy/AUC for SPRINT") +
-  scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
+  #scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
 ggsave("./all_results_original.png",height=8, width=12)  

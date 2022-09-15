@@ -17,8 +17,7 @@ custom_results <- lapply(paste0(custom_res,  list.files(custom_res)), fread)
 file_names <- tstrsplit(list.files(custom_res), '.csv', keep=1)[[1]]
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
-custom_results[, c('dataset', 'encoding', 'model', 'train', 'test') := tstrsplit(filename, '_', keep=c(1,2,3,4,6))]
-custom_results[, train := tstrsplit(train, 'tr', keep=2)]
+custom_results[, c('dataset', 'encoding', 'model', 'train', 'test') := tstrsplit(filename, '_')]
 custom_results <- custom_results[V1 == 'Accuracy']
 custom_results[, Model := paste(model, encoding, sep = '_')]
 colnames(custom_results) <- c('filename', 'Measure', 'Accuracy', 'Dataset', 'Encoding', 'model', 'Train', 'Test', 'Model')
@@ -27,12 +26,12 @@ custom_results[, Partition := paste(Train, Test, sep='->')]
 all_results <- rbind(all_results, custom_results[, c('Model', 'Dataset', 'Accuracy', 'Partition')])
 
 # deepFE
-deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^scores_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv', recursive = TRUE)), fread)
-file_names <- tstrsplit(list.files(deepFE_res, pattern = '^scores_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv', recursive = TRUE), '/', keep=2)[[1]]
+deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^partition_scores_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv', recursive = TRUE)), fread)
+file_names <- tstrsplit(list.files(deepFE_res, pattern = '^partition_scores_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv', recursive = TRUE), '/', keep=2)[[1]]
 names(deepFE_results) <- tstrsplit(file_names, '.csv', keep=1)[[1]]
 deepFE_results <- rbindlist(deepFE_results, idcol = 'filename')
 deepFE_results <- deepFE_results[V1 == 'Accuracy']
-deepFE_results[, c('dataset', 'train', 'test') := tstrsplit(filename, '_', keep=c(2,3,4))]
+deepFE_results[, c('dataset', 'train', 'test') := tstrsplit(filename, '_', keep=c(3,4,5))]
 colnames(deepFE_results) <- c('filename', 'Measure', 'Accuracy', 'Dataset', 'Train', 'Test')
 deepFE_results$Model <- 'DeepFE'
 deepFE_results[, Partition := paste(Train, Test, sep='->')]
@@ -42,7 +41,6 @@ all_results <- rbind(all_results, deepFE_results[, c('Model', 'Dataset', 'Accura
 # deepPPI
 deepPPI_results <- lapply(paste0(deepPPI_res, list.files(deepPPI_res, pattern='partition_(du|guo|huang|pan|richoux).*.csv')), fread)
 file_names <- tstrsplit(list.files(deepPPI_res, pattern='partition_(du|guo|huang|pan|richoux).*.csv'), '.csv', keep=1)[[1]]
-file_names[!grepl('LSTM', file_names, fixed=TRUE)] <- paste('FC',file_names[!grepl('LSTM', file_names, fixed=TRUE)], sep='_')
 names(deepPPI_results) <- file_names
 deepPPI_results <- rbindlist(deepPPI_results, idcol='filename')
 deepPPI_results <- deepPPI_results[, c('Model', 'Dataset', 'Train', 'Test') := tstrsplit(filename, '_', keep = c(1,3, 4, 5))]
