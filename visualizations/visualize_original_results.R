@@ -52,14 +52,15 @@ colnames(deepPPI_results) <- c('filename', 'variable', 'Accuracy', 'Model', 'Dat
 all_results <- rbind(all_results, deepPPI_results[, c('Model', 'Dataset', 'Accuracy')])
 
 # PIPR
-pipr_results <- lapply(paste0(seqppi_res, list.files(seqppi_res, pattern='^(du|guo|huang|pan|richoux_regular|richoux_strict).csv')), fread)
-file_names <- tstrsplit(list.files(seqppi_res, pattern='^(du|guo|huang|pan|richoux_regular|richoux_strict).csv'), '.csv', keep=1)[[1]]
+pipr_results <- lapply(paste0(seqppi_res, list.files(seqppi_res, pattern='^original_(du|guo|huang|pan|richoux_regular|richoux_strict).csv')), fread)
+file_names <- tstrsplit(list.files(seqppi_res, pattern='^original_(du|guo|huang|pan|richoux_regular|richoux_strict).csv'), '.csv', keep=1)[[1]]
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(pipr_results) <- file_names
-pipr_results <- rbindlist(pipr_results, idcol='Dataset')
+pipr_results <- rbindlist(pipr_results, idcol='Filename')
 pipr_results <- pipr_results[V1 == 'Accuracy']
+pipr_results <- pipr_results[, c('Test', 'Dataset') := tstrsplit(Filename, '_')]
 pipr_results$Model <- 'PIPR'
-colnames(pipr_results) <- c('Dataset', 'Measure', 'Accuracy', 'Model')
+colnames(pipr_results) <- c('Filename', 'Measure', 'Accuracy', 'Test', 'Dataset', 'Model')
 
 all_results <- rbind(all_results, pipr_results[, c('Model', 'Dataset', 'Accuracy')])
 
@@ -84,14 +85,13 @@ fwrite(all_results, file='results/original.csv')
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=3)+
-  scale_x_discrete(labels=c("huang" = "Huang (4,136)", "guo" = "Guo (7,700)",
-                            "du" = "Du (24,578)", "pan" = "Pan (39,436)",
-                            "richoux-regular" = "Richoux regular (77,280)",
-                            "richoux-strict" = "Richoux strict (78,612)"))+
+  scale_x_discrete(labels=c("huang" = "Huang (4,276)", "guo" = "Guo (7,754)",
+                            "du" = "Du (24,279)", "pan" = "Pan (41,392)",
+                            "richoux-regular" = "Richoux regular (66,477)",
+                            "richoux-strict" = "Richoux strict (67,231)"))+
   ylim(0.5, 1.0)+
-  #scale_y_continuous(limits=c(0.5, 1.0),oob = rescale_none)+
   labs(x = "Dataset (n training)", y = "Accuracy/AUC for SPRINT") +
-  #scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
+  scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
 ggsave("./all_results_original.png",height=8, width=12)  

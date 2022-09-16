@@ -47,7 +47,7 @@ deepPPI_results <- deepPPI_results[, c('Model', 'Dataset', 'Train', 'Test') := t
 deepPPI_results[, Train := tstrsplit(Train, 'tr', keep=2)]
 deepPPI_results[, Test := tstrsplit(Test, 'te', keep=2)]
 deepPPI_results[, Partition := paste(Train, Test, sep='->')]
-n_train <- unique(deepPPI_results[variable %in% c('n_train', 'n_test'), c('Dataset', 'Partition', 'variable', 'value')])
+n_train <- unique(deepPPI_results[variable %in% c('n_train'), c('Dataset', 'Partition', 'variable', 'value')])
 deepPPI_results <- deepPPI_results[variable == 'Accuracy']
 deepPPI_results[, Model := paste('deepPPI', Model, sep='_')]
 colnames(deepPPI_results) <- c('filename', 'variable', 'Accuracy', 'Model', 'Dataset', 'Train', 'Test', 'Partition')
@@ -55,11 +55,11 @@ colnames(deepPPI_results) <- c('filename', 'variable', 'Accuracy', 'Model', 'Dat
 all_results <- rbind(all_results, deepPPI_results[, c('Model', 'Dataset', 'Accuracy', 'Partition')])
 
 # PIPR
-pipr_results <- lapply(paste0(seqppi_res, list.files(seqppi_res, pattern='^(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv')), fread)
-file_names <- tstrsplit(list.files(seqppi_res, pattern='^(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv'), '.csv', keep=1)[[1]]
+pipr_results <- lapply(paste0(seqppi_res, list.files(seqppi_res, pattern='^partition_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv')), fread)
+file_names <- tstrsplit(list.files(seqppi_res, pattern='^partition_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv'), '.csv', keep=1)[[1]]
 names(pipr_results) <- file_names
 pipr_results <- rbindlist(pipr_results, idcol='filename')
-pipr_results <- pipr_results[, c('Dataset', 'Train', 'Test') := tstrsplit(filename, '_')]
+pipr_results <- pipr_results[, c('Dataset', 'Train', 'Test') := tstrsplit(filename, '_', keep=c(2,3,4))]
 pipr_results <- pipr_results[V1 == 'Accuracy']
 pipr_results$Model <- 'PIPR'
 colnames(pipr_results) <- c('filename', 'Measure', 'Accuracy', 'Dataset', 'Train', 'Test','Model')
@@ -89,8 +89,9 @@ fwrite(all_results, file='results/partition.csv')
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=3)+
-  scale_x_discrete(labels=c("huang" = "Huang\n(1,304|\n2,377)", "guo" = "Guo\n(4,747|\n3,373)",
-                            "du" = "Du\n(13,018|\n12,632)", "pan" = "Pan\n(19,564|\n20,482)", "richoux" = "Richoux\n(30,062|\n34,963)")
+  scale_x_discrete(labels=c("huang" = "Huang\n(1,343|\n2,392)", "guo" = "Guo\n(4,739|\n3,375)",
+                            "du" = "Du\n(13,038|\n12,631)", "pan" = "Pan\n(20,480|\n20,869)", 
+                            "richoux" = "Richoux\n(30,069|\n34,961)")
   )+
   ylim(0.4, 1.0)+
   facet_wrap(~Partition)+

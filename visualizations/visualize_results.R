@@ -57,19 +57,26 @@ ggplot(all_results, aes(x=Dataset, y = Accuracy, color=Model, group=Model))+
 ggsave("./original_vs_rewired_vs_partitions_models.png",height=8, width=10)
 
 
-result_mat <- as.matrix(all_results[, setNames(as.list(Accuracy), Dataset), by = Model][, Model := NULL])
-rownames(result_mat) <- unique(all_results$Model)
-annotation_col <- data.frame(Dataset = colnames(result_mat), 
-                             Test = c(rep("Original", 6), rep("Rewired", 6), rep(c("0->1", "both->0", "both->1"), 5)))
-colnames(result_mat) <- paste(annotation_col$Dataset, annotation_col$Test, sep="_")
+result_mat <- as.matrix(dcast(all_results, Model ~ Dataset + Test, value.var = "Accuracy"))
+rownames(result_mat) <- result_mat[, "Model"]
+result_mat <- result_mat[, -1]
+class(result_mat) <- "numeric"
+annotation_col <- as.data.frame(tstrsplit(colnames(result_mat), '_'), col.names = c('Dataset', 'Test'))
 rownames(annotation_col) <- colnames(result_mat)
+annotation_col$Dataset <- factor(annotation_col$Dataset, 
+                                 levels = c('huang', 'guo', 'du', 'pan', 'richoux', 'richoux-regular', 'richoux-strict'))
+annotation_col$Test <- factor(annotation_col$Test, 
+                              levels = c('Original', 'Rewired', 'both->1', 'both->0', '0->1'))
+annotation_col <- annotation_col[order(annotation_col$Test, annotation_col$Dataset), ]
+result_mat <- result_mat[, rownames(annotation_col)]
 pheatmap(result_mat, 
          annotation_col = annotation_col, 
          cluster_rows = FALSE,
          cluster_cols = FALSE,
-         gaps_row = 6,
-         gaps_col = c(6,12),
+         gaps_row = 5,
+         gaps_col = c(6,12,17,22),
          filename = './heatmap_results.png',
          width=8,
-         height=5)
+         height=5
+         )
 

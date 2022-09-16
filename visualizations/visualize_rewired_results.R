@@ -56,11 +56,11 @@ pipr_results <- lapply(paste0(seqppi_res, list.files(seqppi_res, pattern='^rewir
 file_names <- tstrsplit(list.files(seqppi_res, pattern='^rewired_(du|guo|huang|pan|richoux_regular|richoux_strict).csv'), '.csv', keep=1)[[1]]
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(pipr_results) <- file_names
-pipr_results <- rbindlist(pipr_results, idcol='Dataset')
-pipr_results[, Dataset := tstrsplit(Dataset, 'rewired_', keep=2)]
+pipr_results <- rbindlist(pipr_results, idcol='Filename')
+pipr_results[, Dataset := tstrsplit(Filename, 'rewired_', keep=2)]
 pipr_results <- pipr_results[V1 == 'Accuracy']
 pipr_results$Model <- 'PIPR'
-colnames(pipr_results) <- c('Dataset', 'Measure', 'Accuracy', 'Model')
+colnames(pipr_results) <- c('Filename', 'Measure', 'Accuracy', 'Dataset', 'Model')
 
 all_results <- rbind(all_results, pipr_results[, c('Model', 'Dataset', 'Accuracy')])
 
@@ -73,7 +73,7 @@ all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', 'Accura
 
 # visualization
 all_results <- all_results[, Dataset := factor(Dataset, 
-                                               levels = c("huang", "guo", "du", "richoux-regular", "richoux-strict", "pan"))]
+                                               levels = c("huang", "guo", "du", "pan", "richoux-regular", "richoux-strict"))]
 
 all_results <- all_results[, Model := factor(Model, 
                                              levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
@@ -85,12 +85,12 @@ fwrite(all_results, file='results/rewired.csv')
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=3)+
-  scale_x_discrete(labels=c("huang" = "Huang (4,242)", "guo" = "Guo (7,656)",
-                            "du" = "Du (24,478)", "richoux-regular" = "Richoux regular (33,682)",
-                            "richoux-strict" = "Richoux strict (34,026)", "pan" = "Pan (38,956)")
+  scale_x_discrete(labels=c("huang" = "Huang (4,289)", "guo" = "Guo (7,747)",
+                            "du" = "Du (24,285)", "pan" = "Pan (41,064)", 
+                            "richoux-regular" = "Richoux regular (66,652)",
+                            "richoux-strict" = "Richoux strict (67,363)")
   )+
   ylim(0.5, 1.0)+
-  #scale_y_continuous(limits=c(0.5, 1.0),oob = rescale_none)+
   labs(x = "Dataset (n training)", y = "Accuracy/AUC for SPRINT") +
   scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
   theme_bw()+
