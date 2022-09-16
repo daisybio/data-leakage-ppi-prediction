@@ -77,6 +77,24 @@ pheatmap(result_mat,
          gaps_col = c(6,12,17,22),
          filename = './heatmap_results.png',
          width=8,
-         height=5
+         height=5,
+         labels_col = c("Huang (4,276)", "Guo (7,754)",
+                        "Du (24,279)", "Pan (41,392)",
+                        "Richoux regular (66,477)",
+                        "Richoux strict (67,231)", #rewired
+                        "Huang (4,289)", "Guo (7,747)",
+                        "Du (24,285)", "Pan (41,064)", 
+                        "Richoux regular (66,652)",
+                        "Richoux strict (67,363)", #partition both ->1
+                        "Huang (2,392)", "Guo (3,375)",
+                        "Du (12,631)", "Pan (20,869)",
+                        "Richoux (34,961)", #partition both -> 0
+                        "Huang (2,392)", "Guo (3,375)",
+                        "Du (12,631)", "Pan (20,869)",
+                        "Richoux (34,961)", #partition 0 -> 1
+                        "Huang (1,343)", "Guo (4,739)",
+                        "Du (13,038)", "Pan (20,480)",
+                        "Richoux (30,069)"
+                        ),
+         
          )
-
