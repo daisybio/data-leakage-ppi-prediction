@@ -44,7 +44,6 @@ file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richo
 names(deepPPI_results) <- file_names
 deepPPI_results <- rbindlist(deepPPI_results, idcol='filename')
 deepPPI_results <- deepPPI_results[, c('Model', 'Dataset') := tstrsplit(filename, '_', keep = c(1,3))]
-n_train <- unique(deepPPI_results[variable == 'n_train', c('Dataset', 'variable', 'value')])
 deepPPI_results <- deepPPI_results[variable == 'Accuracy']
 deepPPI_results[, Model := paste('deepPPI', Model, sep='_')]
 colnames(deepPPI_results) <- c('filename', 'variable', 'Accuracy', 'Model', 'Dataset')
@@ -82,13 +81,30 @@ all_results <- all_results[, Model := factor(Model,
                                                   "DeepFE", "PIPR"))]
 fwrite(all_results, file='results/original.csv')
 
+# training data size
+sprint_data_dir <- '../algorithms/SPRINT/data/original/'
+training_files <- list.files(path=sprint_data_dir, pattern = 'train_pos')
+train_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
+  as.integer(system2("wc",
+                     args = c("-l",
+                              x,
+                              " | awk '{print $1}'"),
+                     stdout = TRUE)) * 2
+}
+)
+training_files[grepl('richoux', training_files, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed=TRUE)])
+names(train_sizes) <- tstrsplit(training_files, '_', keep=1)[[1]]
+train_sizes <- prettyNum(train_sizes, big.mark = ',')
+
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=3)+
-  scale_x_discrete(labels=c("huang" = "Huang (4,276)", "guo" = "Guo (7,754)",
-                            "du" = "Du (24,279)", "pan" = "Pan (41,392)",
-                            "richoux-regular" = "Richoux regular (66,477)",
-                            "richoux-strict" = "Richoux strict (67,231)"))+
+  scale_x_discrete(labels=c("huang" = paste0("Huang (", train_sizes["huang"], ")"), 
+                            "guo" = paste0("Guo (", train_sizes["guo"], ")"),
+                            "du" = paste0("Du (", train_sizes["du"], ")"), 
+                            "pan" = paste0("Pan (", train_sizes["pan"], ")"),
+                            "richoux-regular" = paste("Richoux regular (", train_sizes["richoux-regular"], ")"),
+                            "richoux-strict" = paste("Richoux strict (", train_sizes["richoux-strict"], ")")))+
   ylim(0.5, 1.0)+
   labs(x = "Dataset (n training)", y = "Accuracy/AUC for SPRINT") +
   scale_color_manual(values = brewer.pal(12, "Paired")[-11])+

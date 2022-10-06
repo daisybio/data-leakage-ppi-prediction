@@ -1,0 +1,83 @@
+guo
+Unique proteins in training: 2494, testing: 2092
+Overlap between training and testing: 2089
+Unique proteins in whole set: 2497
+0
+1000
+2000
+Non-zero bitscores: 46505/5217448 = 0.8913361474805307%
+du
+Unique proteins in training: 4258, testing: 3128
+Overlap between training and testing: 2969
+Unique proteins in whole set: 4417
+0
+1000
+2000
+3000
+4000
+Non-zero bitscores: 76034/13319024 = 0.5708676551675258%
+huang
+Unique proteins in training: 2354, testing: 1303
+Overlap between training and testing: 1086
+Unique proteins in whole set: 2571
+0
+1000
+2000
+Non-zero bitscores: 24057/3067262 = 0.7843151318667919%
+pan
+Unique proteins in training: 8631, testing: 5826
+Overlap between training and testing: 5335
+Unique proteins in whole set: 9122
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+Non-zero bitscores: 599667/50284206 = 1.192555372158009%
+richoux_regular
+Unique proteins in training: 16847, testing: 5796
+Overlap between training and testing: 5398
+Unique proteins in whole set: 17245
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+9000
+10000
+11000
+12000
+13000
+14000
+15000
+16000
+Non-zero bitscores: 635097/97645212 = 0.6504128435913479%
+richoux_strict
+Unique proteins in training: 15512, testing: 610
+Overlap between training and testing: 291
+Unique proteins in whole set: 15831
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+9000
+10000
+11000
+12000
+13000
+14000
+15000
+Non-zero bitscores: 62663/9462320 = 0.6622371680518097%

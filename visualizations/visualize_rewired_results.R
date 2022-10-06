@@ -82,14 +82,30 @@ all_results <- all_results[, Model := factor(Model,
                                                       "DeepFE", "PIPR"))]
 fwrite(all_results, file='results/rewired.csv')
 
+# training data size
+sprint_data_dir <- '../algorithms/SPRINT/data/rewired/'
+training_files <- list.files(path=sprint_data_dir, pattern = 'train_pos')
+train_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
+  as.integer(system2("wc",
+                     args = c("-l",
+                              x,
+                              " | awk '{print $1}'"),
+                     stdout = TRUE)) * 2
+}
+)
+training_files[grepl('richoux', training_files, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed=TRUE)])
+names(train_sizes) <- tstrsplit(training_files, '_', keep=1)[[1]]
+train_sizes <- prettyNum(train_sizes, big.mark = ',')
+
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=3)+
-  scale_x_discrete(labels=c("huang" = "Huang (4,289)", "guo" = "Guo (7,747)",
-                            "du" = "Du (24,285)", "pan" = "Pan (41,064)", 
-                            "richoux-regular" = "Richoux regular (66,652)",
-                            "richoux-strict" = "Richoux strict (67,363)")
-  )+
+  scale_x_discrete(labels=c("huang" = paste0("Huang (", train_sizes["huang"], ")"), 
+                            "guo" = paste0("Guo (", train_sizes["guo"], ")"),
+                            "du" = paste0("Du (", train_sizes["du"], ")"), 
+                            "pan" = paste0("Pan (", train_sizes["pan"], ")"),
+                            "richoux-regular" = paste("Richoux regular (", train_sizes["richoux-regular"], ")"),
+                            "richoux-strict" = paste("Richoux strict (", train_sizes["richoux-strict"], ")")))+
   ylim(0.5, 1.0)+
   labs(x = "Dataset (n training)", y = "Accuracy/AUC for SPRINT") +
   scale_color_manual(values = brewer.pal(12, "Paired")[-11])+

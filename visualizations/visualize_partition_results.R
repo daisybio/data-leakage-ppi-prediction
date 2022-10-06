@@ -86,12 +86,29 @@ all_results <- all_results[, Model := factor(Model,
                                                       "DeepFE", "PIPR"))]
 fwrite(all_results, file='results/partition.csv')
 
+# training data size
+sprint_data_dir <- '../algorithms/SPRINT/data/partitions/'
+training_files <- list.files(path=sprint_data_dir, pattern = 'pos')
+train_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
+  as.integer(system2("wc",
+                     args = c("-l",
+                              x,
+                              " | awk '{print $1}'"),
+                     stdout = TRUE)) * 2
+}
+)
+filenames <- tstrsplit(training_files, '_', keep=c(1,3))
+names(train_sizes) <- paste(filenames[[1]], filenames[[2]])
+train_sizes <- prettyNum(train_sizes, big.mark = ',')
+
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color = Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=3)+
-  scale_x_discrete(labels=c("huang" = "Huang\n(1,343|\n2,392)", "guo" = "Guo\n(4,739|\n3,375)",
-                            "du" = "Du\n(13,038|\n12,631)", "pan" = "Pan\n(20,480|\n20,869)", 
-                            "richoux" = "Richoux\n(30,069|\n34,961)")
+  scale_x_discrete(labels=c("huang" = paste0("Huang\n(",train_sizes["huang 0"], "|\n", train_sizes["huang both"], ")"), 
+                            "guo" = paste0("Guo\n(",train_sizes["guo 0"], "|\n", train_sizes["guo both"], ")"),
+                            "du" = paste0("Du\n(",train_sizes["du 0"], "|\n", train_sizes["du both"], ")"), 
+                            "pan" = paste0("Pan\n(",train_sizes["pan 0"], "|\n", train_sizes["pan both"], ")"), 
+                            "richoux" = paste0("Richoux\n(",train_sizes["richoux 0"], "|\n", train_sizes["richoux both"], ")"))
   )+
   ylim(0.4, 1.0)+
   facet_wrap(~Partition)+
