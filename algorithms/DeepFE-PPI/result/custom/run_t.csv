@@ -19,10 +19,10 @@ time_partition_pan_0_1,1269.97915244103,partition,pan,0,1,DeepFE_0_1
 time_partition_pan_both_0,1129.21677184105,partition,pan,both,0,DeepFE_both_0
 time_partition_pan_both_1,1051.60950279236,partition,pan,both,1,DeepFE_both_1
 time_rewired_pan,2122.22269177437,rewired,pan,,,DeepFE
-time_original_richoux-regular,2786.11429977417,original,richoux-regular,,,DeepFE
-time_rewired_richoux-regular,2854.9787967205,rewired,richoux-regular,,,DeepFE
-time_original_richoux-strict,2788.14789009094,original,richoux-strict,,,DeepFE
-time_rewired_richoux-strict,2786.96979165077,rewired,richoux-strict,,,DeepFE
+time_original_Richoux-Regular,2786.11429977417,original,Richoux-Regular,,,DeepFE
+time_rewired_Richoux-Regular,2854.9787967205,rewired,Richoux-Regular,,,DeepFE
+time_original_Richoux-Strict,2788.14789009094,original,Richoux-Strict,,,DeepFE
+time_rewired_Richoux-Strict,2786.96979165077,rewired,Richoux-Strict,,,DeepFE
 time_partition_richoux_0_1,1289.79318904877,partition,richoux,0,1,DeepFE_0_1
 time_partition_richoux_both_0,1527.15013241768,partition,richoux,both,0,DeepFE_both_0
 time_partition_richoux_both_1,1494.66438055038,partition,richoux,both,1,DeepFE_both_1

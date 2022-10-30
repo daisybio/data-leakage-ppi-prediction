@@ -4,6 +4,9 @@ library(RColorBrewer)
 
 all_degrees <- fread('../algorithms/SPRINT/data/node_degrees.csv')
 all_degrees$Test <- factor(all_degrees$Test, levels = c('original', 'rewired', 'partition'))
+all_degrees$Split <- gsub('both', 'inter', all_degrees$Split)
+all_degrees$Split <- gsub('0', 'intra-0', all_degrees$Split)
+all_degrees$Split <- gsub('1', 'intra-1', all_degrees$Split)
 
 ggplot(all_degrees, aes(x=Degree, fill=Network))+
   geom_histogram(bins=30, position = 'dodge')+

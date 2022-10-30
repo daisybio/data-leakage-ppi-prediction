@@ -77,11 +77,8 @@ for(dataset_var in c('huang', 'guo', 'du', 'pan', 'richoux')){
     if(partition_var != 'p0_p1'){
       train <- paste(dataset_var, tstrsplit(partition_var, '_', keep=1)[[1]], sep='_')
       test <- paste(dataset_var, tstrsplit(partition_var, '_', keep=2)[[1]], sep='_')
-      tmp_list <- list(var_name, c(var_name, train), c(train, test))
-    }else{
-      tmp_list <- list(var_name, c(var_name, paste(dataset_var, '0', sep='_')))
+      intersect_list <- append(intersect_list, list(c(train, test)))
     }
-    intersect_list <- append(intersect_list, tmp_list)
     all_proteins[, eval(var_name) := Protein %in% unique(all_sets[dataset == dataset_var & 
                                                                     get(partition_var) == TRUE, Protein])]
   }
@@ -90,14 +87,15 @@ for(dataset_var in c('huang', 'guo', 'du', 'pan', 'richoux')){
 for(dataset_var in c('huang', 'guo', 'du', 'pan', 'richoux')){
   for(partition_var in c('0', '1', 'both')){
     var_name <- paste(dataset_var, partition_var, sep = '_')
+    intersect_list <- append(intersect_list, var_name)
     all_proteins[, eval(var_name) := Protein %in% unique(all_sets[dataset == dataset_var & 
                                                                    partition == partition_var, Protein])]
   }
 }
 upset(all_proteins, 
-      colnames(all_proteins)[grepl('huang|du', colnames(all_proteins))],
+      colnames(all_proteins)[grepl('(huang|du|guo|pan)_(both|0|1)$', colnames(all_proteins))],
       mode = 'intersect',
       width_ratio = 0.1,
-      intersections = intersect_list[grepl('huang|du', intersect_list)]
+      intersections = intersect_list[grepl('huang|du|guo|pan', intersect_list)]
       )
 

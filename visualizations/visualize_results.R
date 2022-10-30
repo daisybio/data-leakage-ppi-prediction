@@ -28,10 +28,23 @@ ggplot(all_results, aes(x=Dataset, y = Accuracy, color=Test, group=Test))+
   scale_x_discrete(labels=c("huang" = "Huang", "guo" = "Guo",
                             "du" = "Du","pan" = "Pan", "richoux-regular" = "Richoux regular",
                             "richoux-strict" = "Richoux strict"))
-ggsave("./original_vs_rewired.png",height=8, width=10)
+#ggsave("./original_vs_rewired.png",height=8, width=10)
 
 all_results <- rbind(all_results, partition_results)
 all_results[, Test := factor(Test, levels=c('Original', 'Rewired', 'both->0', 'both->1', '0->1'))]
+all_results[, Model := gsub('deepPPI_FC', 'Richoux-FC', Model)]
+all_results[, Model := gsub('deepPPI_LSTM', 'Richoux-LSTM', Model)]
+all_results[, Model := gsub('RF_PCA', 'RF PCA', Model)]
+all_results[, Model := gsub('SVM_PCA', 'SVM PCA', Model)]
+all_results[, Model := gsub('RF_MDS', 'RF MDS', Model)]
+all_results[, Model := gsub('SVM_MDS', 'SVM MDS', Model)]
+all_results[, Model := gsub('RF_node2vec', 'RF node2vec', Model)]
+all_results[, Model := gsub('SVM_node2vec', 'SVM node2vec', Model)]
+all_results <- all_results[, Model := factor(Model, 
+                                             levels=c("SPRINT", 
+                                                      "Richoux-FC", "Richoux-LSTM",  
+                                                      "DeepFE", "PIPR", "RF PCA","SVM PCA", "RF MDS", "SVM MDS",
+                                                      "RF node2vec",  "SVM node2vec"))]
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color=Test, group=Test))+
   geom_line(size=1, alpha=0.7)+
   geom_point(size=2)+
@@ -42,7 +55,7 @@ ggplot(all_results, aes(x=Dataset, y = Accuracy, color=Test, group=Test))+
                             "du" = "Du","pan" = "Pan", "richoux-regular" = "Richoux regular",
                             "richoux-strict" = "Richoux strict"))+
   scale_color_manual(values = brewer.pal(5,"Set2")[c(2,3,1,5,4)])
-ggsave("./original_vs_rewired_vs_partitions.png",height=8, width=10)
+#ggsave("./original_vs_rewired_vs_partitions.png",height=8, width=10)
 
 ggplot(all_results, aes(x=Dataset, y = Accuracy, color=Model, group=Model))+
   geom_line(size=1, alpha=0.7)+
@@ -54,19 +67,25 @@ ggplot(all_results, aes(x=Dataset, y = Accuracy, color=Model, group=Model))+
                             "du" = "Du","pan" = "Pan", "richoux-regular" = "Richoux regular",
                             "richoux-strict" = "Richoux strict"))+
   scale_color_manual(values = brewer.pal(12,"Paired")[-11])
-ggsave("./original_vs_rewired_vs_partitions_models.png",height=8, width=10)
+#ggsave("./original_vs_rewired_vs_partitions_models.png",height=8, width=10)
 
 
+colorBlindBlack8  <- c("#000000", "#E69F00", "#56B4E9", "#009E73", 
+                       "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 result_mat <- as.matrix(dcast(all_results, Model ~ Dataset + Test, value.var = "Accuracy"))
 rownames(result_mat) <- result_mat[, "Model"]
 result_mat <- result_mat[, -1]
 class(result_mat) <- "numeric"
 annotation_col <- as.data.frame(tstrsplit(colnames(result_mat), '_'), col.names = c('Dataset', 'Test'))
 rownames(annotation_col) <- colnames(result_mat)
+annotation_col$Dataset <- stringr::str_to_title(annotation_col$Dataset)
 annotation_col$Dataset <- factor(annotation_col$Dataset, 
-                                 levels = c('huang', 'guo', 'du', 'pan', 'richoux', 'richoux-regular', 'richoux-strict'))
+                                 levels = c('Huang', 'Guo', 'Du', 'Pan', 'Richoux', 'Richoux-Regular', 'Richoux-Strict'))
+annotation_col$Test <- gsub('both', 'Inter' ,annotation_col$Test)
+annotation_col$Test <- gsub('0', 'Intra-0' ,annotation_col$Test)
+annotation_col$Test <- gsub('1', 'Intra-1' ,annotation_col$Test)
 annotation_col$Test <- factor(annotation_col$Test, 
-                              levels = c('Original', 'Rewired', 'both->1', 'both->0', '0->1'))
+                              levels = c('Original', 'Rewired', 'Inter->Intra-1', 'Inter->Intra-0', 'Intra-0->Intra-1'))
 annotation_col <- annotation_col[order(annotation_col$Test, annotation_col$Dataset), ]
 result_mat <- result_mat[, rownames(annotation_col)]
 
@@ -151,6 +170,8 @@ pheatmap(result_mat,
 
 pheatmap(t(result_mat[, 1:6]), 
          annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE], 
+         annotation_colors = list(Dataset = c("Huang"="#E69F00","Guo"="#56B4E9", "Du"="#009E73", 
+                              "Pan"="#F0E442","Richoux-Regular"="#0072B2","Richoux-Strict"="#CC79A7")),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
          gaps_col = 5,
@@ -169,6 +190,8 @@ pheatmap(t(result_mat[, 1:6]),
 
 pheatmap(t(result_mat[, 7:12]), 
          annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE], 
+         annotation_colors = list(Dataset = c("Huang"="#E69F00","Guo"="#56B4E9", "Du"="#009E73", 
+                                              "Pan"="#F0E442","Richoux-Regular"="#0072B2","Richoux-Strict"="#CC79A7")),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
          gaps_col = 5,
@@ -187,6 +210,9 @@ pheatmap(t(result_mat[, 7:12]),
 
 pheatmap(result_mat[, 13:ncol(result_mat)], 
          annotation_col = annotation_col[!annotation_col$Test %in% c('Original', 'Rewired'), ], 
+         annotation_colors = list(Dataset = c("Huang"="#E69F00","Guo"="#56B4E9", "Du"="#009E73", 
+                                              "Pan"="#F0E442","Richoux"="#0072B2"),
+                                  Test = c("Inter->Intra-1"="#888888", "Inter->Intra-0"="#44AA99", "Intra-0->Intra-1"="#661100")),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
          gaps_row = 5,
