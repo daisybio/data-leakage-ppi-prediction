@@ -190,7 +190,7 @@ def write_sprint(data, prefix, rewired):
 def rewrite_guo(rewired=False):
     print('############################ GUO DATASET ############################')
     ppis = []
-    with open('../../Datasets_PPIs/Guo_yeast_DIP/protein.actions.tsv') as f:
+    with open('../../algorithms/seq_ppi/yeast/preprocessed/protein.actions.tsv') as f:
         for line in f:
             line_split = line.strip().split('\t')
             ppis.append(line_split)
@@ -258,9 +258,9 @@ def rewrite_pan(rewired=False):
     from algorithms.Custom.load_datasets import make_swissprot_to_dict
     prefix_dict, seq_dict = make_swissprot_to_dict('../../Datasets_PPIs/SwissProt/human_swissprot.fasta')
     print('Mapping Protein IDs ...')
-    mapping_dict = iterate_pan(prefix_dict, seq_dict, '../../Datasets_PPIs/Pan_human_HPRD/SEQ-Supp-ABCD.tsv')
+    mapping_dict = iterate_pan(prefix_dict, seq_dict, '../seq_ppi/sun/preprocessed/SEQ-Supp-ABCD.tsv')
     ppis = []
-    with open('../../Datasets_PPIs/Pan_human_HPRD/Supp-AB.tsv', 'r') as f:
+    with open('../seq_ppi/sun/preprocessed/Supp-AB.tsv', 'r') as f:
         for line in f:
             if line.startswith('v1'):
                 # header

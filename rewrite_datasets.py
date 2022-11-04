@@ -89,15 +89,15 @@ def rearrange_guo_huang_dataset(guo=True):
     import pandas as pd
     from rewrite_utils_DeepFE import read_NO
     if guo:
-        file_1 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/positive/Protein_A.txt'
-        file_2 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/positive/Protein_B.txt'
-        file_3 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/negative/Protein_A.txt'
-        file_4 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/11188/negative/Protein_B.txt'
+        file_1 = 'algorithms/DeepFE-PPI/dataset/11188/positive/Protein_A.txt'
+        file_2 = 'algorithms/DeepFE-PPI/dataset/11188/positive/Protein_B.txt'
+        file_3 = 'algorithms/DeepFE-PPI/dataset/11188/negative/Protein_A.txt'
+        file_4 = 'algorithms/DeepFE-PPI/dataset/11188/negative/Protein_B.txt'
     else:
-        file_1 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/human/positive/Protein_A.txt'
-        file_2 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/human/positive/Protein_B.txt'
-        file_3 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/human/negative/Protein_A.txt'
-        file_4 = '/Users/judithbernett/PycharmProjects/PPIs/DeepFE-PPI/dataset/human/negative/Protein_B.txt'
+        file_1 = 'algorithms/DeepFE-PPI/dataset/human/positive/Protein_A.txt'
+        file_2 = 'algorithms/DeepFE-PPI/dataset/human/positive/Protein_B.txt'
+        file_3 = 'algorithms/DeepFE-PPI/dataset/human/negative/Protein_A.txt'
+        file_4 = 'algorithms/DeepFE-PPI/dataset/human/negative/Protein_B.txt'
     #  index for protein
     header_dict = {}
     seq_dict = {}
@@ -228,9 +228,9 @@ def rearrange_pan_dataset():
     from tqdm import tqdm
     prefix_dict, seq_dict = make_swissprot_to_dict('network_data/Swissprot/human_swissprot.fasta')
     print('Mapping Protein IDs ...')
-    mapping_dict = iterate_pan(prefix_dict, seq_dict, 'Datasets_PPIs/Pan_human_HPRD/SEQ-Supp-ABCD.tsv')
+    mapping_dict = iterate_pan(prefix_dict, seq_dict, 'algorithms/seq_ppi/sun/preprocessed//SEQ-Supp-ABCD.tsv')
     pairs = []
-    lines = open('Datasets_PPIs/Pan_human_HPRD/Supp-AB.tsv', 'r').readlines()
+    lines = open('algorithms/seq_ppi/sun/preprocessed/Supp-AB.tsv', 'r').readlines()
     for line in tqdm(lines):
         if line.startswith('v1'):
             # header
