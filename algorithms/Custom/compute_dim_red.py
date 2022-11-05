@@ -65,29 +65,29 @@ def compute_node2vec(network, organism):
 
 
 if __name__ == "__main__":
-    #sim_matrix_yeast = np.load(
-    #    '../../network_data/SIMAP2/matrices/sim_matrix_yeast.npy')
-    #yeast_pca = compute_PCA(sim_matrix_yeast)
-    #np.save('data/yeast_pca.npy', yeast_pca)
-    #yeast_mds = compute_MDS(sim_matrix_yeast)
-    #np.save('data/yeast_mds.npy', yeast_mds)
+    sim_matrix_yeast = np.load(
+        '../../network_data/SIMAP2/matrices/sim_matrix_yeast.npy')
+    yeast_pca = compute_PCA(sim_matrix_yeast)
+    np.save('data/yeast_pca.npy', yeast_pca)
+    yeast_mds = compute_MDS(sim_matrix_yeast)
+    np.save('data/yeast_mds.npy', yeast_mds)
 
     sim_matrix_human = np.load(
         '../../network_data/SIMAP2/matrices/sim_matrix_human.npy')
-    #human_pca = compute_PCA(sim_matrix_human)
-    #np.save('data/human_pca.npy', human_pca)
+    human_pca = compute_PCA(sim_matrix_human)
+    np.save('data/human_pca.npy', human_pca)
     human_mds = compute_MDS(sim_matrix_human)
     np.save('data/human_mds.npy', human_mds)
 
-    #yeast_network = nx.read_graphml(
-    #    '../../network_data/SIMAP2/yeast_networks/only_yeast.graphml')
-    #compute_node2vec(yeast_network, 'yeast')
-    #human_network = nx.read_graphml(
-    #    '../../network_data/SIMAP2/human_networks/only_human.graphml')
-    #compute_node2vec(human_network, 'human')
+    yeast_network = nx.read_graphml(
+        '../../network_data/SIMAP2/yeast_networks/only_yeast.graphml')
+    compute_node2vec(yeast_network, 'yeast')
+    human_network = nx.read_graphml(
+        '../../network_data/SIMAP2/human_networks/only_human.graphml')
+    compute_node2vec(human_network, 'human')
 
     ### run
     # cd snap/examples/node2vec
     # make all
-    # ./node2vec -i:/Users/judithbernett/PycharmProjects/PPIs_MA/algorithms/Custom/data/yeast.edgelist -o:/Users/judithbernett/PycharmProjects/PPIs_MA/algorithms/Custom/data/yeast.emb
-    # ./node2vec -i:/Users/judithbernett/PycharmProjects/PPIs_MA/algorithms/Custom/data/human.edgelist -o:/Users/judithbernett/PycharmProjects/PPIs_MA/algorithms/Custom/data/human.emb
+    # ./node2vec -i:../../../algorithms/Custom/data/yeast.edgelist -o:../../../algorithms/Custom/data/yeast.emb
+    # ./node2vec -i:../../../algorithms/Custom/data/human.edgelist -o:../../../algorithms/Custom/data/human.emb

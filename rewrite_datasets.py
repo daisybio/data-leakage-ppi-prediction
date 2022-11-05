@@ -226,9 +226,9 @@ def rearrange_pan_dataset():
     from algorithms.Custom.load_datasets import make_swissprot_to_dict
     from algorithms.SPRINT.create_SPRINT_datasets import iterate_pan
     from tqdm import tqdm
-    prefix_dict, seq_dict = make_swissprot_to_dict('network_data/Swissprot/human_swissprot.fasta')
+    prefix_dict, seq_dict = make_swissprot_to_dict('Datasets_PPIs/SwissProt/human_swissprot.fasta')
     print('Mapping Protein IDs ...')
-    mapping_dict = iterate_pan(prefix_dict, seq_dict, 'algorithms/seq_ppi/sun/preprocessed//SEQ-Supp-ABCD.tsv')
+    mapping_dict = iterate_pan(prefix_dict, seq_dict, 'algorithms/seq_ppi/sun/preprocessed/SEQ-Supp-ABCD.tsv')
     pairs = []
     lines = open('algorithms/seq_ppi/sun/preprocessed/Supp-AB.tsv', 'r').readlines()
     for line in tqdm(lines):

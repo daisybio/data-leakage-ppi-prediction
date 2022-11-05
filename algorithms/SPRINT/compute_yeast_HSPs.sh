@@ -7,4 +7,4 @@
 #SBATCH --error=yeast_HSPs.err
 #SBATCH --mem=10G
 
-bin/compute_HSPs -p ../../Datasets_PPIs/SwissProt/yeast_swissprot_oneliner.fasta -h pre_computed_yeast_HSP
+bin/compute_HSPs -p ../../Datasets_PPIs/SwissProt/yeast_swissprot_oneliner.fasta -h HSP/pre_computed_yeast_HSP

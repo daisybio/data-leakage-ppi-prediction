@@ -212,7 +212,7 @@ def make_swissprot_to_dict():
     last_id = ''
     last_seq = ''
     n = 30
-    f = open('/Users/judithbernett/PycharmProjects/PPIs_MA/network_data/Swissprot/human_swissprot.fasta', 'r')
+    f = open('../../Datasets_PPIs/SwissProt/human_swissprot.fasta', 'r')
     for line in f:
         if line.startswith('>'):
             if last_id != '':
