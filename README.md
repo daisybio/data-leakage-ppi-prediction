@@ -5,6 +5,10 @@ sequence-based deep PPI prediction methods only achieve phenomenal
 results due to data leakage and learning from sequence similarities
 and node degrees. 
 
+We used `git-lfs` to store some of the files so make sure to install it before cloning this repository.
+Most of the code can be run with our main environment ([mac](mac_env.yml), [linux](linux_env.yml)).
+For PIPR, however, a custom environment ist needed ([mac](mac_env_pipr.yml), [linux](linux_env_pipr.yml)). 
+
 ![alt text](Overview%20Figure%20Results.png)
 
 ## Datasets

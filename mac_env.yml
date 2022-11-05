@@ -1,4 +1,4 @@
-name: deepFE
+name: deep_PPIs
 channels:
   - apple
   - conda-forge
@@ -136,9 +136,9 @@ dependencies:
     - termcolor==1.1.0
     - tf-estimator-nightly==2.8.0.dev2021122109
     - threadpoolctl==3.1.0
+    - tqdm==4.64.0
     - typing-extensions==4.1.1
     - urllib3==1.26.9
     - werkzeug==2.1.1
     - wrapt==1.14.0
     - zipp==3.7.0
-prefix: /Users/judithbernett/miniforge3/envs/deepFE

@@ -1,7 +1,5 @@
 import numpy as np
 import random
-from tqdm import tqdm
-from sklearn.model_selection import train_test_split
 
 
 def read_nodelist(path):
