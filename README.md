@@ -33,12 +33,14 @@ All original datasets were rewritten into the format used by SPRINT and split
 into train and test with [`algorithms/SPRINT/create_SPRINT_datasets.py`](algorithms/SPRINT/create_SPRINT_datasets.py).
 They are in in [`algorithms/SPRINT/data/original`](algorithms/SPRINT/data/original).
 This script was also used to **rewire** and split the datasets (`generate_RDPN`) (-> [`algorithms/SPRINT/data/rewired`](algorithms/SPRINT/data/rewired)).
+Before you run this script, you have to run [`compute_sim_matrix.py`](algorithms/Custom/compute_sim_matrix.py). 
 
 ### Partitions
 
 The [human](Datasets_PPIs/SwissProt/human_swissprot.fasta) and [yeast](Datasets_PPIs/SwissProt/yeast_swissprot.fasta) proteomes were downloaded from Uniprot and sent to the 
 team of SIMAP2. They sent back the similarity data which we make available under
-[https://syncandshare.lrz.de/getlink/fi5AJEoSLB1DrXjxAzBne7/](https://syncandshare.lrz.de/getlink/fi5AJEoSLB1DrXjxAzBne7/) (`submatrix.tsv.gz`). 
+[https://doi.org/10.6084/m9.figshare.21510939](https://doi.org/10.6084/m9.figshare.21510939) (`submatrix.tsv.gz`). 
+Download this and unzip it in `network_data/SIMAP2`.
 
 We preprocessed this data in order to give it to the KaHIP kaffpa algorithm with [simap_preprocessing.py](simap_preprocessing.py):
 
@@ -89,14 +91,30 @@ Results were saved to the [results folder](algorithms/DeepPPI/keras/results_cust
 
 ### PIPR
 The code was pulled from their [GitHub Repository](https://github.com/muhaochen/seq_ppi) and updated to the current tensorflow version.
+Activate the **PIPR environment** for running all PIPR code! 
 All tests are run via [the shell slurm script](algorithms/seq_ppi/binary/model/lasagna/run_PIPR.sh) or [algorithms/seq_ppi/binary/model/lasagna/train_all_datasets.py](algorithms/seq_ppi/binary/model/lasagna/train_all_datasets.py).
 Results were saved to the [results folder](algorithms/seq_ppi/binary/model/lasagna/results).
 
 ### SPRINT
 The code was pulled from their [GitHub Repository](https://github.com/lucian-ilie/SPRINT). 
+You need a g++ compiler and the boost library ([http://www.boost.org/](http://www.boost.org/)) to compile the source code. 
+
+After downloading boost, move it to a fitting directory like `/usr/local/`.
+Edit the [makefile](algorithms/SPRINT/makefile) and adapt the path to boost (`-I /usr/local/boost_1_80_0`).
+Then run 
+```
+cd algorithms/SPRINT
+mkdir bin
+make predict_interactions_serial
+make compute_HSPs_serial 
+```
 The yeast proteome fasta file was first transformed such that each sequence only occupies one line [rewrite_yeast_fasta.py](algorithms/SPRINT/rewrite_yeast_fasta.py).
+
 Then, the proteome was preprocessed with [compute_yeast_HSPs.sh](algorithms/SPRINT/compute_yeast_HSPs.sh).
-The preprocessed human proteome was downloaded from the [SPRINT website](https://www.csd.uwo.ca/~ilie/SPRINT/). 
+
+The preprocessed human proteome was downloaded from the [SPRINT website](https://www.csd.uwo.ca/~ilie/SPRINT/) (precomputed similarities). 
+After downloading the data, move it to the `HSP` folder in `algorithms/SPRINT`. 
+
 Then tests are run via shell slurm scripts: [original](algorithms/SPRINT/run_SPRINT_original.sh), [rewired](algorithms/SPRINT/run_SPRINT_rewired.sh), [partitions](algorithms/SPRINT/run_SPRINT_custom.sh).
 Results were saved to the [results folder](algorithms/SPRINT/results).
 AUCs and AUPRs were calculated with [algorithms/SPRINT/results/calculate_scores.py](algorithms/SPRINT/results/calculate_scores.py).

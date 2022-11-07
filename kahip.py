@@ -1,33 +1,4 @@
-import os
-import subprocess
-
 import networkx as nx
-
-
-def run_kahip():
-    process = subprocess.Popen(['./KaHIP/deploy/kaffpa',
-                                './network_data/SIMAP2/only_yeast_bitscore.graph',
-                                '--seed=1234',
-                                '--output_filename="./network_data/SIMAP2/only_yeast_partition_bitscore.txt"',
-                                '--k=2',
-                                '--preconfiguration=strong'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
-
-    process = subprocess.Popen(['./KaHIP/deploy/kaffpa',
-                                './network_data/SIMAP2/only_human_bitscore.graph',
-                                '--seed=1234',
-                                '--output_filename="./network_data/SIMAP2/only_human_partition_bitscore.txt"',
-                                '--k=2',
-                                '--preconfiguration=strong'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
 
 
 def write_partition(yeast=True):
@@ -63,7 +34,6 @@ def write_partition(yeast=True):
 
 
 if __name__ == "__main__":
-    #run_kahip()
     print("Yeast ...")
     G_yeast = write_partition(yeast=True)
     print("Human ...")

@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from tqdm import tqdm
 
@@ -49,6 +51,7 @@ def parse_simap2(path_to_simap):
     print('Computing yeast similarity matrix ...')
     sim_matrix_yeast = compute_sim_matrix(score_dict, all_yeast_prots)
     print('Saving yeast similarity matrix ...')
+    os.mkdir('../../network_data/SIMAP2/matrices')
     write_list('../../network_data/SIMAP2/matrices/sim_matrix_yeast_colnames.txt',
                all_yeast_prots)
     np.save('../../network_data/SIMAP2/matrices/sim_matrix_yeast.npy',
@@ -75,4 +78,4 @@ def binarize_matrices(sim_matrix_yeast, sim_matrix_human):
 if __name__ == "__main__":
     path_to_submatrix = '../../network_data/SIMAP2/submatrix.tsv'
     sim_matrix_yeast, sim_matrix_human = parse_simap2(path_to_submatrix)
-    binarize_matrices(sim_matrix_yeast, sim_matrix_human)
+    #binarize_matrices(sim_matrix_yeast, sim_matrix_human)
