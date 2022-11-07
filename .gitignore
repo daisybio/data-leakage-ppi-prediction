@@ -209,3 +209,4 @@ fabric.properties
 # .idea
 .Rproj.user
 visualizations/visualizations.Rproj
+ncbi-blast-2.13.0+
