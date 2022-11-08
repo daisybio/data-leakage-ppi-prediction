@@ -48,7 +48,14 @@ We preprocessed this data in order to give it to the KaHIP kaffpa algorithm with
 2. We converted the edge lists to networks and converted the Uniprot node labels to integer labels because KaHIP needs `METIS` files as input. These files can only handle integer node labels
 3. We exported the networks as `METIS` files with bitscores as edge weights: [human](network_data/SIMAP2/human_networks/only_human_bitscore.graph), [yeast](network_data/SIMAP2/yeast_networks/only_yeast_bitscore.graph)
 
-We fed these to the KaHIP kaffpa algorithm with the following commands: 
+If you're using a **Mac**, you can use our compiled KaHIP version. On **Linux**, make sure you have OpenMPI installed and run the following commands: 
+```
+rm -r KaHIP
+git clone https://github.com/KaHIP/KaHIP
+cd KaHIP/
+./compile_withcmake.sh
+```
+Then, feed the METIS files to the KaHIP kaffpa algorithm with the following commands: 
 ```
 ./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_bitscore.txt" --k=2 --preconfiguration=strong
 ./KaHIP/deploy/kaffpa ./network_data/SIMAP2/yeast_networks/only_yeast_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/yeast_networks/only_yeast_partition_bitscore.txt" --k=2 --preconfiguration=strong
