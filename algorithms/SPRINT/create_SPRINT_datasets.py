@@ -1,3 +1,4 @@
+import sys
 import random
 from sklearn.model_selection import train_test_split
 
@@ -365,6 +366,7 @@ def rewrite_richoux(dataset='regular', rewired=False):
 
 
 if __name__ == '__main__':
+   sys.path.append('../../')
    rewrite_guo(rewired=False)
    rewrite_huang(rewired=False)
    rewrite_du(rewired=False)

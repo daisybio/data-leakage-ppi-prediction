@@ -14,7 +14,7 @@ dependencies:
   - brotli=1.0.9
   - brotli-bin=1.0.9
   - bzip2=1.0.8
-  - ca-certificates=2022.6.15
+  - ca-certificates=2022.6.15.2
   - cairo=1.16.0
   - cairomm=1.12.2
   - cairomm-1.0=1.12.2
@@ -106,9 +106,9 @@ dependencies:
   - pygobject=3.42.0
   - python=3.8.13
   - python-dateutil=2.8.2
-  - python-graphviz=0.20
+  - python-graphviz=0.20.1
   - python_abi=3.8
-  - readline=8.1
+  - readline=8.1.2
   - scipy=1.8.0
   - sigcpp-2.0=2.10.7
   - six=1.16.0
@@ -187,6 +187,7 @@ dependencies:
     - termcolor==1.1.0
     - tf-estimator-nightly==2.8.0.dev2021122109
     - threadpoolctl==3.1.0
+    - tqdm==4.64.1
     - trash-cli==0.22.4.16
     - typing-extensions==4.2.0
     - urllib3==1.26.9
@@ -194,3 +195,4 @@ dependencies:
     - wheel==0.37.1
     - wrapt==1.14.1
     - zipp==3.8.0
+
