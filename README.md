@@ -54,6 +54,7 @@ rm -r KaHIP
 git clone https://github.com/KaHIP/KaHIP
 cd KaHIP/
 ./compile_withcmake.sh
+cd ..
 ```
 Then, feed the METIS files to the KaHIP kaffpa algorithm with the following commands: 
 ```
@@ -75,9 +76,17 @@ Our 6 implemented baseline ML methods are implemented in [`algorithms/Custom/`](
 2. We reduced the dimensionality of this matrix via PCA, MDS, and node2vec in [`algorithms/Custom/compute_dim_red.py`](algorithms/Custom/compute_dim_red.py):
    1. PCA [human](algorithms/Custom/data/human_pca.npy), [yeast](algorithms/Custom/data/yeast_pca.npy)
    2. MDS [human](algorithms/Custom/data/human_mds.npy), [yeast](algorithms/Custom/data/yeast_mds.npy)
-   3. For node2vec, we first converted the similarity matrix into a network and exported its edgelist ([human](algorithms/Custom/data/human.edgelist), [yeast](algorithms/Custom/data/yeast.edgelist)) and nodelist ([human](algorithms/Custom/data/human.nodelist), [yeast](algorithms/Custom/data/yeast.nodelist)). Then, we called node2vec with
+   3. For node2vec, we first converted the similarity matrix into a network and exported its edgelist ([human](algorithms/Custom/data/human.edgelist), [yeast](algorithms/Custom/data/yeast.edgelist)) and nodelist ([human](algorithms/Custom/data/human.nodelist), [yeast](algorithms/Custom/data/yeast.nodelist)). Then, we called node2vec
 
-
+If you have a **Mac**, you can use the precompiled node2vec binaries. If you have a **Linux**, follow the following steps: 
+```
+rm -r snap
+git clone https://github.com/snap-stanford/snap.git
+cd snap
+make all
+cd ..
+```
+Then, call node2vec with
 ```
 cd snap/examples/node2vec
 ./node2vec -i:../../../algorithms/Custom/data/yeast.edgelist -o:../../../algorithms/Custom/data/yeast.emb
