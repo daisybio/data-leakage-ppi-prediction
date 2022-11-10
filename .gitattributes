@@ -90,3 +90,11 @@ algorithms/DeepFE-PPI/dataset/human/negative/Protein_B_0.txt filter=lfs diff=lfs
 algorithms/DeepFE-PPI/dataset/human/negative/Protein_B_1.txt filter=lfs diff=lfs merge=lfs -text
 algorithms/DeepFE-PPI/dataset/human/negative/Protein_B_both.txt filter=lfs diff=lfs merge=lfs -text
 algorithms/DeepFE-PPI/dataset/human/all_seqs.fasta filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/hippie_PPIs.tsv filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Negatomev2.0/combined_stringent.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra0_pos.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra1_pos.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra2_pos.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra0_neg.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra1_neg.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra2_neg.txt filter=lfs diff=lfs merge=lfs -text

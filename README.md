@@ -67,6 +67,15 @@ The output files containing the partitioning was mapped back to the original Uni
 The PPIs from the 6 original datasets were then split according to the KaHIP partitions into blocks
 Inter, Intra-0, and Intra-1 with [rewrite_datasets.py](rewrite_datasets.py) and are in [`algorithms/SPRINT/data/partitions`](algorithms/SPRINT/data/partitions).
 
+### Gold Standard Dataset
+We wanted our gold standard dataset to be split into training, validation, and testing. 
+There should be no overlaps between the three datasets and a minimum amount of sequence similarity 
+so that the methods can learn more complex features. 
+Hence, we partitioned the human proteome into three parts by running: 
+```
+./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_3_bitscore.txt" --k=3 --preconfiguration=strong
+```
+
 ## Methods
 
 ### Custom baseline ML methods
