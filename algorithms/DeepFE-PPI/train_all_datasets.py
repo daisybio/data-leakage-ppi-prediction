@@ -425,15 +425,7 @@ if __name__ == "__main__":
             X_val = scaler.transform(X_val)
             print(f'Val: {int(len(y_val[:, 1]))} ({int(sum(y_val[:, 1]))}/{int(len(y_val[:, 1])) - int(sum(y_val[:, 1]))})')
             dataset = 'gold_standard_test'
-        if not partition:
-            X_test, y_test = get_test_set(model_wv.wv, maxlen, size, dataset, rewired)
-            y_test = utils.to_categorical(y_test)
-            X_test = scaler.transform(X_test)
-        else:
-            X_test, y_test = get_test_partition(model_wv.wv, maxlen, size, dataset)
-            y_test = utils.to_categorical(y_test)
-            X_test = scaler.transform(X_test)
-        print(f'Test: {int(len(y_test[:, 1]))} ({int(sum(y_test[:, 1]))}/{int(len(y_test[:, 1])) - int(sum(y_test[:, 1]))})')
+
         print('###########################')
         if partition:
             result_dir = f'result/custom/{dataset.split("_")[0]}/'
@@ -480,6 +472,17 @@ if __name__ == "__main__":
 
         print('******   model created!  ******')
         training_vis(hist, plot_dir, f'training_vis_{dataset}')
+
+        if not partition:
+            X_test, y_test = get_test_set(model_wv.wv, maxlen, size, dataset, rewired)
+            y_test = utils.to_categorical(y_test)
+            X_test = scaler.transform(X_test)
+        else:
+            X_test, y_test = get_test_partition(model_wv.wv, maxlen, size, dataset)
+            y_test = utils.to_categorical(y_test)
+            X_test = scaler.transform(X_test)
+        print(f'Test: {int(len(y_test[:, 1]))} ({int(sum(y_test[:, 1]))}/{int(len(y_test[:, 1])) - int(sum(y_test[:, 1]))})')
+
         predictions_test = model.predict([np.array(X_test[:, 0:sequence_len]),
                                           np.array(X_test[:, sequence_len:sequence_len * 2])])
 
