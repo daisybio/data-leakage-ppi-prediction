@@ -234,8 +234,8 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
         pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos, train_file_neg, organism)
     elif dataset == 'gold_standard':
         print('Getting gold standard dataset ...')
-        train_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra0_pos.txt'
-        train_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra0_neg.txt'
+        train_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
+        train_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
         organism = 'human'
         pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos,
                                                                                                        train_file_neg,
@@ -283,11 +283,11 @@ def get_test_set(wv, maxlen, size, dataset, rewired):
     if dataset.startswith('gold_standard'):
         organism = 'human'
         if dataset == 'gold_standard_val':
-            test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra1_pos.txt'
-            test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra1_neg.txt'
+            test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt'
+            test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt'
         else:
-            test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra2_pos.txt'
-            test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra2_neg.txt'
+            test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt'
+            test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt'
     else:
         if rewired:
             folder = 'rewired'
