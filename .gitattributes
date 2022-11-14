@@ -98,3 +98,9 @@ Datasets_PPIs/Hippiev2.3/Intra2_pos.txt filter=lfs diff=lfs merge=lfs -text
 Datasets_PPIs/Hippiev2.3/Intra0_neg.txt filter=lfs diff=lfs merge=lfs -text
 Datasets_PPIs/Hippiev2.3/Intra1_neg.txt filter=lfs diff=lfs merge=lfs -text
 Datasets_PPIs/Hippiev2.3/Intra2_neg.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt filter=lfs diff=lfs merge=lfs -text
+Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt filter=lfs diff=lfs merge=lfs -text
