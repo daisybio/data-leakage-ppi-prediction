@@ -141,7 +141,7 @@ def make_partition_blocks():
     export_block(neg_intra_2, 'Datasets_PPIs/Hippiev2.3/Intra2_neg.txt')
 
 
-def filter_block(block, all_ppis):
+def filter_block(block, all_ppis, intra_sims):
     redundant_proteins = set()
     block_pos = set()
     block_neg = set()
@@ -153,7 +153,7 @@ def filter_block(block, all_ppis):
         for line in f:
             pos_interactions += 1
             prot_a, prot_b = line.strip().split(' ')
-            if prot_a not in redundant_proteins and prot_b not in redundant_proteins:
+            if prot_a not in redundant_proteins and prot_b not in redundant_proteins and prot_a not in intra_sims and prot_b not in intra_sims:
                 block_pos.add((prot_a, prot_b))
     print(f'Positives: {len(block_pos)} / {pos_interactions} remained! Filtered {pos_interactions - len(block_pos)} PPIs ...')
     neg_interactions = 0
@@ -161,7 +161,7 @@ def filter_block(block, all_ppis):
         for line in f:
             neg_interactions += 1
             prot_a, prot_b = line.strip().split(' ')
-            if prot_a not in redundant_proteins and prot_b not in redundant_proteins:
+            if prot_a not in redundant_proteins and prot_b not in redundant_proteins and prot_a not in intra_sims and prot_b not in intra_sims:
                 block_neg.add((prot_a, prot_b))
     print(f'Negatives: {len(block_neg)} / {neg_interactions} remained! Filtered {neg_interactions - len(block_neg)} PPIs ...')
     if len(block_neg) > len(block_pos):
@@ -175,15 +175,25 @@ def filter_block(block, all_ppis):
     return block_pos, block_neg
 
 
+def parse_intra_sims():
+    intra_sims = set()
+    for block in ['01', '02', '12']:
+        with open(f'Datasets_PPIs/Hippiev2.3/redundant_intra{block}.txt') as f:
+            for line in f:
+                intra_sims.add(line.strip())
+    return intra_sims
+
+
 def filter_partition():
     all_ppis = parse_all_ppis()
-    intra_0_pos, intra_0_neg = filter_block(0, all_ppis)
+    intra_sims = parse_intra_sims()
+    intra_0_pos, intra_0_neg = filter_block(0, all_ppis, intra_sims)
     export_block(intra_0_pos, 'Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt')
     export_block(intra_0_neg, 'Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt')
-    intra_1_pos, intra_1_neg = filter_block(1, all_ppis)
+    intra_1_pos, intra_1_neg = filter_block(1, all_ppis, intra_sims)
     export_block(intra_1_pos, 'Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt')
     export_block(intra_1_neg, 'Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt')
-    intra_2_pos, intra_2_neg = filter_block(2, all_ppis)
+    intra_2_pos, intra_2_neg = filter_block(2, all_ppis, intra_sims)
     export_block(intra_2_pos, 'Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt')
     export_block(intra_2_neg, 'Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt')
 
@@ -195,14 +205,23 @@ if __name__ == '__main__':
     #export_fasta(intra_0, seq_dict, 'Datasets_PPIs/Hippiev2.3/Intra_0.fasta')
     #export_fasta(intra_1, seq_dict, 'Datasets_PPIs/Hippiev2.3/Intra_1.fasta')
     #export_fasta(intra_2, seq_dict, 'Datasets_PPIs/Hippiev2.3/Intra_2.fasta')
+
     #find pairwise sequence identities > 40% with CD Hit
     #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -o sim_intra0.out -c 0.4 -n 2
     #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o sim_intra1.out -c 0.4 -n 2
     #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o sim_intra2.out -c 0.4 -n 2
+    #./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra0_intra_1.out -c 0.4 -n 2
+    #./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra0_intra_2.out -c 0.4 -n 2
+    #./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out -c 0.4 -n 2
+
     #find redundant sequences
     #less Datasets_PPIs/Hippiev2.3/sim_intra0.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra0.txt
     #less Datasets_PPIs/Hippiev2.3/sim_intra1.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra1.txt
     #less Datasets_PPIs/Hippiev2.3/sim_intra2.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra2.txt
+
+    #less Datasets_PPIs/Hippiev2.3/sim_intra0_intra_1.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra01.txt
+    #less Datasets_PPIs/Hippiev2.3/sim_intra0_intra_2.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra02.txt
+    #less Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra12.txt
 
     filter_partition()
 
