@@ -385,6 +385,7 @@ if __name__ == "__main__":
         partition = False
         rewired = False
         original = False
+        prefix = 'gold_standard_'
 
     if rewired or original:
         datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']

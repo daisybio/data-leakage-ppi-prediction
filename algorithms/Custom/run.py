@@ -1,4 +1,5 @@
-from load_datasets import load_partition_datasets, load_from_SPRINT
+import sys
+from load_datasets import load_partition_datasets, load_from_SPRINT, load_gold_standard
 from learn_models import learn_rf, learn_SVM
 from time import time
 
@@ -10,7 +11,10 @@ def export_scores(scores, path):
 
 
 def load_data(name, encoding, partition=False, partition_train='0', partition_test='1', rewire=False):
-    if partition:
+    if name == 'gold_standard':
+        print('loading gold standard ...')
+        X_train, y_train, X_test, y_test = load_gold_standard(encoding=encoding)
+    elif partition:
         print(f"Loading partition datasets for {name}, train on {partition_train}, test on {partition_test}")
         X_train, y_train, X_test, y_test = load_partition_datasets(encoding=encoding, dataset=name,
                                                                    partition_train=partition_train,
@@ -73,7 +77,7 @@ def run_simpler_algorithms(rewire=False):
                           f'results/{prefix}{name}_{encoding}_RF.csv')
             time_elapsed_rf = time() - t_start
             print(f'time elapsed: {time_elapsed_rf}')
-            with open(f'results/time_{prefix}{name}_{encoding}.txt', 'w') as f:
+            with open(f'results/time_{prefix}{name}_{encoding}.txt', 'a+') as f:
                 f.write(f'RF\t{time_elapsed_rf}\n')
             scores = learn_SVM(X_train, y_train, X_test, y_test)
             export_scores(scores,
@@ -84,10 +88,41 @@ def run_simpler_algorithms(rewire=False):
                 f.write(f'SVM\t{time_elapsed_svm}')
 
 
+def run_gold_standard():
+    prefix = 'gold_standard_'
+    for encoding in ['PCA', 'MDS', 'node2vec']:
+        t_start = time()
+        print(f'##### {encoding} encoding')
+        X_train, y_train, X_test, y_test = load_data(name='gold_standard', encoding=encoding,
+                                                     partition=False, rewire=False)
+        time_preprocess = time() - t_start
+        scores = learn_rf(X_train, y_train, X_test, y_test)
+        export_scores(scores,
+                      f'results/{prefix}_{encoding}_RF.csv')
+        time_elapsed_rf = time() - t_start
+        print(f'time elapsed: {time_elapsed_rf}')
+        with open(f'results/time_{prefix}_{encoding}.txt', 'a+') as f:
+            f.write(f'RF\t{time_elapsed_rf}\n')
+        scores = learn_SVM(X_train, y_train, X_test, y_test)
+        export_scores(scores,
+                      f'results/{prefix}_{encoding}_SVM.csv')
+        time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
+        print(f'time elapsed: {time_elapsed_svm}')
+        with open(f'results/time_{prefix}_{encoding}.txt', 'a') as f:
+            f.write(f'SVM\t{time_elapsed_svm}')
+
+
 if __name__ == "__main__":
-    print('########################### ORIGINAL ###########################')
-    run_simpler_algorithms(rewire=False)
-    print('########################### REWIRED ###########################')
-    run_simpler_algorithms(rewire=True)
-    print('########################### PARTITION ###########################')
-    run_partitioning_tests()
+    args = sys.argv[1:]
+    if args[0] == 'original':
+        print('########################### ORIGINAL ###########################')
+        run_simpler_algorithms(rewire=False)
+    elif args[0] == 'rewired':
+        print('########################### REWIRED ###########################')
+        run_simpler_algorithms(rewire=True)
+    elif args[0] == 'partition':
+        print('########################### PARTITION ###########################')
+        run_partitioning_tests()
+    else:
+        print('########################### GOLD STANDARD ###########################')
+        run_gold_standard()
