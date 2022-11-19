@@ -7,6 +7,7 @@ all_degrees$Test <- factor(all_degrees$Test, levels = c('original', 'rewired', '
 all_degrees$Split <- gsub('both', 'inter', all_degrees$Split)
 all_degrees$Split <- gsub('0', 'intra-0', all_degrees$Split)
 all_degrees$Split <- gsub('1', 'intra-1', all_degrees$Split)
+all_degrees$Split <- gsub('2', 'intra-2', all_degrees$Split)
 
 ggplot(all_degrees, aes(x=Degree, fill=Network))+
   geom_histogram(bins=30, position = 'dodge')+
@@ -16,11 +17,12 @@ ggplot(all_degrees, aes(x=Degree, fill=Network))+
 
 ggsave('node_degrees_pos_vs_neg.png', height = 6, width=12)
 
+all_degrees$Split <- factor(all_degrees$Split, levels = c('train', 'test', 'inter', 'intra-0', 'intra-1', 'intra-2'))
 ggplot(all_degrees, aes(x=Degree, fill=Split))+
   geom_histogram(bins=30, position = 'dodge')+
   facet_wrap(Test~Dataset, scales = 'free', nrow = 3)+
   theme_bw()+
-  scale_fill_manual(values = brewer.pal(5, "Set1"))+
+  scale_fill_manual(values = brewer.pal(6, "Set1"))+
   xlim(0, 20)
 
 ggsave('node_degrees_train_vs_test.png', height = 6, width=12)

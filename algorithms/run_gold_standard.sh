@@ -30,5 +30,5 @@ cd ../..
 cat ../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt ../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt > ../Datasets_PPIs/Hippiev2.3/Intra0_Intra1_pos_rr.txt
 cd SPRINT
 echo SPRINT
-{ time bin/predict_interactions -p data/Uniprot_human_protein_sequences.fasta -h HSP/pre_computed_HSP -tr ../Datasets_PPIs/Hippiev2.3/Intra0_Intra1_pos_rr.txt -pos ../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt -neg ../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt -o results/original/gold_standard_results.txt ; } 2> results/original/gold_standard_time.txt
+{ time bin/predict_interactions -p data/Uniprot_human_protein_sequences.fasta -h HSP/pre_computed_HSP -tr ../../Datasets_PPIs/Hippiev2.3/Intra0_Intra1_pos_rr.txt -pos ../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt -neg ../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt -o results/original/gold_standard_results.txt ; } 2> results/original/gold_standard_time.txt
 

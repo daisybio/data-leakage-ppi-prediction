@@ -18,4 +18,11 @@ for dataset in ['du', 'guo', 'huang', 'pan', 'richoux']:
             degree_sequence = {node: G.degree()[node] for node in G.nodes()}
             for key, val in degree_sequence.items():
                 file.write(f'{key},{val},partition,{dataset},{partition},{network}\n')
+
+for partition in ['0', '1', '2']:
+    for network in ['pos', 'neg']:
+        G = nx.read_edgelist(f'../../../Datasets_PPIs/Hippiev2.3/Intra{partition}_{network}_rr.txt')
+        degree_sequence = {node: G.degree()[node] for node in G.nodes()}
+        for key, val in degree_sequence.items():
+            file.write(f'{key},{val},original,gold_standard,{partition},{network}\n')
 file.close()
