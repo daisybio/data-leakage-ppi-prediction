@@ -75,6 +75,35 @@ Hence, we partitioned the human proteome into three parts by running:
 ```
 ./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_3_bitscore.txt" --k=3 --preconfiguration=strong
 ```
+Then, the Hippie v2.3 database was downloaded from their [website](http://cbdm-01.zdv.uni-mainz.de/~mschaefer/hippie/).
+The dataset was split intro training, validation, and testing using the partition. Negative PPIs were 
+sampled randomly, node degrees of proteins from the positive dataset were preserved in expectation in the 
+negative dataset. The resulting blocks Intra-0, Intra-1, and Intra-2 were redundancy-reduced using CD-HIT. 
+CD-HIT was cloned from their [GitHub](https://github.com/weizhongli/cdhit.git) and built following the instructions given there.
+The datasets were redundancy reduced at 40% pairwise sequence similarity by first exporting their fasta sequences and then running:
+```
+./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -o sim_intra0.out -c 0.4 -n 2
+./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o sim_intra1.out -c 0.4 -n 2
+./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o sim_intra2.out -c 0.4 -n 2
+```
+Redundancy was also reduced between the datasets: 
+```
+./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra0_intra_1.out -c 0.4 -n 2
+./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra0_intra_2.out -c 0.4 -n 2
+./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out -c 0.4 -n 2
+```
+Then, the redundant sequences were extracted from the output files
+```
+less Datasets_PPIs/Hippiev2.3/sim_intra0.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra0.txt
+less Datasets_PPIs/Hippiev2.3/sim_intra1.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra1.txt
+less Datasets_PPIs/Hippiev2.3/sim_intra2.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra2.txt
+
+less Datasets_PPIs/Hippiev2.3/sim_intra0_intra_1.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra01.txt
+less Datasets_PPIs/Hippiev2.3/sim_intra0_intra_2.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra02.txt
+less Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out.clstr| grep -E '([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}).*%$'|cut -d'>' -f2|cut -d'.' -f1 > Datasets_PPIs/Hippiev2.3/redundant_intra12.txt
+```
+and filtered out of training, validation, and testing. 
+All Python code for this task can be found in [create_gold_standard.py](create_gold_standard.py). 
 
 ## Methods
 
