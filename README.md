@@ -104,7 +104,7 @@ less Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out.clstr| grep -E '([OPQ][0-9]
 ```
 and filtered out of training, validation, and testing. 
 All Python code for this task can be found in [create_gold_standard.py](create_gold_standard.py). 
-
+The data is available at [https://doi.org/10.6084/m9.figshare.21591618.v1](https://doi.org/10.6084/m9.figshare.21591618.v1).
 ## Methods
 
 ### Custom baseline ML methods
