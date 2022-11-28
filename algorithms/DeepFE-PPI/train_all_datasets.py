@@ -215,6 +215,8 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
                 'du_both_0', 'du_both_1', 'du_0_1',
                 'pan_both_0', 'pan_both_1', 'pan_0_1',
                 'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+    elif dataset == 'gold_standard':
+        datasets = ['gold_standard']
     else:
         datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
     if dataset not in datasets:
@@ -230,6 +232,14 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
         train_file_pos = f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt'
         train_file_neg = f'../SPRINT/data/partitions/{name}_partition_{train_partition}_neg.txt'
         pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos, train_file_neg, organism)
+    elif dataset == 'gold_standard':
+        print('Getting gold standard dataset ...')
+        train_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
+        train_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
+        organism = 'human'
+        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos,
+                                                                                                       train_file_neg,
+                                                                                                       organism)
     else:
         if rewired:
             folder = 'rewired'
@@ -270,19 +280,28 @@ def get_test_partition(wv, maxlen, size, dataset):
 
 
 def get_test_set(wv, maxlen, size, dataset, rewired):
-    if rewired:
-        folder = 'rewired'
-    else:
-        folder = 'original'
-    if dataset in ['du', 'guo']:
-        organism = 'yeast'
-    else:
+    if dataset.startswith('gold_standard'):
         organism = 'human'
-    test_file_pos = f'../SPRINT/data/{folder}/{dataset}_test_pos.txt'
-    test_file_neg = f'../SPRINT/data/{folder}/{dataset}_test_neg.txt'
+        if dataset == 'gold_standard_val':
+            test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt'
+            test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt'
+        else:
+            test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt'
+            test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt'
+    else:
+        if rewired:
+            folder = 'rewired'
+        else:
+            folder = 'original'
+        if dataset in ['du', 'guo']:
+            organism = 'yeast'
+        else:
+            organism = 'human'
+        test_file_pos = f'../SPRINT/data/{folder}/{dataset}_test_pos.txt'
+        test_file_neg = f'../SPRINT/data/{folder}/{dataset}_test_neg.txt'
     pos_A_test, pos_B_test, neg_A_test, neg_B_test = read_sprint_files(test_file_pos,
-                                                                                                      test_file_neg,
-                                                                                                      organism)
+                                                                       test_file_neg,
+                                                                       organism)
     feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_A_test, neg_A_test,
                                                        pos_B_test, neg_B_test)
     return feature_protein_AB, label
@@ -350,24 +369,34 @@ if __name__ == "__main__":
     if args[0] == 'original':
         partition = False
         rewired = False
+        original = True
         prefix = 'original_'
     elif args[0] == 'rewired':
         partition = False
         rewired = True
+        original = False
         prefix = 'rewired_'
-    else:
+    elif args[0] == 'partition':
         partition = True
         rewired = False
+        original = False
         prefix = 'partition_'
-
-    if not partition:
-        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
     else:
+        partition = False
+        rewired = False
+        original = False
+        prefix = 'gold_standard_'
+
+    if rewired or original:
+        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
+    elif partition:
         datasets = ['huang_both_0', 'huang_both_1', 'huang_0_1',
                     'guo_both_0','guo_both_1','guo_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
                     'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+    else:
+        datasets = ['gold_standard']
 
     for dataset in datasets:
         print(f'Dataset: {dataset}')
@@ -386,24 +415,18 @@ if __name__ == "__main__":
         X_train, y_train = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset, partition=partition, rewired=rewired)
         y_train = utils.to_categorical(y_train)
         print('dataset is loaded')
+        print(f'Train: {int(len(y_train[:, 1]))} ({int(sum(y_train[:, 1]))}/{int(len(y_train[:, 1])) - int(sum(y_train[:, 1]))})')
         # scaler
         scaler = StandardScaler().fit(X_train)
         X_train = scaler.transform(X_train)
 
-        if not partition:
-            X_test, y_test = get_test_set(model_wv.wv, maxlen, size, dataset, rewired)
-            y_test = utils.to_categorical(y_test)
-            X_test = scaler.transform(X_test)
-        else:
-            X_test, y_test = get_test_partition(model_wv.wv, maxlen, size, dataset)
-            y_test = utils.to_categorical(y_test)
-            X_test = scaler.transform(X_test)
-        print('###########################')
-        print(
-            f'The {dataset} dataset contains {len(y_train[:, 1]) + len(y_test[:, 1])} samples '
-            f'({int(sum(y_train[:, 1]) + sum(y_test[:, 1]))} positives, {int(len(y_train[:, 1]) + len(y_test[:, 1]) - sum(y_train[:, 1]) - sum(y_test[:, 1]))} negatives).\n'
-            f'80/20 training/test split results in train: {int(len(y_train[:, 1]))} ({int(sum(y_train[:, 1]))}/{int(len(y_train[:, 1])) - int(sum(y_train[:, 1]))}),'
-            f' test: {int(len(y_test[:, 1]))} ({int(sum(y_test[:, 1]))}/{int(len(y_test[:, 1])) - int(sum(y_test[:, 1]))})')
+        if dataset == 'gold_standard':
+            X_val, y_val = get_test_set(model_wv.wv, maxlen, size, 'gold_standard_val', rewired)
+            y_val = utils.to_categorical(y_val)
+            X_val = scaler.transform(X_val)
+            print(f'Val: {int(len(y_val[:, 1]))} ({int(sum(y_val[:, 1]))}/{int(len(y_val[:, 1])) - int(sum(y_val[:, 1]))})')
+            dataset = 'gold_standard_test'
+
         print('###########################')
         if partition:
             result_dir = f'result/custom/{dataset.split("_")[0]}/'
@@ -423,18 +446,44 @@ if __name__ == "__main__":
         model.compile(loss='categorical_crossentropy',
                       optimizer=sgd,
                       metrics=[tf.keras.metrics.Precision()])
-        # feed data into model
-        hist = model.fit(
-            {'left': np.array(X_train[:, 0:sequence_len]),
-             'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
-            {'ppi_pred': y_train},
-            epochs=nb_epoch,
-            batch_size=batch_size,
-            verbose=1
-        )
+
+        if dataset.startswith('gold_standard'):
+            # feed data into model
+            hist = model.fit(
+                {'left': np.array(X_train[:, 0:sequence_len]),
+                 'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
+                {'ppi_pred': y_train},
+                validation_data=[{'left': np.array(X_val[:, 0:sequence_len]),
+                 'right': np.array(X_val[:, sequence_len:sequence_len * 2])},
+                {'ppi_pred': y_val}],
+                epochs=nb_epoch,
+                batch_size=batch_size,
+                verbose=1
+            )
+        else:
+            # feed data into model
+            hist = model.fit(
+                {'left': np.array(X_train[:, 0:sequence_len]),
+                 'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
+                {'ppi_pred': y_train},
+                epochs=nb_epoch,
+                batch_size=batch_size,
+                verbose=1
+            )
 
         print('******   model created!  ******')
         training_vis(hist, plot_dir, f'training_vis_{dataset}')
+
+        if not partition:
+            X_test, y_test = get_test_set(model_wv.wv, maxlen, size, dataset, rewired)
+            y_test = utils.to_categorical(y_test)
+            X_test = scaler.transform(X_test)
+        else:
+            X_test, y_test = get_test_partition(model_wv.wv, maxlen, size, dataset)
+            y_test = utils.to_categorical(y_test)
+            X_test = scaler.transform(X_test)
+        print(f'Test: {int(len(y_test[:, 1]))} ({int(sum(y_test[:, 1]))}/{int(len(y_test[:, 1])) - int(sum(y_test[:, 1]))})')
+
         predictions_test = model.predict([np.array(X_test[:, 0:sequence_len]),
                                           np.array(X_test[:, sequence_len:sequence_len * 2])])
 

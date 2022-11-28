@@ -10,7 +10,7 @@ def calculate_auc_aupr(y_pred, y_true):
 
 
 partition=False
-rewired = True
+rewired = False
 if partition:
     result_file = open("partitions/all_results.tsv", "w")
     result_file.write("Dataset\tTrain\tTest\tAUC\tAUPR\n")
@@ -34,11 +34,13 @@ if partition:
 else:
     if rewired:
         folder = 'rewired'
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict"]
     else:
         folder = 'original'
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold_standard"]
     result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Dataset\tAUC\tAUPR\n")
-    for dataset in ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict"]:
+    for dataset in datasets:
         print(f"########## Dataset: {dataset} ##########")
         y_pred = []
         y_true = []

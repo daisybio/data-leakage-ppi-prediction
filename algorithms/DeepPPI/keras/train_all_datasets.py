@@ -150,6 +150,8 @@ def make_parser():
     parser = argparse.ArgumentParser(description='Protein-Protein interaction predicter')
     parser.add_argument('-train_pos', type=str, help='File containing the positive training set')
     parser.add_argument('-train_neg', type=str, help='File containing the negative training set')
+    parser.add_argument('-val_pos', type=str, help='File containing the positive validation set')
+    parser.add_argument('-val_neg', type=str, help='File containing the negative validation set')
     parser.add_argument('-test_pos', type=str, help='File containing the positive test set')
     parser.add_argument('-test_neg', type=str, help='File containing the negative test set')
     parser.add_argument('-model', type=str,
@@ -311,6 +313,8 @@ if __name__ == '__main__':
 
     train_set_pos = args.train_pos
     train_set_neg = args.train_neg
+    val_set_pos = args.val_pos
+    val_set_neg = args.val_neg
     test_set_pos = args.test_pos
     test_set_neg = args.test_neg
 
@@ -330,9 +334,19 @@ if __name__ == '__main__':
     print("Loading training data")
     train_data, labels = custom_load_data(ppis_train, seq_dict)
     print(f'{len(labels)} protein pairs in training ({sum(labels)}/{len(labels)-sum(labels)})!')
-    callbacks_list = [callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
-                                                  verbose=1),
-                      callbacks.EarlyStopping(monitor='acc', patience=patience, verbose=1)]
+    if val_set_pos:
+        print("Loading validation data")
+        ppis_val = parse_ppis(val_set_pos, val_set_neg, seq_dict)
+        val_data, val_labels = custom_load_data(ppis_val, seq_dict)
+        val_data = (val_data, val_labels)
+        callbacks_list = [
+            callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
+                                        verbose=1)]
+        callbacks_list.append(callbacks.EarlyStopping(monitor='val_acc', patience=patience, verbose=1))
+    else:
+        callbacks_list = [callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
+                                                      verbose=1),
+                          callbacks.EarlyStopping(monitor='acc', patience=patience, verbose=1)]
 
     with tf.device(which_gpu):
         # Build one model among available ones
@@ -344,12 +358,19 @@ if __name__ == '__main__':
     model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['acc'])
 
     print("Training model")
-
-    history = model.fit(train_data,
-                        labels,
-                        epochs=epochs,
-                        batch_size=batch_size,
-                        callbacks=callbacks_list)
+    if val_set_pos:
+        history = model.fit(train_data,
+                            labels,
+                            epochs=epochs,
+                            batch_size=batch_size,
+                            callbacks=callbacks_list,
+                            validation_data=val_data)
+    else:
+        history = model.fit(train_data,
+                            labels,
+                            epochs=epochs,
+                            batch_size=batch_size,
+                            callbacks=callbacks_list)
 
     print("Loading test data")
     test_data, test_labels = custom_load_data(ppis_test, seq_dict)
