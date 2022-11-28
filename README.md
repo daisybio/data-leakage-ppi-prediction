@@ -9,6 +9,8 @@ We used `git-lfs` to store some of the files so make sure to install it before c
 Most of the code can be run with our main environment ([mac](mac_env.yml), [linux](linux_env.yml)).
 For PIPR, however, a custom environment ist needed ([mac](mac_env_pipr.yml), [linux](linux_env_pipr.yml)). 
 
+The AIMe Report for this project is available at [https://aime-registry.org/report/VRPXym](https://aime-registry.org/report/VRPXym). 
+
 ![alt text](Overview%20Figure%20Results.png)
 
 ## Datasets
