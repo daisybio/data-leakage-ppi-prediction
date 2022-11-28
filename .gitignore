@@ -17,13 +17,9 @@ KaHIP/bin
 KaHIP/build
 KaHIP/include
 network_data
-Datasets_PPIs/Guo_CelegDroEcoli_DIP
-Datasets_PPIs/Maetschke_cross_species_STRING
-Datasets_PPIs/Rost_yeast_human
-Datasets_PPIs/STRING_DB
-Datasets_PPIs/Yao_Hpylo
-Datasets_PPIs/You_yeast_DIP
-Datasets_PPIs/Zhou_cross_species_DIP
+Datasets_PPIs/Hippiev2.3/all_unique_ids.txt
+Datasets_PPIs/Hippiev2.3/hippie_current.txt
+Datasets_PPIs/Hippiev2.3/hippie_mapping.tsv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

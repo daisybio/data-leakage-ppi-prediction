@@ -25,3 +25,4 @@ partition_pan_0_1	4023.230547428131
 partition_richoux_both_0	4872.063113451004
 partition_richoux_both_1	4796.1424908638
 partition_richoux_0_1	4158.941441774368
+gold_standard	23907.553251743317

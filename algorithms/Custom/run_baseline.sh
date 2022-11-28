@@ -7,4 +7,6 @@
 #SBATCH --error=baselineML.err
 #SBATCH --mem=20G
 
-python run.py
+python run.py original
+python run.py rewired
+python run.py partition

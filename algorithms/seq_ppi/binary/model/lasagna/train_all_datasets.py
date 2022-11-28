@@ -40,7 +40,9 @@ def process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t):
 
 
 def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
-    if partition:
+    if dataset.startswith('gold_standard'):
+        datasets = ['gold_standard_train', 'gold_standard_val', 'gold_standard_test']
+    elif partition:
         datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
                     'huang_both_0', 'huang_both_1', 'huang_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
@@ -67,6 +69,18 @@ def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
         file_pos = f'../../../../SPRINT/data/partitions/{name}_partition_{partition}_pos.txt'
         file_neg = f'../../../../SPRINT/data/partitions/{name}_partition_{partition}_neg.txt'
         ppis = read_ppis_from_sprint(file_pos, file_neg, id2index)
+    elif dataset.startswith('gold_standard'):
+        id2index, seqs = read_in_seqdict('human')
+        if dataset == 'gold_standard_train':
+            train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
+        elif dataset == 'gold_standard_val':
+            train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt'
+        else:
+            train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt'
+        ppis = read_ppis_from_sprint(train_file_pos, train_file_neg, id2index)
     else:
         if dataset in ['guo', 'du']:
             organism='yeast'
@@ -243,14 +257,20 @@ if __name__ == '__main__':
         partition = False
         rewired = True
         prefix = 'rewired_'
-    else:
+    elif args[0] == 'partition':
         partition = True
         rewired = False
         prefix = 'partition_'
+    else:
+        partition = False
+        rewired = False
+        prefix = 'gold_standard_'
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
-    if partition:
+    if prefix == 'gold_standard_':
+        datasets = ['gold_standard']
+    elif partition:
         datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
                     'huang_both_0', 'huang_both_1', 'huang_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
@@ -261,22 +281,45 @@ if __name__ == '__main__':
     for dataset in datasets:
         t_start = time()
         print(f'####################### {dataset} Dataset #######################')
-        print('Reading training data ...')
-        dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size, rewired=rewired)
-        print('Reading test data ...')
-        dim_test, X_test, y_test = read_in_dataset(dataset=dataset, test=True, partition=partition, seq_size=seq_size, rewired=rewired)
-        print('###########################')
-        print(
-            f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
-            f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
-            f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
+        if dataset == 'gold_standard':
+            print('Reading training data ...')
+            dim, X_train, y_train = read_in_dataset(dataset='gold_standard_train', test=False, partition=partition, seq_size=seq_size,
+                                                    rewired=rewired)
+            print('Reading validation data ...')
+            dim_val, X_val, y_val = read_in_dataset(dataset='gold_standard_val', test=False, partition=partition,
+                                                    seq_size=seq_size,
+                                                    rewired=rewired)
+            print('Reading test data ...')
+            dim_test, X_test, y_test = read_in_dataset(dataset='gold_standard_test', test=True, partition=partition,
+                                                       seq_size=seq_size, rewired=rewired)
+            print('###########################')
+            print(f'Train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+                  f'Validation: {int(len(y_val[:, 0]))} ({int(sum(y_val[:, 0]))}/{int(len(y_val[:, 0])) - int(sum(y_val[:, 0]))}),'
+                  f'Test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))}),')
+        else:
+            print('Reading training data ...')
+            dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size, rewired=rewired)
+            print('Reading test data ...')
+            dim_test, X_test, y_test = read_in_dataset(dataset=dataset, test=True, partition=partition, seq_size=seq_size, rewired=rewired)
+            print('###########################')
+            print(
+                f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
+                f'training/test split results in train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+                f' test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))})')
         print('###########################')
         print('Building model ...')
         merge_model = build_model(seq_size, dim)
         adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
         merge_model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
         print(f'Dim train: {X_train[0].shape}')
-        hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
+        if dataset == 'gold_standard':
+            print(f'Dim val: {X_val[0].shape}')
+            hist = merge_model.fit(X_train, y_train,
+                                   validation_data=(X_val, y_val),
+                                   batch_size=batch_size,
+                                   epochs=n_epochs)
+        else:
+            hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
         print('Predicting ...')
         y_pred = merge_model.predict(X_test)
         print('Exporting results ...')

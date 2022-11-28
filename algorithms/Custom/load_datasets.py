@@ -127,6 +127,27 @@ def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
     return X_train, y_train, X_test, y_test
 
 
+def load_gold_standard(encoding='PCA'):
+    emd, id_dict = load_encoding(encoding=encoding, organism='human')
+    train_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1')
+    train_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0')
+    train_pos.extend(train_neg)
+    val_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1')
+    val_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0')
+    train_pos.extend(val_pos)
+    train_pos.extend(val_neg)
+    train_pos = balance_set(train_pos, id_dict, encoding, emd)
+
+    test_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1')
+    test_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0')
+    test_pos.extend(test_neg)
+    test_pos = balance_set(test_pos, id_dict, encoding, emd)
+
+    X_train, y_train = make_X_y(train_pos, emd, id_dict)
+    X_test, y_test = make_X_y(test_pos, emd, id_dict)
+    return X_train, y_train, X_test, y_test
+
+
 def balance_set(ppis, id_dict, encoding, emd):
     pos_len = sum([int(pair[2]) for pair in ppis])
     neg_len = len(ppis) - pos_len
