@@ -1,0 +1,12 @@
+Model,Dataset,Accuracy
+RF_MDS,gold_standard,0.499251012145749
+SVM_MDS,gold_standard,0.501356275303644
+RF_node2vec,gold_standard,0.512361958134168
+SVM_node2vec,gold_standard,0.539311026866656
+RF_PCA,gold_standard,0.515708502024292
+SVM_PCA,gold_standard,0.500748987854251
+DeepFE,gold_standard,0.5025
+deepPPI_FC,gold_standard,0.5076
+deepPPI_LSTM,gold_standard,0.5007
+PIPR,gold_standard,0.5197
+SPRINT,gold_standard,0.5123

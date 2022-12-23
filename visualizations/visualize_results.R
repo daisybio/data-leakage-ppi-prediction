@@ -2,6 +2,7 @@ library(data.table)
 library(ggplot2)
 library(RColorBrewer)
 library(pheatmap)
+library(latex2exp)
 
 measure <- 'Accuracy'
 
@@ -23,17 +24,6 @@ all_results <- all_results[, Model := factor(Model,
 all_results <- all_results[, Dataset := factor(Dataset, 
                                                levels = c('gold_standard', 'huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict'))]
 
-# ggplot(all_results, aes(x=Dataset, y = get(measure), color=Test, group=Test))+
-#   geom_line(size=1, alpha=0.7)+
-#   geom_point(size=3)+
-#   facet_wrap(~Model)+
-#   theme_bw()+
-#   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+
-#   scale_x_discrete(labels=c('huang' = 'Huang', 'guo' = 'Guo',
-#                             'du' = 'Du','pan' = 'Pan', 'richoux-regular' = 'Richoux regular',
-#                             'richoux-strict' = 'Richoux strict'))
-# ggsave(paste0('plots/original_vs_rewired_', measure, '.png'),height=8, width=10)
-
 all_results <- rbind(all_results, partition_results)
 all_results[, Test := factor(Test, levels=c('Original', 'Rewired', 'both->0', 'both->1', '0->1'))]
 all_results[, Model := gsub('deepPPI_FC', 'Richoux-FC', Model)]
@@ -49,30 +39,6 @@ all_results <- all_results[, Model := factor(Model,
                                                       'Richoux-FC', 'Richoux-LSTM',  
                                                       'DeepFE', 'PIPR', 'RF PCA','SVM PCA', 'RF MDS', 'SVM MDS',
                                                       'RF node2vec',  'SVM node2vec'))]
-# ggplot(all_results, aes(x=Dataset, y = get(measure), color=Test, group=Test))+
-#   geom_line(size=1, alpha=0.7)+
-#   geom_point(size=2)+
-#   facet_wrap(~Model)+
-#   theme_bw()+
-#   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+
-#   scale_x_discrete(labels=c('huang' = 'Huang', 'guo' = 'Guo',
-#                             'du' = 'Du','pan' = 'Pan', 'richoux-regular' = 'Richoux regular',
-#                             'richoux-strict' = 'Richoux strict'))+
-#   scale_color_manual(values = brewer.pal(5,'Set2')[c(2,3,1,5,4)])
-# ggsave(paste0('plots/original_vs_rewired_vs_partitions_', measure, '.png'),height=8, width=10)
-# 
-# ggplot(all_results, aes(x=Dataset, y = get(measure), color=Model, group=Model))+
-#   geom_line(size=1, alpha=0.7)+
-#   geom_point(size=2)+
-#   facet_wrap(~Test)+
-#   theme_bw()+
-#   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+
-#   scale_x_discrete(labels=c('huang' = 'Huang', 'guo' = 'Guo',
-#                             'du' = 'Du','pan' = 'Pan', 'richoux-regular' = 'Richoux regular',
-#                             'richoux-strict' = 'Richoux strict', 'gold_standard' = 'Gold Standard'))+
-#   scale_color_manual(values = brewer.pal(12,'Paired')[-11])
-# ggsave(paste0('plots/original_vs_rewired_vs_partitions_models_', measure, '.png'),height=8, width=10)
-
 
 colorBlindBlack8  <- c('#000000', '#E69F00', '#56B4E9', '#009E73', 
                        '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
@@ -81,17 +47,14 @@ rownames(result_mat) <- result_mat[, 'Model']
 result_mat <- result_mat[, -1]
 class(result_mat) <- 'numeric'
 colnames(result_mat)[colnames(result_mat) == 'gold_standard_Original'] <- 'Gold_Original'
-annotation_col <- as.data.frame(tstrsplit(colnames(result_mat), '_'), col.names = c('Dataset', 'Test'))
+annotation_col <- as.data.frame(tstrsplit(colnames(result_mat), '_', keep = 2), col.names = c('Test'))
 rownames(annotation_col) <- colnames(result_mat)
-annotation_col$Dataset <- stringr::str_to_title(annotation_col$Dataset)
-annotation_col$Dataset <- factor(annotation_col$Dataset, 
-                                 levels = c('Gold', 'Huang', 'Guo', 'Du', 'Pan', 'Richoux', 'Richoux-Regular', 'Richoux-Strict'))
 annotation_col$Test <- gsub('both', 'Inter' ,annotation_col$Test)
 annotation_col$Test <- gsub('0', 'Intra-0' ,annotation_col$Test)
 annotation_col$Test <- gsub('1', 'Intra-1' ,annotation_col$Test)
 annotation_col$Test <- factor(annotation_col$Test, 
                               levels = c('Original', 'Rewired', 'Inter->Intra-1', 'Inter->Intra-0', 'Intra-0->Intra-1'))
-annotation_col <- annotation_col[order(annotation_col$Test, annotation_col$Dataset), ]
+annotation_col <- annotation_col[order(annotation_col$Test), , drop = FALSE]
 result_mat <- result_mat[, rownames(annotation_col)]
 
 # training data sizes
@@ -132,11 +95,9 @@ filenames <- tstrsplit(training_files, '_', keep=c(1,3))
 names(partition_sizes) <- paste(filenames[[1]], filenames[[2]])
 partition_sizes <- prettyNum(partition_sizes, big.mark = ',')
 
-
-pheatmap(t(result_mat), 
-         annotation_row = annotation_col, 
-         annotation_colors = list(Dataset = c('Gold'='#00FFE1','Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
-                                              'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7', 'Richoux' = '#6699CC'),
+pheatmap(t(result_mat),
+         annotation_row = annotation_col,
+         annotation_colors = list(
                                   Test = c('Original'='#AA4499', 'Rewired'='#DDCC77','Inter->Intra-1'='#888888', 'Inter->Intra-0'='#44AA99', 'Intra-0->Intra-1'='#661100')
                                   ),
          cluster_rows = FALSE,
@@ -144,117 +105,146 @@ pheatmap(t(result_mat),
          gaps_col = 5,
          gaps_row = c(7,13,18,23),
          display_numbers = TRUE,
-         filename = paste0('plots/heatmap_results_', measure, '.png'),
+         legend = FALSE,
+         filename = paste0('plots/heatmap_results_', measure, '.pdf'),
          width=8,
          height=10,
+         cex = 1,
          labels_row = c(
-           paste0('Gold (', original_sizes['gold'], ')'),
-           paste0('Huang (', original_sizes['huang'], ')'),
-           paste0('Guo (', original_sizes['guo'], ')'),
-           paste0('Du (', original_sizes['du'], ')'),
-           paste0('Pan (', original_sizes['pan'], ')'), 
-           paste0('Richoux regular (', original_sizes['richoux-regular'], ')'),
-           paste0('Richoux strict (', original_sizes['richoux-strict'], ')'), 
+           paste0('GOLD STANDARD (', original_sizes['gold'], ')'),
+           paste0('HUANG (', original_sizes['huang'], ')'),
+           paste0('GUO (', original_sizes['guo'], ')'),
+           paste0('DU (', original_sizes['du'], ')'),
+           paste0('PAN (', original_sizes['pan'], ')'),
+           paste0('RICHOUX-REGULAR (', original_sizes['richoux-regular'], ')'),
+           paste0('RICHOUX-STRICT (', original_sizes['richoux-strict'], ')'),
            #rewired
-           paste0('Huang (', rewired_sizes['huang'], ')'),
-           paste0('Guo (', rewired_sizes['guo'], ')'),
-           paste0('Du (', rewired_sizes['du'], ')'),
-           paste0('Pan (', rewired_sizes['pan'], ')'), 
-           paste0('Richoux regular (', rewired_sizes['richoux-regular'], ')'),
-           paste0('Richoux strict (', rewired_sizes['richoux-strict'], ')'),
+           paste0('HUANG (', rewired_sizes['huang'], ')'),
+           paste0('GUO (', rewired_sizes['guo'], ')'),
+           paste0('DU (', rewired_sizes['du'], ')'),
+           paste0('PAN (', rewired_sizes['pan'], ')'),
+           paste0('RICHOUX-REGULAR (', rewired_sizes['richoux-regular'], ')'),
+           paste0('RICHOUX-STRICT (', rewired_sizes['richoux-strict'], ')'),
            #partition both ->1
-           paste0('Huang (', partition_sizes['huang both'], ')'),
-           paste0('Guo (', partition_sizes['guo both'], ')'),
-           paste0('Du (', partition_sizes['du both'], ')'),
-           paste0('Pan (', partition_sizes['pan both'], ')'), 
-           paste0('Richoux (', partition_sizes['richoux both'], ')'),
+           paste0('HUANG (', partition_sizes['huang both'], ')'),
+           paste0('GUO (', partition_sizes['guo both'], ')'),
+           paste0('DU (', partition_sizes['du both'], ')'),
+           paste0('PAN (', partition_sizes['pan both'], ')'),
+           paste0('RICHOUX (', partition_sizes['richoux both'], ')'),
            #partition both -> 0
-           paste0('Huang (', partition_sizes['huang both'], ')'),
-           paste0('Guo (', partition_sizes['guo both'], ')'),
-           paste0('Du (', partition_sizes['du both'], ')'),
-           paste0('Pan (', partition_sizes['pan both'], ')'), 
-           paste0('Richoux (', partition_sizes['richoux both'], ')'),
+           paste0('HUANG (', partition_sizes['huang both'], ')'),
+           paste0('GUO (', partition_sizes['guo both'], ')'),
+           paste0('DU (', partition_sizes['du both'], ')'),
+           paste0('PAN (', partition_sizes['pan both'], ')'),
+           paste0('RICHOUX (', partition_sizes['richoux both'], ')'),
            #partition 0 -> 1
-           paste0('Huang (', partition_sizes['huang 0'], ')'),
-           paste0('Guo (', partition_sizes['guo 0'], ')'),
-           paste0('Du (', partition_sizes['du 0'], ')'),
-           paste0('Pan (', partition_sizes['pan 0'], ')'), 
-           paste0('Richoux (', partition_sizes['richoux 0'], ')')
-         )
+           paste0('HUANG (', partition_sizes['huang 0'], ')'),
+           paste0('GUO (', partition_sizes['guo 0'], ')'),
+           paste0('DU (', partition_sizes['du 0'], ')'),
+           paste0('PAN (', partition_sizes['pan 0'], ')'),
+           paste0('RICHOUX (', partition_sizes['richoux 0'], ')')
+         ),
+         labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
+                        'RF-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
 )
 
 
-# pheatmap(t(result_mat[, 1:7]),
-#          annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE],
-#          annotation_colors = list(Dataset = c('Gold'='#00FFE1','Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
+# pheatmap(t(result_mat[, 2:7]),
+#          #annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE],
+#          annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
 #                               'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
 #          cluster_rows = FALSE,
 #          cluster_cols = FALSE,
 #          gaps_col = 5,
 #          display_numbers = TRUE,
-#          filename = 'plots/heatmap_results_original_quer.png',
-#          width=8,
-#          height=4,
+#          legend = FALSE,
+#          filename = 'plots/heatmap_results_original_quer.pdf',
+#          width=6,
+#          height=5.2,
+#          fontsize = 11,
 #          labels_row = c(
-#            paste0('Gold (', original_sizes['gold'], ')'),
-#            paste0('Huang (', original_sizes['huang'], ')'),
-#                         paste0('Guo (', original_sizes['guo'], ')'),
-#                         paste0('Du (', original_sizes['du'], ')'),
-#                         paste0('Pan (', original_sizes['pan'], ')'),
-#                         paste0('Richoux regular (', original_sizes['richoux-regular'], ')'),
-#                         paste0('Richoux strict (', original_sizes['richoux-strict'], ')')
-#          )
+#            #paste0('Gold (', original_sizes['gold'], ')'),
+#            paste0('HUANG\n(', original_sizes['huang'], ')'),
+#                         paste0('GUO\n(', original_sizes['guo'], ')'),
+#                         paste0('DU\n(', original_sizes['du'], ')'),
+#                         paste0('PAN\n(', original_sizes['pan'], ')'),
+#                         paste0('RICHOUX-\nREGULAR\n(', original_sizes['richoux-regular'], ')'),
+#                         paste0('RICHOUX-\nSTRICT\n(', original_sizes['richoux-strict'], ')')
+#          ),
+#          labels_col = c('SPRINT',
+#                         'Richoux-\nFC',
+#                         'Richoux-\nLSTM',
+#                         'DeepFE',
+#                         'PIPR',
+#                         'RF-PCA',
+#                         'SVM-PCA',
+#                         'RF-MDS',
+#                         'SVM-MDS',
+#                         'RF-\nnode2vec',
+#                         'SVM-\nnode2vec')
 # )
 # 
 # pheatmap(t(result_mat[, 8:13]),
-#          annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE],
+#          #annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE],
 #          annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
 #                                               'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
 #          cluster_rows = FALSE,
 #          cluster_cols = FALSE,
+#          legend = FALSE,
 #          gaps_col = 5,
 #          display_numbers = TRUE,
-#          filename = 'plots/heatmap_results_rewired_quer.png',
-#          width=8,
+#          filename = 'plots/heatmap_results_rewired_quer.pdf',
+#          width=6,
 #          height=4,
-#          labels_row = c(paste0('Huang (', rewired_sizes['huang'], ')'),
-#                         paste0('Guo (', rewired_sizes['guo'], ')'),
-#                         paste0('Du (', rewired_sizes['du'], ')'),
-#                         paste0('Pan (', rewired_sizes['pan'], ')'),
-#                         paste0('Richoux regular (', rewired_sizes['richoux-regular'], ')'),
-#                         paste0('Richoux strict (', rewired_sizes['richoux-strict'], ')')
-#          )
+#          labels_row = c(paste0('HUANG\n(', rewired_sizes['huang'], ')'),
+#                         paste0('GUO\n(', rewired_sizes['guo'], ')'),
+#                         paste0('DU\n(', rewired_sizes['du'], ')'),
+#                         paste0('PAN\n(', rewired_sizes['pan'], ')'),
+#                         paste0('RICHOUX-REGULAR\n(', rewired_sizes['richoux-regular'], ')'),
+#                         paste0('RICHOUX-STRICT\n(', rewired_sizes['richoux-strict'], ')')
+#          ),
+#          labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
+#                         'RF-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
 # )
 # 
 # pheatmap(result_mat[, 14:ncol(result_mat)],
-#          annotation_col = annotation_col[!annotation_col$Test %in% c('Original', 'Rewired'), ],
-#          annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
-#                                               'Pan'='#F0E442','Richoux'='#0072B2'),
-#                                   Test = c('Inter->Intra-1'='#888888', 'Inter->Intra-0'='#44AA99', 'Intra-0->Intra-1'='#661100')),
+#          #annotation_col = annotation_col[!annotation_col$Test %in% c('Original', 'Rewired'), "Dataset"],
+#          #annotation_colors = list(Dataset = c('HUANG'='#E69F00','GUO'='#56B4E9', 'DU'='#009E73',
+#         #                                      'PAN'='#F0E442','RICHOUX'='#0072B2'),
+#         #                          Test = c('Inter->Intra-1'='#888888', 'Inter->Intra-0'='#44AA99', 'Intra-0->Intra-1'='#661100')),
+#         main = TeX('Train on $\\it{INTER}$, test on $\\it{INTRA}_1$        Train on $\\it{INTER}$, test on $\\it{INTRA}_0$        Train on $\\it{INTRA}_0$, test on $\\it{INTRA}_1$'),
 #          cluster_rows = FALSE,
 #          cluster_cols = FALSE,
+#          legend = FALSE,
 #          gaps_row = 5,
+#          gaps_col = c(5, 10, 15),
 #          display_numbers = TRUE,
-#          filename = 'plots/heatmap_results_partitions.png',
-#          width=8,
-#          height=5,
+#         fontsize = 10,
+#         fontsize_number = 11,
+#         fontsize_row = 11,
+#         fontsize_col = 11,
+#          filename = 'plots/heatmap_results_partitions.pdf',
+#          width=10,
+#          height=8,
 #          labels_col = c(#partition both ->1
-#            paste0('Huang (', partition_sizes['huang both'], ')'),
-#            paste0('Guo (', partition_sizes['guo both'], ')'),
-#            paste0('Du (', partition_sizes['du both'], ')'),
-#            paste0('Pan (', partition_sizes['pan both'], ')'),
-#            paste0('Richoux (', partition_sizes['richoux both'], ')'),
+#            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
+#            paste0('GUO\n(', partition_sizes['guo both'], ')'),
+#            paste0('DU\n(', partition_sizes['du both'], ')'),
+#            paste0('PAN\n(', partition_sizes['pan both'], ')'),
+#            paste0('RICHOUX\n(', partition_sizes['richoux both'], ')'),
 #            #partition both -> 0
-#            paste0('Huang (', partition_sizes['huang both'], ')'),
-#            paste0('Guo (', partition_sizes['guo both'], ')'),
-#            paste0('Du (', partition_sizes['du both'], ')'),
-#            paste0('Pan (', partition_sizes['pan both'], ')'),
-#            paste0('Richoux (', partition_sizes['richoux both'], ')'),
+#            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
+#            paste0('GUO\n(', partition_sizes['guo both'], ')'),
+#            paste0('DU\n(', partition_sizes['du both'], ')'),
+#            paste0('PAN\n(', partition_sizes['pan both'], ')'),
+#            paste0('RICHOUX\n(', partition_sizes['richoux both'], ')'),
 #            #partition 0 -> 1
-#            paste0('Huang (', partition_sizes['huang 0'], ')'),
-#            paste0('Guo (', partition_sizes['guo 0'], ')'),
-#            paste0('Du (', partition_sizes['du 0'], ')'),
-#            paste0('Pan (', partition_sizes['pan 0'], ')'),
-#            paste0('Richoux (', partition_sizes['richoux 0'], ')')
-#          )
+#            paste0('HUANG\n(', partition_sizes['huang 0'], ')'),
+#            paste0('GUO\n(', partition_sizes['guo 0'], ')'),
+#            paste0('DU\n(', partition_sizes['du 0'], ')'),
+#            paste0('PAN\n(', partition_sizes['pan 0'], ')'),
+#            paste0('RICHOUX\n(', partition_sizes['richoux 0'], ')')
+#          ),
+#          labels_row = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
+#                         'RF-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
 # )

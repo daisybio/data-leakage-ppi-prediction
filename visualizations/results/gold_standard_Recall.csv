@@ -1,0 +1,12 @@
+Model,Dataset,Recall
+RF_MDS,gold_standard,0.130202429149798
+SVM_MDS,gold_standard,0.311578947368421
+RF_node2vec,gold_standard,0.260754903576727
+SVM_node2vec,gold_standard,0.634580517553981
+RF_PCA,gold_standard,0.220283400809717
+SVM_PCA,gold_standard,0.744939271255061
+DeepFE,gold_standard,0.4799
+deepPPI_FC,gold_standard,0.4624
+deepPPI_LSTM,gold_standard,0.5148
+PIPR,gold_standard,0.6083
+SPRINT,gold_standard,0.5135

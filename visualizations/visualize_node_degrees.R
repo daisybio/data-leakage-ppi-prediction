@@ -8,26 +8,53 @@ all_degrees$Split <- gsub('both', 'inter', all_degrees$Split)
 all_degrees$Split <- gsub('0', 'intra-0', all_degrees$Split)
 all_degrees$Split <- gsub('1', 'intra-1', all_degrees$Split)
 all_degrees$Split <- gsub('2', 'intra-2', all_degrees$Split)
+all_degrees[, Dataset := stringr::str_to_upper(Dataset)]
+all_degrees[Dataset == 'GOLD_STANDARD', Dataset := 'GOLD STANDARD']
+all_degrees[Dataset == 'RICHOUX_REGULAR', Dataset := 'RICHOUX-REGULAR']
+all_degrees[Dataset == 'RICHOUX_STRICT', Dataset := 'RICHOUX-STRICT']
+all_degrees[, Test := stringr::str_to_title(Test)]
+all_degrees[, Test := factor(Test, levels = c('Original', 'Rewired', 'Partition'))]
+all_degrees[, Network := stringr::str_to_title(Network)]
+all_degrees[, Split := stringr::str_to_title(Split)]
 
 ggplot(all_degrees, aes(x=Degree, fill=Network))+
   geom_histogram(bins=30, position = 'dodge')+
   facet_wrap(Test~Dataset, scales = 'free', nrow = 3)+
   theme_bw()+
   xlim(0, 20)
+ggsave('plots/node_degrees_pos_vs_neg.pdf', height = 6, width=12)
 
-ggsave('plots/node_degrees_pos_vs_neg.png', height = 6, width=12)
+ggplot(all_degrees[Test == 'Original' & Dataset %in% c('HUANG', 'PAN') & Degree <= 15], aes(x=Degree, fill=Network))+
+  geom_histogram(binwidth=1, position = 'dodge')+
+  facet_wrap(~Dataset, scales = 'free', ncol = 1)+
+  theme_bw()+
+  theme(text = element_text(size=23))+
+  labs(y = 'Count')+
+  scale_x_reverse()+
+  theme(legend.position='bottom')+
+  coord_flip()
+ggsave('plots/node_degrees_huang_pan_pos_vs_neg.pdf', height = 10, width=4.5)
 
-all_degrees$Split <- factor(all_degrees$Split, levels = c('train', 'test', 'inter', 'intra-0', 'intra-1', 'intra-2'))
+
+all_degrees$Split <- factor(all_degrees$Split, levels = c('Train', 'Test', 'Inter', 'Intra-0', 'Intra-1', 'Intra-2'))
 ggplot(all_degrees, aes(x=Degree, fill=Split))+
   geom_histogram(bins=30, position = 'dodge')+
   facet_wrap(Test~Dataset, scales = 'free', nrow = 3)+
   theme_bw()+
-  scale_fill_manual(values = brewer.pal(6, "Set1"))+
+  scale_fill_manual(labels = c(
+    'Train' = 'Train', 
+    'Test' = 'Test', 
+    'Inter' = TeX('$\\it{INTER}$'), 
+    'Intra-0' = TeX('$\\it{INTRA}_0$'), 
+    'Intra-1' = TeX('$\\it{INTRA}_1$'),
+    'Intra-2' = TeX('$\\it{INTRA}_2$')
+  ),
+  values = brewer.pal(6, "Set1"))+
   xlim(0, 20)
 
-ggsave('plots/node_degrees_train_vs_test.png', height = 6, width=12)
+ggsave('plots/node_degrees_train_vs_test.pdf', height = 6, width=12)
 
-orig_vs_rewired <- merge(all_degrees[Test == 'original'], all_degrees[Test == 'rewired'], by=c('Node', 'Dataset', 'Split', 'Network'))
+orig_vs_rewired <- merge(all_degrees[Test == 'Original'], all_degrees[Test == 'Rewired'], by=c('Node', 'Dataset', 'Split', 'Network'))
 colnames(orig_vs_rewired) <- c('Node', 'Dataset', 'Split', 'Network', 'Degree original', 'Original', 'Degree rewired', 'Rewired')
 ggplot(orig_vs_rewired, aes(x=`Degree original`, y=`Degree rewired`))+
   geom_point()+
@@ -36,4 +63,4 @@ ggplot(orig_vs_rewired, aes(x=`Degree original`, y=`Degree rewired`))+
   xlim(0,265)+
   ylim(0,265)
 
-ggsave('plots/node_degrees_original_vs_rewired.png', height = 6, width=6)
+ggsave('plots/node_degrees_original_vs_rewired.pdf', height = 6, width=6)

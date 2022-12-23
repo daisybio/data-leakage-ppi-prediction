@@ -104,11 +104,11 @@ names(train_sizes) <- stringr::str_to_title(tstrsplit(training_files, '_', keep=
 #train_sizes <- prettyNum(train_sizes, big.mark = ',')
 
 all_times_orig <- all_times[Test == 'original']
-all_times_orig[, Model := gsub('RF_', 'RF ', Model)]
-all_times_orig[, Model := gsub('SVM_', 'SVM ', Model)]
+all_times_orig[, Model := gsub('RF_', 'RF-', Model)]
+all_times_orig[, Model := gsub('SVM_', 'SVM-', Model)]
 all_times_orig <- all_times_orig[, Model := factor(Model, 
-                                         levels=c("RF PCA","SVM PCA", "RF MDS", "SVM MDS",
-                                                  "RF node2vec",  "SVM node2vec", "SPRINT", 
+                                         levels=c("RF-PCA","SVM-PCA", "RF-MDS", "SVM-MDS",
+                                                  "RF-node2vec",  "SVM-node2vec", "SPRINT", 
                                                   "Richoux-FC", "Richoux-LSTM",  
                                                   "DeepFE", "PIPR"))]
 all_times_orig[, n_train := train_sizes[as.character(Dataset)]]
@@ -120,7 +120,7 @@ ggplot(all_times_orig, aes(x=n_train, y = `Time [s]`, color = Model, group=Model
   geom_point(size=3)+
   geom_line(size=2, alpha=0.5)+
   scale_x_continuous(breaks = unique(all_times_orig$n_train), 
-                     labels = paste0(c('Huang (', 'Guo (', 'Du (', 'Pan (', 'Richoux Regular (', 'Richoux Strict ('),
+                     labels = paste0(c('HUANG (', 'GUO (', 'DU (', 'PAN (', 'RICHOUX-REGULAR (', 'RICHOUX-STRICT ('),
                                      unique(all_times_orig$n_train), rep(')', 6)),
                      guide = guide_axis(n.dodge = 2))+
   labs(x = "Dataset (n training)", y = "Time [s]") +
@@ -133,7 +133,7 @@ ggplot(all_times_orig, aes(x=n_train, y = `Time [s]`, color = Model, group=Model
   scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
   theme_bw()+
   theme(text = element_text(size=20))
-ggsave("./all_times_original.png",height=4, width=12)
+ggsave("./plots/all_times_original.pdf",height=4, width=12)
 
 # without pipr
 ggplot(all_times_orig[Model != "PIPR"], aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+
@@ -193,7 +193,7 @@ ggplot(all_times_rew, aes(x=n_train, y = `Time [s]`, color = Model, group=Model)
   scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
   theme_bw()+
   theme(text = element_text(size=20))
-ggsave("./all_times_rewired.png",height=8, width=12)
+ggsave("./plots/all_times_rewired.pdf",height=8, width=12)
 
 #### partitions
 sprint_data_dir <- '../algorithms/SPRINT/data/partitions/'
