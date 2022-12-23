@@ -4,6 +4,7 @@ time_partition_du_0_1,685.383700847626,partition,du,0,1,DeepFE_0_1
 time_partition_du_both_0,645.459417581558,partition,du,both,0,DeepFE_both_0
 time_partition_du_both_1,600.835997343063,partition,du,both,1,DeepFE_both_1
 time_rewired_du,1198.89230489731,rewired,du,,,DeepFE
+time_gold_standard_gold_standard_test,8449.51453018189,gold,standard,gold,standard,DeepFE_gold_standard
 time_original_guo,379.259001493454,original,guo,,,DeepFE
 time_partition_guo_0_1,252.891516208649,partition,guo,0,1,DeepFE_0_1
 time_partition_guo_both_0,185.117941379547,partition,guo,both,0,DeepFE_both_0

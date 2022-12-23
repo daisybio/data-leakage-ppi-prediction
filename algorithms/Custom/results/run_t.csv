@@ -1,4 +1,10 @@
 Filename,Algorithm,Time [s],Test,Dataset,Encoding,Part_Train,Part_Test,Model
+gold_standard_,RF,954.102479696274,gold,standard,,,,RF_NA
+gold_standard_,SVM,24669.0711481571,gold,standard,,,,SVM_NA
+gold_standard_,RF,778.471775770187,gold,standard,,,,RF_NA
+gold_standard_,SVM,16553.6219065189,gold,standard,,,,SVM_NA
+gold_standard_,RF,759.764497756958,gold,standard,,,,RF_NA
+gold_standard_,SVM,18722.5716946125,gold,standard,,,,SVM_NA
 original_du_MDS,RF,85.6729238033295,original,du,MDS,,,RF_MDS
 original_du_MDS,SVM,460.136021375656,original,du,MDS,,,SVM_MDS
 original_du_node2vec,RF,86.6651229858399,original,du,node2vec,,,RF_node2vec
