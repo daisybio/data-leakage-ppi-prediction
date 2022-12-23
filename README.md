@@ -11,7 +11,7 @@ For PIPR, however, a custom environment ist needed ([mac](mac_env_pipr.yml), [li
 
 The AIMe Report for this project is available at [https://aime-registry.org/report/VRPXym](https://aime-registry.org/report/VRPXym). 
 
-![](Overview Figure Compact.png)
+![](Overview%20Figure%20Compact.png)
 
 ## Datasets
 The original **Guo** and **Huang** datasets were obtained from `DeepFE` 
