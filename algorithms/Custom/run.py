@@ -98,17 +98,17 @@ def run_gold_standard():
         time_preprocess = time() - t_start
         scores = learn_rf(X_train, y_train, X_test, y_test)
         export_scores(scores,
-                      f'results/{prefix}_{encoding}_RF.csv')
+                      f'results/{prefix}{encoding}_RF.csv')
         time_elapsed_rf = time() - t_start
         print(f'time elapsed: {time_elapsed_rf}')
-        with open(f'results/time_{prefix}_{encoding}.txt', 'a+') as f:
+        with open(f'results/time_{prefix}{encoding}.txt', 'a+') as f:
             f.write(f'RF\t{time_elapsed_rf}\n')
         scores = learn_SVM(X_train, y_train, X_test, y_test)
         export_scores(scores,
-                      f'results/{prefix}_{encoding}_SVM.csv')
+                      f'results/{prefix}{encoding}_SVM.csv')
         time_elapsed_svm = time() - t_start - time_elapsed_rf + time_preprocess
         print(f'time elapsed: {time_elapsed_svm}')
-        with open(f'results/time_{prefix}_{encoding}.txt', 'a') as f:
+        with open(f'results/time_{prefix}{encoding}.txt', 'a') as f:
             f.write(f'SVM\t{time_elapsed_svm}')
 
 

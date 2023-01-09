@@ -25,9 +25,9 @@ def calculate_scores(y_true, y_pred):
 
 
 def learn_rf(train_features, train_labels, test_features, test_labels):
-    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.ensemble import RandomForestClassifier
     # Instantiate model with 100 decision trees
-    rf = RandomForestRegressor(n_estimators=100, random_state=42, verbose=1, n_jobs=6)
+    rf = RandomForestClassifier(n_estimators=100, random_state=42, verbose=1, n_jobs=6)
     # Train the model on training data
     print("Fitting RF ...")
     rf.fit(train_features, train_labels)
@@ -35,7 +35,7 @@ def learn_rf(train_features, train_labels, test_features, test_labels):
     # Use the forest's predict method on the test data
     print("Predicting ...")
     y_pred = rf.predict(test_features)
-    y_pred = np.array(np.where(y_pred > 0.5, 1, 0), dtype=int)
+    #y_pred = np.array(np.where(y_pred > 0.5, 1, 0), dtype=int)
     return calculate_scores(y_true=test_labels, y_pred=y_pred)
 
 
