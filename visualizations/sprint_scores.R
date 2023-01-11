@@ -36,6 +36,7 @@ names(partition_results) <- tstrsplit(list.files(paste0(sprint_dir, 'partitions/
 partition_results <- rbindlist(partition_results, idcol = 'dataset')
 partition_results[, test := tstrsplit(dataset, '(du|guo|huang|pan|richoux)_', keep=2)]
 partition_results[, dataset := tstrsplit(dataset, '_', keep=1)]
+partition_results[dataset == 'richoux', dataset := 'richoux-uniprot']
 partition_results$test <- gsub('train_both_', 'Inter->', partition_results$test)
 partition_results$test <- gsub('train_0_', 'Intra-0->', partition_results$test)
 partition_results$test <- gsub('test_0', 'Intra-0', partition_results$test)
@@ -47,7 +48,7 @@ all_results[, Dataset := gsub('richoux_regular', 'richoux-regular', Dataset)]
 all_results[, Dataset := gsub('richoux_strict', 'richoux-strict', Dataset)]
 all_results[, Dataset := stringr::str_to_upper(Dataset)]
 all_results$Dataset <- factor(all_results$Dataset, 
-                              levels = c('HUANG', 'GUO', 'DU', 'RICHOUX', 'PAN', 'RICHOUX-REGULAR', 'RICHOUX-STRICT'))
+                              levels = c('HUANG', 'GUO', 'DU', 'RICHOUX-UNIPROT', 'PAN', 'RICHOUX-REGULAR', 'RICHOUX-STRICT'))
 
 ggplot(all_results, aes(x = Test, y = log(Score), fill = `True Label`))+
   geom_boxplot()+

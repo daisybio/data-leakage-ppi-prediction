@@ -20,7 +20,7 @@ custom_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern='^go
 file_names <- tstrsplit(list.files(custom_res, pattern='^gold.*.csv'), '.csv', keep=1)[[1]]
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
-custom_results[, c('dataset', 'encoding', 'method') := tstrsplit(filename, '_', keep=c(1,4,5))]
+custom_results[, c('dataset', 'encoding', 'method') := tstrsplit(filename, '_', keep=c(1,3,4))]
 custom_results[, Model := paste(method, encoding, sep = '_')]
 if(measure == 'Recall'){
   custom_results <- custom_results[V1 == 'Sensitivity']

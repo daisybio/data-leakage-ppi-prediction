@@ -33,7 +33,7 @@ all_results <- rbind(all_results, custom_results[, c('Model', 'Dataset', measure
 
 # deepFE
 deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^original_scores_(du|guo|huang|pan|richoux_regular|richoux_strict).csv', recursive = TRUE)), fread)
-file_names <- list.files(deepFE_res)[-c(5, 8)]
+file_names <- tstrsplit(list.files(deepFE_res, pattern = '^original_scores_(du|guo|huang|pan|richoux_regular|richoux_strict).csv', recursive = TRUE), '/', keep = 1)[[1]]
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(deepFE_results) <- file_names
 deepFE_results <- rbindlist(deepFE_results, idcol = 'Dataset')
@@ -78,6 +78,7 @@ if(measure == 'Accuracy'){
   colnames(sprint_results) <- c('Dataset', 'AUC', measure, 'Model')
 }
 sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)])
+sprint_results <- sprint_results[Dataset != 'gold_standard']
 all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', measure), with=FALSE])
 
 # visualization
@@ -120,4 +121,4 @@ ggplot(all_results, aes(x=Dataset, y = get(measure), color = Model, group=Model)
   scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
-ggsave(paste0("plots/all_results_original_", measure, ".png"),height=8, width=12)  
+#ggsave(paste0("plots/all_results_original_", measure, ".png"),height=8, width=12)  
