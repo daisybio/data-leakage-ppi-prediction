@@ -1954,3 +1954,76 @@ Specificity: 0.9635
 F1: 0.1358
 MCC: 0.0849
 time elapsed: 273.3693091869354
+########################### GOLD STANDARD ###########################
+##### PCA encoding
+loading gold standard ...
+randomly dropping negatives (109699 positives, 109699 negatives)...
+randomly dropping negatives (24700 positives, 24700 negatives)...
+Train: 109699 positive PPIs, 109699 negative PPIs, all: 219398
+Test: 24700 positive PPIs, 24700 negative PPIs, all: 49400
+Fitting RF ...
+Predicting ...
+Accuracy: 0.5176
+Precision: 0.5427
+Sensitivity/Recall: 0.2235
+Specificity: 0.8116
+F1: 0.3166
+MCC: 0.0434
+time elapsed: 62.56132769584656
+Fitting SVM ...
+Predicting ...
+Accuracy: 0.5007
+Precision: 0.5005
+Sensitivity/Recall: 0.7449
+Specificity: 0.2566
+F1: 0.5987
+MCC: 0.0017
+time elapsed: 20631.821898698807
+##### MDS encoding
+loading gold standard ...
+randomly dropping negatives (109699 positives, 109699 negatives)...
+randomly dropping negatives (24700 positives, 24700 negatives)...
+Train: 109699 positive PPIs, 109699 negative PPIs, all: 219398
+Test: 24700 positive PPIs, 24700 negative PPIs, all: 49400
+Fitting RF ...
+Predicting ...
+Accuracy: 0.4987
+Precision: 0.4945
+Sensitivity/Recall: 0.1154
+Specificity: 0.882
+F1: 0.1872
+MCC: -0.004
+time elapsed: 75.85661721229553
+Fitting SVM ...
+Predicting ...
+Accuracy: 0.5014
+Precision: 0.5022
+Sensitivity/Recall: 0.3116
+Specificity: 0.6911
+F1: 0.3846
+MCC: 0.0029
+time elapsed: 28481.885104179382
+##### node2vec encoding
+loading gold standard ...
+randomly dropping negatives (109699 positives, 109699 negatives)...
+sampling more negatives (24268 positives, 24200 negatives)...
+Train: 109699 positive PPIs, 109699 negative PPIs, all: 219398
+Test: 24268 positive PPIs, 24268 negative PPIs, all: 48536
+Fitting RF ...
+Predicting ...
+Accuracy: 0.5094
+Precision: 0.5228
+Sensitivity/Recall: 0.216
+Specificity: 0.8028
+F1: 0.3057
+MCC: 0.0233
+time elapsed: 96.21809601783752
+Fitting SVM ...
+Predicting ...
+Accuracy: 0.5392
+Precision: 0.5329
+Sensitivity/Recall: 0.6346
+Specificity: 0.4438
+F1: 0.5793
+MCC: 0.0798
+time elapsed: 18778.04233598709
