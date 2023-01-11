@@ -231,19 +231,19 @@ pheatmap(t(result_mat),
 #            paste0('GUO\n(', partition_sizes['guo both'], ')'),
 #            paste0('DU\n(', partition_sizes['du both'], ')'),
 #            paste0('PAN\n(', partition_sizes['pan both'], ')'),
-#            paste0('RICHOUX-UNIPROT\n(', partition_sizes['richoux both'], ')'),
+#            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
 #            #partition both -> 0
 #            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
 #            paste0('GUO\n(', partition_sizes['guo both'], ')'),
 #            paste0('DU\n(', partition_sizes['du both'], ')'),
 #            paste0('PAN\n(', partition_sizes['pan both'], ')'),
-#            paste0('RICHOUX-UNIPROT\n(', partition_sizes['richoux both'], ')'),
+#            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
 #            #partition 0 -> 1
 #            paste0('HUANG\n(', partition_sizes['huang 0'], ')'),
 #            paste0('GUO\n(', partition_sizes['guo 0'], ')'),
 #            paste0('DU\n(', partition_sizes['du 0'], ')'),
 #            paste0('PAN\n(', partition_sizes['pan 0'], ')'),
-#            paste0('RICHOUX-UNIPROT\n(', partition_sizes['richoux 0'], ')')
+#            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux 0'], ')')
 #          ),
 #          labels_row = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
 #                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
