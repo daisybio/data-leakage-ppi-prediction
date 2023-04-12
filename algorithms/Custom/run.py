@@ -109,12 +109,12 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False):
         print(f'##### degree algorithm: {name} dataset #####')
         lg = construct_line_graph(dataset=name, prefix=prefix)
         time_preprocess = time() - t_start
-        scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=rewire, method_name='Harmonic function')
+        scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Harmonic function')
         export_scores(scores_hf,
                       f'results/{prefix}{name}_hf.csv')
         time_elapsed_hf = time() - t_start
         print(f'time elapsed: {time_elapsed_hf}')
-        scores_cons = semi_supervised_analysis(lg, shuffle_labels=False, rewired=rewire, method_name='Local and global consistency')
+        scores_cons = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Local and global consistency')
         export_scores(scores_cons,
                       f'results/{prefix}{name}_cons.csv')
         time_elapsed_cons = time() - t_start - time_elapsed_hf + time_preprocess
