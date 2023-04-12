@@ -1,6 +1,6 @@
 import sys
-from load_datasets import load_partition_datasets, load_from_SPRINT, load_gold_standard
-from learn_models import learn_rf, learn_SVM
+from load_datasets import load_partition_datasets, load_from_SPRINT, load_gold_standard, construct_line_graph
+from learn_models import learn_rf, learn_SVM, semi_supervised_analysis
 from time import time
 
 
@@ -88,6 +88,42 @@ def run_simpler_algorithms(rewire=False):
                 f.write(f'SVM\t{time_elapsed_svm}')
 
 
+def run_degree_algorithm(rewire=False, partition=False, gold=False):
+    dataset_list = ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+    if rewire:
+        prefix = 'rewired_'
+    elif partition:
+        prefix = 'partition_'
+        dataset_list = ['guo_both_0','guo_both_1','guo_0_1',
+                'huang_both_0', 'huang_both_1', 'huang_0_1',
+                'du_both_0', 'du_both_1', 'du_0_1',
+                'pan_both_0', 'pan_both_1', 'pan_0_1',
+                'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+    elif gold:
+        prefix = 'gold_standard_'
+        dataset_list = ['gold_standard']
+    else:
+        prefix = 'original_'
+    for name in dataset_list:
+        t_start = time()
+        print(f'##### degree algorithm: {name} dataset #####')
+        lg = construct_line_graph(dataset=name, prefix=prefix)
+        time_preprocess = time() - t_start
+        scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=rewire, method_name='Harmonic function')
+        export_scores(scores_hf,
+                      f'results/{prefix}{name}_hf.csv')
+        time_elapsed_hf = time() - t_start
+        print(f'time elapsed: {time_elapsed_hf}')
+        scores_cons = semi_supervised_analysis(lg, shuffle_labels=False, rewired=rewire, method_name='Local and global consistency')
+        export_scores(scores_cons,
+                      f'results/{prefix}{name}_cons.csv')
+        time_elapsed_cons = time() - t_start - time_elapsed_hf + time_preprocess
+        print(f'time elapsed: {time_elapsed_cons}')
+        with open(f'results/time_{prefix}deg.txt', 'a+') as f:
+            f.write(f'{name}\tHarmonic Function\t{time_elapsed_hf}\n')
+            f.write(f'{name}\tLocal and Global Consistency\t{time_elapsed_cons}\n')
+
+
 def run_gold_standard():
     prefix = 'gold_standard_'
     for encoding in ['PCA', 'MDS', 'node2vec']:
@@ -116,13 +152,17 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if args[0] == 'original':
         print('########################### ORIGINAL ###########################')
-        run_simpler_algorithms(rewire=False)
+        #run_simpler_algorithms(rewire=False)
+        run_degree_algorithm(rewire=False, partition=False)
     elif args[0] == 'rewired':
         print('########################### REWIRED ###########################')
-        run_simpler_algorithms(rewire=True)
+        #run_simpler_algorithms(rewire=True)
+        run_degree_algorithm(rewire=True, partition=False)
     elif args[0] == 'partition':
         print('########################### PARTITION ###########################')
-        run_partitioning_tests()
+        #run_partitioning_tests()
+        run_degree_algorithm(rewire=False, partition=True)
     else:
         print('########################### GOLD STANDARD ###########################')
-        run_gold_standard()
+        #run_gold_standard()
+        run_degree_algorithm(rewire=False, partition=False, gold=True)

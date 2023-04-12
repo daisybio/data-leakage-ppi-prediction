@@ -102,6 +102,53 @@ def read_from_SPRINT(encoding, emd, id_dict, path, label):
     return ppis
 
 
+def construct_line_graph(dataset, prefix):
+    import networkx as nx
+    prefix = prefix.split('_')[0]
+    if prefix == 'partition':
+        ds_split = dataset.split('_')
+        name = ds_split[0]
+        train_partition = ds_split[1]
+        test_partition = ds_split[2]
+        ppis = read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt', '1', 'training')
+        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_neg.txt', '0', 'training'))
+        ppis.extend(
+            read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_pos.txt', '1',
+                                     'test'))
+        ppis.extend(
+            read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_neg.txt', '0',
+                                     'test'))
+    elif prefix == 'gold':
+        ppis = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'train')
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'train'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'train'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'train'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1', 'test'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0', 'test'))
+    else:
+        ppis = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
+        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
+        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test'))
+        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_neg.txt', '0', 'test'))
+
+    g = nx.Graph(ppis)
+    lg = nx.line_graph(g)
+    for node, data in lg.nodes(data=True):
+        data['interaction'] = g.edges[node]['interaction']
+        data['split'] = g.edges[node]['split']
+    return lg
+
+
+def read_dataset_as_edgelist(path, label, split):
+    edgelist = []
+    with open(path, 'r') as f:
+        for line in f:
+            line_split = line.strip().split(' ')
+            uid0 = line_split[0]
+            uid1 = line_split[1]
+            edgelist.append((uid0, uid1, {'interaction': label, 'split': split}))
+    return edgelist
+
 def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
     if dataset in ['guo', 'du']:
         organism = 'yeast'
@@ -194,6 +241,15 @@ def balance_set(ppis, id_dict, encoding, emd):
         ppis.extend(neg_ppis)
     return ppis
 
+
+def balance_edge_list(ppis):
+    pos_len = sum([int(value['interaction']) for key, value in ppis])
+    neg_len = len(ppis) - pos_len
+    if pos_len > neg_len:
+        print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
+    else:
+        print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
+    return ppis
 
 def make_swissprot_to_dict(path_to_swissprot):
     prefix_dict = {}
