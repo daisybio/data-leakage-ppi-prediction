@@ -119,10 +119,10 @@ def construct_line_graph(dataset, prefix):
             read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_neg.txt', '0',
                                      'test'))
     elif prefix == 'gold':
-        ppis = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'train')
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'train'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'train'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'train'))
+        ppis = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'training')
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'training'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'training'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'training'))
         ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1', 'test'))
         ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0', 'test'))
     else:
