@@ -1,0 +1,30 @@
+guo_both_0	Harmonic Function	3821.6179814338684
+guo_both_0	Local and Global Consistency	937.4949035644531
+guo_both_1	Harmonic Function	10.859485387802124
+guo_both_1	Local and Global Consistency	11.053312301635742
+guo_0_1	Harmonic Function	11.448683738708496
+guo_0_1	Local and Global Consistency	10.008339643478394
+huang_both_0	Harmonic Function	10.555627346038818
+huang_both_0	Local and Global Consistency	11.304958581924438
+huang_both_1	Harmonic Function	9.567689418792725
+huang_both_1	Local and Global Consistency	9.069722890853882
+huang_0_1	Harmonic Function	9.805098533630371
+huang_0_1	Local and Global Consistency	9.33766770362854
+du_both_0	Harmonic Function	48.05863404273987
+du_both_0	Local and Global Consistency	25.37656259536743
+du_both_1	Harmonic Function	28.993115186691284
+du_both_1	Local and Global Consistency	17.17964744567871
+du_0_1	Harmonic Function	32.63181138038635
+du_0_1	Local and Global Consistency	15.757826566696167
+pan_both_0	Harmonic Function	112.23404502868652
+pan_both_0	Local and Global Consistency	45.305118560791016
+pan_both_1	Harmonic Function	60.066179513931274
+pan_both_1	Local and Global Consistency	21.891804695129395
+pan_0_1	Harmonic Function	79.13122129440308
+pan_0_1	Local and Global Consistency	26.154550075531006
+richoux_both_0	Harmonic Function	83.90291690826416
+richoux_both_0	Local and Global Consistency	49.69057083129883
+richoux_both_1	Harmonic Function	59.11134362220764
+richoux_both_1	Local and Global Consistency	16.820706129074097
+richoux_0_1	Harmonic Function	45.880210161209106
+richoux_0_1	Local and Global Consistency	13.848931550979614
