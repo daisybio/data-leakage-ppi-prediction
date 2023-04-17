@@ -21,6 +21,7 @@ file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richo
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
 custom_results[, c('dataset', 'encoding', 'model') := tstrsplit(filename, '_', keep=c(2,3,4))]
+custom_results[is.na(model), model := 'degree']
 custom_results[, Model := paste(model, encoding, sep = '_')]
 if(measure == 'Recall'){
   custom_results <- custom_results[V1 == 'Sensitivity']
@@ -87,7 +88,7 @@ all_results <- all_results[, Dataset := factor(Dataset,
 
 all_results <- all_results[, Model := factor(Model, 
                                              levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
-                                                      "RF_node2vec",  "SVM_node2vec", "SPRINT", 
+                                                      "RF_node2vec",  "SVM_node2vec", "degree_cons", "degree_hf", "SPRINT", 
                                                       "deepPPI_FC", "deepPPI_LSTM",  
                                                       "DeepFE", "PIPR"))]
 fwrite(all_results, file=paste0('results/rewired_', measure, '.csv'))
@@ -118,7 +119,7 @@ ggplot(all_results, aes(x=Dataset, y = get(measure), color = Model, group=Model)
                             "richoux-strict" = paste("Richoux strict (", train_sizes["richoux-strict"], ")")))+
   #ylim(0.5, 1.0)+
   labs(x = "Dataset (n training)", y = paste0(measure, "/", ifelse(measure=='Accuracy', 'AUC', 'AUPR'), " for SPRINT")) +
-  scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
+  scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
 #ggsave(paste("plots/all_results_rewired_", measure, ".png"),height=8, width=12)  

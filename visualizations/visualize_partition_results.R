@@ -15,21 +15,34 @@ sprint_res <- '../algorithms/SPRINT/results/partitions/'
 all_results <- data.table(1)[, `:=` (c("Model", "Dataset", measure, "Partition"), NA)][, V1 := NULL][.0]
 
 # custom
-custom_results <- lapply(paste0(custom_res,  list.files(custom_res)), fread)
-file_names <- tstrsplit(list.files(custom_res), '.csv', keep=1)[[1]]
+custom_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern = '^(du|guo|huang|pan|richoux)')), fread)
+file_names <- tstrsplit(list.files(custom_res, pattern = '^(du|guo|huang|pan|richoux)'), '.csv', keep=1)[[1]]
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
 custom_results[, c('dataset', 'encoding', 'model', 'train', 'test') := tstrsplit(filename, '_')]
+
+degree_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern = '^partition')), fread)
+file_names <- tstrsplit(list.files(custom_res, pattern = '^partition'), '.csv', keep=1)[[1]]
+names(degree_results) <- file_names
+degree_results <- rbindlist(degree_results, idcol = 'filename')
+degree_results[, c('partition', 'dataset', 'train', 'test', 'model') := tstrsplit(filename, '_')]
+
 if(measure == 'Recall'){
   custom_results <- custom_results[V1 == 'Sensitivity']
+  degree_results <- degree_results[V1 == 'Sensitivity']
 }else{
   custom_results <- custom_results[V1 == measure]
+  degree_results <- degree_results[V1 == measure]
 }
 custom_results[, Model := paste(model, encoding, sep = '_')]
+degree_results[, Model := paste('degree', model, sep = '_')]
 colnames(custom_results) <- c('filename', 'Measure', measure, 'Dataset', 'Encoding', 'model', 'Train', 'Test', 'Model')
+colnames(degree_results) <- c('filename', 'Measure', measure, 'partition','Dataset', 'Train', 'Test', 'model', 'Model')
 custom_results[, Partition := paste(Train, Test, sep='->')]
+degree_results[, Partition := paste(Train, Test, sep='->')]
 
 all_results <- rbind(all_results, custom_results[, c('Model', 'Dataset', measure, 'Partition'), with = FALSE])
+all_results <- rbind(all_results, degree_results[, c('Model', 'Dataset', measure, 'Partition'), with = FALSE])
 
 # deepFE
 deepFE_results <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = '^partition_scores_(du|guo|huang|pan|richoux)_(both|0)_(0|1).csv', recursive = TRUE)), fread)
@@ -91,7 +104,7 @@ all_results <- all_results[, Dataset := factor(Dataset,
 
 all_results <- all_results[, Model := factor(Model, 
                                              levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
-                                                      "RF_node2vec",  "SVM_node2vec", "SPRINT", 
+                                                      "RF_node2vec",  "SVM_node2vec", "degree_cons", "degree_hf", "SPRINT", 
                                                       "deepPPI_FC", "deepPPI_LSTM",  
                                                       "DeepFE", "PIPR"))]
 fwrite(all_results, file=paste0('results/partition_', measure, '.csv'))
@@ -123,7 +136,7 @@ ggplot(all_results, aes(x=Dataset, y = get(measure), color = Model, group=Model)
   ylim(0.4, 1.0)+
   facet_wrap(~Partition)+
   labs(x = "Dataset\n(n training partition 0|both)", y = paste0(measure, "/", ifelse(measure=='Accuracy', 'AUC', 'AUPR'), " for SPRINT")) +
-  scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
+  scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=0.5))
 #ggsave(paste0("plots/all_results_partition_", measure, ".png"),height=8, width=18)  
