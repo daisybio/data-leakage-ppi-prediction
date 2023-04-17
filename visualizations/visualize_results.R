@@ -20,7 +20,7 @@ all_results <- all_results[, Model := factor(Model,
                                              levels=c('SPRINT', 
                                                       'deepPPI_FC', 'deepPPI_LSTM',  
                                                       'DeepFE', 'PIPR', 'RF_PCA','SVM_PCA', 'RF_MDS', 'SVM_MDS',
-                                                      'RF_node2vec',  'SVM_node2vec'))]
+                                                      'RF_node2vec',  'SVM_node2vec', 'degree_hf', 'degree_cons'))]
 all_results <- all_results[, Dataset := factor(Dataset, 
                                                levels = c('gold_standard', 'huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict'))]
 
@@ -34,11 +34,13 @@ all_results[, Model := gsub('RF_MDS', 'RF MDS', Model)]
 all_results[, Model := gsub('SVM_MDS', 'SVM MDS', Model)]
 all_results[, Model := gsub('RF_node2vec', 'RF node2vec', Model)]
 all_results[, Model := gsub('SVM_node2vec', 'SVM node2vec', Model)]
+all_results[, Model := gsub('degree_hf', 'Harmonic Function', Model)]
+all_results[, Model := gsub('degree_cons', 'Global and Local Consistency', Model)]
 all_results <- all_results[, Model := factor(Model, 
                                              levels=c('SPRINT', 
                                                       'Richoux-FC', 'Richoux-LSTM',  
                                                       'DeepFE', 'PIPR', 'RF PCA','SVM PCA', 'RF MDS', 'SVM MDS',
-                                                      'RF node2vec',  'SVM node2vec'))]
+                                                      'RF node2vec',  'SVM node2vec', 'Harmonic Function', 'Global and Local Consistency'))]
 
 colorBlindBlack8  <- c('#000000', '#E69F00', '#56B4E9', '#009E73', 
                        '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
@@ -106,9 +108,9 @@ pheatmap(t(result_mat),
          gaps_row = c(7,13,18,23),
          display_numbers = TRUE,
          legend = FALSE,
-         filename = paste0('plots/heatmap_results_', measure, '.pdf'),
-         width=8,
-         height=10,
+         #filename = paste0('plots/heatmap_results_', measure, '.pdf'),
+         #width=8,
+         #height=10,
          cex = 1,
          labels_row = c(
            paste0('GOLD STANDARD (', original_sizes['gold'], ')'),
@@ -145,7 +147,8 @@ pheatmap(t(result_mat),
            paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], ')')
          ),
          labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
-                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
+                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
+                        'Harmonic\nFunction', 'Global and\nLocal Consistency')
 )
 
 
