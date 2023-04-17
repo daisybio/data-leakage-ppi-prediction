@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Sledzieski"
+  given-names: "Samuel"
+  orcid: "https://orcid.org/0000-0002-0170-3029"
+- family-names: "Singh"
+  given-names: "Rohit"
+  orcid: "https://orcid.org/0000-0002-4084-7340"
+- family-name: "Devkota"
+  given-names: "Kapil"
+  orcid: "https://orcid.org/0000-0002-6093-6260"
+title: "D-SCRIPT"
+version: 0.2.0
+doi: 10.1016/j.cels.2021.08.010
+date-released: 2022-06-26
+url: "https://github.com/samsledje/D-SCRIPT"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Sledzieski"
+    given-names: "Samuel"
+    orcid: "https://orcid.org/0000-0002-0170-3029"
+  - family-names: "Singh"
+    given-names: "Rohit"
+    orcid: "https://orcid.org/0000-0002-4084-7340"
+  - family-names: "Cowen"
+    given-names: "Lenore"
+    orcid: "https://orcid.org/0000-0001-6698-6413"
+  - family-names: "Berger"
+    given-names: "Bonnie"
+    orcid: "https://orcid.org/0000-0002-2724-7228"
+  doi: "10.1016/j.cels.2021.08.010"
+  journal: "Cell Systems"
+  publisher: "Elsevier"
+  volume: 12
+  issue: 10
+  start: 969
+  end: 982
+  title: "D-SCRIPT translates genome to phenome with sequence-based, structure-aware, genome-scale predictions of protein-protein interactions"
+  year: 2021

@@ -1,0 +1,22 @@
+# Directories
+build
+docs/build
+scratch
+dist
+htmlcov
+.vscode
+**/.ipynb_checkpoints
+**/__pycache__
+dev*
+
+# Files
+collect_env.py
+RUN_DSCRIPT.sh
+
+# File Types
+**/*.egg-info
+**/*.pt
+**/*.sav
+**/*_log.txt
+**/*.h5
+**/.nfs*
