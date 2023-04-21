@@ -441,6 +441,7 @@ def train_model(args, output):
 
     batch_size = args.batch_size
     use_cuda = (args.device > -1) and torch.cuda.is_available()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     train_fi = args.train
     test_fi = args.test
     no_augment = args.no_augment
@@ -573,6 +574,10 @@ def train_model(args, output):
 
     if use_cuda:
         model.cuda()
+    if torch.cuda.device_count() > 1:
+        print("Using", torch.cuda.device_count(), "GPUs")
+        model = nn.DataParallel(model)
+    model = model.to(device)
 
     # Train the model
     lr = args.lr
@@ -725,17 +730,17 @@ def main(args):
 
     # Set the device
     device = args.device
-    use_cuda = (device > -1) and torch.cuda.is_available()
-    if use_cuda:
-        torch.cuda.set_device(device)
-        log(
-            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}",
-            file=output,
-            print_also=True,
-        )
-    else:
-        log("Using CPU", file=output, print_also=True)
-        device = "cpu"
+    #use_cuda = (device > -1) and torch.cuda.is_available()
+    #if use_cuda:
+    #    torch.cuda.set_device(device)
+    #    log(
+    #        f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}",
+    #        file=output,
+    #        print_also=True,
+    #    )
+    #else:
+    #    log("Using CPU", file=output, print_also=True)
+    #    device = "cpu"
 
     if args.seed is not None:
         np.random.seed(args.seed)
