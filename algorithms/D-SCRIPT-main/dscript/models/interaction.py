@@ -165,6 +165,11 @@ class ModelInteraction(nn.Module):
         :rtype: torch.Tensor, torch.Tensor
         """
 
+        if isinstance(z0, torch.Tensor):
+            z0 = nn.DataParallel(z0)
+        if isinstance(z1, torch.Tensor):
+            z1 = nn.DataParallel(z1)
+
         C = self.cpred(z0, z1)
 
         if self.do_w:

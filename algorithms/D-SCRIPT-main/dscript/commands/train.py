@@ -572,9 +572,7 @@ def train_model(args, output):
         model.use_cuda = use_cuda
 
     if use_cuda:
-        log('Splitting model across cuda 0,1', file=output)
-        model.cuda(0)
-        model = nn.DataParallel(model, device_ids=[0, 1])
+        model.cuda()
 
     # Train the model
     lr = args.lr
@@ -727,17 +725,17 @@ def main(args):
 
     # Set the device
     device = args.device
-    #use_cuda = (device > -1) and torch.cuda.is_available()
-    #if use_cuda:
-    #    torch.cuda.set_device(device)
-    #    log(
-    #        f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}",
-    #        file=output,
-    #        print_also=True,
-    #    )
-    #else:
-    #    log("Using CPU", file=output, print_also=True)
-    #    device = "cpu"
+    use_cuda = (device > -1) and torch.cuda.is_available()
+    if use_cuda:
+        torch.cuda.set_device(device)
+        log(
+            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}",
+            file=output,
+            print_also=True,
+        )
+    else:
+        log("Using CPU", file=output, print_also=True)
+        device = "cpu"
 
     if args.seed is not None:
         np.random.seed(args.seed)
