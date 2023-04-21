@@ -177,7 +177,7 @@ class ModelInteraction(nn.Module):
                 ** 2
             ).float()
             if self.use_cuda:
-                x1 = nn.DataParallel(x1)
+                x1 = x1.cuda()
             # x1 = torch.exp(self.lambda1 * x1)
             x1 = torch.exp(self.lambda_ * x1)
 
@@ -187,7 +187,7 @@ class ModelInteraction(nn.Module):
                 ** 2
             ).float()
             if self.use_cuda:
-                x2 = nn.DataParallel(x2)
+                x2 = x2.cuda()
             # x2 = torch.exp(self.lambda2 * x2)
             x2 = torch.exp(self.lambda_ * x2)
 
