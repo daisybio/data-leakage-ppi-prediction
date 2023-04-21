@@ -1,0 +1,47 @@
+[2023-04-21-10:24:07] D-SCRIPT Version 0.2.2
+[2023-04-21-10:24:07] Called as: /nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript train --topsy-turvy --train data/original/huang_train.txt --test data/original/huang_test.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/huang_tt_model -o ./results_topsyturvy/original/huang_train.txt -d 1 --batch-size 10
+[2023-04-21-10:24:07] Using CUDA device 1 - NVIDIA A40
+[2023-04-21-10:24:07] Loaded 10632 training pairs
+[2023-04-21-10:24:07] Loaded 1374 test pairs
+[2023-04-21-10:24:07] Loading embeddings...
+[2023-04-21-10:24:39] Running D-SCRIPT Topsy-Turvy:
+[2023-04-21-10:24:39] 	glider_weight: 0.2
+[2023-04-21-10:24:39] 	glider_thresh: 92.5th percentile
+[2023-04-21-10:24:39] Computing GLIDER matrix...
+[2023-04-21-10:24:53] Initializing embedding model with:
+[2023-04-21-10:24:53] 	projection_dim: 100
+[2023-04-21-10:24:53] 	dropout_p: 0.5
+[2023-04-21-10:24:53] Initializing contact model with:
+[2023-04-21-10:24:53] 	hidden_dim: 50
+[2023-04-21-10:24:53] 	kernel_width: 7
+[2023-04-21-10:24:53] Initializing interaction model with:
+[2023-04-21-10:24:53] 	do_poool: False
+[2023-04-21-10:24:53] 	pool_width: 9
+[2023-04-21-10:24:53] 	do_w: True
+[2023-04-21-10:24:53] 	do_sigmoid: True
+[2023-04-21-10:24:53] ModelInteraction(
+  (activation): LogisticActivation()
+  (embedding): FullyConnectedEmbed(
+    (transform): Linear(in_features=6165, out_features=100, bias=True)
+    (drop): Dropout(p=0.5, inplace=False)
+    (activation): ReLU()
+  )
+  (contact): ContactCNN(
+    (hidden): FullyConnected(
+      (conv): Conv2d(200, 50, kernel_size=(1, 1), stride=(1, 1))
+      (batchnorm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation): ReLU()
+    )
+    (conv): Conv2d(50, 1, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+    (batchnorm): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (activation): Sigmoid()
+  )
+  (maxPool): MaxPool2d(kernel_size=9, stride=9, padding=4, dilation=1, ceil_mode=False)
+)
+[2023-04-21-10:24:54] Using save prefix "./models/huang_tt_model"
+[2023-04-21-10:24:54] Training with Adam: lr=0.001, weight_decay=0
+[2023-04-21-10:24:54] 	num_epochs: 10
+[2023-04-21-10:24:54] 	batch_size: 10
+[2023-04-21-10:24:54] 	interaction weight: 0.35
+[2023-04-21-10:24:54] 	contact map weight: 0.65
+[2023-04-21-10:25:01] [1/10] training 0.9%: Loss=1.5297, Accuracy=46.000%, MSE=0.538112

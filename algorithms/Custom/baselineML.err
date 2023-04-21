@@ -1,684 +1,21 @@
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.7s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.7s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.7s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    4.6s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   11.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    5.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   14.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    4.7s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   11.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.5s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   18.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:   10.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   24.7s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   17.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   18.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    9.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   24.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   17.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.7s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.7s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.7s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    4.9s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   12.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    5.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   13.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    8.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   22.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   18.2s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    9.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   23.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   17.2s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   18.2s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    9.6s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   23.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    7.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   17.2s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 341231.51it/s]
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 358265.06it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 364165.30it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 325063.28it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 833429.26it/s]
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 48129.42it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 673062.43it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 514203.73it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 961051.12it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 905648.10it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 901233.56it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 947190.51it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 966605.58it/s]
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 1057615.45it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 940019.62it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 1031322.73it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 883707.04it/s]
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 977678.63it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 892795.05it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 631181.67it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 955148.22it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 1047771.12it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 898403.06it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 941268.62it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 636283.39it/s]
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 919514.82it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 334826.43it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 952999.49it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 635974.17it/s]
-  0%|          | 0/1872 [00:00<?, ?it/s]100%|██████████| 1872/1872 [00:00<00:00, 910240.79it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 830579.36it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 874240.63it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 756053.69it/s]
-  0%|          | 0/2929 [00:00<?, ?it/s]100%|██████████| 2929/2929 [00:00<00:00, 974699.81it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 861082.28it/s]
-  0%|          | 0/682 [00:00<?, ?it/s]100%|██████████| 682/682 [00:00<00:00, 910992.14it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    1.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 34115.72it/s]
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 768291.78it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 397038.84it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 337367.93it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 914080.05it/s]
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 1076112.90it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 696412.74it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 592957.74it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 941872.84it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 1000145.53it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 880533.09it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 1005235.31it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 910339.29it/s]
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 942718.55it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 1022327.06it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 1053559.05it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 827493.22it/s]
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 985684.67it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 870515.92it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 948123.12it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 901215.15it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 1027970.29it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 918156.10it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 971011.88it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 518310.85it/s]
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 863875.37it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 819950.24it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 865367.55it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 514670.42it/s]
-  0%|          | 0/1485 [00:00<?, ?it/s]100%|██████████| 1485/1485 [00:00<00:00, 853926.71it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 777531.45it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 92500.50it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 483305.04it/s]
-  0%|          | 0/1110 [00:00<?, ?it/s]100%|██████████| 1110/1110 [00:00<00:00, 85583.88it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 683218.51it/s]
-  0%|          | 0/748 [00:00<?, ?it/s]100%|██████████| 748/748 [00:00<00:00, 859780.60it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 533508.64it/s]
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 834290.01it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 950174.07it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 215505.61it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 940200.78it/s]
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 923516.48it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 405817.22it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 440611.87it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 939927.51it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 1041737.11it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 779621.46it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 1008940.58it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.7s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 922199.09it/s]
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 923663.09it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 914037.17it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 923621.88it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 951828.71it/s]
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 928083.09it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 57196.38it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 949539.91it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 924747.65it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 939134.24it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 914381.51it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 968294.88it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.7s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 513651.72it/s]
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 936960.69it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 782285.42it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 808585.82it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 728731.56it/s]
-  0%|          | 0/6936 [00:00<?, ?it/s]100%|██████████| 6936/6936 [00:00<00:00, 633061.16it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 655333.98it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 39827.99it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.5s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 354348.52it/s]
-  0%|          | 0/7959 [00:00<?, ?it/s]100%|██████████| 7959/7959 [00:00<00:00, 859442.50it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 755992.96it/s]
-  0%|          | 0/2361 [00:00<?, ?it/s]100%|██████████| 2361/2361 [00:00<00:00, 671737.33it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    1.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    2.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 717176.22it/s]
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 652302.08it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 762520.34it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 686270.01it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 236628.05it/s]
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 826290.47it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 723425.04it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 641225.95it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 856709.15it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 873046.54it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 866648.52it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 812348.99it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.5s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    6.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 833107.28it/s]
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 227056.48it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 841236.62it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 849982.06it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.9s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 852820.98it/s]
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 843007.53it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 906450.34it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 831753.98it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.3s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 874511.82it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 881520.65it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 98136.51it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 813424.49it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.9s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    7.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 328999.17it/s]
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 707083.75it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 704860.80it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s] 34%|███▍      | 5035/14659 [00:00<00:00, 47191.46it/s]100%|██████████| 14659/14659 [00:00<00:00, 119118.23it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 331263.44it/s]
-  0%|          | 0/12279 [00:00<?, ?it/s]100%|██████████| 12279/12279 [00:00<00:00, 738250.89it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 681565.02it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 836723.39it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    5.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 440110.39it/s]
-  0%|          | 0/14659 [00:00<?, ?it/s]100%|██████████| 14659/14659 [00:00<00:00, 740293.09it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 676289.26it/s]
-  0%|          | 0/4541 [00:00<?, ?it/s]100%|██████████| 4541/4541 [00:00<00:00, 721479.39it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.5s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    6.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.0s finished
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 816920.65it/s]
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 260472.33it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 784971.88it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 825706.97it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    3.9s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    9.7s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.2s finished
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 894591.28it/s]
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 808676.38it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 842592.56it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 646131.98it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    3.9s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    9.6s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 173919.72it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 844968.06it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 868860.80it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 859650.72it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    7.0s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 935560.31it/s]
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 815160.59it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 969457.02it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 223738.03it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    4.6s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   11.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.2s finished
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 916209.85it/s]
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 813227.86it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 900691.49it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 814833.65it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    4.6s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   11.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 927228.72it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 860444.80it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 136733.11it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 769140.62it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    3.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    8.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 573435.52it/s]
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 654950.66it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s] 83%|████████▎ | 12539/15053 [00:00<00:00, 125383.24it/s]100%|██████████| 15053/15053 [00:00<00:00, 144867.12it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 509172.32it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    3.6s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    8.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/17500 [00:00<?, ?it/s]100%|██████████| 17500/17500 [00:00<00:00, 477434.61it/s]
-  0%|          | 0/17500 [00:00<?, ?it/s] 64%|██████▍   | 11161/17500 [00:00<00:00, 111602.12it/s]100%|██████████| 17500/17500 [00:00<00:00, 157814.52it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 742251.34it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 640411.58it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    3.6s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    8.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 625718.34it/s]
-  0%|          | 0/15053 [00:00<?, ?it/s]100%|██████████| 15053/15053 [00:00<00:00, 682110.80it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 76144.10it/s]
-  0%|          | 0/6864 [00:00<?, ?it/s]100%|██████████| 6864/6864 [00:00<00:00, 605232.57it/s]
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    2.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    6.8s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.1s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:   24.0s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:   58.7s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.1s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.3s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:   27.4s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:  1.1min finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.4s finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:   27.8s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:  1.1min finished
-[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
-[Parallel(n_jobs=6)]: Done  38 tasks      | elapsed:    0.2s
-[Parallel(n_jobs=6)]: Done 100 out of 100 | elapsed:    0.4s finished
+Traceback (most recent call last):
+  File "run.py", line 169, in <module>
+    run_degree_algorithm(rewire=False, partition=False, gold=True)
+  File "run.py", line 113, in run_degree_algorithm
+    scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Harmonic function')
+  File "/nfs/home/students/jbernett/data-leakage-ppi-prediction/algorithms/Custom/learn_models.py", line 72, in semi_supervised_analysis
+    predicted_labels = _get_method(method_name)(tmp_lg)
+  File "/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib/python3.8/site-packages/networkx/utils/decorators.py", line 816, in func
+    return argmap._lazy_compile(__wrapper)(*args, **kwargs)
+  File "<class 'networkx.utils.decorators.argmap'> compilation 8", line 4, in argmap_harmonic_function_5
+  File "/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib/python3.8/site-packages/networkx/algorithms/node_classification/hmn.py", line 81, in harmonic_function
+    P[labels[:, 0]] = 0  # labels[:, 0] indicates IDs of labeled nodes
+  File "/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib/python3.8/site-packages/scipy/sparse/_lil.py", line 332, in __setitem__
+    IndexMixin.__setitem__(self, key, x)
+  File "/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib/python3.8/site-packages/scipy/sparse/_index.py", line 146, in __setitem__
+    self._set_arrayXarray(i, j, x)
+  File "/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib/python3.8/site-packages/scipy/sparse/_lil.py", line 303, in _set_arrayXarray
+    i, j, x = map(np.atleast_2d, _prepare_index_for_memoryview(row, col, x))
+  File "/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib/python3.8/site-packages/scipy/sparse/_lil.py", line 518, in _prepare_index_for_memoryview
+    x = x.copy()
+numpy.core._exceptions.MemoryError: Unable to allocate 439. GiB for an array with shape (219398, 268798) and data type float64
