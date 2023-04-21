@@ -1,0 +1,35 @@
+  0%|          | 0/2571 [00:00<?, ?it/s]  0%|          | 1/2571 [00:01<47:35,  1.11s/it]  0%|          | 6/2571 [00:01<08:24,  5.08it/s]  0%|          | 9/2571 [00:02<09:48,  4.35it/s]  1%|          | 24/2571 [00:03<03:58, 10.68it/s]  1%|▏         | 38/2571 [00:08<10:29,  4.02it/s] 22%|██▏       | 574/2571 [00:08<00:18, 107.67it/s] 25%|██▍       | 636/2571 [00:09<00:16, 119.87it/s] 27%|██▋       | 691/2571 [00:09<00:16, 111.73it/s] 28%|██▊       | 731/2571 [00:10<00:20, 92.00it/s]  30%|██▉       | 760/2571 [00:11<00:25, 70.49it/s] 33%|███▎      | 839/2571 [00:12<00:20, 85.00it/s] 33%|███▎      | 858/2571 [00:12<00:19, 89.32it/s] 36%|███▌      | 921/2571 [00:12<00:13, 120.48it/s] 37%|███▋      | 951/2571 [00:12<00:14, 110.10it/s] 38%|███▊      | 973/2571 [00:13<00:18, 84.26it/s]  39%|███▊      | 992/2571 [00:14<00:25, 62.84it/s] 40%|████      | 1041/2571 [00:14<00:18, 84.23it/s] 41%|████▏     | 1066/2571 [00:15<00:22, 65.86it/s] 43%|████▎     | 1104/2571 [00:15<00:16, 89.08it/s] 44%|████▍     | 1140/2571 [00:15<00:12, 113.62it/s] 45%|████▌     | 1167/2571 [00:15<00:10, 128.23it/s] 47%|████▋     | 1198/2571 [00:15<00:11, 117.67it/s] 47%|████▋     | 1217/2571 [00:16<00:19, 70.07it/s]  49%|████▉     | 1266/2571 [00:18<00:27, 47.15it/s] 55%|█████▍    | 1411/2571 [00:18<00:11, 101.21it/s] 56%|█████▌    | 1434/2571 [00:18<00:11, 98.52it/s]  56%|█████▋    | 1448/2571 [00:19<00:14, 76.69it/s] 57%|█████▋    | 1474/2571 [00:19<00:12, 88.30it/s] 60%|█████▉    | 1532/2571 [00:19<00:08, 128.46it/s] 60%|██████    | 1554/2571 [00:20<00:11, 88.30it/s]  61%|██████    | 1571/2571 [00:21<00:19, 51.00it/s] 64%|██████▍   | 1645/2571 [00:22<00:17, 51.76it/s] 66%|██████▌   | 1693/2571 [00:24<00:20, 43.19it/s] 67%|██████▋   | 1722/2571 [00:29<00:49, 17.22it/s] 91%|█████████▏| 2351/2571 [00:29<00:01, 129.47it/s] 98%|█████████▊| 2510/2571 [00:31<00:00, 119.38it/s]100%|██████████| 2571/2571 [00:31<00:00, 81.86it/s] 
+Traceback (most recent call last):
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript", line 33, in <module>
+    sys.exit(load_entry_point('dscript==0.2.2', 'console_scripts', 'dscript')())
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/__main__.py", line 65, in main
+    args.func(args)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 743, in main
+    train_model(args, output)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 616, in train_model
+    loss, correct, mse, b = interaction_grad(
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 327, in interaction_grad
+    c_map_mag, p_hat = predict_cmap_interaction(
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 257, in predict_cmap_interaction
+    cm, ph = model.map_predict(z_a, z_b)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/models/interaction.py", line 168, in map_predict
+    C = self.cpred(z0, z1)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/models/interaction.py", line 152, in cpred
+    B = self.contact.cmap(e0, e1)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/models/contact.py", line 116, in cmap
+    C = self.hidden(z0, z1)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/models/contact.py", line 51, in forward
+    c = self.conv(z_cat)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 15.83 GiB (GPU 0; 44.42 GiB total capacity; 41.63 GiB already allocated; 809.81 MiB free; 42.11 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+real	1m10,896s
+user	32m37,933s
+sys	0m47,710s
