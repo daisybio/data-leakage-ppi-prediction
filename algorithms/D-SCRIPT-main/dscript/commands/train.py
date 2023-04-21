@@ -441,7 +441,6 @@ def train_model(args, output):
 
     batch_size = args.batch_size
     use_cuda = (args.device > -1) and torch.cuda.is_available()
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     train_fi = args.train
     test_fi = args.test
     no_augment = args.no_augment
@@ -572,13 +571,10 @@ def train_model(args, output):
         model = torch.load(args.checkpoint)
         model.use_cuda = use_cuda
 
-    #if use_cuda:
-    #    model.cuda()
-    log('Hello train', file=output)
-    if torch.cuda.device_count() > 1:
-        log(f"Using {torch.cuda.device_count()} GPUs", file=output)
-        model = nn.DataParallel(model)
-    model = model.to(device)
+    if use_cuda:
+        log('Splitting model across cuda 0,1', file=output)
+        model.cuda(0)
+        model = nn.DataParallel(model, device_ids=[0, 1])
 
     # Train the model
     lr = args.lr
