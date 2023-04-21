@@ -572,8 +572,9 @@ def train_model(args, output):
         model = torch.load(args.checkpoint)
         model.use_cuda = use_cuda
 
-    if use_cuda:
-        model.cuda()
+    #if use_cuda:
+    #    model.cuda()
+    print('Hello train')
     if torch.cuda.device_count() > 1:
         print("Using", torch.cuda.device_count(), "GPUs")
         model = nn.DataParallel(model)
