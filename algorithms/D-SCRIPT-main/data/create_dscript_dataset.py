@@ -40,9 +40,11 @@ def balance_ppis_list(ppis, universe):
 
 def create_dataset(dataset, folder, fold, organism):
     universe = set()
-    with open(f"../../../Datasets_PPIs/SwissProt/{organism}_proteins.txt") as universe_file:
+    with open(f"../../../Datasets_PPIs/SwissProt/{organism}_proteins_lengths.txt") as universe_file:
         for line in universe_file:
-            universe.add(line.strip())
+            protein, length = line.strip().split('\t')
+            if float(length) > 50 and float(length) < 800:
+                universe.add(protein)
 
     ppis = []
     with open(f"../../SPRINT/data/{folder}/{dataset}_{fold}_pos.txt", "r") as f_in_pos, \
@@ -68,6 +70,10 @@ def create_dataset(dataset, folder, fold, organism):
 
 
 if __name__ == '__main__':
+    # execute in the Datasets_PPIs/SwissProt directory:
+    # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
+    # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
+
     for dataset in ['guo', 'du']:
         print(dataset)
         create_dataset(dataset, 'original', 'train', 'yeast')
