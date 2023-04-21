@@ -574,9 +574,9 @@ def train_model(args, output):
 
     #if use_cuda:
     #    model.cuda()
-    log('Hello train')
+    log('Hello train', file=output)
     if torch.cuda.device_count() > 1:
-        log("Using", torch.cuda.device_count(), "GPUs")
+        log(f"Using {torch.cuda.device_count()} GPUs", file=output)
         model = nn.DataParallel(model)
     model = model.to(device)
 
