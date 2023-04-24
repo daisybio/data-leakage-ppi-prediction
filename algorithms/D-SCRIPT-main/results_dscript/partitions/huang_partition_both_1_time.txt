@@ -1,0 +1,21 @@
+  0%|          | 0/1660 [00:00<?, ?it/s]  0%|          | 1/1660 [00:00<22:10,  1.25it/s]  0%|          | 2/1660 [00:02<30:43,  1.11s/it]  0%|          | 7/1660 [00:02<09:29,  2.90it/s]  2%|▏         | 31/1660 [00:03<02:05, 12.95it/s]  2%|▏         | 37/1660 [00:05<03:34,  7.58it/s] 20%|██        | 339/1660 [00:06<00:12, 107.67it/s] 22%|██▏       | 368/1660 [00:06<00:11, 109.10it/s] 24%|██▎       | 394/1660 [00:06<00:10, 116.67it/s] 26%|██▋       | 436/1660 [00:06<00:11, 107.42it/s] 29%|██▊       | 475/1660 [00:07<00:12, 98.16it/s]  29%|██▉       | 488/1660 [00:07<00:12, 97.01it/s] 31%|███▏      | 519/1660 [00:07<00:12, 92.32it/s] 32%|███▏      | 530/1660 [00:08<00:14, 76.22it/s] 34%|███▍      | 565/1660 [00:08<00:12, 91.12it/s] 37%|███▋      | 606/1660 [00:08<00:09, 112.57it/s] 37%|███▋      | 621/1660 [00:08<00:09, 111.73it/s] 38%|███▊      | 635/1660 [00:09<00:11, 91.91it/s]  39%|███▉      | 646/1660 [00:09<00:15, 64.80it/s] 41%|████      | 675/1660 [00:09<00:11, 85.15it/s] 41%|████▏     | 686/1660 [00:09<00:11, 87.69it/s] 44%|████▍     | 737/1660 [00:10<00:06, 133.47it/s] 45%|████▌     | 752/1660 [00:11<00:22, 39.74it/s]  50%|█████     | 834/1660 [00:11<00:10, 82.58it/s] 54%|█████▎    | 889/1660 [00:12<00:10, 77.01it/s] 59%|█████▊    | 973/1660 [00:12<00:05, 123.31it/s] 60%|██████    | 1003/1660 [00:13<00:05, 129.77it/s] 62%|██████▏   | 1027/1660 [00:13<00:07, 80.83it/s]  64%|██████▍   | 1060/1660 [00:14<00:07, 83.63it/s] 66%|██████▋   | 1103/1660 [00:14<00:06, 91.66it/s] 68%|██████▊   | 1122/1660 [00:14<00:05, 91.93it/s] 69%|██████▉   | 1150/1660 [00:15<00:05, 86.32it/s] 71%|███████   | 1171/1660 [00:15<00:07, 65.18it/s] 71%|███████   | 1182/1660 [00:16<00:08, 55.09it/s] 74%|███████▍  | 1232/1660 [00:16<00:04, 91.17it/s] 77%|███████▋  | 1275/1660 [00:16<00:03, 119.46it/s] 78%|███████▊  | 1293/1660 [00:16<00:02, 123.03it/s] 79%|███████▉  | 1314/1660 [00:16<00:03, 114.72it/s] 81%|████████  | 1339/1660 [00:17<00:02, 111.07it/s] 82%|████████▏ | 1353/1660 [00:17<00:03, 84.89it/s]  82%|████████▏ | 1364/1660 [00:17<00:03, 85.08it/s] 84%|████████▎ | 1389/1660 [00:17<00:02, 95.53it/s] 85%|████████▍ | 1403/1660 [00:18<00:04, 52.43it/s] 88%|████████▊ | 1454/1660 [00:18<00:02, 76.60it/s] 90%|█████████ | 1497/1660 [00:19<00:01, 94.72it/s] 91%|█████████▏| 1515/1660 [00:20<00:02, 53.76it/s]100%|██████████| 1660/1660 [00:20<00:00, 82.21it/s]
+Traceback (most recent call last):
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript", line 33, in <module>
+    sys.exit(load_entry_point('dscript==0.2.2', 'console_scripts', 'dscript')())
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/__main__.py", line 65, in main
+    args.func(args)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 743, in main
+    train_model(args, output)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 695, in train_model
+    torch.save(model, save_path)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 440, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 315, in _open_zipfile_writer
+    return container(name_or_buffer)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 288, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(str(name)))
+RuntimeError: Parent directory ../models does not exist.
+
+real	1m46,371s
+user	22m5,420s
+sys	0m25,730s

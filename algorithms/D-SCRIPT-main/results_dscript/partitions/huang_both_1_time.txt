@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript", line 33, in <module>
+    sys.exit(load_entry_point('dscript==0.2.2', 'console_scripts', 'dscript')())
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/__main__.py", line 65, in main
+    args.func(args)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/evaluate.py", line 138, in main
+    model = torch.load(model_path).cuda()
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 791, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 271, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 252, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: './models/huang_both_1_dscript_partitions_final.sav'
+
+real	0m12,760s
+user	0m3,573s
+sys	0m6,250s

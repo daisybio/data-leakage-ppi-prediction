@@ -1,0 +1,78 @@
+[2023-04-23-23:35:12] D-SCRIPT Version 0.2.2
+[2023-04-23-23:35:12] Called as: /nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript train --train data/partitions/huang_partition_both.txt --test data/partitions/huang_partition_1.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ../models/huang_both_1_dscript_partitions -o ./results_dscript/partitions/huang_partition_both_1.txt -d 2
+[2023-04-23-23:35:12] Using CUDA device 2 - NVIDIA A40
+[2023-04-23-23:35:12] Loaded 3440 training pairs
+[2023-04-23-23:35:12] Loaded 1462 test pairs
+[2023-04-23-23:35:12] Loading embeddings...
+[2023-04-23-23:35:32] Initializing embedding model with:
+[2023-04-23-23:35:32] 	projection_dim: 100
+[2023-04-23-23:35:32] 	dropout_p: 0.5
+[2023-04-23-23:35:32] Initializing contact model with:
+[2023-04-23-23:35:32] 	hidden_dim: 50
+[2023-04-23-23:35:32] 	kernel_width: 7
+[2023-04-23-23:35:32] Initializing interaction model with:
+[2023-04-23-23:35:32] 	do_poool: False
+[2023-04-23-23:35:32] 	pool_width: 9
+[2023-04-23-23:35:32] 	do_w: True
+[2023-04-23-23:35:32] 	do_sigmoid: True
+[2023-04-23-23:35:32] ModelInteraction(
+  (activation): LogisticActivation()
+  (embedding): FullyConnectedEmbed(
+    (transform): Linear(in_features=6165, out_features=100, bias=True)
+    (drop): Dropout(p=0.5, inplace=False)
+    (activation): ReLU()
+  )
+  (contact): ContactCNN(
+    (hidden): FullyConnected(
+      (conv): Conv2d(200, 50, kernel_size=(1, 1), stride=(1, 1))
+      (batchnorm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation): ReLU()
+    )
+    (conv): Conv2d(50, 1, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+    (batchnorm): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (activation): Sigmoid()
+  )
+  (maxPool): MaxPool2d(kernel_size=9, stride=9, padding=4, dilation=1, ceil_mode=False)
+)
+[2023-04-23-23:35:33] Using save prefix "../models/huang_both_1_dscript_partitions"
+[2023-04-23-23:35:33] Training with Adam: lr=0.001, weight_decay=0
+[2023-04-23-23:35:33] 	num_epochs: 10
+[2023-04-23-23:35:33] 	batch_size: 25
+[2023-04-23-23:35:33] 	interaction weight: 0.35
+[2023-04-23-23:35:33] 	contact map weight: 0.65
+[2023-04-23-23:35:37] [1/10] training 2.9%: Loss=1.54275, Accuracy=46.000%, MSE=0.538257
+[2023-04-23-23:35:39] [1/10] training 5.8%: Loss=1.42997, Accuracy=50.500%, MSE=0.493281
+[2023-04-23-23:35:41] [1/10] training 8.7%: Loss=1.34992, Accuracy=53.333%, MSE=0.464845
+[2023-04-23-23:35:43] [1/10] training 11.6%: Loss=1.41214, Accuracy=50.000%, MSE=0.497901
+[2023-04-23-23:35:44] [1/10] training 14.5%: Loss=1.41255, Accuracy=49.200%, MSE=0.505589
+[2023-04-23-23:35:46] [1/10] training 17.4%: Loss=1.38531, Accuracy=50.000%, MSE=0.497476
+[2023-04-23-23:35:48] [1/10] training 20.3%: Loss=1.38991, Accuracy=49.429%, MSE=0.503034
+[2023-04-23-23:35:50] [1/10] training 23.2%: Loss=1.38835, Accuracy=49.125%, MSE=0.505869
+[2023-04-23-23:35:52] [1/10] training 26.1%: Loss=1.39753, Accuracy=48.222%, MSE=0.514655
+[2023-04-23-23:35:54] [1/10] training 29.0%: Loss=1.37387, Accuracy=49.000%, MSE=0.506774
+[2023-04-23-23:35:55] [1/10] training 31.9%: Loss=1.38288, Accuracy=48.273%, MSE=0.51387
+[2023-04-23-23:35:57] [1/10] training 34.8%: Loss=1.38037, Accuracy=48.167%, MSE=0.514814
+[2023-04-23-23:35:59] [1/10] training 37.7%: Loss=1.36411, Accuracy=48.692%, MSE=0.509458
+[2023-04-23-23:36:01] [1/10] training 40.6%: Loss=1.37133, Accuracy=48.000%, MSE=0.516174
+[2023-04-23-23:36:03] [1/10] training 43.5%: Loss=1.37729, Accuracy=47.400%, MSE=0.52199
+[2023-04-23-23:36:05] [1/10] training 46.4%: Loss=1.36279, Accuracy=47.938%, MSE=0.516556
+[2023-04-23-23:36:06] [1/10] training 49.3%: Loss=1.3507, Accuracy=48.294%, MSE=0.512902
+[2023-04-23-23:36:08] [1/10] training 52.2%: Loss=1.3458, Accuracy=48.333%, MSE=0.512415
+[2023-04-23-23:36:10] [1/10] training 55.1%: Loss=1.33899, Accuracy=48.421%, MSE=0.511413
+[2023-04-23-23:36:12] [1/10] training 58.0%: Loss=1.32642, Accuracy=48.900%, MSE=0.506591
+[2023-04-23-23:36:14] [1/10] training 60.9%: Loss=1.32043, Accuracy=49.000%, MSE=0.505476
+[2023-04-23-23:36:16] [1/10] training 63.8%: Loss=1.31026, Accuracy=49.364%, MSE=0.501809
+[2023-04-23-23:36:17] [1/10] training 66.7%: Loss=1.29982, Accuracy=49.696%, MSE=0.498416
+[2023-04-23-23:36:19] [1/10] training 69.6%: Loss=1.29677, Accuracy=49.667%, MSE=0.4986
+[2023-04-23-23:36:21] [1/10] training 72.5%: Loss=1.29096, Accuracy=49.760%, MSE=0.497571
+[2023-04-23-23:36:23] [1/10] training 75.4%: Loss=1.29087, Accuracy=49.538%, MSE=0.499644
+[2023-04-23-23:36:25] [1/10] training 78.3%: Loss=1.29036, Accuracy=49.407%, MSE=0.500876
+[2023-04-23-23:36:27] [1/10] training 81.2%: Loss=1.2827, Accuracy=49.643%, MSE=0.498466
+[2023-04-23-23:36:29] [1/10] training 84.1%: Loss=1.27644, Accuracy=49.793%, MSE=0.49688
+[2023-04-23-23:36:31] [1/10] training 87.0%: Loss=1.2741, Accuracy=49.733%, MSE=0.497363
+[2023-04-23-23:36:33] [1/10] training 89.9%: Loss=1.27185, Accuracy=49.710%, MSE=0.497518
+[2023-04-23-23:36:35] [1/10] training 92.8%: Loss=1.26911, Accuracy=49.625%, MSE=0.498207
+[2023-04-23-23:36:36] [1/10] training 95.7%: Loss=1.26579, Accuracy=49.697%, MSE=0.497441
+[2023-04-23-23:36:38] [1/10] training 98.6%: Loss=1.25704, Accuracy=50.000%, MSE=0.494345
+[2023-04-23-23:36:50] Finished Epoch 1/10: Loss=2.41447, Accuracy=49.559%, MSE=0.490832, Precision=0.452057, Recall=0.00931083, F1=0.0182459, AUPR=0.430393
+[2023-04-23-23:36:50] Saving model to ../models/huang_both_1_dscript_partitions_epoch01.sav
