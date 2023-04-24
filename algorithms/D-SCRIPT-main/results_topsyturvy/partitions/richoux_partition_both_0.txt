@@ -1,0 +1,10 @@
+[2023-04-24-12:15:49] D-SCRIPT Version 0.2.2
+[2023-04-24-12:15:49] Called as: /nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript train --topsy-turvy --train data/partitions/richoux_partition_both.txt --test data/partitions/richoux_partition_0.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/richoux_both_0_tt_partitions -o ./results_topsyturvy/partitions/richoux_partition_both_0.txt -d 2
+[2023-04-24-12:15:49] Using CUDA device 2 - NVIDIA A40
+[2023-04-24-12:15:49] Loaded 59704 training pairs
+[2023-04-24-12:15:49] Loaded 21500 test pairs
+[2023-04-24-12:15:49] Loading embeddings...
+[2023-04-24-12:18:40] Running D-SCRIPT Topsy-Turvy:
+[2023-04-24-12:18:40] 	glider_weight: 0.2
+[2023-04-24-12:18:40] 	glider_thresh: 92.5th percentile
+[2023-04-24-12:18:40] Computing GLIDER matrix...

@@ -1,0 +1,21 @@
+  0%|          | 0/1627 [00:00<?, ?it/s]  0%|          | 1/1627 [00:01<31:31,  1.16s/it]  0%|          | 8/1627 [00:01<04:51,  5.56it/s]  1%|          | 10/1627 [00:03<08:46,  3.07it/s]  2%|▏         | 36/1627 [00:07<05:02,  5.26it/s] 29%|██▉       | 479/1627 [00:07<00:10, 104.51it/s] 33%|███▎      | 534/1627 [00:07<00:09, 114.30it/s] 36%|███▌      | 579/1627 [00:08<00:10, 97.63it/s]  38%|███▊      | 611/1627 [00:09<00:10, 98.32it/s] 39%|███▉      | 636/1627 [00:09<00:09, 100.84it/s] 40%|████      | 657/1627 [00:09<00:10, 92.19it/s]  42%|████▏     | 691/1627 [00:10<00:15, 59.34it/s] 49%|████▉     | 801/1627 [00:11<00:07, 116.11it/s] 52%|█████▏    | 843/1627 [00:12<00:11, 69.50it/s]  57%|█████▋    | 931/1627 [00:12<00:07, 97.40it/s] 59%|█████▉    | 960/1627 [00:13<00:06, 103.39it/s] 61%|██████    | 995/1627 [00:13<00:05, 120.10it/s] 63%|██████▎   | 1021/1627 [00:13<00:05, 110.70it/s] 64%|██████▍   | 1042/1627 [00:13<00:04, 117.39it/s] 65%|██████▌   | 1062/1627 [00:13<00:05, 105.16it/s] 66%|██████▋   | 1078/1627 [00:14<00:08, 62.55it/s]  69%|██████▉   | 1125/1627 [00:14<00:05, 93.66it/s] 70%|███████   | 1142/1627 [00:14<00:04, 99.33it/s] 72%|███████▏  | 1172/1627 [00:15<00:04, 91.01it/s] 73%|███████▎  | 1186/1627 [00:15<00:05, 87.97it/s] 74%|███████▎  | 1198/1627 [00:15<00:04, 88.99it/s] 75%|███████▍  | 1220/1627 [00:15<00:05, 74.04it/s] 76%|███████▋  | 1242/1627 [00:16<00:08, 47.84it/s] 81%|████████  | 1316/1627 [00:17<00:03, 91.06it/s] 83%|████████▎ | 1344/1627 [00:17<00:04, 66.41it/s] 86%|████████▌ | 1400/1627 [00:18<00:02, 86.44it/s] 90%|████████▉ | 1461/1627 [00:18<00:01, 128.31it/s] 91%|█████████▏| 1485/1627 [00:18<00:01, 126.42it/s] 93%|█████████▎| 1506/1627 [00:19<00:01, 72.03it/s]  95%|█████████▍| 1541/1627 [00:19<00:00, 91.94it/s] 96%|█████████▌| 1559/1627 [00:19<00:00, 87.51it/s]100%|██████████| 1627/1627 [00:19<00:00, 81.87it/s]
+Traceback (most recent call last):
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript", line 33, in <module>
+    sys.exit(load_entry_point('dscript==0.2.2', 'console_scripts', 'dscript')())
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/__main__.py", line 65, in main
+    args.func(args)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 743, in main
+    train_model(args, output)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/dscript-0.2.2-py3.8.egg/dscript/commands/train.py", line 695, in train_model
+    torch.save(model, save_path)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 440, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 315, in _open_zipfile_writer
+    return container(name_or_buffer)
+  File "/nfs/home/students/jbernett/.conda/envs/dscript2/lib/python3.8/site-packages/torch/serialization.py", line 288, in __init__
+    super().__init__(torch._C.PyTorchFileWriter(str(name)))
+RuntimeError: Parent directory ../models does not exist.
+
+real	2m16,437s
+user	22m8,743s
+sys	0m29,214s
