@@ -119,10 +119,10 @@ def construct_line_graph(dataset, prefix):
             read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_neg.txt', '0',
                                      'test'))
     elif prefix == 'gold':
-        ppis = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'training')
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'training'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'training'))
+        ppis = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'training')
         ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'training'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'training'))
+        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'training'))
         ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1', 'test'))
         ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0', 'test'))
     else:
@@ -176,11 +176,11 @@ def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
 
 def load_gold_standard(encoding='PCA'):
     emd, id_dict = load_encoding(encoding=encoding, organism='human')
-    train_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1')
-    train_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0')
+    train_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1')
+    train_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0')
     train_pos.extend(train_neg)
-    val_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1')
-    val_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0')
+    val_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1')
+    val_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0')
     train_pos.extend(val_pos)
     train_pos.extend(val_neg)
     train_pos = balance_set(train_pos, id_dict, encoding, emd)

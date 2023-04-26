@@ -72,11 +72,11 @@ def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
     elif dataset.startswith('gold_standard'):
         id2index, seqs = read_in_seqdict('human')
         if dataset == 'gold_standard_train':
-            train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
-            train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
-        elif dataset == 'gold_standard_val':
             train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt'
             train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt'
+        elif dataset == 'gold_standard_val':
+            train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
         else:
             train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt'
             train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt'
