@@ -9,5 +9,5 @@
 
 #python run.py original
 #python run.py rewired
-#python run.py partition
-python run.py gold
+python run.py partition
+#python run.py gold

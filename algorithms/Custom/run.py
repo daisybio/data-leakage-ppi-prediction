@@ -153,17 +153,17 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if args[0] == 'original':
         print('########################### ORIGINAL ###########################')
-        #run_simpler_algorithms(rewire=False)
+        run_simpler_algorithms(rewire=False)
         run_degree_algorithm(rewire=False, partition=False)
     elif args[0] == 'rewired':
         print('########################### REWIRED ###########################')
-        #run_simpler_algorithms(rewire=True)
+        run_simpler_algorithms(rewire=True)
         run_degree_algorithm(rewire=True, partition=False)
     elif args[0] == 'partition':
         print('########################### PARTITION ###########################')
-        #run_partitioning_tests()
+        run_partitioning_tests()
         run_degree_algorithm(rewire=False, partition=True)
     else:
         print('########################### GOLD STANDARD ###########################')
-        #run_gold_standard()
+        run_gold_standard()
         run_degree_algorithm(rewire=False, partition=False, gold=True)

@@ -7,6 +7,7 @@
 #SBATCH --error=deepPPI.err
 #SBATCH --mem=90G
 
+: '
 echo original
 for DATASET in guo huang du pan richoux_regular richoux_strict
 do
@@ -26,7 +27,7 @@ do
   echo LSTM
   python train_all_datasets.py -name LSTM_rewired_${DATASET} -train_pos ../../SPRINT/data/rewired/${DATASET}_train_pos.txt -train_neg ../../SPRINT/data/rewired/${DATASET}_train_neg.txt -test_pos ../../SPRINT/data/rewired/${DATASET}_test_pos.txt -test_neg ../../SPRINT/data/rewired/${DATASET}_test_neg.txt -model lstm32_3conv3_2dense_shared -epochs 100 -batch 2048
 done
-
+'
 echo partitions
 for DATASET in guo huang du pan richoux
 do

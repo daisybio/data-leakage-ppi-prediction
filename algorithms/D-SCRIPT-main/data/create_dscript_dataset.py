@@ -114,7 +114,6 @@ if __name__ == '__main__':
     create_gold_standard('Intra1')
     create_gold_standard('Intra2')
 
-    '''
     for dataset in ['guo', 'du']:
         print(dataset)
         create_dataset(dataset, 'original', 'train', 'yeast')
@@ -146,4 +145,3 @@ if __name__ == '__main__':
             create_dataset(dataset, 'partitions', 'partition_0', 'human')
             create_dataset(dataset, 'partitions', 'partition_1', 'human')
             create_dataset(dataset, 'partitions', 'partition_both', 'human')
-    '''
