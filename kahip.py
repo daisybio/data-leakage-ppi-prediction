@@ -4,12 +4,12 @@ import networkx as nx
 def write_partition(yeast=True):
     if yeast:
         path_to_network = 'network_data/SIMAP2/yeast_networks/only_yeast.graphml'
-        path_to_partition = './network_data/SIMAP2/yeast_networks/only_yeast_partition_bitscore.txt'
+        path_to_partition = './network_data/SIMAP2/yeast_networks/only_yeast_partition_bitscore_normalized.txt'
         path_to_output = './network_data/SIMAP2/yeast_networks/only_yeast_partition.graphml'
         path_to_list_output = './network_data/SIMAP2/yeast_networks/only_yeast_partition_nodelist.txt'
     else:
         path_to_network = 'network_data/SIMAP2/human_networks/only_human.graphml'
-        path_to_partition = './network_data/SIMAP2/human_networks/only_human_partition_bitscore.txt'
+        path_to_partition = './network_data/SIMAP2/human_networks/only_human_partition_bitscore_normalized.txt'
         path_to_output = './network_data/SIMAP2/human_networks/only_human_partition.graphml'
         path_to_list_output = './network_data/SIMAP2/human_networks/only_human_partition_nodelist.txt'
     G = nx.read_graphml(path_to_network)

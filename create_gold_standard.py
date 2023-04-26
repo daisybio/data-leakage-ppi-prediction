@@ -4,7 +4,7 @@ from algorithms.Custom.load_datasets import make_swissprot_to_dict
 
 def read_kahip():
     path_to_list_input = 'network_data/SIMAP2/human_networks/only_human_partition_nodelist.txt'
-    path_to_partition = 'network_data/SIMAP2/human_networks/only_human_partition_3_bitscore.txt'
+    path_to_partition = 'network_data/SIMAP2/human_networks/only_human_partition_3_bitscore_normalized.txt'
     print('Reading input ... ')
     uniprot_ids = pd.read_csv(path_to_list_input, sep='\t')['Node']
     partition_map = dict()
@@ -89,6 +89,14 @@ def export_fasta(block, seq_dict, filename):
                 output.write(f'>{prot}\n')
                 output.write(seq_dict.get(prot)+'\n')
 
+
+def import_block(filename):
+    block = set()
+    with open(filename, 'r') as file:
+        for line in file:
+            entry_1, entry_2 = line.strip().split(" ")
+            block.add((entry_1, entry_2))
+    return block
 
 def export_block(block, filename):
     with open(filename, 'w') as output:
@@ -201,15 +209,21 @@ def filter_partition():
 if __name__ == '__main__':
     #make_partition_blocks()
 
+    #intra_0 = import_block('Datasets_PPIs/Hippiev2.3/Intra0_pos.txt')
+    #intra_0.update(import_block('Datasets_PPIs/Hippiev2.3/Intra0_neg.txt'))
+    #intra_1 = import_block('Datasets_PPIs/Hippiev2.3/Intra1_pos.txt')
+    #intra_1.update(import_block('Datasets_PPIs/Hippiev2.3/Intra1_neg.txt'))
+    #intra_2 = import_block('Datasets_PPIs/Hippiev2.3/Intra2_pos.txt')
+    #intra_2.update(import_block('Datasets_PPIs/Hippiev2.3/Intra2_neg.txt'))
     #prefix_dict, seq_dict = make_swissprot_to_dict('Datasets_PPIs/SwissProt/human_swissprot.fasta')
     #export_fasta(intra_0, seq_dict, 'Datasets_PPIs/Hippiev2.3/Intra_0.fasta')
     #export_fasta(intra_1, seq_dict, 'Datasets_PPIs/Hippiev2.3/Intra_1.fasta')
     #export_fasta(intra_2, seq_dict, 'Datasets_PPIs/Hippiev2.3/Intra_2.fasta')
 
     #find pairwise sequence identities > 40% with CD Hit
-    #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -o sim_intra0.out -c 0.4 -n 2
-    #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o sim_intra1.out -c 0.4 -n 2
-    #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o sim_intra2.out -c 0.4 -n 2
+    #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -o  Datasets_PPIs/Hippiev2.3/sim_intra0.out -c 0.4 -n 2
+    #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o  Datasets_PPIs/Hippiev2.3/sim_intra1.out -c 0.4 -n 2
+    #./cdhit/cd-hit -i Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o  Datasets_PPIs/Hippiev2.3/sim_intra2.out -c 0.4 -n 2
     #./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_1.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra0_intra_1.out -c 0.4 -n 2
     #./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_0.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra0_intra_2.out -c 0.4 -n 2
     #./cdhit/cd-hit-2d -i Datasets_PPIs/Hippiev2.3/Intra_1.fasta -i2 Datasets_PPIs/Hippiev2.3/Intra_2.fasta -o Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out -c 0.4 -n 2

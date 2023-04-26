@@ -1,6 +1,6 @@
 import random
 
-def balance_ppis_list(ppis, universe):
+def balance_ppis_list(ppis):
     pos_ppis = [x for x in ppis if x[2] == '1']
     pos_len = len(pos_ppis)
     neg_ppis = [x for x in ppis if x[2] == '0']
@@ -43,7 +43,7 @@ def create_dataset(dataset, folder, fold, organism):
     with open(f"../../../Datasets_PPIs/SwissProt/{organism}_proteins_lengths.txt") as universe_file:
         for line in universe_file:
             protein, length = line.strip().split('\t')
-            if float(length) > 50 and float(length) < 800:
+            if float(length) > 50 and float(length) < 1000:
                 universe.add(protein)
 
     ppis = []
@@ -62,9 +62,46 @@ def create_dataset(dataset, folder, fold, organism):
             if columns[0] in universe and columns[1] in universe:
                 ppis.append([columns[0], columns[1], '0'])
 
-    ppis = balance_ppis_list(ppis, universe)
+    ppis = balance_ppis_list(ppis)
 
     with open(f"{folder}/{dataset}_{fold}.txt", "w") as f_out:
+        for ppi in ppis:
+            f_out.write(f"{ppi[0]}\t{ppi[1]}\t{ppi[2]}\n")
+
+
+def create_gold_standard(name):
+    universe = set()
+    with open(f"../../../Datasets_PPIs/SwissProt/human_proteins_lengths.txt") as universe_file:
+        for line in universe_file:
+            protein, length = line.strip().split('\t')
+            if float(length) > 50 and float(length) < 1000:
+                universe.add(protein)
+
+    ppis = []
+    with open(f"../../../Datasets_PPIs/Hippiev2.3/{name}_pos_rr.txt", "r") as f_in_pos, \
+            open(f"../../../Datasets_PPIs/Hippiev2.3/{name}_neg_rr.txt", "r") as f_in_neg:
+
+        # Process positive examples
+        ppi_counter = 0
+        for line in f_in_pos:
+            ppi_counter += 1
+            columns = line.strip().split(" ")
+            if columns[0] in universe and columns[1] in universe:
+                ppis.append([columns[0], columns[1], '1'])
+        print(f'{len(ppis)} positives in {name} of {ppi_counter}')
+
+        # Process negative examples
+        for line in f_in_neg:
+            ppi_counter += 1
+            columns = line.strip().split(" ")
+            if columns[0] in universe and columns[1] in universe:
+                ppis.append([columns[0], columns[1], '0'])
+        print(f'{len(ppis)} overall in {name} of {ppi_counter}')
+
+    ppis = balance_ppis_list(ppis)
+    print(f'{len(ppis)} overall in {name} after balancing')
+
+    with open(f"gold/{name}.txt", "w") as f_out:
         for ppi in ppis:
             f_out.write(f"{ppi[0]}\t{ppi[1]}\t{ppi[2]}\n")
 
@@ -73,7 +110,11 @@ if __name__ == '__main__':
     # execute in the Datasets_PPIs/SwissProt directory:
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
+    create_gold_standard('Intra0')
+    create_gold_standard('Intra1')
+    create_gold_standard('Intra2')
 
+    '''
     for dataset in ['guo', 'du']:
         print(dataset)
         create_dataset(dataset, 'original', 'train', 'yeast')
@@ -105,3 +146,4 @@ if __name__ == '__main__':
             create_dataset(dataset, 'partitions', 'partition_0', 'human')
             create_dataset(dataset, 'partitions', 'partition_1', 'human')
             create_dataset(dataset, 'partitions', 'partition_both', 'human')
+    '''

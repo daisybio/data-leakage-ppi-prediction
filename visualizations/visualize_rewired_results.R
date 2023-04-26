@@ -10,6 +10,8 @@ deepFE_res <- '../algorithms/DeepFE-PPI/result/custom/'
 deepPPI_res <- '../algorithms/DeepPPI/keras/results_custom/'
 seqppi_res <- '../algorithms/seq_ppi/binary/model/lasagna/results/'
 sprint_res <- '../algorithms/SPRINT/results/rewired/'
+dscript_res <- '../algorithms/D-SCRIPT-main/results_dscript/rewired/'
+tt_res <- '../algorithms/D-SCRIPT-main/results_topsyturvy/rewired/'
 
 # read in data
 all_results <- data.table(1)[, `:=` (c("Model", "Dataset", measure), NA)][, V1 := NULL][.0]
@@ -82,6 +84,24 @@ if(measure == 'Accuracy'){
 sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', sprint_results$Dataset[grepl('richoux', sprint_results$Dataset, fixed=TRUE)])
 all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', measure), with = FALSE])
 
+# D-Script
+dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+dscript_results <- dscript_results[Metric == measure]
+colnames(dscript_results) <- c('Model', 'Dataset', 'Metric', measure, 'Split')
+dscript_results$Model <- 'D-SCRIPT'
+dscript_results[Dataset == 'richoux_regular', Dataset := 'richoux-regular']
+dscript_results[Dataset == 'richoux_strict', Dataset := 'richoux-strict']
+all_results <- rbind(all_results, dscript_results[, c('Model', 'Dataset', measure), with=FALSE])
+
+# Topsy_Turvy
+tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+tt_results <- tt_results[Metric == measure]
+colnames(tt_results) <- c('Model', 'Dataset', 'Metric', measure, 'Split')
+tt_results$Model <- 'Topsy_Turvy'
+tt_results[Dataset == 'richoux_regular', Dataset := 'richoux-regular']
+tt_results[Dataset == 'richoux_strict', Dataset := 'richoux-strict']
+all_results <- rbind(all_results, tt_results[, c('Model', 'Dataset', measure), with=FALSE])
+
 # visualization
 all_results <- all_results[, Dataset := factor(Dataset, 
                                                levels = c("huang", "guo", "du", "pan", "richoux-regular", "richoux-strict"))]
@@ -90,7 +110,7 @@ all_results <- all_results[, Model := factor(Model,
                                              levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
                                                       "RF_node2vec",  "SVM_node2vec", "degree_cons", "degree_hf", "SPRINT", 
                                                       "deepPPI_FC", "deepPPI_LSTM",  
-                                                      "DeepFE", "PIPR"))]
+                                                      "DeepFE", "PIPR", "D-SCRIPT", "Topsy_Turvy"))]
 fwrite(all_results, file=paste0('results/rewired_', measure, '.csv'))
 
 # training data size

@@ -77,3 +77,15 @@ SPRINT,huang,0.7274
 SPRINT,pan,0.8701
 SPRINT,richoux-regular,0.9809
 SPRINT,richoux-strict,0.816
+D-SCRIPT,du,0.5488
+D-SCRIPT,guo,0.5102
+D-SCRIPT,huang,0.5
+D-SCRIPT,pan,0.7628
+D-SCRIPT,richoux-regular,0.5643
+D-SCRIPT,richoux-strict,0.5
+Topsy_Turvy,du,0.6086
+Topsy_Turvy,guo,0.4993
+Topsy_Turvy,huang,0.2381
+Topsy_Turvy,pan,0.6096
+Topsy_Turvy,richoux-regular,0.5484
+Topsy_Turvy,richoux-strict,0.4756

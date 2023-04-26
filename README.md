@@ -38,6 +38,11 @@ This script was also used to **rewire** and split the datasets (`generate_RDPN`)
 Before you run this script, you have to run [`compute_sim_matrix.py`](algorithms/Custom/compute_sim_matrix.py). 
 
 ### Partitions
+Calculate the protein lengths with this code in the Datasets_PPIs/SwissProt directory:
+```
+awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
+awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
+```
 
 The [human](Datasets_PPIs/SwissProt/human_swissprot.fasta) and [yeast](Datasets_PPIs/SwissProt/yeast_swissprot.fasta) proteomes were downloaded from Uniprot and sent to the 
 team of SIMAP2. They sent back the similarity data which we make available under
@@ -60,8 +65,8 @@ cd ..
 ```
 Then, feed the METIS files to the KaHIP kaffpa algorithm with the following commands: 
 ```
-./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_bitscore.txt" --k=2 --preconfiguration=strong
-./KaHIP/deploy/kaffpa ./network_data/SIMAP2/yeast_networks/only_yeast_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/yeast_networks/only_yeast_partition_bitscore.txt" --k=2 --preconfiguration=strong
+./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore_normalized.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_bitscore_normalized.txt" --k=2 --preconfiguration=strong
+./KaHIP/deploy/kaffpa ./network_data/SIMAP2/yeast_networks/only_yeast_bitscore_normalized.graph --seed=1234 --output_filename="./network_data/SIMAP2/yeast_networks/only_yeast_partition_bitscore_normalized.txt" --k=2 --preconfiguration=strong
 ```
 
 The output files containing the partitioning was mapped back to the original UniProt IDs in [kahip.py](kahip.py). Nodelists: [human](network_data/SIMAP2/human_networks/only_human_partition_nodelist.txt), [yeast](network_data/SIMAP2/yeast_networks/only_yeast_partition_nodelist.txt).
@@ -75,7 +80,7 @@ There should be no overlaps between the three datasets and a minimum amount of s
 so that the methods can learn more complex features. 
 Hence, we partitioned the human proteome into three parts by running: 
 ```
-./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_3_bitscore.txt" --k=3 --preconfiguration=strong
+./KaHIP/deploy/kaffpa ./network_data/SIMAP2/human_networks/only_human_bitscore_normalized.graph --seed=1234 --output_filename="./network_data/SIMAP2/human_networks/only_human_partition_3_bitscore_normalized.txt" --k=3 --preconfiguration=strong
 ```
 Then, the Hippie v2.3 database was downloaded from their [website](http://cbdm-01.zdv.uni-mainz.de/~mschaefer/hippie/).
 The dataset was split intro training, validation, and testing using the partition. Negative PPIs were 
