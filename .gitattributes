@@ -104,3 +104,6 @@ Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt filter=lfs diff=lfs merge=lfs -text
 Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt filter=lfs diff=lfs merge=lfs -text
 Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt filter=lfs diff=lfs merge=lfs -text
 Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt filter=lfs diff=lfs merge=lfs -text
+algorithms/D-SCRIPT-main/data/gold/Intra0.txt filter=lfs diff=lfs merge=lfs -text
+algorithms/D-SCRIPT-main/data/gold/Intra1.txt filter=lfs diff=lfs merge=lfs -text
+algorithms/D-SCRIPT-main/data/gold/Intra2.txt filter=lfs diff=lfs merge=lfs -text
