@@ -5,9 +5,9 @@
 #SBATCH --job-name=baseML
 #SBATCH --output=baselineML.out
 #SBATCH --error=baselineML.err
-#SBATCH --mem=440G
+#SBATCH --mem=40G
 
-#python run.py original
-#python run.py rewired
+python run.py original
+python run.py rewired
 python run.py partition
-#python run.py gold
+python run.py gold

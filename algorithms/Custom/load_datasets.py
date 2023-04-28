@@ -110,27 +110,29 @@ def construct_line_graph(dataset, prefix):
         name = ds_split[0]
         train_partition = ds_split[1]
         test_partition = ds_split[2]
-        ppis = read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt', '1', 'training')
-        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_neg.txt', '0', 'training'))
-        ppis.extend(
-            read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_pos.txt', '1',
-                                     'test'))
-        ppis.extend(
+        ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt', '1', 'training')
+        ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_neg.txt', '0', 'training'))
+        ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_pos.txt', '1', 'test')
+        ppis_test.extend(
             read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_neg.txt', '0',
                                      'test'))
     elif prefix == 'gold':
-        ppis = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'training')
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'training'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'training'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'training'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1', 'test'))
-        ppis.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0', 'test'))
+        ppis_train = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'training')
+        ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'training'))
+        ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'training'))
+        ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'training'))
+        ppis_test = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1', 'test')
+        ppis_test.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0', 'test'))
     else:
-        ppis = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
-        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
-        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test'))
-        ppis.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_neg.txt', '0', 'test'))
+        ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
+        ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
+        ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test')
+        ppis_test.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_neg.txt', '0', 'test'))
 
+    ppis_train = balance_ppis_list(ppis_train, 'training')
+    ppis_test = balance_ppis_list(ppis_test, 'test')
+    ppis = ppis_train
+    ppis.extend(ppis_test)
     g = nx.Graph(ppis)
     lg = nx.line_graph(g)
     for node, data in lg.nodes(data=True):
@@ -141,13 +143,18 @@ def construct_line_graph(dataset, prefix):
 
 def read_dataset_as_edgelist(path, label, split):
     edgelist = []
+    pairs = set()
     with open(path, 'r') as f:
         for line in f:
             line_split = line.strip().split(' ')
             uid0 = line_split[0]
             uid1 = line_split[1]
-            edgelist.append((uid0, uid1, {'interaction': label, 'split': split}))
+            if (uid0, uid1) not in pairs:
+                pairs.add((uid0, uid1))
+                pairs.add((uid1, uid0))
+                edgelist.append((uid0, uid1, {'interaction': label, 'split': split}))
     return edgelist
+
 
 def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
     if dataset in ['guo', 'du']:
@@ -242,14 +249,44 @@ def balance_set(ppis, id_dict, encoding, emd):
     return ppis
 
 
-def balance_edge_list(ppis):
-    pos_len = sum([int(value['interaction']) for key, value in ppis])
-    neg_len = len(ppis) - pos_len
-    if pos_len > neg_len:
-        print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
-    else:
+def balance_ppis_list(ppis, split):
+    pos_ppis = [x for x in ppis if x[2]['interaction'] == '1']
+    pos_len = len(pos_ppis)
+    neg_ppis = [x for x in ppis if x[2]['interaction'] == '0']
+    neg_len = len(neg_ppis)
+    if neg_len > pos_len:
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
+        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - len(pos_ppis)))
+        neg_ppis = [x for i, x in enumerate(neg_ppis) if not i in to_delete]
+        ppis = pos_ppis
+        ppis.extend(neg_ppis)
+    elif len(pos_ppis) > len(neg_ppis):
+        print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
+        candidates = set( ppi for entry in ppis for ppi in entry[:2] )
+
+        while pos_len > neg_len:
+            prot1 = random.choice(tuple(candidates))
+            prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
+                                                                           pair[0] == prot1]
+            # protein should occur in the dataset
+            while len(prot1_list) == 0:
+                prot1 = random.choice(tuple(candidates))
+                prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
+                                                                               pair[0] == prot1]
+            prot2 = random.choice(tuple(candidates))
+            prot2_list = [pair[0] for pair in ppis if pair[1] == prot2] + [pair[1] for pair in ppis if
+                                                                           pair[0] == prot2]
+
+            while prot1 == prot2 or prot2 in prot1_list or len(prot2_list) == 0:
+                prot2 = random.choice(tuple(candidates))
+                prot2_list = [pair[0] for pair in ppis if pair[1] == prot2] + [pair[1] for pair in ppis if
+                                                                               pair[0] == prot2]
+            ppis.append((prot1, prot2, {'interaction': '0', 'split': split}))
+            neg_len += 1
+        print(f"pos: {len([x for x in ppis if x[2]['interaction'] == '1'])}, neg: {len([x for x in ppis if x[2]['interaction'] == '0'])}")
     return ppis
+
+
 
 def make_swissprot_to_dict(path_to_swissprot):
     prefix_dict = {}
