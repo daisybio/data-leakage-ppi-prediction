@@ -10,3 +10,15 @@ richoux_regular	Harmonic Function	106.70995736122131
 richoux_regular	Local and Global Consistency	24.081528425216675
 richoux_strict	Harmonic Function	93.23983955383301
 richoux_strict	Local and Global Consistency	18.308369636535645
+guo	Harmonic Function	5865.975688457489
+guo	Local and Global Consistency	614.6826586723328
+huang	Harmonic Function	3.505058765411377
+huang	Local and Global Consistency	1.7376153469085693
+du	Harmonic Function	77.43166136741638
+du	Local and Global Consistency	22.385047674179077
+pan	Harmonic Function	249.37566447257996
+pan	Local and Global Consistency	54.26650094985962
+richoux_regular	Harmonic Function	82.74541592597961
+richoux_regular	Local and Global Consistency	17.813212871551514
+richoux_strict	Harmonic Function	89.3030366897583
+richoux_strict	Local and Global Consistency	26.459868907928467

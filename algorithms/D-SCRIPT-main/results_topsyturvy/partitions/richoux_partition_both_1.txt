@@ -1,6 +1,0 @@
-[2023-04-24-15:32:47] D-SCRIPT Version 0.2.2
-[2023-04-24-15:32:47] Called as: /nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript train --topsy-turvy --train data/partitions/richoux_partition_both.txt --test data/partitions/richoux_partition_1.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/richoux_both_1_tt_partitions -o ./results_topsyturvy/partitions/richoux_partition_both_1.txt -d 2
-[2023-04-24-15:32:47] Using CUDA device 2 - NVIDIA A40
-[2023-04-24-15:32:47] Loaded 59704 training pairs
-[2023-04-24-15:32:48] Loaded 13484 test pairs
-[2023-04-24-15:32:48] Loading embeddings...

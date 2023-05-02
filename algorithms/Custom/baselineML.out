@@ -1,3 +1,205 @@
-########################### GOLD STANDARD ###########################
-##### degree algorithm: gold_standard dataset #####
+########################### ORIGINAL ###########################
+##### degree algorithm: guo dataset #####
 Constructed line graph!
+Accuracy: 0.8092
+Precision: 0.786
+Sensitivity/Recall: 0.8497
+Specificity: 0.7687
+F1: 0.8166
+MCC: 0.6204
+time elapsed: 3047.7191922664642
+Accuracy: 0.7391
+Precision: 0.7065
+Sensitivity/Recall: 0.8179
+Specificity: 0.6603
+F1: 0.7581
+MCC: 0.4842
+time elapsed: 207.04735398292542
+##### degree algorithm: huang dataset #####
+Constructed line graph!
+Accuracy: 0.9163
+Precision: 0.9598
+Sensitivity/Recall: 0.869
+Specificity: 0.9636
+F1: 0.9121
+MCC: 0.8364
+time elapsed: 43.96792531013489
+Accuracy: 0.8755
+Precision: 0.9725
+Sensitivity/Recall: 0.7729
+Specificity: 0.9782
+F1: 0.8613
+MCC: 0.7674
+time elapsed: 46.333385705947876
+##### degree algorithm: du dataset #####
+sampling more negatives (13757 positives, 13746 negatives)...
+pos: 13757, neg: 13757
+Constructed line graph!
+Accuracy: 0.8651
+Precision: 0.9026
+Sensitivity/Recall: 0.8185
+Specificity: 0.9117
+F1: 0.8585
+MCC: 0.7334
+time elapsed: 129.5377860069275
+Accuracy: 0.8356
+Precision: 0.9319
+Sensitivity/Recall: 0.7241
+Specificity: 0.9471
+F1: 0.815
+MCC: 0.6886
+time elapsed: 60.54259657859802
+##### degree algorithm: pan dataset #####
+randomly dropping negatives (25192 positives, 25207 negatives)...
+Constructed line graph!
+Accuracy: 0.9287
+Precision: 0.9698
+Sensitivity/Recall: 0.885
+Specificity: 0.9724
+F1: 0.9255
+MCC: 0.8608
+time elapsed: 333.36803007125854
+Accuracy: 0.8922
+Precision: 0.9762
+Sensitivity/Recall: 0.804
+Specificity: 0.9804
+F1: 0.8818
+MCC: 0.797
+time elapsed: 84.3123390674591
+##### degree algorithm: richoux_regular dataset #####
+randomly dropping negatives (16851 positives, 24062 negatives)...
+randomly dropping negatives (3116 positives, 3275 negatives)...
+Constructed line graph!
+Accuracy: 0.7965
+Precision: 0.7551
+Sensitivity/Recall: 0.8777
+Specificity: 0.7153
+F1: 0.8118
+MCC: 0.601
+time elapsed: 127.28128290176392
+Accuracy: 0.7742
+Precision: 0.7117
+Sensitivity/Recall: 0.922
+Specificity: 0.6264
+F1: 0.8033
+MCC: 0.5741
+time elapsed: 52.92699122428894
+##### degree algorithm: richoux_strict dataset #####
+randomly dropping negatives (17036 positives, 25026 negatives)...
+randomly dropping negatives (130 positives, 185 negatives)...
+Constructed line graph!
+Accuracy: 0.75
+Precision: 0.7305
+Sensitivity/Recall: 0.7923
+Specificity: 0.7077
+F1: 0.7601
+MCC: 0.5018
+time elapsed: 109.91198325157166
+Accuracy: 0.7038
+Precision: 0.6646
+Sensitivity/Recall: 0.8231
+Specificity: 0.5846
+F1: 0.7354
+MCC: 0.4198
+time elapsed: 68.8460795879364
+########################### REWIRED ###########################
+##### degree algorithm: guo dataset #####
+Constructed line graph!
+Accuracy: 0.7489
+Precision: 0.7351
+Sensitivity/Recall: 0.7782
+Specificity: 0.7197
+F1: 0.756
+MCC: 0.4987
+time elapsed: 5865.975688457489
+Accuracy: 0.6432
+Precision: 0.6051
+Sensitivity/Recall: 0.8245
+Specificity: 0.462
+F1: 0.698
+MCC: 0.3074
+time elapsed: 614.6826586723328
+##### degree algorithm: huang dataset #####
+Constructed line graph!
+Accuracy: 0.9143
+Precision: 0.9624
+Sensitivity/Recall: 0.8624
+Specificity: 0.9663
+F1: 0.9097
+MCC: 0.8332
+time elapsed: 3.505058765411377
+Accuracy: 0.9085
+Precision: 0.9745
+Sensitivity/Recall: 0.8389
+Specificity: 0.978
+F1: 0.9017
+MCC: 0.825
+time elapsed: 1.7376153469085693
+##### degree algorithm: du dataset #####
+Constructed line graph!
+Accuracy: 0.8657
+Precision: 0.9069
+Sensitivity/Recall: 0.8151
+Specificity: 0.9164
+F1: 0.8586
+MCC: 0.7353
+time elapsed: 77.43166136741638
+Accuracy: 0.8455
+Precision: 0.9271
+Sensitivity/Recall: 0.7499
+Specificity: 0.9411
+F1: 0.8291
+MCC: 0.7039
+time elapsed: 22.385047674179077
+##### degree algorithm: pan dataset #####
+Constructed line graph!
+Accuracy: 0.9243
+Precision: 0.9681
+Sensitivity/Recall: 0.8774
+Specificity: 0.9711
+F1: 0.9205
+MCC: 0.8523
+time elapsed: 249.37566447257996
+Accuracy: 0.9047
+Precision: 0.9736
+Sensitivity/Recall: 0.832
+Specificity: 0.9774
+F1: 0.8972
+MCC: 0.8181
+time elapsed: 54.26650094985962
+##### degree algorithm: richoux_regular dataset #####
+randomly dropping negatives (16898 positives, 24167 negatives)...
+randomly dropping negatives (3116 positives, 3280 negatives)...
+Constructed line graph!
+Accuracy: 0.8076
+Precision: 0.7323
+Sensitivity/Recall: 0.9698
+Specificity: 0.6454
+F1: 0.8345
+MCC: 0.6504
+time elapsed: 82.74541592597961
+Accuracy: 0.7439
+Precision: 0.6651
+Sensitivity/Recall: 0.9827
+Specificity: 0.5051
+F1: 0.7933
+MCC: 0.5552
+time elapsed: 17.813212871551514
+##### degree algorithm: richoux_strict dataset #####
+randomly dropping negatives (17067 positives, 25058 negatives)...
+randomly dropping negatives (130 positives, 185 negatives)...
+Constructed line graph!
+Accuracy: 0.7269
+Precision: 0.7153
+Sensitivity/Recall: 0.7538
+Specificity: 0.7
+F1: 0.7341
+MCC: 0.4545
+time elapsed: 89.3030366897583
+Accuracy: 0.6769
+Precision: 0.6456
+Sensitivity/Recall: 0.7846
+Specificity: 0.5692
+F1: 0.7083
+MCC: 0.3624
+time elapsed: 26.459868907928467

@@ -1,0 +1,357 @@
+[2023-04-27-11:42:49] D-SCRIPT Version 0.2.2
+[2023-04-27-11:42:49] Called as: /nfs/home/students/jbernett/.conda/envs/dscript2/bin/dscript train --topsy-turvy --train data/partitions/huang_partition_0.txt --test data/partitions/huang_partition_1.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/huang_0_1_tt_partitions -o ./results_topsyturvy/partitions/train_huang_0_1.txt -d 2
+[2023-04-27-11:42:49] Using CUDA device 2 - NVIDIA A40
+[2023-04-27-11:42:49] Loaded 2992 training pairs
+[2023-04-27-11:42:49] Loaded 1190 test pairs
+[2023-04-27-11:42:49] Loading embeddings...
+[2023-04-27-11:43:09] Running D-SCRIPT Topsy-Turvy:
+[2023-04-27-11:43:09] 	glider_weight: 0.2
+[2023-04-27-11:43:09] 	glider_thresh: 92.5th percentile
+[2023-04-27-11:43:09] Computing GLIDER matrix...
+[2023-04-27-11:43:11] Initializing embedding model with:
+[2023-04-27-11:43:11] 	projection_dim: 100
+[2023-04-27-11:43:11] 	dropout_p: 0.5
+[2023-04-27-11:43:11] Initializing contact model with:
+[2023-04-27-11:43:11] 	hidden_dim: 50
+[2023-04-27-11:43:11] 	kernel_width: 7
+[2023-04-27-11:43:11] Initializing interaction model with:
+[2023-04-27-11:43:11] 	do_poool: False
+[2023-04-27-11:43:11] 	pool_width: 9
+[2023-04-27-11:43:11] 	do_w: True
+[2023-04-27-11:43:11] 	do_sigmoid: True
+[2023-04-27-11:43:11] ModelInteraction(
+  (activation): LogisticActivation()
+  (embedding): FullyConnectedEmbed(
+    (transform): Linear(in_features=6165, out_features=100, bias=True)
+    (drop): Dropout(p=0.5, inplace=False)
+    (activation): ReLU()
+  )
+  (contact): ContactCNN(
+    (hidden): FullyConnected(
+      (conv): Conv2d(200, 50, kernel_size=(1, 1), stride=(1, 1))
+      (batchnorm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation): ReLU()
+    )
+    (conv): Conv2d(50, 1, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+    (batchnorm): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (activation): Sigmoid()
+  )
+  (maxPool): MaxPool2d(kernel_size=9, stride=9, padding=4, dilation=1, ceil_mode=False)
+)
+[2023-04-27-11:43:12] Using save prefix "./models/huang_0_1_tt_partitions"
+[2023-04-27-11:43:12] Training with Adam: lr=0.001, weight_decay=0
+[2023-04-27-11:43:12] 	num_epochs: 10
+[2023-04-27-11:43:12] 	batch_size: 25
+[2023-04-27-11:43:12] 	interaction weight: 0.35
+[2023-04-27-11:43:12] 	contact map weight: 0.65
+[2023-04-27-11:43:16] [1/10] training 3.3%: Loss=1.57421, Accuracy=41.000%, MSE=0.588225
+[2023-04-27-11:43:19] [1/10] training 6.7%: Loss=1.53202, Accuracy=41.500%, MSE=0.583031
+[2023-04-27-11:43:21] [1/10] training 10.0%: Loss=1.36841, Accuracy=48.333%, MSE=0.514693
+[2023-04-27-11:43:24] [1/10] training 13.3%: Loss=1.30062, Accuracy=51.000%, MSE=0.487869
+[2023-04-27-11:43:26] [1/10] training 16.7%: Loss=1.3277, Accuracy=50.200%, MSE=0.495888
+[2023-04-27-11:43:29] [1/10] training 20.0%: Loss=1.33728, Accuracy=49.167%, MSE=0.506001
+[2023-04-27-11:43:31] [1/10] training 23.3%: Loss=1.30776, Accuracy=50.000%, MSE=0.497457
+[2023-04-27-11:43:34] [1/10] training 26.7%: Loss=1.29163, Accuracy=50.625%, MSE=0.491195
+[2023-04-27-11:43:36] [1/10] training 30.0%: Loss=1.29488, Accuracy=50.111%, MSE=0.496176
+[2023-04-27-11:43:39] [1/10] training 33.3%: Loss=1.28867, Accuracy=50.100%, MSE=0.496069
+[2023-04-27-11:43:41] [1/10] training 36.7%: Loss=1.27504, Accuracy=50.727%, MSE=0.489755
+[2023-04-27-11:43:43] [1/10] training 40.0%: Loss=1.27199, Accuracy=50.500%, MSE=0.491795
+[2023-04-27-11:43:46] [1/10] training 43.3%: Loss=1.25614, Accuracy=50.769%, MSE=0.488701
+[2023-04-27-11:43:48] [1/10] training 46.7%: Loss=1.2564, Accuracy=50.714%, MSE=0.48912
+[2023-04-27-11:43:51] [1/10] training 50.0%: Loss=1.24659, Accuracy=51.000%, MSE=0.486178
+[2023-04-27-11:43:53] [1/10] training 53.3%: Loss=1.23636, Accuracy=51.187%, MSE=0.484117
+[2023-04-27-11:43:55] [1/10] training 56.7%: Loss=1.22774, Accuracy=51.412%, MSE=0.481738
+[2023-04-27-11:43:58] [1/10] training 60.0%: Loss=1.23266, Accuracy=51.056%, MSE=0.48526
+[2023-04-27-11:44:00] [1/10] training 63.3%: Loss=1.22672, Accuracy=51.053%, MSE=0.485023
+[2023-04-27-11:44:03] [1/10] training 66.7%: Loss=1.21937, Accuracy=51.200%, MSE=0.483411
+[2023-04-27-11:44:05] [1/10] training 70.0%: Loss=1.2208, Accuracy=50.952%, MSE=0.485788
+[2023-04-27-11:44:08] [1/10] training 73.3%: Loss=1.21709, Accuracy=50.864%, MSE=0.486467
+[2023-04-27-11:44:10] [1/10] training 76.7%: Loss=1.21232, Accuracy=50.870%, MSE=0.486256
+[2023-04-27-11:44:13] [1/10] training 80.0%: Loss=1.20635, Accuracy=50.958%, MSE=0.485227
+[2023-04-27-11:44:15] [1/10] training 83.3%: Loss=1.20386, Accuracy=50.800%, MSE=0.48653
+[2023-04-27-11:44:18] [1/10] training 86.7%: Loss=1.20246, Accuracy=50.654%, MSE=0.487898
+[2023-04-27-11:44:20] [1/10] training 90.0%: Loss=1.20063, Accuracy=50.444%, MSE=0.489744
+[2023-04-27-11:44:23] [1/10] training 93.3%: Loss=1.20027, Accuracy=50.250%, MSE=0.491403
+[2023-04-27-11:44:25] [1/10] training 96.7%: Loss=1.19618, Accuracy=50.310%, MSE=0.490664
+[2023-04-27-11:44:38] Finished Epoch 1/10: Loss=2.65514, Accuracy=49.583%, MSE=0.492809, Precision=0.456647, Recall=0.00730907, F1=0.0143878, AUPR=0.454532
+[2023-04-27-11:44:38] Saving model to ./models/huang_0_1_tt_partitions_epoch01.sav
+[2023-04-27-11:44:40] [2/10] training 3.3%: Loss=1.06326, Accuracy=51.000%, MSE=0.478774
+[2023-04-27-11:44:43] [2/10] training 6.7%: Loss=1.05959, Accuracy=51.500%, MSE=0.474869
+[2023-04-27-11:44:45] [2/10] training 10.0%: Loss=1.03304, Accuracy=52.333%, MSE=0.466135
+[2023-04-27-11:44:47] [2/10] training 13.3%: Loss=1.08608, Accuracy=49.000%, MSE=0.499043
+[2023-04-27-11:44:49] [2/10] training 16.7%: Loss=1.06244, Accuracy=50.400%, MSE=0.485072
+[2023-04-27-11:44:51] [2/10] training 20.0%: Loss=1.06985, Accuracy=49.833%, MSE=0.490812
+[2023-04-27-11:44:54] [2/10] training 23.3%: Loss=1.05504, Accuracy=50.714%, MSE=0.481981
+[2023-04-27-11:44:56] [2/10] training 26.7%: Loss=1.04589, Accuracy=51.125%, MSE=0.47792
+[2023-04-27-11:44:58] [2/10] training 30.0%: Loss=1.05059, Accuracy=50.444%, MSE=0.484294
+[2023-04-27-11:45:00] [2/10] training 33.3%: Loss=1.05626, Accuracy=50.000%, MSE=0.488916
+[2023-04-27-11:45:02] [2/10] training 36.7%: Loss=1.04543, Accuracy=50.364%, MSE=0.485165
+[2023-04-27-11:45:04] [2/10] training 40.0%: Loss=1.04557, Accuracy=50.000%, MSE=0.488038
+[2023-04-27-11:45:07] [2/10] training 43.3%: Loss=1.02987, Accuracy=51.000%, MSE=0.478028
+[2023-04-27-11:45:09] [2/10] training 46.7%: Loss=1.02528, Accuracy=51.143%, MSE=0.476566
+[2023-04-27-11:45:11] [2/10] training 50.0%: Loss=1.02542, Accuracy=51.133%, MSE=0.476565
+[2023-04-27-11:45:13] [2/10] training 53.3%: Loss=1.02046, Accuracy=51.125%, MSE=0.476292
+[2023-04-27-11:45:15] [2/10] training 56.7%: Loss=1.02773, Accuracy=50.471%, MSE=0.482472
+[2023-04-27-11:45:17] [2/10] training 60.0%: Loss=1.03218, Accuracy=50.278%, MSE=0.484452
+[2023-04-27-11:45:20] [2/10] training 63.3%: Loss=1.02846, Accuracy=50.316%, MSE=0.483719
+[2023-04-27-11:45:22] [2/10] training 66.7%: Loss=1.03828, Accuracy=49.800%, MSE=0.488911
+[2023-04-27-11:45:24] [2/10] training 70.0%: Loss=1.03055, Accuracy=50.238%, MSE=0.484461
+[2023-04-27-11:45:26] [2/10] training 73.3%: Loss=1.02161, Accuracy=50.591%, MSE=0.480573
+[2023-04-27-11:45:28] [2/10] training 76.7%: Loss=1.02028, Accuracy=50.739%, MSE=0.479194
+[2023-04-27-11:45:30] [2/10] training 80.0%: Loss=1.02075, Accuracy=50.750%, MSE=0.479043
+[2023-04-27-11:45:33] [2/10] training 83.3%: Loss=1.0249, Accuracy=50.120%, MSE=0.484594
+[2023-04-27-11:45:35] [2/10] training 86.7%: Loss=1.0206, Accuracy=50.192%, MSE=0.483654
+[2023-04-27-11:45:37] [2/10] training 90.0%: Loss=1.02025, Accuracy=50.259%, MSE=0.483118
+[2023-04-27-11:45:39] [2/10] training 93.3%: Loss=1.01631, Accuracy=50.357%, MSE=0.481901
+[2023-04-27-11:45:42] [2/10] training 96.7%: Loss=1.01206, Accuracy=50.310%, MSE=0.481766
+[2023-04-27-11:45:50] Finished Epoch 2/10: Loss=2.06462, Accuracy=49.583%, MSE=0.478742, Precision=0.423421, Recall=0.0223037, F1=0.0423753, AUPR=0.414805
+[2023-04-27-11:45:50] Saving model to ./models/huang_0_1_tt_partitions_epoch02.sav
+[2023-04-27-11:45:53] [3/10] training 3.3%: Loss=1.11891, Accuracy=42.000%, MSE=0.561566
+[2023-04-27-11:45:55] [3/10] training 6.7%: Loss=0.962476, Accuracy=47.500%, MSE=0.498893
+[2023-04-27-11:45:57] [3/10] training 10.0%: Loss=0.929544, Accuracy=49.000%, MSE=0.484307
+[2023-04-27-11:45:59] [3/10] training 13.3%: Loss=0.932273, Accuracy=49.250%, MSE=0.483337
+[2023-04-27-11:46:02] [3/10] training 16.7%: Loss=0.963927, Accuracy=47.600%, MSE=0.500426
+[2023-04-27-11:46:04] [3/10] training 20.0%: Loss=0.929227, Accuracy=50.000%, MSE=0.476824
+[2023-04-27-11:46:06] [3/10] training 23.3%: Loss=0.920805, Accuracy=50.143%, MSE=0.474768
+[2023-04-27-11:46:08] [3/10] training 26.7%: Loss=0.948057, Accuracy=48.500%, MSE=0.491372
+[2023-04-27-11:46:11] [3/10] training 30.0%: Loss=0.946975, Accuracy=48.667%, MSE=0.490142
+[2023-04-27-11:46:13] [3/10] training 33.3%: Loss=0.931849, Accuracy=49.500%, MSE=0.482235
+[2023-04-27-11:46:15] [3/10] training 36.7%: Loss=0.936465, Accuracy=49.000%, MSE=0.486295
+[2023-04-27-11:46:17] [3/10] training 40.0%: Loss=0.934449, Accuracy=49.417%, MSE=0.483208
+[2023-04-27-11:46:19] [3/10] training 43.3%: Loss=0.928449, Accuracy=49.385%, MSE=0.482481
+[2023-04-27-11:46:21] [3/10] training 46.7%: Loss=0.922249, Accuracy=49.357%, MSE=0.481481
+[2023-04-27-11:46:24] [3/10] training 50.0%: Loss=0.9084, Accuracy=50.000%, MSE=0.4739
+[2023-04-27-11:46:26] [3/10] training 53.3%: Loss=0.897303, Accuracy=50.625%, MSE=0.467366
+[2023-04-27-11:46:27] [3/10] training 56.7%: Loss=0.89088, Accuracy=50.471%, MSE=0.466163
+[2023-04-27-11:46:29] [3/10] training 60.0%: Loss=0.881519, Accuracy=50.444%, MSE=0.462296
+[2023-04-27-11:46:32] [3/10] training 63.3%: Loss=0.87706, Accuracy=50.421%, MSE=0.461143
+[2023-04-27-11:46:34] [3/10] training 66.7%: Loss=0.876182, Accuracy=50.400%, MSE=0.461475
+[2023-04-27-11:46:36] [3/10] training 70.0%: Loss=0.878193, Accuracy=50.190%, MSE=0.462885
+[2023-04-27-11:46:39] [3/10] training 73.3%: Loss=0.88332, Accuracy=49.818%, MSE=0.46599
+[2023-04-27-11:46:41] [3/10] training 76.7%: Loss=0.884266, Accuracy=49.652%, MSE=0.466291
+[2023-04-27-11:46:43] [3/10] training 80.0%: Loss=0.879368, Accuracy=49.333%, MSE=0.465493
+[2023-04-27-11:46:45] [3/10] training 83.3%: Loss=0.869163, Accuracy=49.480%, MSE=0.460818
+[2023-04-27-11:46:48] [3/10] training 86.7%: Loss=0.863899, Accuracy=49.231%, MSE=0.459713
+[2023-04-27-11:46:50] [3/10] training 90.0%: Loss=0.862512, Accuracy=49.444%, MSE=0.458194
+[2023-04-27-11:46:52] [3/10] training 93.3%: Loss=0.868517, Accuracy=49.500%, MSE=0.458914
+[2023-04-27-11:46:54] [3/10] training 96.7%: Loss=0.872221, Accuracy=49.517%, MSE=0.459642
+[2023-04-27-11:47:02] Finished Epoch 3/10: Loss=1.77058, Accuracy=49.667%, MSE=0.386853, Precision=0.576615, Recall=0.148858, F1=0.236628, AUPR=0.564984
+[2023-04-27-11:47:02] Saving model to ./models/huang_0_1_tt_partitions_epoch03.sav
+[2023-04-27-11:47:05] [4/10] training 3.3%: Loss=0.818898, Accuracy=44.000%, MSE=0.484191
+[2023-04-27-11:47:07] [4/10] training 6.7%: Loss=0.825314, Accuracy=44.500%, MSE=0.481068
+[2023-04-27-11:47:09] [4/10] training 10.0%: Loss=0.810824, Accuracy=46.000%, MSE=0.468205
+[2023-04-27-11:47:11] [4/10] training 13.3%: Loss=0.803029, Accuracy=46.250%, MSE=0.463654
+[2023-04-27-11:47:13] [4/10] training 16.7%: Loss=0.806605, Accuracy=43.800%, MSE=0.472739
+[2023-04-27-11:47:16] [4/10] training 20.0%: Loss=0.801202, Accuracy=42.167%, MSE=0.472458
+[2023-04-27-11:47:18] [4/10] training 23.3%: Loss=0.768568, Accuracy=43.714%, MSE=0.449185
+[2023-04-27-11:47:20] [4/10] training 26.7%: Loss=0.742855, Accuracy=44.750%, MSE=0.429527
+[2023-04-27-11:47:22] [4/10] training 30.0%: Loss=0.74323, Accuracy=45.333%, MSE=0.42972
+[2023-04-27-11:47:24] [4/10] training 33.3%: Loss=0.754536, Accuracy=46.400%, MSE=0.428269
+[2023-04-27-11:47:27] [4/10] training 36.7%: Loss=0.769975, Accuracy=46.909%, MSE=0.430491
+[2023-04-27-11:47:29] [4/10] training 40.0%: Loss=0.786898, Accuracy=46.833%, MSE=0.436309
+[2023-04-27-11:47:32] [4/10] training 43.3%: Loss=0.794233, Accuracy=46.769%, MSE=0.4405
+[2023-04-27-11:47:34] [4/10] training 46.7%: Loss=0.7844, Accuracy=46.929%, MSE=0.435655
+[2023-04-27-11:47:36] [4/10] training 50.0%: Loss=0.776794, Accuracy=46.533%, MSE=0.434327
+[2023-04-27-11:47:38] [4/10] training 53.3%: Loss=0.764003, Accuracy=46.188%, MSE=0.42903
+[2023-04-27-11:47:40] [4/10] training 56.7%: Loss=0.751705, Accuracy=46.824%, MSE=0.421832
+[2023-04-27-11:47:42] [4/10] training 60.0%: Loss=0.742991, Accuracy=47.389%, MSE=0.415535
+[2023-04-27-11:47:45] [4/10] training 63.3%: Loss=0.737972, Accuracy=47.579%, MSE=0.413045
+[2023-04-27-11:47:47] [4/10] training 66.7%: Loss=0.738034, Accuracy=47.800%, MSE=0.412739
+[2023-04-27-11:47:49] [4/10] training 70.0%: Loss=0.739577, Accuracy=48.143%, MSE=0.412167
+[2023-04-27-11:47:51] [4/10] training 73.3%: Loss=0.746706, Accuracy=47.909%, MSE=0.416869
+[2023-04-27-11:47:53] [4/10] training 76.7%: Loss=0.750438, Accuracy=47.870%, MSE=0.419084
+[2023-04-27-11:47:55] [4/10] training 80.0%: Loss=0.752783, Accuracy=47.792%, MSE=0.42121
+[2023-04-27-11:47:57] [4/10] training 83.3%: Loss=0.751606, Accuracy=47.760%, MSE=0.421278
+[2023-04-27-11:48:00] [4/10] training 86.7%: Loss=0.748958, Accuracy=47.577%, MSE=0.421519
+[2023-04-27-11:48:02] [4/10] training 90.0%: Loss=0.745418, Accuracy=47.185%, MSE=0.420941
+[2023-04-27-11:48:04] [4/10] training 93.3%: Loss=0.740423, Accuracy=47.071%, MSE=0.419085
+[2023-04-27-11:48:06] [4/10] training 96.7%: Loss=0.732421, Accuracy=47.414%, MSE=0.413911
+[2023-04-27-11:48:15] Finished Epoch 4/10: Loss=2.70306, Accuracy=54.750%, MSE=0.402136, Precision=0.726358, Recall=0.16165, F1=0.264447, AUPR=0.61592
+[2023-04-27-11:48:15] Saving model to ./models/huang_0_1_tt_partitions_epoch04.sav
+[2023-04-27-11:48:17] [5/10] training 3.3%: Loss=0.579179, Accuracy=49.000%, MSE=0.342457
+[2023-04-27-11:48:19] [5/10] training 6.7%: Loss=0.643967, Accuracy=45.500%, MSE=0.392695
+[2023-04-27-11:48:21] [5/10] training 10.0%: Loss=0.685464, Accuracy=47.000%, MSE=0.408119
+[2023-04-27-11:48:23] [5/10] training 13.3%: Loss=0.707374, Accuracy=46.500%, MSE=0.416706
+[2023-04-27-11:48:26] [5/10] training 16.7%: Loss=0.711362, Accuracy=46.000%, MSE=0.420117
+[2023-04-27-11:48:28] [5/10] training 20.0%: Loss=0.697714, Accuracy=46.333%, MSE=0.411142
+[2023-04-27-11:48:30] [5/10] training 23.3%: Loss=0.687039, Accuracy=45.857%, MSE=0.406191
+[2023-04-27-11:48:32] [5/10] training 26.7%: Loss=0.669048, Accuracy=48.125%, MSE=0.390139
+[2023-04-27-11:48:35] [5/10] training 30.0%: Loss=0.669135, Accuracy=47.556%, MSE=0.393273
+[2023-04-27-11:48:37] [5/10] training 33.3%: Loss=0.678527, Accuracy=47.300%, MSE=0.400368
+[2023-04-27-11:48:39] [5/10] training 36.7%: Loss=0.683645, Accuracy=48.000%, MSE=0.399266
+[2023-04-27-11:48:41] [5/10] training 40.0%: Loss=0.686589, Accuracy=48.667%, MSE=0.397222
+[2023-04-27-11:48:43] [5/10] training 43.3%: Loss=0.686156, Accuracy=48.846%, MSE=0.396234
+[2023-04-27-11:48:46] [5/10] training 46.7%: Loss=0.684381, Accuracy=48.857%, MSE=0.394958
+[2023-04-27-11:48:48] [5/10] training 50.0%: Loss=0.689125, Accuracy=48.267%, MSE=0.399218
+[2023-04-27-11:48:50] [5/10] training 53.3%: Loss=0.688883, Accuracy=47.750%, MSE=0.400771
+[2023-04-27-11:48:53] [5/10] training 56.7%: Loss=0.686074, Accuracy=47.412%, MSE=0.400415
+[2023-04-27-11:48:55] [5/10] training 60.0%: Loss=0.683632, Accuracy=47.222%, MSE=0.400238
+[2023-04-27-11:48:57] [5/10] training 63.3%: Loss=0.670266, Accuracy=48.421%, MSE=0.389202
+[2023-04-27-11:48:59] [5/10] training 66.7%: Loss=0.659265, Accuracy=49.600%, MSE=0.37929
+[2023-04-27-11:49:01] [5/10] training 70.0%: Loss=0.658714, Accuracy=49.619%, MSE=0.378226
+[2023-04-27-11:49:04] [5/10] training 73.3%: Loss=0.662192, Accuracy=49.500%, MSE=0.380243
+[2023-04-27-11:49:06] [5/10] training 76.7%: Loss=0.66689, Accuracy=49.913%, MSE=0.380194
+[2023-04-27-11:49:08] [5/10] training 80.0%: Loss=0.683489, Accuracy=49.458%, MSE=0.388466
+[2023-04-27-11:49:10] [5/10] training 83.3%: Loss=0.689238, Accuracy=49.840%, MSE=0.388543
+[2023-04-27-11:49:12] [5/10] training 86.7%: Loss=0.696321, Accuracy=49.769%, MSE=0.391892
+[2023-04-27-11:49:14] [5/10] training 90.0%: Loss=0.698037, Accuracy=49.630%, MSE=0.393114
+[2023-04-27-11:49:16] [5/10] training 93.3%: Loss=0.699059, Accuracy=49.357%, MSE=0.394644
+[2023-04-27-11:49:19] [5/10] training 96.7%: Loss=0.694212, Accuracy=49.276%, MSE=0.392807
+[2023-04-27-11:49:27] Finished Epoch 5/10: Loss=3.10893, Accuracy=54.750%, MSE=0.419224, Precision=0.806828, Recall=0.117419, F1=0.205004, AUPR=0.63201
+[2023-04-27-11:49:27] Saving model to ./models/huang_0_1_tt_partitions_epoch05.sav
+[2023-04-27-11:49:29] [6/10] training 3.3%: Loss=0.482548, Accuracy=62.000%, MSE=0.242276
+[2023-04-27-11:49:31] [6/10] training 6.7%: Loss=0.489227, Accuracy=65.000%, MSE=0.245395
+[2023-04-27-11:49:33] [6/10] training 10.0%: Loss=0.484346, Accuracy=63.667%, MSE=0.246993
+[2023-04-27-11:49:35] [6/10] training 13.3%: Loss=0.504529, Accuracy=60.750%, MSE=0.266138
+[2023-04-27-11:49:37] [6/10] training 16.7%: Loss=0.506419, Accuracy=60.400%, MSE=0.268867
+[2023-04-27-11:49:40] [6/10] training 20.0%: Loss=0.537006, Accuracy=58.167%, MSE=0.292957
+[2023-04-27-11:49:42] [6/10] training 23.3%: Loss=0.562279, Accuracy=56.429%, MSE=0.310838
+[2023-04-27-11:49:44] [6/10] training 26.7%: Loss=0.583451, Accuracy=55.000%, MSE=0.32677
+[2023-04-27-11:49:46] [6/10] training 30.0%: Loss=0.597954, Accuracy=54.222%, MSE=0.336743
+[2023-04-27-11:49:48] [6/10] training 33.3%: Loss=0.606745, Accuracy=53.700%, MSE=0.34345
+[2023-04-27-11:49:51] [6/10] training 36.7%: Loss=0.606743, Accuracy=53.364%, MSE=0.344246
+[2023-04-27-11:49:53] [6/10] training 40.0%: Loss=0.602679, Accuracy=53.583%, MSE=0.341273
+[2023-04-27-11:49:55] [6/10] training 43.3%: Loss=0.59606, Accuracy=53.923%, MSE=0.336299
+[2023-04-27-11:49:58] [6/10] training 46.7%: Loss=0.586006, Accuracy=54.786%, MSE=0.328356
+[2023-04-27-11:50:00] [6/10] training 50.0%: Loss=0.575782, Accuracy=56.200%, MSE=0.317823
+[2023-04-27-11:50:03] [6/10] training 53.3%: Loss=0.570351, Accuracy=56.938%, MSE=0.312863
+[2023-04-27-11:50:05] [6/10] training 56.7%: Loss=0.567074, Accuracy=56.882%, MSE=0.310996
+[2023-04-27-11:50:06] [6/10] training 60.0%: Loss=0.572594, Accuracy=56.222%, MSE=0.316363
+[2023-04-27-11:50:09] [6/10] training 63.3%: Loss=0.573396, Accuracy=56.421%, MSE=0.316852
+[2023-04-27-11:50:10] [6/10] training 66.7%: Loss=0.584791, Accuracy=56.100%, MSE=0.323096
+[2023-04-27-11:50:13] [6/10] training 70.0%: Loss=0.599442, Accuracy=55.429%, MSE=0.332533
+[2023-04-27-11:50:15] [6/10] training 73.3%: Loss=0.606889, Accuracy=55.364%, MSE=0.335977
+[2023-04-27-11:50:17] [6/10] training 76.7%: Loss=0.61422, Accuracy=54.957%, MSE=0.34126
+[2023-04-27-11:50:20] [6/10] training 80.0%: Loss=0.622767, Accuracy=53.917%, MSE=0.348392
+[2023-04-27-11:50:22] [6/10] training 83.3%: Loss=0.622982, Accuracy=53.520%, MSE=0.349442
+[2023-04-27-11:50:24] [6/10] training 86.7%: Loss=0.620499, Accuracy=53.269%, MSE=0.349092
+[2023-04-27-11:50:26] [6/10] training 90.0%: Loss=0.615197, Accuracy=53.630%, MSE=0.344816
+[2023-04-27-11:50:28] [6/10] training 93.3%: Loss=0.610489, Accuracy=53.893%, MSE=0.341324
+[2023-04-27-11:50:30] [6/10] training 96.7%: Loss=0.60556, Accuracy=54.379%, MSE=0.337109
+[2023-04-27-11:50:39] Finished Epoch 6/10: Loss=2.89264, Accuracy=57.333%, MSE=0.400007, Precision=0.70333, Recall=0.185994, F1=0.29419, AUPR=0.601382
+[2023-04-27-11:50:39] Saving model to ./models/huang_0_1_tt_partitions_epoch06.sav
+[2023-04-27-11:50:41] [7/10] training 3.3%: Loss=0.475959, Accuracy=63.000%, MSE=0.24855
+[2023-04-27-11:50:43] [7/10] training 6.7%: Loss=0.475248, Accuracy=64.000%, MSE=0.244885
+[2023-04-27-11:50:46] [7/10] training 10.0%: Loss=0.468414, Accuracy=65.000%, MSE=0.235819
+[2023-04-27-11:50:48] [7/10] training 13.3%: Loss=0.465734, Accuracy=65.500%, MSE=0.233705
+[2023-04-27-11:50:50] [7/10] training 16.7%: Loss=0.460632, Accuracy=67.600%, MSE=0.223238
+[2023-04-27-11:50:52] [7/10] training 20.0%: Loss=0.460701, Accuracy=67.500%, MSE=0.224189
+[2023-04-27-11:50:54] [7/10] training 23.3%: Loss=0.465317, Accuracy=67.000%, MSE=0.226305
+[2023-04-27-11:50:56] [7/10] training 26.7%: Loss=0.48133, Accuracy=65.625%, MSE=0.239833
+[2023-04-27-11:50:58] [7/10] training 30.0%: Loss=0.504969, Accuracy=64.222%, MSE=0.258424
+[2023-04-27-11:51:00] [7/10] training 33.3%: Loss=0.524657, Accuracy=62.700%, MSE=0.274296
+[2023-04-27-11:51:03] [7/10] training 36.7%: Loss=0.535522, Accuracy=62.000%, MSE=0.282242
+[2023-04-27-11:51:05] [7/10] training 40.0%: Loss=0.556983, Accuracy=60.083%, MSE=0.298689
+[2023-04-27-11:51:08] [7/10] training 43.3%: Loss=0.575133, Accuracy=58.769%, MSE=0.311924
+[2023-04-27-11:51:10] [7/10] training 46.7%: Loss=0.594379, Accuracy=56.857%, MSE=0.327425
+[2023-04-27-11:51:12] [7/10] training 50.0%: Loss=0.594449, Accuracy=56.067%, MSE=0.32947
+[2023-04-27-11:51:14] [7/10] training 53.3%: Loss=0.589776, Accuracy=56.250%, MSE=0.326768
+[2023-04-27-11:51:16] [7/10] training 56.7%: Loss=0.587167, Accuracy=56.000%, MSE=0.326876
+[2023-04-27-11:51:19] [7/10] training 60.0%: Loss=0.584501, Accuracy=56.278%, MSE=0.324258
+[2023-04-27-11:51:21] [7/10] training 63.3%: Loss=0.579127, Accuracy=56.526%, MSE=0.320203
+[2023-04-27-11:51:23] [7/10] training 66.7%: Loss=0.572471, Accuracy=57.200%, MSE=0.314579
+[2023-04-27-11:51:25] [7/10] training 70.0%: Loss=0.569416, Accuracy=57.476%, MSE=0.312163
+[2023-04-27-11:51:27] [7/10] training 73.3%: Loss=0.562824, Accuracy=58.227%, MSE=0.306588
+[2023-04-27-11:51:30] [7/10] training 76.7%: Loss=0.557097, Accuracy=58.826%, MSE=0.301875
+[2023-04-27-11:51:32] [7/10] training 80.0%: Loss=0.552172, Accuracy=59.250%, MSE=0.297489
+[2023-04-27-11:51:34] [7/10] training 83.3%: Loss=0.547537, Accuracy=59.680%, MSE=0.293576
+[2023-04-27-11:51:36] [7/10] training 86.7%: Loss=0.544164, Accuracy=60.192%, MSE=0.290161
+[2023-04-27-11:51:38] [7/10] training 90.0%: Loss=0.541077, Accuracy=60.444%, MSE=0.288034
+[2023-04-27-11:51:41] [7/10] training 93.3%: Loss=0.537087, Accuracy=60.714%, MSE=0.28487
+[2023-04-27-11:51:43] [7/10] training 96.7%: Loss=0.534232, Accuracy=61.138%, MSE=0.282353
+[2023-04-27-11:51:51] Finished Epoch 7/10: Loss=2.75611, Accuracy=57.750%, MSE=0.394025, Precision=0.735591, Recall=0.185189, F1=0.295887, AUPR=0.629953
+[2023-04-27-11:51:51] Saving model to ./models/huang_0_1_tt_partitions_epoch07.sav
+[2023-04-27-11:51:53] [8/10] training 3.3%: Loss=0.395583, Accuracy=77.000%, MSE=0.16247
+[2023-04-27-11:51:55] [8/10] training 6.7%: Loss=0.407808, Accuracy=77.000%, MSE=0.163889
+[2023-04-27-11:51:57] [8/10] training 10.0%: Loss=0.402385, Accuracy=76.667%, MSE=0.161968
+[2023-04-27-11:52:00] [8/10] training 13.3%: Loss=0.400238, Accuracy=76.500%, MSE=0.162161
+[2023-04-27-11:52:02] [8/10] training 16.7%: Loss=0.409677, Accuracy=74.400%, MSE=0.175339
+[2023-04-27-11:52:04] [8/10] training 20.0%: Loss=0.424442, Accuracy=70.833%, MSE=0.193536
+[2023-04-27-11:52:06] [8/10] training 23.3%: Loss=0.445777, Accuracy=68.000%, MSE=0.214648
+[2023-04-27-11:52:08] [8/10] training 26.7%: Loss=0.474109, Accuracy=65.125%, MSE=0.23772
+[2023-04-27-11:52:10] [8/10] training 30.0%: Loss=0.48563, Accuracy=63.556%, MSE=0.248434
+[2023-04-27-11:52:12] [8/10] training 33.3%: Loss=0.490205, Accuracy=62.300%, MSE=0.255607
+[2023-04-27-11:52:14] [8/10] training 36.7%: Loss=0.489996, Accuracy=62.273%, MSE=0.256746
+[2023-04-27-11:52:17] [8/10] training 40.0%: Loss=0.485551, Accuracy=62.667%, MSE=0.252738
+[2023-04-27-11:52:19] [8/10] training 43.3%: Loss=0.482768, Accuracy=63.385%, MSE=0.250041
+[2023-04-27-11:52:22] [8/10] training 46.7%: Loss=0.481601, Accuracy=63.643%, MSE=0.249149
+[2023-04-27-11:52:24] [8/10] training 50.0%: Loss=0.480079, Accuracy=63.933%, MSE=0.248028
+[2023-04-27-11:52:26] [8/10] training 53.3%: Loss=0.481159, Accuracy=63.688%, MSE=0.249905
+[2023-04-27-11:52:28] [8/10] training 56.7%: Loss=0.475503, Accuracy=64.235%, MSE=0.245295
+[2023-04-27-11:52:30] [8/10] training 60.0%: Loss=0.471355, Accuracy=64.889%, MSE=0.241201
+[2023-04-27-11:52:32] [8/10] training 63.3%: Loss=0.467433, Accuracy=65.316%, MSE=0.238189
+[2023-04-27-11:52:34] [8/10] training 66.7%: Loss=0.466049, Accuracy=65.500%, MSE=0.237075
+[2023-04-27-11:52:37] [8/10] training 70.0%: Loss=0.469432, Accuracy=64.952%, MSE=0.240767
+[2023-04-27-11:52:39] [8/10] training 73.3%: Loss=0.471146, Accuracy=64.636%, MSE=0.242356
+[2023-04-27-11:52:41] [8/10] training 76.7%: Loss=0.476084, Accuracy=63.609%, MSE=0.247418
+[2023-04-27-11:52:44] [8/10] training 80.0%: Loss=0.481098, Accuracy=62.667%, MSE=0.252823
+[2023-04-27-11:52:46] [8/10] training 83.3%: Loss=0.488251, Accuracy=61.680%, MSE=0.260019
+[2023-04-27-11:52:48] [8/10] training 86.7%: Loss=0.488365, Accuracy=61.500%, MSE=0.261167
+[2023-04-27-11:52:50] [8/10] training 90.0%: Loss=0.487642, Accuracy=61.741%, MSE=0.259973
+[2023-04-27-11:52:53] [8/10] training 93.3%: Loss=0.485242, Accuracy=62.107%, MSE=0.257565
+[2023-04-27-11:52:55] [8/10] training 96.7%: Loss=0.485291, Accuracy=62.207%, MSE=0.257187
+[2023-04-27-11:53:03] Finished Epoch 8/10: Loss=3.24723, Accuracy=48.417%, MSE=0.494395, Precision=0.266906, Recall=0.0149516, F1=0.028317, AUPR=0.489705
+[2023-04-27-11:53:03] Saving model to ./models/huang_0_1_tt_partitions_epoch08.sav
+[2023-04-27-11:53:06] [9/10] training 3.3%: Loss=0.497606, Accuracy=53.000%, MSE=0.29027
+[2023-04-27-11:53:08] [9/10] training 6.7%: Loss=0.548679, Accuracy=51.000%, MSE=0.335462
+[2023-04-27-11:53:10] [9/10] training 10.0%: Loss=0.546864, Accuracy=53.333%, MSE=0.325669
+[2023-04-27-11:53:12] [9/10] training 13.3%: Loss=0.586304, Accuracy=50.250%, MSE=0.354034
+[2023-04-27-11:53:15] [9/10] training 16.7%: Loss=0.600295, Accuracy=49.200%, MSE=0.363412
+[2023-04-27-11:53:17] [9/10] training 20.0%: Loss=0.593612, Accuracy=50.500%, MSE=0.357702
+[2023-04-27-11:53:19] [9/10] training 23.3%: Loss=0.579163, Accuracy=51.143%, MSE=0.347624
+[2023-04-27-11:53:21] [9/10] training 26.7%: Loss=0.571198, Accuracy=51.625%, MSE=0.342243
+[2023-04-27-11:53:24] [9/10] training 30.0%: Loss=0.552794, Accuracy=53.778%, MSE=0.326132
+[2023-04-27-11:53:26] [9/10] training 33.3%: Loss=0.546831, Accuracy=55.200%, MSE=0.318528
+[2023-04-27-11:53:28] [9/10] training 36.7%: Loss=0.537969, Accuracy=55.636%, MSE=0.312279
+[2023-04-27-11:53:30] [9/10] training 40.0%: Loss=0.53903, Accuracy=55.083%, MSE=0.315043
+[2023-04-27-11:53:32] [9/10] training 43.3%: Loss=0.536758, Accuracy=55.077%, MSE=0.313937
+[2023-04-27-11:53:34] [9/10] training 46.7%: Loss=0.536214, Accuracy=55.429%, MSE=0.312652
+[2023-04-27-11:53:37] [9/10] training 50.0%: Loss=0.529961, Accuracy=56.200%, MSE=0.306619
+[2023-04-27-11:53:39] [9/10] training 53.3%: Loss=0.522511, Accuracy=57.000%, MSE=0.300031
+[2023-04-27-11:53:41] [9/10] training 56.7%: Loss=0.512699, Accuracy=58.353%, MSE=0.29048
+[2023-04-27-11:53:43] [9/10] training 60.0%: Loss=0.507902, Accuracy=59.333%, MSE=0.284414
+[2023-04-27-11:53:45] [9/10] training 63.3%: Loss=0.505357, Accuracy=60.053%, MSE=0.280265
+[2023-04-27-11:53:47] [9/10] training 66.7%: Loss=0.517456, Accuracy=59.250%, MSE=0.289862
+[2023-04-27-11:53:49] [9/10] training 70.0%: Loss=0.530623, Accuracy=58.619%, MSE=0.299472
+[2023-04-27-11:53:51] [9/10] training 73.3%: Loss=0.537307, Accuracy=58.409%, MSE=0.30436
+[2023-04-27-11:53:54] [9/10] training 76.7%: Loss=0.543659, Accuracy=58.304%, MSE=0.30837
+[2023-04-27-11:53:56] [9/10] training 80.0%: Loss=0.555363, Accuracy=57.708%, MSE=0.316813
+[2023-04-27-11:53:58] [9/10] training 83.3%: Loss=0.562307, Accuracy=57.280%, MSE=0.322489
+[2023-04-27-11:54:00] [9/10] training 86.7%: Loss=0.568431, Accuracy=56.731%, MSE=0.328433
+[2023-04-27-11:54:03] [9/10] training 90.0%: Loss=0.574456, Accuracy=56.333%, MSE=0.33337
+[2023-04-27-11:54:05] [9/10] training 93.3%: Loss=0.576019, Accuracy=56.286%, MSE=0.334477
+[2023-04-27-11:54:07] [9/10] training 96.7%: Loss=0.577368, Accuracy=56.138%, MSE=0.335513
+[2023-04-27-11:54:15] Finished Epoch 9/10: Loss=1.47888, Accuracy=58.083%, MSE=0.325583, Precision=0.622075, Recall=0.335876, F1=0.436223, AUPR=0.594058
+[2023-04-27-11:54:15] Saving model to ./models/huang_0_1_tt_partitions_epoch09.sav
+[2023-04-27-11:54:18] [10/10] training 3.3%: Loss=0.567567, Accuracy=46.000%, MSE=0.368712
+[2023-04-27-11:54:20] [10/10] training 6.7%: Loss=0.536408, Accuracy=53.500%, MSE=0.325702
+[2023-04-27-11:54:22] [10/10] training 10.0%: Loss=0.511713, Accuracy=56.667%, MSE=0.299484
+[2023-04-27-11:54:24] [10/10] training 13.3%: Loss=0.492248, Accuracy=59.000%, MSE=0.280486
+[2023-04-27-11:54:26] [10/10] training 16.7%: Loss=0.467943, Accuracy=63.400%, MSE=0.254776
+[2023-04-27-11:54:28] [10/10] training 20.0%: Loss=0.463111, Accuracy=63.667%, MSE=0.250502
+[2023-04-27-11:54:30] [10/10] training 23.3%: Loss=0.451548, Accuracy=65.714%, MSE=0.237222
+[2023-04-27-11:54:32] [10/10] training 26.7%: Loss=0.452452, Accuracy=64.875%, MSE=0.237724
+[2023-04-27-11:54:35] [10/10] training 30.0%: Loss=0.447899, Accuracy=65.667%, MSE=0.23269
+[2023-04-27-11:54:37] [10/10] training 33.3%: Loss=0.442828, Accuracy=66.500%, MSE=0.227344
+[2023-04-27-11:54:39] [10/10] training 36.7%: Loss=0.437404, Accuracy=67.545%, MSE=0.221668
+[2023-04-27-11:54:41] [10/10] training 40.0%: Loss=0.430574, Accuracy=68.667%, MSE=0.214645
+[2023-04-27-11:54:43] [10/10] training 43.3%: Loss=0.428213, Accuracy=69.231%, MSE=0.210413
+[2023-04-27-11:54:45] [10/10] training 46.7%: Loss=0.425178, Accuracy=69.429%, MSE=0.20764
+[2023-04-27-11:54:48] [10/10] training 50.0%: Loss=0.429517, Accuracy=68.267%, MSE=0.213219
+[2023-04-27-11:54:50] [10/10] training 53.3%: Loss=0.433635, Accuracy=67.562%, MSE=0.217759
+[2023-04-27-11:54:52] [10/10] training 56.7%: Loss=0.439443, Accuracy=66.706%, MSE=0.223157
+[2023-04-27-11:54:54] [10/10] training 60.0%: Loss=0.444578, Accuracy=66.167%, MSE=0.228051
+[2023-04-27-11:54:56] [10/10] training 63.3%: Loss=0.448391, Accuracy=65.421%, MSE=0.23284
+[2023-04-27-11:54:59] [10/10] training 66.7%: Loss=0.448746, Accuracy=65.550%, MSE=0.232895
+[2023-04-27-11:55:01] [10/10] training 70.0%: Loss=0.444066, Accuracy=66.619%, MSE=0.226887
+[2023-04-27-11:55:03] [10/10] training 73.3%: Loss=0.442345, Accuracy=67.091%, MSE=0.224402
+[2023-04-27-11:55:06] [10/10] training 76.7%: Loss=0.443119, Accuracy=67.261%, MSE=0.224477
+[2023-04-27-11:55:08] [10/10] training 80.0%: Loss=0.442723, Accuracy=66.833%, MSE=0.225049
+[2023-04-27-11:55:10] [10/10] training 83.3%: Loss=0.44441, Accuracy=66.440%, MSE=0.227156
+[2023-04-27-11:55:13] [10/10] training 86.7%: Loss=0.445758, Accuracy=66.192%, MSE=0.228726
+[2023-04-27-11:55:15] [10/10] training 90.0%: Loss=0.450612, Accuracy=65.630%, MSE=0.232799
+[2023-04-27-11:55:17] [10/10] training 93.3%: Loss=0.45446, Accuracy=65.071%, MSE=0.236445
+[2023-04-27-11:55:19] [10/10] training 96.7%: Loss=0.457591, Accuracy=64.621%, MSE=0.239665
+[2023-04-27-11:55:27] Finished Epoch 10/10: Loss=2.39248, Accuracy=51.833%, MSE=0.397924, Precision=0.707209, Recall=0.14061, F1=0.23458, AUPR=0.648088
+[2023-04-27-11:55:27] Saving model to ./models/huang_0_1_tt_partitions_epoch10.sav
+[2023-04-27-11:55:27] Saving final model to ./models/huang_0_1_tt_partitions_final.sav
