@@ -1,6 +1,6 @@
-Accuracy,0.3402537485582468
-Precision,0.3402537485582468
+Accuracy,0.5
+Precision,0.5
 Sensitivity,1.0
 Specificity,0.0
-F1,0.5077452667814113
+F1,0.6666666666666666
 MCC,0.0

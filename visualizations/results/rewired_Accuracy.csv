@@ -31,16 +31,16 @@ RF_node2vec,pan,0.894354967309839
 SVM_node2vec,pan,0.719024079094243
 RF_PCA,pan,0.881338419965029
 SVM_PCA,pan,0.732316006994119
-degree_cons,richoux-regular,0.835834896810507
-degree_hf,richoux-regular,0.84208880550344
+degree_cons,richoux-regular,0.74390243902439
+degree_hf,richoux-regular,0.807605905006419
 RF_MDS,richoux-regular,0.87156704361874
 SVM_MDS,richoux-regular,0.832229402261713
 RF_node2vec,richoux-regular,0.821787990607179
 SVM_node2vec,richoux-regular,0.706390472995639
 RF_PCA,richoux-regular,0.836752827140549
 SVM_PCA,richoux-regular,0.696365105008078
-degree_cons,richoux-strict,0.714285714285714
-degree_hf,richoux-strict,0.720634920634921
+degree_cons,richoux-strict,0.676923076923077
+degree_hf,richoux-strict,0.726923076923077
 RF_MDS,richoux-strict,0.724806201550388
 SVM_MDS,richoux-strict,0.684108527131783
 RF_node2vec,richoux-strict,0.72093023255814
@@ -88,3 +88,4 @@ Topsy_Turvy,guo,0.6457
 Topsy_Turvy,huang,0.4879
 Topsy_Turvy,pan,0.5889
 Topsy_Turvy,richoux-regular,0.5
+Topsy_Turvy,richoux-strict,0.5

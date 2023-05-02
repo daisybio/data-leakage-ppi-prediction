@@ -39,7 +39,7 @@ def calculate_performance(test_num, pred_y, labels):
 
 
 partition = True
-rewired = True
+rewired = False
 algorithm = 'topsyturvy'
 if partition:
     result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
@@ -48,11 +48,11 @@ if partition:
         print(f"########## Dataset: {dataset} ##########")
         for train in ["both", "0"]:
             for test in ["0", "1"]:
-                if train == "0" and test == "0" or not os.path.isfile(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.txt.predictions.tsv"):
+                if train == "0" and test == "0" or not os.path.isfile(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv"):
                     continue
                 y_pred = []
                 y_true = []
-                with open(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.txt.predictions.tsv", "r") as f:
+                with open(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv", "r") as f:
                     for line in f:
                         y_pred.append(float(line.strip().split("\t")[3]))
                         y_true.append(float(line.strip().split("\t")[2]))
@@ -77,7 +77,7 @@ else:
         split = 'Rewired'
     else:
         folder = f'results_{algorithm}/original'
-        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold_standard"]
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold"]
         split = 'Original'
     result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")

@@ -86,7 +86,7 @@ all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', measure
 
 # D-Script
 dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
-dscript_results <- dscript_results[Metric == measure]
+dscript_results <- dscript_results[Metric == measure & Dataset != 'gold']
 colnames(dscript_results) <- c('Model', 'Dataset', 'Metric', measure, 'Split')
 dscript_results$Model <- 'D-SCRIPT'
 dscript_results[Dataset == 'richoux_regular', Dataset := 'richoux-regular']
@@ -95,7 +95,7 @@ all_results <- rbind(all_results, dscript_results[, c('Model', 'Dataset', measur
 
 # Topsy_Turvy
 tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
-tt_results <- tt_results[Metric == measure]
+tt_results <- tt_results[Metric == measure & Dataset != 'gold']
 colnames(tt_results) <- c('Model', 'Dataset', 'Metric', measure, 'Split')
 tt_results$Model <- 'Topsy_Turvy'
 tt_results[Dataset == 'richoux_regular', Dataset := 'richoux-regular']
@@ -139,7 +139,7 @@ ggplot(all_results, aes(x=Dataset, y = get(measure), color = Model, group=Model)
                             "richoux-strict" = paste("Richoux strict (", train_sizes["richoux-strict"], ")")))+
   ylim(0.5, 1.0)+
   labs(x = "Dataset (n training)", y = paste0(measure, "/", ifelse(measure=='Accuracy', 'AUC', 'AUPR'), " for SPRINT")) +
-  scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
+  #scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
 #ggsave(paste0("plots/all_results_original_", measure, ".png"),height=8, width=12)  

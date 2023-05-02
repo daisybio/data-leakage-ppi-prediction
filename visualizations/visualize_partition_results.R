@@ -156,7 +156,7 @@ ggplot(all_results, aes(x=Dataset, y = get(measure), color = Model, group=Model)
   ylim(0.4, 1.0)+
   facet_wrap(~Partition)+
   labs(x = "Dataset\n(n training partition 0|both)", y = paste0(measure, "/", ifelse(measure=='Accuracy', 'AUC', 'AUPR'), " for SPRINT")) +
-  scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
+  #scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=0.5))
 #ggsave(paste0("plots/all_results_partition_", measure, ".png"),height=8, width=18)  

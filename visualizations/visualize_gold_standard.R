@@ -10,7 +10,8 @@ deepFE_res <- '../algorithms/DeepFE-PPI/result/custom/gold_standard_test/'
 deepPPI_res <- '../algorithms/DeepPPI/keras/results_custom/'
 seqppi_res <- '../algorithms/seq_ppi/binary/model/lasagna/results/'
 sprint_res <- '../algorithms/SPRINT/results/original/'
-
+dscript_res <- '../algorithms/D-SCRIPT-main/results_dscript/original/'
+tt_res <- '../algorithms/D-SCRIPT-main/results_topsyturvy/original/'
 
 # read in data
 all_results <- data.table(1)[, `:=` (c("Model", "Dataset", measure), NA)][, V1 := NULL][.0]
@@ -75,12 +76,26 @@ if(measure == 'Accuracy'){
 sprint_results <- sprint_results[Dataset == 'gold_standard']
 all_results <- rbind(all_results, sprint_results[, c('Model', 'Dataset', measure), with=FALSE])
 
+# DSCRIPT
+dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+dscript_results <- dscript_results[Dataset == 'gold' & Metric == measure]
+colnames(dscript_results) <- c('Model', 'Dataset', 'Metric', measure, 'Split')
+dscript_results$Model <- "D-SCRIPT"
+all_results <- rbind(all_results, dscript_results[, c('Model', 'Dataset', measure), with=FALSE])
+
+# TopsyTurvy
+tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+tt_results <- tt_results[Dataset == 'gold' & Metric == measure]
+colnames(tt_results) <- c('Model', 'Dataset', 'Metric', measure, 'Split')
+tt_results$Model <- "Topsy_Turvy"
+all_results <- rbind(all_results, tt_results[, c('Model', 'Dataset', measure), with=FALSE])
+
 all_results$Dataset <- 'gold_standard'
 
 all_results <- all_results[, Model := factor(Model, 
                                              levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
                                                       "RF_node2vec",  "SVM_node2vec", "SPRINT", 
                                                       "deepPPI_FC", "deepPPI_LSTM",  
-                                                      "DeepFE", "PIPR"))]
+                                                      "DeepFE", "PIPR", "D-SCRIPT", "Topsy_Turvy"))]
 fwrite(all_results, file=paste0('results/gold_standard_', measure, '.csv'))
 

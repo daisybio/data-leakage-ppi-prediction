@@ -99,6 +99,46 @@ filenames <- tstrsplit(training_files, '_', keep=c(1,3))
 names(partition_sizes) <- paste(filenames[[1]], filenames[[2]])
 partition_sizes <- prettyNum(partition_sizes, big.mark = ',')
 
+get_sizes_dscript <- function(directory) {
+  dscript_data_dir <- paste0('../algorithms/D-SCRIPT-main/data/', directory, '/')
+  training_files <- list.files(path=dscript_data_dir, pattern = 'train')
+  train_sizes <- sapply(paste0(dscript_data_dir, training_files), function(x){
+    as.integer(system2("wc",
+                       args = c("-l",
+                                x,
+                                " | awk '{print $1}'"),
+                       stdout = TRUE)) 
+  }
+  )
+  training_files[grepl('richoux', training_files, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed=TRUE)])
+  names(train_sizes) <- tstrsplit(training_files, '_', keep=1)[[1]]
+  train_sizes <- prettyNum(train_sizes, big.mark = ',')
+  return(train_sizes)
+}
+original_dscript_sizes <- get_sizes_dscript('original')
+gold_size <- prettyNum(as.integer(system2("wc",
+                                 args = c("-l",
+                                          '../algorithms/D-SCRIPT-main/data/gold/Intra1.txt',
+                                          " | awk '{print $1}'"),
+                                 stdout = TRUE)), big.mark = ',')
+names(gold_size) <- 'gold'
+original_dscript_sizes <- c(original_dscript_sizes, gold_size)
+rewired_dscript_sizes <- get_sizes_dscript('rewired')
+dscript_data_dir <- '../algorithms/D-SCRIPT-main/data/partitions/'
+training_files <- list.files(path=dscript_data_dir)
+partition_dscript_sizes <- sapply(paste0(dscript_data_dir, training_files), function(x){
+  as.integer(system2("wc",
+                     args = c("-l",
+                              x,
+                              " | awk '{print $1}'"),
+                     stdout = TRUE)) 
+}
+)
+filenames <- tstrsplit(tstrsplit(training_files, '.txt', keep=1)[[1]], '_', keep=c(1,3))
+names(partition_dscript_sizes) <- paste(filenames[[1]], filenames[[2]])
+partition_dscript_sizes <- prettyNum(partition_dscript_sizes, big.mark = ',')
+
+
 pheatmap(t(result_mat),
          annotation_row = annotation_col,
          annotation_colors = list(
@@ -115,38 +155,38 @@ pheatmap(t(result_mat),
          #height=10,
          cex = 1,
          labels_row = c(
-           paste0('GOLD STANDARD (', original_sizes['gold'], ')'),
-           paste0('HUANG (', original_sizes['huang'], ')'),
-           paste0('GUO (', original_sizes['guo'], ')'),
-           paste0('DU (', original_sizes['du'], ')'),
-           paste0('PAN (', original_sizes['pan'], ')'),
-           paste0('RICHOUX-REGULAR (', original_sizes['richoux-regular'], ')'),
-           paste0('RICHOUX-STRICT (', original_sizes['richoux-strict'], ')'),
+           paste0('GOLD STANDARD (', original_sizes['gold'], '/', original_dscript_sizes['gold'], ')'),
+           paste0('HUANG (', original_sizes['huang'], '/', original_dscript_sizes['huang'], ')'),
+           paste0('GUO (', original_sizes['guo'], '/', original_dscript_sizes['guo'], ')'),
+           paste0('DU (', original_sizes['du'], '/', original_dscript_sizes['du'], ')'),
+           paste0('PAN (', original_sizes['pan'], '/', original_dscript_sizes['pan'], ')'),
+           paste0('RICHOUX-REGULAR (', original_sizes['richoux-regular'], '/', original_dscript_sizes['richoux-regular'], ')'),
+           paste0('RICHOUX-STRICT (', original_sizes['richoux-strict'], '/', original_dscript_sizes['richoux-strict'], ')'),
            #rewired
-           paste0('HUANG (', rewired_sizes['huang'], ')'),
-           paste0('GUO (', rewired_sizes['guo'], ')'),
-           paste0('DU (', rewired_sizes['du'], ')'),
-           paste0('PAN (', rewired_sizes['pan'], ')'),
-           paste0('RICHOUX-REGULAR (', rewired_sizes['richoux-regular'], ')'),
-           paste0('RICHOUX-STRICT (', rewired_sizes['richoux-strict'], ')'),
+           paste0('HUANG (', rewired_sizes['huang'], '/', rewired_dscript_sizes['huang'], ')'),
+           paste0('GUO (', rewired_sizes['guo'], '/', rewired_dscript_sizes['guo'], ')'),
+           paste0('DU (', rewired_sizes['du'], '/', rewired_dscript_sizes['du'], ')'),
+           paste0('PAN (', rewired_sizes['pan'], '/', rewired_dscript_sizes['pan'], ')'),
+           paste0('RICHOUX-REGULAR (', rewired_sizes['richoux-regular'], '/', rewired_dscript_sizes['richoux-regular'], ')'),
+           paste0('RICHOUX-STRICT (', rewired_sizes['richoux-strict'], '/', rewired_dscript_sizes['richoux-strict'], ')'),
            #partition both ->1
-           paste0('HUANG (', partition_sizes['huang both'], ')'),
-           paste0('GUO (', partition_sizes['guo both'], ')'),
-           paste0('DU (', partition_sizes['du both'], ')'),
-           paste0('PAN (', partition_sizes['pan both'], ')'),
-           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux both'], ')'),
+           paste0('HUANG (', partition_sizes['huang both'], '/', partition_dscript_sizes['huang both'], ')'),
+           paste0('GUO (', partition_sizes['guo both'], '/', partition_dscript_sizes['guo both'], ')'),
+           paste0('DU (', partition_sizes['du both'], '/', partition_dscript_sizes['du both'], ')'),
+           paste0('PAN (', partition_sizes['pan both'], '/', partition_dscript_sizes['pan both'], ')'),
+           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux both'], '/', partition_dscript_sizes['richoux both'], ')'),
            #partition both -> 0
-           paste0('HUANG (', partition_sizes['huang both'], ')'),
-           paste0('GUO (', partition_sizes['guo both'], ')'),
-           paste0('DU (', partition_sizes['du both'], ')'),
-           paste0('PAN (', partition_sizes['pan both'], ')'),
-           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux both'], ')'),
+           paste0('HUANG (', partition_sizes['huang both'], '/', partition_dscript_sizes['huang both'], ')'),
+           paste0('GUO (', partition_sizes['guo both'], '/', partition_dscript_sizes['guo both'], ')'),
+           paste0('DU (', partition_sizes['du both'], '/', partition_dscript_sizes['du both'], ')'),
+           paste0('PAN (', partition_sizes['pan both'], '/', partition_dscript_sizes['pan both'], ')'),
+           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux both'], '/', partition_dscript_sizes['richoux both'], ')'),
            #partition 0 -> 1
-           paste0('HUANG (', partition_sizes['huang 0'], ')'),
-           paste0('GUO (', partition_sizes['guo 0'], ')'),
-           paste0('DU (', partition_sizes['du 0'], ')'),
-           paste0('PAN (', partition_sizes['pan 0'], ')'),
-           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], ')')
+           paste0('HUANG (', partition_sizes['huang 0'], '/', partition_dscript_sizes['huang 0'], ')'),
+           paste0('GUO (', partition_sizes['guo 0'], '/', partition_dscript_sizes['guo 0'], ')'),
+           paste0('DU (', partition_sizes['du 0'], '/', partition_dscript_sizes['du 0'], ')'),
+           paste0('PAN (', partition_sizes['pan 0'], '/', partition_dscript_sizes['pan 0'], ')'),
+           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], '/', partition_dscript_sizes['richoux 0'], ')')
          ),
          labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 

@@ -139,7 +139,7 @@ ggplot(all_results, aes(x=Dataset, y = get(measure), color = Model, group=Model)
                             "richoux-strict" = paste("Richoux strict (", train_sizes["richoux-strict"], ")")))+
   #ylim(0.5, 1.0)+
   labs(x = "Dataset (n training)", y = paste0(measure, "/", ifelse(measure=='Accuracy', 'AUC', 'AUPR'), " for SPRINT")) +
-  scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
+  #scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
   theme_bw()+
   theme(text = element_text(size=20),axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
 #ggsave(paste("plots/all_results_rewired_", measure, ".png"),height=8, width=12)  
