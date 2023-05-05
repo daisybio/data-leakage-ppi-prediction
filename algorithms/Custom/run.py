@@ -11,9 +11,12 @@ def export_scores(scores, path):
 
 
 def load_data(name, encoding, partition=False, partition_train='0', partition_test='1', rewire=False):
-    if name == 'gold_standard':
+    if name == 'gold_standard_':
         print('loading gold standard ...')
         X_train, y_train, X_test, y_test = load_gold_standard(encoding=encoding)
+    elif name == 'gold_standard_unbalanced_':
+        print('loading gold standard unbalanced ...')
+        X_train, y_train, X_test, y_test = load_gold_standard(encoding=encoding, unbalanced=True)
     elif partition:
         print(f"Loading partition datasets for {name}, train on {partition_train}, test on {partition_test}")
         X_train, y_train, X_test, y_test = load_partition_datasets(encoding=encoding, dataset=name,
@@ -27,7 +30,8 @@ def load_data(name, encoding, partition=False, partition_train='0', partition_te
 
 
 def run_partitioning_tests():
-    for name in ['guo', 'huang', 'du', 'pan', 'richoux']:
+    #for name in ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux']:
+    for name in ['dscript']:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             for partition_train in ['both', '0']:
                 for partition_test in ['0', '1']:
@@ -63,7 +67,8 @@ def run_simpler_algorithms(rewire=False):
         prefix = 'rewired_'
     else:
         prefix = 'original_'
-    dataset_list = ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+    dataset_list = ['dscript']
+    #dataset_list = ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     for name in dataset_list:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             t_start = time()
@@ -88,8 +93,9 @@ def run_simpler_algorithms(rewire=False):
                 f.write(f'SVM\t{time_elapsed_svm}')
 
 
-def run_degree_algorithm(rewire=False, partition=False, gold=False):
-    dataset_list = ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=False):
+    dataset_list = ['dscript']
+    #dataset_list = ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     if rewire:
         prefix = 'rewired_'
     elif partition:
@@ -102,6 +108,9 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False):
     elif gold:
         prefix = 'gold_standard_'
         dataset_list = ['gold_standard']
+    elif unbalanced:
+        prefix = 'gold_standard_unbalanced_'
+        dataset_list = ['gold_standard_unbalanced']
     else:
         prefix = 'original_'
     for name in dataset_list:
@@ -125,12 +134,15 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False):
             f.write(f'{name}\tLocal and Global Consistency\t{time_elapsed_cons}\n')
 
 
-def run_gold_standard():
-    prefix = 'gold_standard_'
+def run_gold_standard(unbalanced=False):
+    if unbalanced:
+        prefix = 'gold_standard_unbalanced_'
+    else:
+        prefix = 'gold_standard_'
     for encoding in ['PCA', 'MDS', 'node2vec']:
         t_start = time()
         print(f'##### {encoding} encoding')
-        X_train, y_train, X_test, y_test = load_data(name='gold_standard', encoding=encoding,
+        X_train, y_train, X_test, y_test = load_data(name=prefix, encoding=encoding,
                                                      partition=False, rewire=False)
         time_preprocess = time() - t_start
         scores = learn_rf(X_train, y_train, X_test, y_test)
@@ -153,17 +165,21 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if args[0] == 'original':
         print('########################### ORIGINAL ###########################')
-        #run_simpler_algorithms(rewire=False)
+        run_simpler_algorithms(rewire=False)
         run_degree_algorithm(rewire=False, partition=False)
     elif args[0] == 'rewired':
         print('########################### REWIRED ###########################')
-        #run_simpler_algorithms(rewire=True)
+        run_simpler_algorithms(rewire=True)
         run_degree_algorithm(rewire=True, partition=False)
     elif args[0] == 'partition':
         print('########################### PARTITION ###########################')
-        #run_partitioning_tests()
+        run_partitioning_tests()
         run_degree_algorithm(rewire=False, partition=True)
-    else:
+    elif args[0] == 'gold_standard':
         print('########################### GOLD STANDARD ###########################')
-        #run_gold_standard()
+        run_gold_standard()
         run_degree_algorithm(rewire=False, partition=False, gold=True)
+    else:
+        print('########################### GOLD STANDARD UNBALANCED ###########################')
+        run_gold_standard(unbalanced=True)
+        run_degree_algorithm(rewire=False, partition=False, unbalanced=True)

@@ -2,60 +2,54 @@ from rewrite_utils_SPRINT import write_SPRINT
 
 
 def partition_pairs(simap_dict, pairs):
-    only_partition_0_pos = []
-    only_partition_1_pos = []
-    both_partitions_pos = []
-    only_partition_0_neg = []
-    only_partition_1_neg = []
-    both_partitions_neg = []
+    only_partition_0_pos = set()
+    only_partition_1_pos = set()
+    both_partitions_pos = set()
+    only_partition_0_neg = set()
+    only_partition_1_neg = set()
+    both_partitions_neg = set()
     for pair in pairs:
         if pair[0] in simap_dict.keys() and pair[1] in simap_dict.keys():
             if simap_dict[pair[0]] == 0 and simap_dict[pair[1]] == 0:
                 if pair[2] == '1':
-                    only_partition_0_pos.append(pair)
+                    only_partition_0_pos.add((pair[0], pair[1]))
                 else:
-                    only_partition_0_neg.append(pair)
+                    only_partition_0_neg.add((pair[0], pair[1]))
             elif simap_dict[pair[0]] == 1 and simap_dict[pair[1]] == 1:
                 if pair[2] == '1':
-                    only_partition_1_pos.append(pair)
+                    only_partition_1_pos.add((pair[0], pair[1]))
                 else:
-                    only_partition_1_neg.append(pair)
+                    only_partition_1_neg.add((pair[0], pair[1]))
             else:
                 if pair[2] == '1':
-                    both_partitions_pos.append(pair)
+                    both_partitions_pos.add((pair[0], pair[1]))
                 else:
-                    both_partitions_neg.append(pair)
+                    both_partitions_neg.add((pair[0], pair[1]))
     return only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg
 
 
-def adapt_sizes(pos, neg, partition_dict, partition, all_pairs):
+def adapt_sizes(pos, neg, partition_dict, partition, all_pairs, factor=1):
     import random
-    # no duplicates
-    pos_len = len(pos)
-    pos = {(ppi[0], ppi[1], ppi[2]) for ppi in pos}
-    print(f'{pos_len-len(pos)} duplicates in positive dataset!')
-    pos_len = len(pos)
-    neg_len = len(neg)
-    neg = {(ppi[0], ppi[1], ppi[2]) for ppi in neg}
-    print(f'{neg_len - len(neg)} duplicates in negative dataset!')
-    neg_len = len(neg)
+    all_pairs = set((ppi[0], ppi[1], ppi[2]) for ppi in all_pairs)
     # no overlaps between positives and negatives
     pos_ppis = pos.copy()
-    pos_ppis = pos_ppis.union({(ppi[1], ppi[0], ppi[2]) for ppi in pos_ppis})
+    pos_ppis = pos_ppis.union({(ppi[1], ppi[0]) for ppi in pos_ppis})
     neg_ppis = neg.copy()
-    neg_ppis = neg_ppis.union({(ppi[1], ppi[0], ppi[2]) for ppi in neg_ppis})
+    neg_ppis = neg_ppis.union({(ppi[1], ppi[0]) for ppi in neg_ppis})
     intersect_ppis = pos_ppis.intersection(neg_ppis)
     print(f'Number of overlaps between pos and neg: {len(intersect_ppis)}')
     pos = pos - intersect_ppis
     neg = neg - intersect_ppis
-    pos = [[ppi[0], ppi[1], ppi[2]] for ppi in pos]
-    neg = [[ppi[0], ppi[1], ppi[2]] for ppi in neg]
-    if neg_len > pos_len:
+    pos = set((ppi[0], ppi[1], 1) for ppi in pos)
+    neg = set((ppi[0], ppi[1], 0) for ppi in neg)
+    pos_len = len(pos)
+    neg_len = len(neg)
+    if neg_len > (pos_len * factor):
         # randomly drop some negative samples
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)... ')
-        to_delete = set(random.sample(range(len(neg)), neg_len - pos_len))
-        neg = [x for i, x in enumerate(neg) if not i in to_delete]
-    elif pos_len > neg_len:
+        to_delete = set(random.sample(range(len(neg)), neg_len - (factor * pos_len)))
+        neg = set(x for i, x in enumerate(neg) if not i in to_delete)
+    elif (pos_len * factor) > neg_len:
         # sample neg negatives
         print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
         if partition == 0:
@@ -64,23 +58,17 @@ def adapt_sizes(pos, neg, partition_dict, partition, all_pairs):
             candidates = [key for key, value in partition_dict.items() if value == 1]
         else:
             candidates = list(partition_dict.keys())
-        while pos_len > neg_len:
+        to_generate = (factor * pos_len) - neg_len
+        while (pos_len * factor) > neg_len:
+            if to_generate % 100 == 0:
+                print(f'Still {to_generate} proteins left to generate!')
             prot1 = random.choice(tuple(candidates))
-            prot1_list = [pair[0] for pair in all_pairs if pair[1] == prot1] + [pair[1] for pair in all_pairs if
-                                                                                pair[0] == prot1]
-            while len(prot1_list) == 0:
-                prot1 = random.choice(tuple(candidates))
-                prot1_list = [pair[0] for pair in all_pairs if pair[1] == prot1] + [pair[1] for pair in all_pairs if
-                                                                                    pair[0] == prot1]
             prot2 = random.choice(tuple(candidates))
-            prot2_list = [pair[0] for pair in all_pairs if pair[1] == prot2] + [pair[1] for pair in all_pairs if
-                                                                                pair[0] == prot2]
-            while prot1 == prot2 or prot2 in prot1_list or len(prot2_list) == 0:
+            while prot1 == prot2 or (prot1, prot2) in all_pairs or (prot2, prot1) in all_pairs or (prot2, prot1) in neg:
                 prot2 = random.choice(tuple(candidates))
-                prot2_list = [pair[0] for pair in all_pairs if pair[1] == prot2] + [pair[1] for pair in all_pairs if
-                                                                                    pair[0] == prot2]
-            neg.append([prot1, prot2, '0'])
-            neg_len += 1
+            neg.add((prot1, prot2, 0))
+            neg_len = len(neg)
+            to_generate = (factor * pos_len) - neg_len
     return pos, neg
 
 
@@ -331,6 +319,54 @@ def rearrange_du_dataset():
                  data=both_partitions_neg)
 
 
+def rearrange_dscript_dataset():
+    import pandas as pd
+    from algorithms.Custom.load_datasets import make_swissprot_to_dict
+    from algorithms.SPRINT.create_SPRINT_datasets import iterate_fasta, process_dscript
+    prefix_dict, seq_dict = make_swissprot_to_dict('Datasets_PPIs/SwissProt/human_swissprot.fasta')
+    print('Mapping Protein IDs ...')
+    mapping_dict = iterate_fasta(prefix_dict, seq_dict, 'algorithms/D-SCRIPT-main/dscript-data/seqs/human.fasta')
+    pairs = process_dscript('algorithms/D-SCRIPT-main/dscript-data/pairs/human_train.tsv', mapping_dict)
+    ppis_test = process_dscript('algorithms/D-SCRIPT-main/dscript-data/pairs/human_test.tsv', mapping_dict)
+    pairs.extend(ppis_test)
+    print(f'{len(pairs)} PPIs!')
+    simap_dict = pd.read_csv(
+        'network_data/SIMAP2/human_networks/only_human_partition_nodelist.txt',
+        index_col=0, squeeze=True, sep='\t').to_dict()
+
+    only_partition_0_pos, only_partition_1_pos, both_partitions_pos, only_partition_0_neg, only_partition_1_neg, both_partitions_neg = partition_pairs(
+        simap_dict, pairs)
+    print('Cleaning and balancing partition 0 ...')
+    only_partition_0_pos, only_partition_0_neg = adapt_sizes(pos=only_partition_0_pos, neg=only_partition_0_neg,
+                                                             partition_dict=simap_dict, partition=0,
+                                                             all_pairs=pairs, factor=10)
+    print('Cleaning and balancing partition 1 ...')
+    only_partition_1_pos, only_partition_1_neg = adapt_sizes(only_partition_1_pos, only_partition_1_neg, simap_dict, 1,
+                                                             pairs, factor=10)
+    print('Cleaning and balancing partition both ...')
+    both_partitions_pos, both_partitions_neg = adapt_sizes(both_partitions_pos, both_partitions_neg, simap_dict, -1,
+                                                           pairs, factor=10)
+    print(f'writing positive files for SPRINT: only partition 0: {len(only_partition_0_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/dscript_partition_0_pos.txt',
+                 data=only_partition_0_pos)
+    print(f'writing negative files: only partition 0: {len(only_partition_0_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/dscript_partition_0_neg.txt',
+                 data=only_partition_0_neg)
+    print(f'writing positive files: only partition 1: {len(only_partition_1_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/dscript_partition_1_pos.txt',
+                 data=only_partition_1_pos)
+    print(f'writing negative files: only partition 1: {len(only_partition_1_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/dscript_partition_1_neg.txt',
+                 data=only_partition_1_neg)
+    print(f'writing positive files: both partitions: {len(both_partitions_pos)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/dscript_partition_both_pos.txt',
+                 data=both_partitions_pos)
+    print(f'writing negative files: both partitions: {len(both_partitions_neg)} proteins ...')
+    write_SPRINT(path=f'algorithms/SPRINT/data/partitions/dscript_partition_both_neg.txt',
+                 data=both_partitions_neg)
+
+
+
 if __name__ == '__main__':
     print('############################ GUO DATASET ############################')
     rearrange_guo_huang_dataset(guo=True)
@@ -342,3 +378,5 @@ if __name__ == '__main__':
     rearrange_pan_dataset()
     print('############################ DU DATASET ############################')
     rearrange_du_dataset()
+    print('############################ DSCRIPT DATASET ############################')
+    rearrange_dscript_dataset()

@@ -85,7 +85,7 @@ def make_X_y(ppis, emb, id_dict):
 
 
 def read_from_SPRINT(encoding, emd, id_dict, path, label):
-    ppis = []
+    ppis = set()
     with open(path, 'r') as f:
         for line in f:
             line_split = line.strip().split(' ')
@@ -96,16 +96,16 @@ def read_from_SPRINT(encoding, emd, id_dict, path, label):
                     id0 = id_dict[uid0]
                     id1 = id_dict[uid1]
                     if id0 in emd.keys() and id1 in emd.keys():
-                        ppis.append([uid0, uid1, label])
+                        ppis.add((uid0, uid1, label))
                 else:
-                    ppis.append([uid0, uid1, label])
+                    ppis.add((uid0, uid1, label))
     return ppis
 
 
 def construct_line_graph(dataset, prefix):
     import networkx as nx
-    prefix = prefix.split('_')[0]
-    if prefix == 'partition':
+    factor = 1
+    if prefix == 'partition_':
         ds_split = dataset.split('_')
         name = ds_split[0]
         train_partition = ds_split[1]
@@ -116,21 +116,30 @@ def construct_line_graph(dataset, prefix):
         ppis_test.extend(
             read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{test_partition}_neg.txt', '0',
                                      'test'))
-    elif prefix == 'gold':
+    elif prefix == 'gold_standard_':
         ppis_train = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1', 'training')
         ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0', 'training'))
         ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1', 'training'))
         ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0', 'training'))
         ppis_test = read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1', 'test')
         ppis_test.extend(read_dataset_as_edgelist('../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0', 'test'))
+    elif prefix == 'gold_standard_unbalanced_':
+        ppis_train = read_dataset_as_edgelist('../../Datasets_PPIs/unbalanced_gold/Intra1_pos.txt', '1', 'training')
+        ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/unbalanced_gold/Intra1_neg.txt', '0', 'training'))
+        ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/unbalanced_gold/Intra0_pos.txt', '1', 'training'))
+        ppis_train.extend(read_dataset_as_edgelist('../../Datasets_PPIs/unbalanced_gold/Intra0_neg.txt', '0', 'training'))
+        ppis_test = read_dataset_as_edgelist('../../Datasets_PPIs/unbalanced_gold/Intra2_pos.txt', '1', 'test')
+        ppis_test.extend(read_dataset_as_edgelist('../../Datasets_PPIs/unbalanced_gold/Intra2_neg.txt', '0', 'test'))
+        factor = 10
     else:
+        prefix = prefix.split('_')[0]
         ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
         ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
         ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test')
         ppis_test.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_neg.txt', '0', 'test'))
 
-    ppis_train = balance_ppis_list(ppis_train, 'training')
-    ppis_test = balance_ppis_list(ppis_test, 'test')
+    ppis_train = balance_ppis_list(ppis_train, 'training', factor=factor)
+    ppis_test = balance_ppis_list(ppis_test, 'test', factor=factor)
     ppis = ppis_train
     ppis.extend(ppis_test)
     g = nx.Graph(ppis)
@@ -166,126 +175,131 @@ def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
         folder = 'rewired'
     else:
         folder = 'original'
+    if dataset == 'dscript':
+        factor = 10
+    else:
+        factor = 1
     train_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_pos.txt', '1')
     train_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_neg.txt', '0')
-    train_pos.extend(train_neg)
-    train_pos = balance_set(train_pos, id_dict, encoding, emd)
+    train_pos.update(train_neg)
+    train_pos = balance_set(train_pos, id_dict, encoding, emd, factor=factor)
 
     test_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_pos.txt', '1')
     test_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_neg.txt', '0')
-    test_pos.extend(test_neg)
-    test_pos = balance_set(test_pos, id_dict, encoding, emd)
+    test_pos.update(test_neg)
+    test_pos = balance_set(test_pos, id_dict, encoding, emd, factor=factor)
 
     X_train, y_train = make_X_y(train_pos, emd, id_dict)
     X_test, y_test = make_X_y(test_pos, emd, id_dict)
     return X_train, y_train, X_test, y_test
 
 
-def load_gold_standard(encoding='PCA'):
+def load_gold_standard(encoding='PCA', unbalanced=False):
     emd, id_dict = load_encoding(encoding=encoding, organism='human')
-    train_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1')
-    train_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0')
-    train_pos.extend(train_neg)
-    val_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1')
-    val_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0')
-    train_pos.extend(val_pos)
-    train_pos.extend(val_neg)
-    train_pos = balance_set(train_pos, id_dict, encoding, emd)
+    if unbalanced:
+        train_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/unbalanced_gold/Intra1_pos.txt', '1')
+        train_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/unbalanced_gold/Intra1_neg.txt', '0')
+        train_pos.update(train_neg)
+        val_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/unbalanced_gold/Intra0_pos.txt', '1')
+        val_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/unbalanced_gold/Intra0_neg.txt', '0')
+        train_pos.update(val_pos)
+        train_pos.update(val_neg)
+        train_pos = balance_set(train_pos, id_dict, encoding, emd, factor=10)
 
-    test_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1')
-    test_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0')
-    test_pos.extend(test_neg)
-    test_pos = balance_set(test_pos, id_dict, encoding, emd)
+        test_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/unbalanced_gold/Intra2_pos.txt', '1')
+        test_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/unbalanced_gold/Intra2_neg.txt', '0')
+        test_pos.update(test_neg)
+        test_pos = balance_set(test_pos, id_dict, encoding, emd, factor=10)
+    else:
+        train_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt', '1')
+        train_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt', '0')
+        train_pos.update(train_neg)
+        val_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt', '1')
+        val_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt', '0')
+        train_pos.update(val_pos)
+        train_pos.update(val_neg)
+        train_pos = balance_set(train_pos, id_dict, encoding, emd)
+
+        test_pos = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt', '1')
+        test_neg = read_from_SPRINT(encoding, emd, id_dict, '../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt', '0')
+        test_pos.update(test_neg)
+        test_pos = balance_set(test_pos, id_dict, encoding, emd)
 
     X_train, y_train = make_X_y(train_pos, emd, id_dict)
     X_test, y_test = make_X_y(test_pos, emd, id_dict)
     return X_train, y_train, X_test, y_test
 
 
-def balance_set(ppis, id_dict, encoding, emd):
-    pos_len = sum([int(pair[2]) for pair in ppis])
-    neg_len = len(ppis) - pos_len
-    if pos_len > neg_len:
+def balance_set(ppis, id_dict, encoding, emd, factor=1):
+    pos_ppis = set(x for x in ppis if x[2] == '1')
+    neg_ppis = set(x for x in ppis if x[2] == '0')
+    pos_len = len(pos_ppis)
+    neg_len = len(neg_ppis)
+    if (factor * pos_len) > neg_len:
         print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
         if encoding == 'node2vec':
             candidates = [key for key, value in id_dict.items() if value in emd.keys()]
         else:
             candidates = [key for key, value in id_dict.items()]
 
-        while pos_len > neg_len:
+        to_generate = (factor * pos_len) - neg_len
+        while (factor * pos_len) > neg_len:
+            if to_generate % 100 == 0:
+                print(f'Still {to_generate} proteins left to generate!')
             prot1 = random.choice(tuple(candidates))
-            prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
-                                                                                pair[0] == prot1]
-            # protein should occur in the dataset
-            while len(prot1_list) == 0:
-                prot1 = random.choice(tuple(candidates))
-                prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
-                                                                                    pair[0] == prot1]
             prot2 = random.choice(tuple(candidates))
-            prot2_list = [pair[0] for pair in ppis if pair[1] == prot2] + [pair[1] for pair in ppis if
-                                                                                pair[0] == prot2]
             node2vec_valid=True
             if encoding == 'node2vec' and (id_dict[prot1] not in emd.keys() or id_dict[prot2] not in emd.keys()):
                 node2vec_valid=False
 
-            while prot1 == prot2 or prot2 in prot1_list or len(prot2_list) == 0 or not node2vec_valid:
+            while prot1 == prot2 or (prot1, prot2, '0') in ppis or (prot2, prot1, '0') in ppis or (prot1, prot2, '1') in ppis or (prot2, prot1, '1') in ppis or (prot2, prot1, '0') in neg_ppis or not node2vec_valid:
                 prot2 = random.choice(tuple(candidates))
-                prot2_list = [pair[0] for pair in ppis if pair[1] == prot2] + [pair[1] for pair in ppis if
-                                                                                    pair[0] == prot2]
                 if encoding == 'node2vec' and (id_dict[prot1] not in emd.keys() or id_dict[prot2] not in emd.keys()):
                     node2vec_valid = False
                 elif encoding == 'node2vec' and id_dict[prot1] in emd.keys() and id_dict[prot2] in emd.keys():
                     node2vec_valid = True
-            ppis.append([prot1, prot2, '0'])
-            neg_len += 1
+            neg_ppis.add((prot1, prot2, '0'))
+            neg_len = len(neg_ppis)
+            to_generate = (factor * pos_len) - neg_len
     else:
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
-        pos_ppis = [x for x in ppis if x[2] == '1']
-        neg_ppis = [x for x in ppis if x[2] == '0']
-        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - len(pos_ppis)))
-        neg_ppis = [x for i, x in enumerate(neg_ppis) if not i in to_delete]
-        ppis = pos_ppis
-        ppis.extend(neg_ppis)
+        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - (factor * len(pos_ppis))))
+        neg_ppis = set(x for i, x in enumerate(neg_ppis) if not i in to_delete)
+    ppis = pos_ppis
+    ppis.update(neg_ppis)
     return ppis
 
 
-def balance_ppis_list(ppis, split):
+def balance_ppis_list(ppis, split, factor=1):
     pos_ppis = [x for x in ppis if x[2]['interaction'] == '1']
     pos_len = len(pos_ppis)
     neg_ppis = [x for x in ppis if x[2]['interaction'] == '0']
     neg_len = len(neg_ppis)
-    if neg_len > pos_len:
+    if neg_len > (factor * pos_len):
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
-        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - len(pos_ppis)))
+        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - (factor * len(pos_ppis))))
         neg_ppis = [x for i, x in enumerate(neg_ppis) if not i in to_delete]
         ppis = pos_ppis
         ppis.extend(neg_ppis)
     elif len(pos_ppis) > len(neg_ppis):
         print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
+        all_ppis = set(x[:2] for x in ppis)
         candidates = set( ppi for entry in ppis for ppi in entry[:2] )
-
-        while pos_len > neg_len:
+        to_generate = (factor * pos_len) - neg_len
+        while (factor * pos_len) > neg_len:
+            if to_generate % 100 == 0:
+                print(f'Still {to_generate} proteins left to generate!')
             prot1 = random.choice(tuple(candidates))
-            prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
-                                                                           pair[0] == prot1]
-            # protein should occur in the dataset
-            while len(prot1_list) == 0:
-                prot1 = random.choice(tuple(candidates))
-                prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
-                                                                               pair[0] == prot1]
             prot2 = random.choice(tuple(candidates))
-            prot2_list = [pair[0] for pair in ppis if pair[1] == prot2] + [pair[1] for pair in ppis if
-                                                                           pair[0] == prot2]
-
-            while prot1 == prot2 or prot2 in prot1_list or len(prot2_list) == 0:
+            while prot1 == prot2 or (prot1, prot2) in all_ppis or (prot2, prot1) in all_ppis:
                 prot2 = random.choice(tuple(candidates))
-                prot2_list = [pair[0] for pair in ppis if pair[1] == prot2] + [pair[1] for pair in ppis if
-                                                                               pair[0] == prot2]
-            ppis.append((prot1, prot2, {'interaction': '0', 'split': split}))
-            neg_len += 1
-        print(f"pos: {len([x for x in ppis if x[2]['interaction'] == '1'])}, neg: {len([x for x in ppis if x[2]['interaction'] == '0'])}")
+            neg_ppis.extend((prot1, prot2, {'interaction': '0', 'split': split}))
+            all_ppis.add((prot1, prot2))
+            neg_len = len(neg_ppis)
+            to_generate = (factor * pos_len) - neg_len
+    print(
+        f"pos: {len([x for x in ppis if x[2]['interaction'] == '1'])}, neg: {len([x for x in ppis if x[2]['interaction'] == '0'])}")
     return ppis
-
 
 
 def make_swissprot_to_dict(path_to_swissprot):
@@ -323,7 +337,7 @@ def make_swissprot_to_dict(path_to_swissprot):
 
 def read_in_partitions(lines, id_dict, emd, encoding, label):
     from tqdm import tqdm
-    ppis = []
+    ppis = set()
     for line in tqdm(lines):
         line_split = line.strip().split(' ')
         id0_uniprot = line_split[0]
@@ -332,14 +346,14 @@ def read_in_partitions(lines, id_dict, emd, encoding, label):
             id0 = id_dict[line_split[0]]
             id1 = id_dict[line_split[1]]
             if encoding == 'node2vec' and id0 in emd.keys() and id1 in emd.keys():
-                ppis.append([id0_uniprot, id1_uniprot, label])
+                ppis.add((id0_uniprot, id1_uniprot, label))
             elif encoding != 'node2vec':
-                ppis.append([id0_uniprot, id1_uniprot, label])
+                ppis.add((id0_uniprot, id1_uniprot, label))
     return ppis
 
 
 def load_partition_datasets(encoding, dataset, partition_train, partiton_test):
-    dataset_choices = {'du', 'guo', 'huang', 'pan', 'richoux'}
+    dataset_choices = {'du', 'guo', 'huang', 'pan', 'richoux', 'dscript'}
     if dataset not in dataset_choices:
         raise ValueError('dataset must be one of %r.' % dataset_choices)
     partition_choices = {'0', '1', 'both'}
@@ -349,6 +363,10 @@ def load_partition_datasets(encoding, dataset, partition_train, partiton_test):
         organism='yeast'
     else:
         organism='human'
+    if dataset == 'dscript':
+        factor = 10
+    else:
+        factor = 1
     print(f'Loading {encoding} encoding ...')
     emd, id_dict = load_encoding(encoding=encoding, organism=organism)
     train_pos = open(f'../SPRINT/data/partitions/{dataset}_partition_{partition_train}_pos.txt').readlines()
@@ -356,7 +374,7 @@ def load_partition_datasets(encoding, dataset, partition_train, partiton_test):
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='1')
     train_neg = open(f'../SPRINT/data/partitions/{dataset}_partition_{partition_train}_neg.txt').readlines()
-    X_train.extend(read_in_partitions(lines=train_neg,
+    X_train.update(read_in_partitions(lines=train_neg,
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='0'))
     test_pos = open(f'../SPRINT/data/partitions/{dataset}_partition_{partiton_test}_pos.txt').readlines()
@@ -364,11 +382,11 @@ def load_partition_datasets(encoding, dataset, partition_train, partiton_test):
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='1')
     test_neg = open(f'../SPRINT/data/partitions/{dataset}_partition_{partiton_test}_neg.txt').readlines()
-    X_test.extend(read_in_partitions(lines=test_neg,
+    X_test.update(read_in_partitions(lines=test_neg,
                                id_dict=id_dict, emd=emd, encoding=encoding,
                                label='0'))
-    X_train = balance_set(X_train, id_dict, encoding, emd)
-    X_train, y_train = make_X_y(np.array(X_train), emd, id_dict)
-    X_test = balance_set(X_test, id_dict, encoding, emd)
-    X_test, y_test = make_X_y(np.array(X_test), emd, id_dict)
+    X_train = balance_set(X_train, id_dict, encoding, emd, factor=factor)
+    X_train, y_train = make_X_y(X_train, emd, id_dict)
+    X_test = balance_set(X_test, id_dict, encoding, emd, factor=factor)
+    X_test, y_test = make_X_y(X_test, emd, id_dict)
     return X_train, y_train, X_test, y_test

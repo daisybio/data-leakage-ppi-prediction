@@ -210,15 +210,18 @@ def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_
 
 def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
     if partition:
-        datasets=['guo_both_0','guo_both_1','guo_0_1',
+        datasets=['dscript_both_0','dscript_both_1','dscript_0_1',
+                  'guo_both_0','guo_both_1','guo_0_1',
                 'huang_both_0', 'huang_both_1', 'huang_0_1',
                 'du_both_0', 'du_both_1', 'du_0_1',
                 'pan_both_0', 'pan_both_1', 'pan_0_1',
                 'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     elif dataset == 'gold_standard':
         datasets = ['gold_standard']
+    elif dataset == 'gold_standard_unbalanced':
+        datasets = ['gold_standard_unbalanced']
     else:
-        datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
+        datasets = ['dscript', 'du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
     if dataset not in datasets:
         raise ValueError(f'Dataset must be in {datasets}!')
     if partition:
@@ -231,15 +234,16 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
         train_partition = ds_split[1]
         train_file_pos = f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt'
         train_file_neg = f'../SPRINT/data/partitions/{name}_partition_{train_partition}_neg.txt'
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos, train_file_neg, organism)
     elif dataset == 'gold_standard':
         print('Getting gold standard dataset ...')
         train_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt'
         train_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt'
         organism = 'human'
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos,
-                                                                                                       train_file_neg,
-                                                                                                       organism)
+    elif dataset == 'gold_standard_unbalanced':
+        print('Getting gold standard unbalanced dataset ...')
+        train_file_pos = '../../Datasets_PPIs/unbalanced_gold/Intra1_pos.txt'
+        train_file_neg = '../../Datasets_PPIs/unbalanced_gold/Intra1_neg.txt'
+        organism = 'human'
     else:
         if rewired:
             folder = 'rewired'
@@ -252,9 +256,9 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
         print(f'Getting {folder} dataset ...')
         train_file_pos = f'../SPRINT/data/{folder}/{dataset}_train_pos.txt'
         train_file_neg = f'../SPRINT/data/{folder}/{dataset}_train_neg.txt'
-        pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos,
-                                                                                                       train_file_neg,
-                                                                                                       organism)
+    pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos,
+                                                                                                   train_file_neg,
+                                                                                                   organism)
 
     feature_protein_AB, label = process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_A,
                                                        pos_seq_protein_B, neg_seq_protein_B)
@@ -285,6 +289,12 @@ def get_test_set(wv, maxlen, size, dataset, rewired):
         if dataset == 'gold_standard_val':
             test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
             test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
+        elif dataset == 'gold_standard_unbalanced_val':
+            test_file_pos = '../../Datasets_PPIs/unbalanced_gold/Intra0_pos.txt'
+            test_file_neg = '../../Datasets_PPIs/unbalanced_gold/Intra0_neg.txt'
+        elif dataset == 'gold_standard_unbalanced_test':
+            test_file_pos = '../../Datasets_PPIs/unbalanced_gold/Intra2_pos.txt'
+            test_file_neg = '../../Datasets_PPIs/unbalanced_gold/Intra2_neg.txt'
         else:
             test_file_pos = '../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt'
             test_file_neg = '../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt'
@@ -381,22 +391,32 @@ if __name__ == "__main__":
         rewired = False
         original = False
         prefix = 'partition_'
-    else:
+    elif args[0] == 'gold':
         partition = False
         rewired = False
         original = False
         prefix = 'gold_standard_'
+    else:
+        partition = False
+        rewired = False
+        original = False
+        prefix = 'gold_standard_unbalanced_'
 
     if rewired or original:
-        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
+        #datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
+        datasets = ['dscript']
     elif partition:
-        datasets = ['huang_both_0', 'huang_both_1', 'huang_0_1',
-                    'guo_both_0','guo_both_1','guo_0_1',
-                    'du_both_0', 'du_both_1', 'du_0_1',
-                    'pan_both_0', 'pan_both_1', 'pan_0_1',
-                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
-    else:
+        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1']
+        #datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
+        #            'huang_both_0', 'huang_both_1', 'huang_0_1',
+        #            'guo_both_0','guo_both_1','guo_0_1',
+        #            'du_both_0', 'du_both_1', 'du_0_1',
+        #            'pan_both_0', 'pan_both_1', 'pan_0_1',
+        #            'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+    elif args[0] == 'gold':
         datasets = ['gold_standard']
+    else:
+        datasets = ['gold_standard_unbalanced']
 
     for dataset in datasets:
         print(f'Dataset: {dataset}')
@@ -420,12 +440,16 @@ if __name__ == "__main__":
         scaler = StandardScaler().fit(X_train)
         X_train = scaler.transform(X_train)
 
-        if dataset == 'gold_standard':
-            X_val, y_val = get_test_set(model_wv.wv, maxlen, size, 'gold_standard_val', rewired)
+        if dataset == 'gold_standard' or dataset == 'gold_standard_unbalanced':
+            if dataset == 'gold_standard':
+                X_val, y_val = get_test_set(model_wv.wv, maxlen, size, 'gold_standard_val', rewired)
+                dataset = 'gold_standard_test'
+            else:
+                X_val, y_val = get_test_set(model_wv.wv, maxlen, size, 'gold_standard_unbalanced_val', rewired)
+                dataset = 'gold_standard_unbalanced_test'
             y_val = utils.to_categorical(y_val)
             X_val = scaler.transform(X_val)
             print(f'Val: {int(len(y_val[:, 1]))} ({int(sum(y_val[:, 1]))}/{int(len(y_val[:, 1])) - int(sum(y_val[:, 1]))})')
-            dataset = 'gold_standard_test'
 
         print('###########################')
         if partition:

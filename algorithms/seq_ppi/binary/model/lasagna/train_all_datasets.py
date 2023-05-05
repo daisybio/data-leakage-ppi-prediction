@@ -40,16 +40,19 @@ def process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t):
 
 
 def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
-    if dataset.startswith('gold_standard'):
+    if dataset.startswith('gold_standard_unbalanced'):
+        datasets = ['gold_standard_unbalanced_train', 'gold_standard_unbalanced_val', 'gold_standard_unbalanced_test']
+    elif dataset.startswith('gold_standard'):
         datasets = ['gold_standard_train', 'gold_standard_val', 'gold_standard_test']
     elif partition:
-        datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
+        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
+                    'guo_both_0', 'guo_both_1', 'guo_0_1',
                     'huang_both_0', 'huang_both_1', 'huang_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
                     'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     else:
-        datasets = ['du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
+        datasets = ['dscript', 'du', 'guo', 'huang', 'pan', 'richoux_regular', 'richoux_strict']
     if dataset not in datasets:
         raise ValueError(f'Dataset must be in {datasets}!')
     seq2t = s2t('../../../embeddings/vec5_CTC.txt')
@@ -74,12 +77,21 @@ def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
         if dataset == 'gold_standard_train':
             train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra1_pos_rr.txt'
             train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra1_neg_rr.txt'
+        elif dataset == 'gold_standard_unbalanced_train':
+            train_file_pos = f'../../../../../Datasets_PPIs/unbalanced_gold/Intra1_pos.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/unbalanced_gold/Intra1_neg.txt'
         elif dataset == 'gold_standard_val':
             train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_pos_rr.txt'
             train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra0_neg_rr.txt'
-        else:
+        elif dataset == 'gold_standard_unbalanced_val':
+            train_file_pos = f'../../../../../Datasets_PPIs/unbalanced_gold/Intra0_pos.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/unbalanced_gold/Intra0_neg.txt'
+        elif dataset == 'gold_standard_test':
             train_file_pos = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra2_pos_rr.txt'
             train_file_neg = f'../../../../../Datasets_PPIs/Hippiev2.3/Intra2_neg_rr.txt'
+        else:
+            train_file_pos = f'../../../../../Datasets_PPIs/unbalanced_gold/Intra2_pos.txt'
+            train_file_neg = f'../../../../../Datasets_PPIs/unbalanced_gold/Intra2_neg.txt'
         ppis = read_ppis_from_sprint(train_file_pos, train_file_neg, id2index)
     else:
         if dataset in ['guo', 'du']:
@@ -261,23 +273,32 @@ if __name__ == '__main__':
         partition = True
         rewired = False
         prefix = 'partition_'
-    else:
+    elif args[0] == 'gold_standard':
         partition = False
         rewired = False
         prefix = 'gold_standard_'
+    else:
+        partition = False
+        rewired = False
+        prefix = 'gold_standard_unbalanced_'
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
     if prefix == 'gold_standard_':
         datasets = ['gold_standard']
+    elif prefix == 'gold_standard_unbalanced_':
+        datasets = ['gold_standard_unbalanced']
     elif partition:
-        datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
-                    'huang_both_0', 'huang_both_1', 'huang_0_1',
-                    'du_both_0', 'du_both_1', 'du_0_1',
-                    'pan_both_0', 'pan_both_1', 'pan_0_1',
-                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1']
+        #datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
+        #            'guo_both_0', 'guo_both_1', 'guo_0_1',
+        #            'huang_both_0', 'huang_both_1', 'huang_0_1',
+        #            'du_both_0', 'du_both_1', 'du_0_1',
+        #            'pan_both_0', 'pan_both_1', 'pan_0_1',
+        #            'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     else:
-        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+        datasets = ['dscript']
+        #datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     for dataset in datasets:
         t_start = time()
         print(f'####################### {dataset} Dataset #######################')
@@ -296,6 +317,23 @@ if __name__ == '__main__':
             print(f'Train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
                   f'Validation: {int(len(y_val[:, 0]))} ({int(sum(y_val[:, 0]))}/{int(len(y_val[:, 0])) - int(sum(y_val[:, 0]))}),'
                   f'Test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))}),')
+        elif dataset == 'gold_standard_unbalanced':
+            print('Reading training data ...')
+            dim, X_train, y_train = read_in_dataset(dataset='gold_standard_unbalanced_train', test=False, partition=partition,
+                                                    seq_size=seq_size,
+                                                    rewired=rewired)
+            print('Reading validation data ...')
+            dim_val, X_val, y_val = read_in_dataset(dataset='gold_standard_unbalanced_val', test=False, partition=partition,
+                                                    seq_size=seq_size,
+                                                    rewired=rewired)
+            print('Reading test data ...')
+            dim_test, X_test, y_test = read_in_dataset(dataset='gold_standard_unbalanced_test', test=True, partition=partition,
+                                                       seq_size=seq_size, rewired=rewired)
+            print('###########################')
+            print(
+                f'Train: {int(len(y_train[:, 0]))} ({int(sum(y_train[:, 0]))}/{int(len(y_train[:, 0])) - int(sum(y_train[:, 0]))}),'
+                f'Validation: {int(len(y_val[:, 0]))} ({int(sum(y_val[:, 0]))}/{int(len(y_val[:, 0])) - int(sum(y_val[:, 0]))}),'
+                f'Test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))}),')
         else:
             print('Reading training data ...')
             dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size, rewired=rewired)
