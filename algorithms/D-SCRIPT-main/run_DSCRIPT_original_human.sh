@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for DATASET in huang pan richoux_regular richoux_strict
+for DATASET in dscript #huang pan richoux_regular richoux_strict
 do
   echo dataset ${DATASET}
   { time dscript train --train data/original/${DATASET}_train.txt --test data/original/${DATASET}_test.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/${DATASET}_dscript_original -o ./results_dscript/original/${DATASET}_train.txt -d 1; } 2> results_dscript/original/${DATASET}_time.txt

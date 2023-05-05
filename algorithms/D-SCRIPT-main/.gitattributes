@@ -37,3 +37,6 @@ data/rewired/richoux_regular_test.txt filter=lfs diff=lfs merge=lfs -text
 data/rewired/richoux_regular_train.txt filter=lfs diff=lfs merge=lfs -text
 data/rewired/richoux_strict_test.txt filter=lfs diff=lfs merge=lfs -text
 data/rewired/richoux_strict_train.txt filter=lfs diff=lfs merge=lfs -text
+dscript-data/pairs/human_train.tsv filter=lfs diff=lfs merge=lfs -text
+dscript-data/pairs/human_test.tsv filter=lfs diff=lfs merge=lfs -text
+dscript-data/seqs/human.fasta filter=lfs diff=lfs merge=lfs -text

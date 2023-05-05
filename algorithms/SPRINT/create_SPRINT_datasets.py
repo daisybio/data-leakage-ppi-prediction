@@ -27,13 +27,13 @@ def clean_dataset(ppis):
     return ppis
 
 
-def balance_ppis(ppis_train, ppis_test, organism):
+def balance_ppis(ppis_train, ppis_test, organism, factor=1):
     print(f'Current status: n={len(ppis_train+ppis_test)},'
           f'n_train={len(ppis_train)} ({len([ppi for ppi in ppis_train if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_train if ppi[2] == "0"])} neg), '
           f'n_test={len(ppis_test)} ({len([ppi for ppi in ppis_test if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_test if ppi[2] == "0"])} neg)'
           )
-    ppis_train = balance_ppis_list(ppis_train, organism)
-    ppis_test = balance_ppis_list(ppis_test, organism)
+    ppis_train = balance_ppis_list(ppis_train, organism, factor=factor)
+    ppis_test = balance_ppis_list(ppis_test, organism, factor=factor)
     print(f'New status: n={len(ppis_train+ppis_test)},'
           f'n_train={len(ppis_train)} ({len([ppi for ppi in ppis_train if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_train if ppi[2] == "0"])} neg), '
           f'n_test={len(ppis_test)} ({len([ppi for ppi in ppis_test if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_test if ppi[2] == "0"])} neg)'
@@ -41,19 +41,19 @@ def balance_ppis(ppis_train, ppis_test, organism):
     return ppis_train, ppis_test
 
 
-def balance_ppis_list(ppis, organism):
+def balance_ppis_list(ppis, organism, factor=1):
     from algorithms.Custom.load_datasets import node2vec_embeddings_to_dict
     pos_ppis = [x for x in ppis if x[2] == '1']
     pos_len = len(pos_ppis)
     neg_ppis = [x for x in ppis if x[2] == '0']
     neg_len = len(neg_ppis)
-    if neg_len > pos_len:
+    if neg_len > (pos_len * factor):
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
-        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - len(pos_ppis)))
+        to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - (factor * len(pos_ppis))))
         neg_ppis = [x for i, x in enumerate(neg_ppis) if not i in to_delete]
         ppis = pos_ppis
         ppis.extend(neg_ppis)
-    elif len(pos_ppis) > len(neg_ppis):
+    elif (len(pos_ppis) * factor) > len(neg_ppis):
         print(f'sampling more negatives ({pos_len} positives, {neg_len} negatives)...')
         id_dict_PCA_MDS = load_id_dict(organism, n2v=False)
         id_dict_n2v = load_id_dict(organism, n2v=True)
@@ -64,8 +64,10 @@ def balance_ppis_list(ppis, organism):
         candidates_n2v = {key for key, value in id_dict_n2v.items() if value in n2v_emb.keys()}
         candidates_PCA_MDS = {key for key, value in id_dict_PCA_MDS.items()}
         candidates = candidates_n2v.intersection(candidates_PCA_MDS)
-
-        while pos_len > neg_len:
+        to_generate = (factor * pos_len) - neg_len
+        while (factor * pos_len) > neg_len:
+            if to_generate % 100 == 0:
+                print(f'Still {to_generate} proteins left to generate!')
             prot1 = random.choice(tuple(candidates))
             prot1_list = [pair[0] for pair in ppis if pair[1] == prot1] + [pair[1] for pair in ppis if
                                                                            pair[0] == prot1]
@@ -84,6 +86,7 @@ def balance_ppis_list(ppis, organism):
                                                                                pair[0] == prot2]
             ppis.append([prot1, prot2, '0'])
             neg_len += 1
+            to_generate -= 1
     return ppis
 
 
@@ -316,6 +319,38 @@ def iterate_pan(prefix_dict, seq_dict, path_to_pan):
     return mapping_dict
 
 
+def iterate_fasta(prefix_dict, seq_dict, path_to_fasta):
+    lines = open(path_to_fasta, 'r').readlines()
+    encountered_ids = []
+    n = 30
+    unmapped = 0
+    mapping_dict = dict()
+    num_ids = 0
+    for i in range(0, len(lines), 2):
+        num_ids += 1
+        old_id = lines[i].strip().split('>')[1]
+        if old_id not in encountered_ids:
+            encountered_ids.append(old_id)
+            seq = lines[i+1].strip()
+            first_n = seq[0:n]
+            if first_n not in prefix_dict.keys():
+                uniprot_id = ''
+            elif isinstance(prefix_dict[first_n], list):
+                uniprot_ids = prefix_dict[first_n]
+                uniprot_id = ''
+                for id in uniprot_ids:
+                    # just take the first mapped ID
+                    if seq_dict[id] == seq:
+                        uniprot_id = id
+                        break
+            else:
+                uniprot_id = prefix_dict[first_n]
+            if uniprot_id == '':
+                unmapped += 1
+            mapping_dict[old_id] = uniprot_id
+    print(f'#unmapped IDs: {unmapped} / {num_ids}')
+    return mapping_dict
+
 
 def read_richoux_file(path):
     ppis = []
@@ -365,11 +400,50 @@ def rewrite_richoux(dataset='regular', rewired=False):
     write_sprint(ppis_test, f'richoux_{dataset}_test', rewired)
 
 
+def process_dscript(path, mapping_dict):
+    num_interactions = 0
+    num_parsed = 0
+    ppis = []
+    with open(path) as f:
+        for line in f:
+            num_interactions += 1
+            line_split = line.strip().split('\t')
+            id0 = line_split[0]
+            id1 = line_split[1]
+            label = line_split[2]
+            if id0 in mapping_dict.keys() and id1 in mapping_dict.keys():
+                uniprot_id0 = mapping_dict[id0]
+                uniprot_id1 = mapping_dict[id1]
+                if uniprot_id0 != '' and uniprot_id1 != '':
+                    ppis.append([uniprot_id0, uniprot_id1, label])
+                    num_parsed += 1
+    print(f'Parsed {num_parsed} PPIs / {num_interactions}')
+    return ppis
+
+
+def rewrite_dscript(rewired=False):
+    print('############################ DSCRIPT DATASET ############################')
+    from algorithms.Custom.load_datasets import make_swissprot_to_dict
+    prefix_dict, seq_dict = make_swissprot_to_dict('../../Datasets_PPIs/SwissProt/human_swissprot.fasta')
+    print('Mapping Protein IDs ...')
+    mapping_dict = iterate_fasta(prefix_dict, seq_dict, '../D-SCRIPT-main/dscript-data/seqs/human.fasta')
+    ppis_train = process_dscript('../D-SCRIPT-main/dscript-data/pairs/human_train.tsv', mapping_dict)
+    ppis_test = process_dscript('../D-SCRIPT-main/dscript-data/pairs/human_test.tsv', mapping_dict)
+    ppis_train = clean_dataset(ppis_train)
+    ppis_test = clean_dataset(ppis_test)
+    if rewired:
+        ppis_train = generate_RDPN(ppis_train)
+    ppis_train, ppis_test = balance_ppis(ppis_train, ppis_test, organism='human', factor=10)
+    write_sprint(ppis_train, 'dscript_train', rewired)
+    write_sprint(ppis_test, 'dscript_test', rewired)
+
+
 if __name__ == '__main__':
    sys.path.append('../../')
-   rewrite_guo(rewired=False)
-   rewrite_huang(rewired=False)
-   rewrite_du(rewired=False)
-   rewrite_pan(rewired=False)
-   rewrite_richoux(dataset='regular', rewired=False)
-   rewrite_richoux(dataset='strict', rewired=False)
+   #rewrite_guo(rewired=False)
+   #rewrite_huang(rewired=False)
+   #rewrite_du(rewired=False)
+   #rewrite_pan(rewired=False)
+   #rewrite_richoux(dataset='regular', rewired=False)
+   #rewrite_richoux(dataset='strict', rewired=False)
+   rewrite_dscript(rewired=True)

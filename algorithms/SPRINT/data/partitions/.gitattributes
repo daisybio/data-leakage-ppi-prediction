@@ -1,0 +1,6 @@
+dscript_partition_0_pos.txt filter=lfs diff=lfs merge=lfs -text
+dscript_partition_0_neg.txt filter=lfs diff=lfs merge=lfs -text
+dscript_partition_1_pos.txt filter=lfs diff=lfs merge=lfs -text
+dscript_partition_1_neg.txt filter=lfs diff=lfs merge=lfs -text
+dscript_partition_both_pos.txt filter=lfs diff=lfs merge=lfs -text
+dscript_partition_both_neg.txt filter=lfs diff=lfs merge=lfs -text

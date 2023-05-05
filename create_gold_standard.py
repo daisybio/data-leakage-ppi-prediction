@@ -104,22 +104,24 @@ def export_block(block, filename):
             output.write(f'{ppi[0]} {ppi[1]}\n')
 
 
-def sample_negatives(block_pos, block_neg, all_ppis):
+def sample_negatives(block_pos, block_neg, all_ppis, factor=1):
     if block_neg is None:
         block_neg = set()
     size = len(block_neg)
     # should lead to power law distribution
     candidates = [ppi[0] for ppi in block_pos]
     candidates.extend([ppi[1] for ppi in block_pos])
-    while size < len(block_pos):
+    to_generate = (factor * len(block_pos)) - size
+    while size < (factor * len(block_pos)):
         prot1 = random.choice(tuple(candidates))
         prot2 = random.choice(tuple(candidates))
         while prot1 == prot2 or (prot1, prot2) in all_ppis or (prot2, prot1) in all_ppis or (prot2, prot1) in block_neg:
             prot2 = random.choice(tuple(candidates))
         block_neg.add((prot1, prot2))
-        if size % 1000 == 0:
-            print(size)
+        if to_generate % 1000 == 0:
+            print(f'Still {to_generate} proteins left to generate!')
         size = len(block_neg)
+        to_generate = (factor * len(block_pos)) - size
     return block_neg
 
 
