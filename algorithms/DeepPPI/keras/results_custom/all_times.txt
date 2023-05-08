@@ -87,3 +87,5 @@ FC_partition_richoux_trboth_te1	275.7244379520416
 LSTM_partition_richoux_trboth_te1	13647.866467237473
 FC_partition_richoux_tr0_te1	1897.966323375702
 LSTM_partition_richoux_tr0_te1	18963.960603952408
+FC_original_dscript	640.1123759746552
+LSTM_original_dscript	16066.181284666061
