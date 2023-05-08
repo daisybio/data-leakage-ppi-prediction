@@ -2,9 +2,9 @@
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=30
-#SBATCH --job-name=gold_all
-#SBATCH --output=gold_all.out
-#SBATCH --error=gold_all.err
+#SBATCH --job-name=pipr_dscript
+#SBATCH --output=pipr_dscript.out
+#SBATCH --error=pipr_dscript.err
 #SBATCH --mem=350G
 
 # activate pipr env

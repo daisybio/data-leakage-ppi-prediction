@@ -10,4 +10,3 @@ cat data/gold/Intra0_unbalanced.txt data/gold/Intra1_unbalanced.txt > data/gold/
 { time dscript evaluate --test data/gold/Intra2_unbalanced.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --model ./models/dscript_gold_unbalanced_final.sav  -o ./results_dscript/original/gold_unbalanced.txt -d 2; } 2> results_dscript/original/gold_unbalanced_time_test.txt
 
 
-

@@ -2,9 +2,9 @@
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=30
-#SBATCH --job-name=gold_all
-#SBATCH --output=gold_all.out
-#SBATCH --error=gold_all.err
+#SBATCH --job-name=dscript_all
+#SBATCH --output=dscript_all.out
+#SBATCH --error=dscript_all.err
 #SBATCH --mem=350G
 
 # activate deep_PPIs env
@@ -21,10 +21,10 @@ cd ..
 #Richoux-FC
 cd DeepPPI/keras
 echo Richoux_FC
-python train_all_datasets.py -name FC_gold_standard -train_pos ../../SPRINT/data/original/dscript_train_pos.txt -train_neg ../../SPRINT/data/original/dscript_train_neg.txt -test_pos ../../SPRINT/data/original/dscript_test_pos.txt -test_neg ../../SPRINT/data/original/dscript_test_neg.txt -model fc2_20_2dense -epochs 25 -batch 2048
+python train_all_datasets.py -name FC_original_dscript -train_pos ../../SPRINT/data/original/dscript_train_pos.txt -train_neg ../../SPRINT/data/original/dscript_train_neg.txt -test_pos ../../SPRINT/data/original/dscript_test_pos.txt -test_neg ../../SPRINT/data/original/dscript_test_neg.txt -model fc2_20_2dense -epochs 25 -batch 2048
 #Richoux-LSTM
 echo Richoux_LSTM
-python train_all_datasets.py -name LSTM_gold_standard -train_pos ../../SPRINT/data/original/dscript_train_pos.txt -train_neg ../../SPRINT/data/original/dscript_train_neg.txt -test_pos ../../SPRINT/data/original/dscript_test_pos.txt -test_neg ../../SPRINT/data/original/dscript_test_neg.txt -model lstm32_3conv3_2dense_shared -epochs 100 -batch 2048
+python train_all_datasets.py -name LSTM_original_dscript -train_pos ../../SPRINT/data/original/dscript_train_pos.txt -train_neg ../../SPRINT/data/original/dscript_train_neg.txt -test_pos ../../SPRINT/data/original/dscript_test_pos.txt -test_neg ../../SPRINT/data/original/dscript_test_neg.txt -model lstm32_3conv3_2dense_shared -epochs 100 -batch 2048
 cd ../..
 #SPRINT
 cd SPRINT
