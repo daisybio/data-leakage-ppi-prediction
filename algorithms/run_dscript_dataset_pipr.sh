@@ -9,4 +9,4 @@
 
 # activate pipr env
 cd seq_ppi/binary/model/lasagna
-python train_all_datasets.py original
+python train_all_datasets.py partition

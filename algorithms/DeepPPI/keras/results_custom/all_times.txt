@@ -89,3 +89,7 @@ FC_partition_richoux_tr0_te1	1897.966323375702
 LSTM_partition_richoux_tr0_te1	18963.960603952408
 FC_original_dscript	640.1123759746552
 LSTM_original_dscript	16066.181284666061
+FC_rewired_dscript	641.3549399375916
+LSTM_rewired_dscript	16197.641827106476
+FC_partition_dscript	300.97111225128174
+LSTM_partition_dscript	6454.447458028793
