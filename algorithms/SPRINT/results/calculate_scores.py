@@ -14,7 +14,7 @@ rewired = False
 if partition:
     result_file = open("partitions/all_results.tsv", "w")
     result_file.write("Dataset\tTrain\tTest\tAUC\tAUPR\n")
-    for dataset in ["du","guo","huang", "richoux", "pan"]:
+    for dataset in ["du","guo","huang", "richoux", "pan", "dscript"]:
         print(f"########## Dataset: {dataset} ##########")
         for train in ["both", "0"]:
             for test in ["0", "1"]:
@@ -34,10 +34,10 @@ if partition:
 else:
     if rewired:
         folder = 'rewired'
-        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict"]
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "dscript"]
     else:
         folder = 'original'
-        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold_standard"]
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold_standard", "dscript"]
     result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Dataset\tAUC\tAUPR\n")
     for dataset in datasets:

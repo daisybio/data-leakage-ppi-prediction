@@ -44,7 +44,7 @@ algorithm = 'topsyturvy'
 if partition:
     result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
-    for dataset in ["du","guo","huang", "richoux", "pan"]:
+    for dataset in ["du","guo","huang", "richoux", "pan", "dscript"]:
         print(f"########## Dataset: {dataset} ##########")
         for train in ["both", "0"]:
             for test in ["0", "1"]:
@@ -69,15 +69,19 @@ if partition:
                 result_file.write(f'{algorithm}\t{dataset}\tF1\t{f1_score}\t{split}\n')
                 result_file.write(f'{algorithm}\t{dataset}\tAUC\t{auc}\t{split}\n')
                 result_file.write(f'{algorithm}\t{dataset}\tAUPR\t{pr}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\tTP\t{tp}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\tFP\t{fp}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\tTN\t{tn}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\tFN\t{fn}\t{split}\n')
     result_file.close()
 else:
     if rewired:
         folder = f'results_{algorithm}/rewired'
-        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict"]
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "dscript"]
         split = 'Rewired'
     else:
         folder = f'results_{algorithm}/original'
-        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold"]
+        datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold", "dscript"]
         split = 'Original'
     result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
@@ -97,4 +101,8 @@ else:
         result_file.write(f'{algorithm}\t{dataset}\tSpecificity\t{specificity}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tMCC\t{MCC}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tF1\t{f1_score}\t{split}\n')
+        result_file.write(f'{algorithm}\t{dataset}\tTP\t{tp}\t{split}\n')
+        result_file.write(f'{algorithm}\t{dataset}\tFP\t{fp}\t{split}\n')
+        result_file.write(f'{algorithm}\t{dataset}\tTN\t{tn}\t{split}\n')
+        result_file.write(f'{algorithm}\t{dataset}\tFN\t{fn}\t{split}\n')
     result_file.close()

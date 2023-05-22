@@ -23,7 +23,7 @@ all_results <- all_results[, Model := factor(Model,
                                                       'RF_PCA','SVM_PCA', 'RF_MDS', 'SVM_MDS',
                                                       'RF_node2vec',  'SVM_node2vec', 'degree_hf', 'degree_cons'))]
 all_results <- all_results[, Dataset := factor(Dataset, 
-                                               levels = c('gold_standard', 'huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict'))]
+                                               levels = c('gold_standard', 'huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'dscript'))]
 
 all_results <- rbind(all_results, partition_results)
 all_results[, Test := factor(Test, levels=c('Original', 'Rewired', 'both->0', 'both->1', '0->1'))]
@@ -64,17 +64,27 @@ result_mat <- result_mat[, rownames(annotation_col)]
 # training data sizes
 get_sizes <- function(directory) {
   sprint_data_dir <- paste0('../algorithms/SPRINT/data/', directory, '/')
-  training_files <- list.files(path=sprint_data_dir, pattern = 'train_pos')
-  train_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
+  training_files_pos <- list.files(path=sprint_data_dir, pattern = 'train_pos')
+  training_files_neg <- list.files(path=sprint_data_dir, pattern = 'train_neg')
+  train_sizes_pos <- sapply(paste0(sprint_data_dir, training_files_pos), function(x){
     as.integer(system2("wc",
                        args = c("-l",
                                 x,
                                 " | awk '{print $1}'"),
-                       stdout = TRUE)) * 2
+                       stdout = TRUE))
   }
   )
-  training_files[grepl('richoux', training_files, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed=TRUE)])
-  names(train_sizes) <- tstrsplit(training_files, '_', keep=1)[[1]]
+  train_sizes_neg <- sapply(paste0(sprint_data_dir, training_files_neg), function(x){
+    as.integer(system2("wc",
+                       args = c("-l",
+                                x,
+                                " | awk '{print $1}'"),
+                       stdout = TRUE))
+  }
+  )
+  train_sizes <- train_sizes_pos + train_sizes_neg
+  training_files_pos[grepl('richoux', training_files_pos, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files_pos[grepl('richoux', training_files_pos, fixed=TRUE)])
+  names(train_sizes) <- tstrsplit(training_files_pos, '_', keep=1)[[1]]
   train_sizes <- prettyNum(train_sizes, big.mark = ',')
   return(train_sizes)
 }
@@ -147,7 +157,7 @@ pheatmap(t(result_mat),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
          gaps_col = 7,
-         gaps_row = c(7,13,18,23),
+         gaps_row = c(8,14,19,24),
          display_numbers = TRUE,
          legend = FALSE,
          #filename = paste0('plots/heatmap_results_', measure, '.pdf'),
@@ -162,6 +172,7 @@ pheatmap(t(result_mat),
            paste0('PAN (', original_sizes['pan'], '/', original_dscript_sizes['pan'], ')'),
            paste0('RICHOUX-REGULAR (', original_sizes['richoux-regular'], '/', original_dscript_sizes['richoux-regular'], ')'),
            paste0('RICHOUX-STRICT (', original_sizes['richoux-strict'], '/', original_dscript_sizes['richoux-strict'], ')'),
+           paste0('D-SCRIPT UNBALANCED (', original_sizes['dscript'], '/', original_dscript_sizes['dscript'], ')'),
            #rewired
            paste0('HUANG (', rewired_sizes['huang'], '/', rewired_dscript_sizes['huang'], ')'),
            paste0('GUO (', rewired_sizes['guo'], '/', rewired_dscript_sizes['guo'], ')'),
@@ -188,108 +199,113 @@ pheatmap(t(result_mat),
            paste0('PAN (', partition_sizes['pan 0'], '/', partition_dscript_sizes['pan 0'], ')'),
            paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], '/', partition_dscript_sizes['richoux 0'], ')')
          ),
-         labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
+         labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
                         'Harmonic\nFunction', 'Global and\nLocal Consistency')
 )
 
 
-# pheatmap(t(result_mat[, 2:7]),
-#          #annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE],
-#          annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
-#                               'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
-#          cluster_rows = FALSE,
-#          cluster_cols = FALSE,
-#          gaps_col = 5,
-#          display_numbers = TRUE,
-#          legend = FALSE,
-#          filename = 'plots/heatmap_results_original_quer.pdf',
-#          width=6,
-#          height=5.2,
-#          fontsize = 11,
-#          labels_row = c(
-#            #paste0('Gold (', original_sizes['gold'], ')'),
-#            paste0('HUANG\n(', original_sizes['huang'], ')'),
-#                         paste0('GUO\n(', original_sizes['guo'], ')'),
-#                         paste0('DU\n(', original_sizes['du'], ')'),
-#                         paste0('PAN\n(', original_sizes['pan'], ')'),
-#                         paste0('RICHOUX-\nREGULAR\n(', original_sizes['richoux-regular'], ')'),
-#                         paste0('RICHOUX-\nSTRICT\n(', original_sizes['richoux-strict'], ')')
-#          ),
-#          labels_col = c('SPRINT',
-#                         'Richoux-\nFC',
-#                         'Richoux-\nLSTM',
-#                         'DeepFE',
-#                         'PIPR',
-#                         'RF-PCA',
-#                         'SVM-PCA',
-#                         'RF-MDS',
-#                         'SVM-MDS',
-#                         'RF-\nnode2vec',
-#                         'SVM-\nnode2vec')
-# )
-# 
-# pheatmap(t(result_mat[, 8:13]),
-#          #annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE],
-#          annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
-#                                               'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
-#          cluster_rows = FALSE,
-#          cluster_cols = FALSE,
-#          legend = FALSE,
-#          gaps_col = 5,
-#          display_numbers = TRUE,
-#          filename = 'plots/heatmap_results_rewired_quer.pdf',
-#          width=6,
-#          height=4,
-#          labels_row = c(paste0('HUANG\n(', rewired_sizes['huang'], ')'),
-#                         paste0('GUO\n(', rewired_sizes['guo'], ')'),
-#                         paste0('DU\n(', rewired_sizes['du'], ')'),
-#                         paste0('PAN\n(', rewired_sizes['pan'], ')'),
-#                         paste0('RICHOUX-REGULAR\n(', rewired_sizes['richoux-regular'], ')'),
-#                         paste0('RICHOUX-STRICT\n(', rewired_sizes['richoux-strict'], ')')
-#          ),
-#          labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
-#                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
-# )
-# 
-# pheatmap(result_mat[, 14:ncol(result_mat)],
-#          #annotation_col = annotation_col[!annotation_col$Test %in% c('Original', 'Rewired'), "Dataset"],
-#          #annotation_colors = list(Dataset = c('HUANG'='#E69F00','GUO'='#56B4E9', 'DU'='#009E73',
-#         #                                      'PAN'='#F0E442','RICHOUX'='#0072B2'),
-#         #                          Test = c('Inter->Intra-1'='#888888', 'Inter->Intra-0'='#44AA99', 'Intra-0->Intra-1'='#661100')),
-#         main = TeX('Train on $\\it{INTER}$, test on $\\it{INTRA}_1$        Train on $\\it{INTER}$, test on $\\it{INTRA}_0$        Train on $\\it{INTRA}_0$, test on $\\it{INTRA}_1$'),
-#          cluster_rows = FALSE,
-#          cluster_cols = FALSE,
-#          legend = FALSE,
-#          gaps_row = 5,
-#          gaps_col = c(5, 10, 15),
-#          display_numbers = TRUE,
-#         fontsize = 10,
-#         fontsize_number = 11,
-#         fontsize_row = 11,
-#         fontsize_col = 11,
-#          filename = 'plots/heatmap_results_partitions.pdf',
-#          width=10,
-#          height=8,
-#          labels_col = c(#partition both ->1
-#            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
-#            paste0('GUO\n(', partition_sizes['guo both'], ')'),
-#            paste0('DU\n(', partition_sizes['du both'], ')'),
-#            paste0('PAN\n(', partition_sizes['pan both'], ')'),
-#            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
-#            #partition both -> 0
-#            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
-#            paste0('GUO\n(', partition_sizes['guo both'], ')'),
-#            paste0('DU\n(', partition_sizes['du both'], ')'),
-#            paste0('PAN\n(', partition_sizes['pan both'], ')'),
-#            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
-#            #partition 0 -> 1
-#            paste0('HUANG\n(', partition_sizes['huang 0'], ')'),
-#            paste0('GUO\n(', partition_sizes['guo 0'], ')'),
-#            paste0('DU\n(', partition_sizes['du 0'], ')'),
-#            paste0('PAN\n(', partition_sizes['pan 0'], ')'),
-#            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux 0'], ')')
-#          ),
-#          labels_row = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
-#                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
-# )
+pheatmap(t(result_mat[, 2:8]),
+         #annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE],
+         annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
+                              'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
+         cluster_rows = FALSE,
+         cluster_cols = FALSE,
+         gaps_col = 7,
+         display_numbers = TRUE,
+         legend = FALSE,
+         #filename = 'plots/heatmap_results_original_quer.pdf',
+         #width=6,
+         #height=5.2,
+         fontsize = 11,
+         labels_row = c(
+           #paste0('Gold (', original_sizes['gold'], ')'),
+           paste0('HUANG\n(', original_sizes['huang'], ')'),
+                        paste0('GUO\n(', original_sizes['guo'], ')'),
+                        paste0('DU\n(', original_sizes['du'], ')'),
+                        paste0('PAN\n(', original_sizes['pan'], ')'),
+                        paste0('RICHOUX-\nREGULAR\n(', original_sizes['richoux-regular'], ')'),
+                        paste0('RICHOUX-\nSTRICT\n(', original_sizes['richoux-strict'], ')'),
+           paste0('D-SCRIPT\nUNBALANCED\n(', original_sizes['dscript'], ')')
+         ),
+         labels_col = c('SPRINT',
+                        'Richoux-\nFC',
+                        'Richoux-\nLSTM',
+                        'DeepFE',
+                        'PIPR',
+                        'D-SCRIPT',
+                        'Topsy Turvy',
+                        'RF-PCA',
+                        'SVM-PCA',
+                        'RF-MDS',
+                        'SVM-MDS',
+                        'RF-\nnode2vec',
+                        'SVM-\nnode2vec',
+                        'Harmonic\nFunction',
+                        'Global and\nLocal Cons.')
+)
+
+pheatmap(t(result_mat[, 8:13]),
+         #annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE],
+         annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
+                                              'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
+         cluster_rows = FALSE,
+         cluster_cols = FALSE,
+         legend = FALSE,
+         gaps_col = 5,
+         display_numbers = TRUE,
+         filename = 'plots/heatmap_results_rewired_quer.pdf',
+         width=6,
+         height=4,
+         labels_row = c(paste0('HUANG\n(', rewired_sizes['huang'], ')'),
+                        paste0('GUO\n(', rewired_sizes['guo'], ')'),
+                        paste0('DU\n(', rewired_sizes['du'], ')'),
+                        paste0('PAN\n(', rewired_sizes['pan'], ')'),
+                        paste0('RICHOUX-REGULAR\n(', rewired_sizes['richoux-regular'], ')'),
+                        paste0('RICHOUX-STRICT\n(', rewired_sizes['richoux-strict'], ')')
+         ),
+         labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
+                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
+)
+
+pheatmap(result_mat[, 15:ncol(result_mat)],
+         #annotation_col = annotation_col[!annotation_col$Test %in% c('Original', 'Rewired'), "Dataset"],
+         #annotation_colors = list(Dataset = c('HUANG'='#E69F00','GUO'='#56B4E9', 'DU'='#009E73',
+        #                                      'PAN'='#F0E442','RICHOUX'='#0072B2'),
+        #                          Test = c('Inter->Intra-1'='#888888', 'Inter->Intra-0'='#44AA99', 'Intra-0->Intra-1'='#661100')),
+        main = TeX('Train on $\\it{INTER}$, test on $\\it{INTRA}_1$        Train on $\\it{INTER}$, test on $\\it{INTRA}_0$        Train on $\\it{INTRA}_0$, test on $\\it{INTRA}_1$'),
+         cluster_rows = FALSE,
+         cluster_cols = FALSE,
+         legend = FALSE,
+         gaps_row = 5,
+         gaps_col = c(5, 10, 15),
+         display_numbers = TRUE,
+        fontsize = 10,
+        fontsize_number = 11,
+        fontsize_row = 11,
+        fontsize_col = 11,
+         filename = 'plots/heatmap_results_partitions.pdf',
+         width=10,
+         height=8,
+         labels_col = c(#partition both ->1
+           paste0('HUANG\n(', partition_sizes['huang both'], ')'),
+           paste0('GUO\n(', partition_sizes['guo both'], ')'),
+           paste0('DU\n(', partition_sizes['du both'], ')'),
+           paste0('PAN\n(', partition_sizes['pan both'], ')'),
+           paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
+           #partition both -> 0
+           paste0('HUANG\n(', partition_sizes['huang both'], ')'),
+           paste0('GUO\n(', partition_sizes['guo both'], ')'),
+           paste0('DU\n(', partition_sizes['du both'], ')'),
+           paste0('PAN\n(', partition_sizes['pan both'], ')'),
+           paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
+           #partition 0 -> 1
+           paste0('HUANG\n(', partition_sizes['huang 0'], ')'),
+           paste0('GUO\n(', partition_sizes['guo 0'], ')'),
+           paste0('DU\n(', partition_sizes['du 0'], ')'),
+           paste0('PAN\n(', partition_sizes['pan 0'], ')'),
+           paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux 0'], ')')
+         ),
+         labels_row = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
+                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
+)

@@ -17,8 +17,8 @@ tt_res <- '../algorithms/D-SCRIPT-main/results_topsyturvy/rewired/'
 all_results <- data.table(1)[, `:=` (c("Model", "Dataset", measure), NA)][, V1 := NULL][.0]
 
 # custom
-custom_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern='^rewired_(du|guo|huang|pan|richoux).*.csv')), fread)
-file_names <- tstrsplit(list.files(custom_res, pattern='^rewired_(du|guo|huang|pan|richoux).*.csv'), '.csv', keep=1)[[1]]
+custom_results <- lapply(paste0(custom_res,  list.files(custom_res, pattern='^rewired_(du|guo|huang|pan|richoux|dscript).*.csv')), fread)
+file_names <- tstrsplit(list.files(custom_res, pattern='^rewired_(du|guo|huang|pan|richoux|dscript).*.csv'), '.csv', keep=1)[[1]]
 file_names[grepl('richoux', file_names, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', file_names[grepl('richoux', file_names, fixed=TRUE)])
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
@@ -28,6 +28,13 @@ custom_results[, Model := paste(model, encoding, sep = '_')]
 if(measure == 'Recall'){
   custom_results <- custom_results[V1 == 'Sensitivity']
 }else{
+  if(measure == 'Accuracy'){
+    wide_df <- dcast(custom_results[dataset=='dscript', ], filename + dataset + encoding + model ~ V1, value.var='V2')
+    wide_df[, Balanced_Accuracy := 0.5 * (Sensitivity + Specificity)]
+    wide_df <- wide_df[order(filename)]
+    custom_results <- custom_results[order(filename)]
+    custom_results[dataset=='dscript' & V1 == 'Accuracy', V2 := wide_df$Balanced_Accuracy]
+  }
   custom_results <- custom_results[V1 == measure]
 }
 colnames(custom_results) <- c('filename', 'Measure', measure, 'Dataset', 'Encoding', 'Method', 'Model')

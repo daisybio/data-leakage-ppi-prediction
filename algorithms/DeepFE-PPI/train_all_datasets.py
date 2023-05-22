@@ -403,16 +403,14 @@ if __name__ == "__main__":
         prefix = 'gold_standard_unbalanced_'
 
     if rewired or original:
-        #datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
-        datasets = ['dscript']
+        datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
     elif partition:
-        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1']
-        #datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
-        #            'huang_both_0', 'huang_both_1', 'huang_0_1',
-        #            'guo_both_0','guo_both_1','guo_0_1',
-        #            'du_both_0', 'du_both_1', 'du_0_1',
-        #            'pan_both_0', 'pan_both_1', 'pan_0_1',
-        #            'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
+                    'huang_both_0', 'huang_both_1', 'huang_0_1',
+                    'guo_both_0','guo_both_1','guo_0_1',
+                    'du_both_0', 'du_both_1', 'du_0_1',
+                    'pan_both_0', 'pan_both_1', 'pan_0_1',
+                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     elif args[0] == 'gold':
         datasets = ['gold_standard']
     else:
