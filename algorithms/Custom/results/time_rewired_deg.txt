@@ -22,3 +22,5 @@ richoux_regular	Harmonic Function	82.74541592597961
 richoux_regular	Local and Global Consistency	17.813212871551514
 richoux_strict	Harmonic Function	89.3030366897583
 richoux_strict	Local and Global Consistency	26.459868907928467
+dscript	Harmonic Function	452.0527741909027
+dscript	Local and Global Consistency	45.597047090530396
