@@ -60,3 +60,7 @@ FC_rewired_dscript	641.3549399375916
 LSTM_rewired_dscript	16197.641827106476
 FC_partition_dscript_tr0_te1	300.97111225128174
 LSTM_partition_dscript_tr0_te1	6454.447458028793
+FC_partition_dscript_trboth_te0	429.3453404903412
+FC_partition_dscript_trboth_te1	345.49870204925537
+LSTM_partition_dscript_trboth_te0	7960.314226150513
+LSTM_partition_dscript_trboth_te1	7873.892271757126
