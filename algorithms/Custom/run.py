@@ -94,17 +94,18 @@ def run_simpler_algorithms(rewire=False):
 
 
 def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=False):
-    dataset_list = ['dscript']
-    #dataset_list = ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+    dataset_list = ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     if rewire:
         prefix = 'rewired_'
     elif partition:
         prefix = 'partition_'
-        dataset_list = ['guo_both_0','guo_both_1','guo_0_1',
-                'huang_both_0', 'huang_both_1', 'huang_0_1',
-                'du_both_0', 'du_both_1', 'du_0_1',
-                'pan_both_0', 'pan_both_1', 'pan_0_1',
-                'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+        dataset_list = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1']
+        #dataset_list = ['guo_both_0','guo_both_1','guo_0_1',
+        #        'huang_both_0', 'huang_both_1', 'huang_0_1',
+        #        'du_both_0', 'du_both_1', 'du_0_1',
+        #        'pan_both_0', 'pan_both_1', 'pan_0_1',
+        #        'richoux_both_0', 'richoux_both_1', 'richoux_0_1',
+        #        'dscript_both_0', 'dscript_both_1', 'dscript_0_1']
     elif gold:
         prefix = 'gold_standard_'
         dataset_list = ['gold_standard']
@@ -173,7 +174,7 @@ if __name__ == "__main__":
         run_degree_algorithm(rewire=True, partition=False)
     elif args[0] == 'partition':
         print('########################### PARTITION ###########################')
-        run_partitioning_tests()
+        #run_partitioning_tests()
         run_degree_algorithm(rewire=False, partition=True)
     elif args[0] == 'gold_standard':
         print('########################### GOLD STANDARD ###########################')
