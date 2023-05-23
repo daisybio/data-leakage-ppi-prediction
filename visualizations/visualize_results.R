@@ -58,7 +58,11 @@ annotation_col$Test <- gsub('0', 'Intra-0' ,annotation_col$Test)
 annotation_col$Test <- gsub('1', 'Intra-1' ,annotation_col$Test)
 annotation_col$Test <- factor(annotation_col$Test, 
                               levels = c('Original', 'Rewired', 'Inter->Intra-1', 'Inter->Intra-0', 'Intra-0->Intra-1'))
-annotation_col <- annotation_col[order(annotation_col$Test), , drop = FALSE]
+annotation_col$Dataset <- tstrsplit(colnames(result_mat), '_', keep = 1)[[1]]
+annotation_col$Dataset <- factor(annotation_col$Dataset, 
+                                 levels = c('Gold', 'huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'richoux', 'dscript'))
+annotation_col <- annotation_col[order(annotation_col$Test, annotation_col$Dataset), , drop = FALSE]
+annotation_col$Dataset <- NULL
 result_mat <- result_mat[, rownames(annotation_col)]
 
 # training data sizes
@@ -147,7 +151,7 @@ partition_dscript_sizes <- sapply(paste0(dscript_data_dir, training_files), func
 filenames <- tstrsplit(tstrsplit(training_files, '.txt', keep=1)[[1]], '_', keep=c(1,3))
 names(partition_dscript_sizes) <- paste(filenames[[1]], filenames[[2]])
 partition_dscript_sizes <- prettyNum(partition_dscript_sizes, big.mark = ',')
-
+breaksList <- c(0.2, seq(0.5, 1.0, 0.055))
 
 pheatmap(t(result_mat),
          annotation_row = annotation_col,
@@ -157,13 +161,15 @@ pheatmap(t(result_mat),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
          gaps_col = 7,
-         gaps_row = c(8,14,19,24),
+         gaps_row = c(8,15,20,25),
          display_numbers = TRUE,
          legend = FALSE,
          #filename = paste0('plots/heatmap_results_', measure, '.pdf'),
          #width=8,
          #height=10,
          cex = 1,
+         color = colorRampPalette(rev(brewer.pal(n = 11, name = "RdYlBu")))(length(breaksList)), 
+         breaks = breaksList,
          labels_row = c(
            paste0('GOLD STANDARD (', original_sizes['gold'], '/', original_dscript_sizes['gold'], ')'),
            paste0('HUANG (', original_sizes['huang'], '/', original_dscript_sizes['huang'], ')'),
@@ -180,30 +186,33 @@ pheatmap(t(result_mat),
            paste0('PAN (', rewired_sizes['pan'], '/', rewired_dscript_sizes['pan'], ')'),
            paste0('RICHOUX-REGULAR (', rewired_sizes['richoux-regular'], '/', rewired_dscript_sizes['richoux-regular'], ')'),
            paste0('RICHOUX-STRICT (', rewired_sizes['richoux-strict'], '/', rewired_dscript_sizes['richoux-strict'], ')'),
+           paste0('D-SCRIPT UNBALANCED (', rewired_sizes['dscript'], '/', rewired_dscript_sizes['dscript'], ')'),
            #partition both ->1
            paste0('HUANG (', partition_sizes['huang both'], '/', partition_dscript_sizes['huang both'], ')'),
            paste0('GUO (', partition_sizes['guo both'], '/', partition_dscript_sizes['guo both'], ')'),
            paste0('DU (', partition_sizes['du both'], '/', partition_dscript_sizes['du both'], ')'),
            paste0('PAN (', partition_sizes['pan both'], '/', partition_dscript_sizes['pan both'], ')'),
            paste0('RICHOUX-UNIPROT (', partition_sizes['richoux both'], '/', partition_dscript_sizes['richoux both'], ')'),
+           paste0('D-SCRIPT UNBALANCED (', partition_sizes['dscript both'], '/', partition_dscript_sizes['dscript both'], ')'),
            #partition both -> 0
            paste0('HUANG (', partition_sizes['huang both'], '/', partition_dscript_sizes['huang both'], ')'),
            paste0('GUO (', partition_sizes['guo both'], '/', partition_dscript_sizes['guo both'], ')'),
            paste0('DU (', partition_sizes['du both'], '/', partition_dscript_sizes['du both'], ')'),
            paste0('PAN (', partition_sizes['pan both'], '/', partition_dscript_sizes['pan both'], ')'),
            paste0('RICHOUX-UNIPROT (', partition_sizes['richoux both'], '/', partition_dscript_sizes['richoux both'], ')'),
+           paste0('D-SCRIPT UNBALANCED (', partition_sizes['dscript both'], '/', partition_dscript_sizes['dscript both'], ')'),
            #partition 0 -> 1
            paste0('HUANG (', partition_sizes['huang 0'], '/', partition_dscript_sizes['huang 0'], ')'),
            paste0('GUO (', partition_sizes['guo 0'], '/', partition_dscript_sizes['guo 0'], ')'),
            paste0('DU (', partition_sizes['du 0'], '/', partition_dscript_sizes['du 0'], ')'),
            paste0('PAN (', partition_sizes['pan 0'], '/', partition_dscript_sizes['pan 0'], ')'),
-           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], '/', partition_dscript_sizes['richoux 0'], ')')
+           paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], '/', partition_dscript_sizes['richoux 0'], ')'),
+           paste0('D-SCRIPT UNBALANCED (', partition_sizes['dscript 0'], '/', partition_dscript_sizes['dscript 0'], ')')
          ),
          labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
                         'Harmonic\nFunction', 'Global and\nLocal Consistency')
 )
-
 
 pheatmap(t(result_mat[, 2:8]),
          #annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE],

@@ -11,6 +11,8 @@
 # Custom
 cd Custom
 echo Custom
+python run.py original
+python run.py rewired
 python run.py partition
 cd ..
 # DeepFE-PPI

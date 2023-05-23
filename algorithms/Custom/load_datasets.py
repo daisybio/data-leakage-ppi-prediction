@@ -108,6 +108,8 @@ def construct_line_graph(dataset, prefix):
     if prefix == 'partition_':
         ds_split = dataset.split('_')
         name = ds_split[0]
+        if name == 'dscript':
+            factor = 10
         train_partition = ds_split[1]
         test_partition = ds_split[2]
         ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/partitions/{name}_partition_{train_partition}_pos.txt', '1', 'training')
@@ -133,6 +135,8 @@ def construct_line_graph(dataset, prefix):
         factor = 10
     else:
         prefix = prefix.split('_')[0]
+        if dataset == 'dscript':
+            factor = 10
         ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
         ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
         ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test')
