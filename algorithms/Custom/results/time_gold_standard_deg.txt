@@ -1,0 +1,1 @@
+gold_standard	Local and Global Consistency	1075.3770422935486

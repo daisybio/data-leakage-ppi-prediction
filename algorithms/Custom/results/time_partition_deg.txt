@@ -124,3 +124,6 @@ dscript_both_1	Harmonic Function	93.53065824508667
 dscript_both_1	Local and Global Consistency	26.198665618896484
 dscript_0_1	Harmonic Function	64.85712623596191
 dscript_0_1	Local and Global Consistency	17.105632305145264
+dscript_both_0	Local and Global Consistency	745.4015412330627
+dscript_both_1	Local and Global Consistency	471.26040172576904
+dscript_0_1	Local and Global Consistency	336.24647092819214

@@ -2,18 +2,19 @@
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=30
-#SBATCH --job-name=dscript_all
-#SBATCH --output=dscript_all.out
-#SBATCH --error=dscript_all.err
+#SBATCH --job-name=dscript_gold
+#SBATCH --output=dscript_all_gold.out
+#SBATCH --error=dscript_all_gold.err
 #SBATCH --mem=350G
 
 # activate deep_PPIs env
 # Custom
 cd Custom
 echo Custom
-python run.py original
-python run.py rewired
-python run.py partition
+#python run.py original
+#python run.py rewired
+#python run.py partition
+python run.py gold_standard
 cd ..
 # DeepFE-PPI
 #cd DeepFE-PPI
