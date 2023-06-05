@@ -108,11 +108,8 @@ SVM_PCA,richoux,0.0157373639971664,0->1
 SVM_PCA,richoux,0.249843630392527,both->0
 SVM_PCA,richoux,0.376374359866452,both->1
 degree_cons,dscript,0,0->1
-degree_hf,dscript,0,0->1
-degree_cons,dscript,0.57218595109502,both->0
-degree_hf,dscript,0.59891249192086,both->0
-degree_cons,dscript,0.629156524096122,both->1
-degree_hf,dscript,0.659372394013451,both->1
+degree_cons,dscript,0,both->0
+degree_cons,dscript,0,both->1
 degree_cons,du,0,0->1
 degree_hf,du,0,0->1
 degree_cons,du,0.714832160957111,both->0

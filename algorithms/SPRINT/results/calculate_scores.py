@@ -9,7 +9,7 @@ def calculate_auc_aupr(y_pred, y_true):
     return auc, aupr
 
 
-partition=True
+partition = False
 rewired = False
 if partition:
     result_file = open("partitions/all_results.tsv", "w")

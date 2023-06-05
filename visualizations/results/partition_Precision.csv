@@ -107,12 +107,9 @@ RF_PCA,richoux,0.894653673953121,both->1
 SVM_PCA,richoux,0.554502369668246,0->1
 SVM_PCA,richoux,0.600766315438757,both->0
 SVM_PCA,richoux,0.753264417845484,both->1
-degree_cons,dscript,0.5,0->1
-degree_hf,dscript,0.5,0->1
-degree_cons,dscript,0.731226743122064,both->0
-degree_hf,dscript,0.762308444734268,both->0
-degree_cons,dscript,0.783378016085791,both->1
-degree_hf,dscript,0.801565727954768,both->1
+degree_cons,dscript,,0->1
+degree_cons,dscript,,both->0
+degree_cons,dscript,,both->1
 degree_cons,du,0.499896672866295,0->1
 degree_hf,du,0.499896672866295,0->1
 degree_cons,du,0.930548480217354,both->0

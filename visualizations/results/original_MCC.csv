@@ -1,6 +1,5 @@
 Model,Dataset,MCC
-degree_cons,dscript,0.656617132837961
-degree_hf,dscript,0.714142930190199
+degree_cons,dscript,0
 RF_MDS,dscript,0.691169742629737
 SVM_MDS,dscript,0.644687506364742
 RF_node2vec,dscript,0.691114085622407

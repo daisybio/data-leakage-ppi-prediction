@@ -8,6 +8,8 @@ deepFE_res <- '../algorithms/DeepFE-PPI/result/custom/'
 deepPPI_res <- '../algorithms/DeepPPI/keras/results_custom/'
 seqppi_res <- '../algorithms/seq_ppi/binary/model/lasagna/results/'
 sprint_res <- '../algorithms/SPRINT/results/'
+dscript_res <- '../algorithms/D-SCRIPT-main/results_dscript/'
+tt_res <- '../algorithms/D-SCRIPT-main/results_topsyturvy/'
 
 #### time files
 all_times <- data.table(Test = character(), Model=character(), Dataset=character(), `Time [s]`=numeric())
@@ -18,8 +20,8 @@ file_names[grepl('richoux_regular', file_names, fixed=TRUE)] <- gsub('richoux_re
 file_names[grepl('richoux_strict', file_names, fixed=TRUE)] <- gsub('richoux_strict', 'Richoux-Strict', file_names[grepl('richoux_strict', file_names, fixed=TRUE)])
 file_names <- tstrsplit(file_names, '_', keep=c(2, 3, 4))
 names(custom_times) <- paste(file_names[[1]], file_names[[2]], file_names[[3]], sep='_')
-custom_times_df <- rbindlist(custom_times[!grepl('partition', names(custom_times), fixed=TRUE)], idcol = 'filename')
-partition_times_df <- rbindlist(custom_times[grepl('partition', names(custom_times), fixed=TRUE)], idcol = 'filename')
+custom_times_df <- rbindlist(custom_times[!grepl('partition|deg', names(custom_times))], idcol = 'filename')
+partition_times_df <- rbindlist(custom_times[grepl('partition_(dscript|du|guo|huang|pan|richoux)', names(custom_times))], idcol = 'filename')
 custom_times_df <- custom_times_df[, c('test', 'dataset', 'encoding') := tstrsplit(filename, '_')]
 partition_times_df <- partition_times_df[, c('test', 'dataset', 'encoding') := tstrsplit(filename, '_')]
 names(custom_times_df) <- c('Filename', 'Algorithm', 'Time [s]', 'Test', 'Dataset', 'Encoding')
@@ -29,6 +31,17 @@ custom_times_df$Part_Test <- NA
 custom_times_df[, Model := paste(Algorithm, Encoding, sep='_')]
 partition_times_df[, Model := paste(Algorithm, Encoding, Part_Train, Part_Test, sep='_')]
 all_times_custom <- rbind(custom_times_df, partition_times_df)
+
+deg_times_df <- rbindlist(custom_times[grepl('deg', names(custom_times))], idcol = 'filename')
+colnames(deg_times_df) <- c('Filename', 'Dataset', 'Algorithm', 'Time [s]')
+deg_times_df[, Test := tstrsplit(Filename, '_', keep=1)]
+deg_times_df$Encoding <- NA
+deg_times_df[Dataset == 'gold_standard', Dataset := 'gold']
+deg_times_df[Dataset == 'richoux_regular', Dataset := 'Richoux-Regular']
+deg_times_df[Dataset == 'richoux_strict', Dataset := 'Richoux-Strict']
+deg_times_df[, c('Dataset','Part_Train', 'Part_Test') := tstrsplit(Dataset, '_')]
+deg_times_df[, Model := Algorithm]
+all_times_custom <- rbind(all_times_custom, deg_times_df)
 fwrite(all_times_custom, '../algorithms/Custom/results/run_t.csv')
 
 all_times <- rbind(all_times, all_times_custom[, c('Test', 'Model', 'Dataset','Time [s]')])
@@ -77,30 +90,107 @@ all_times <- rbind(all_times, seq_ppi_times[, c('Test' ,'Model', 'Dataset', 'Tim
 
 # SPRINT
 sprint_times <- lapply(paste0(sprint_res, list.files(sprint_res, pattern = '*time*', recursive = TRUE)), function(x){
-  tmp <- fread(x, header=FALSE)
-  return(tmp[1,2])
+  tmp <- fread(x, header=FALSE, sep='\t')
+  # Input string
+  time_string <- tmp[1,2]
+  time_string <- gsub('s', '', time_string)
+  time_string <- gsub(',', '.', time_string)
+  # Split minutes and seconds
+  time_parts <- tstrsplit(time_string, 'm')
+  # Convert minutes and seconds to numeric
+  minutes <- as.numeric(time_parts[1])
+  seconds <- as.numeric(time_parts[2])
+  # Calculate total seconds
+  total_seconds <- (minutes * 60) + seconds
+  return(data.table('Time [s]' = total_seconds))
 })
+filenames <- list.files(sprint_res, pattern = '*time*', recursive = TRUE)
+test <- tstrsplit(filenames, '/', keep=1)[[1]]
+filenames[grepl('richoux_regular', filenames, fixed=TRUE)] <- gsub('richoux_regular', 'Richoux-Regular', filenames[grepl('richoux_regular', filenames, fixed=TRUE)])
+filenames[grepl('richoux_strict', filenames, fixed=TRUE)] <- gsub('richoux_strict', 'Richoux-Strict', filenames[grepl('richoux_strict', filenames, fixed=TRUE)])
+dataset <- tstrsplit(tstrsplit(filenames, '_time', keep=1)[[1]], '/', keep=2)[[1]]
+names(sprint_times) <- paste(test, dataset, sep='.')
+sprint_df <- rbindlist(sprint_times, idcol='filename')
+sprint_df[, c("Test", "Rest") := tstrsplit(filename, '\\.')]
+sprint_df <- sprint_df[, Rest := gsub('(train_|test_)', '', Rest)]
+sprint_df <- sprint_df[, Rest := gsub('gold_standard', 'gold', Rest)]
+sprint_df[, c("Dataset", "Part_Train", "Part_Test") := tstrsplit(Rest, '_')]
+sprint_df[, Model := 'SPRINT']
 
-sprint_times <- fread('../algorithms/SPRINT/results/run_t.csv')
-all_times <- rbind(all_times, sprint_times[,  c('Test', 'Model', 'Dataset', 'Time [s]')])
+fwrite(sprint_df, '../algorithms/SPRINT/results/run_t.csv')
+all_times <- rbind(all_times, sprint_df[,  c('Test', 'Model', 'Dataset', 'Time [s]')])
+
+#D-SCRIPT
+extract_dscript_time <- function(directory) {
+  time_files <- paste0(directory, list.files(directory, pattern = '*time\\.txt', recursive = TRUE))
+  time_files <- grep('train_', time_files, invert = TRUE, value = TRUE)
+  times <- lapply(time_files, function(x){
+    tmp <- fread(x, header=FALSE, sep='\t')
+    # Input string
+    time_string <- tmp[1,2]
+    time_string <- gsub('s', '', time_string)
+    time_string <- gsub(',', '.', time_string)
+    # Split minutes and seconds
+    time_parts <- tstrsplit(time_string, 'm')
+    # Convert minutes and seconds to numeric
+    minutes <- as.numeric(time_parts[1])
+    seconds <- as.numeric(time_parts[2])
+    # Calculate total seconds
+    total_seconds <- (minutes * 60) + seconds
+    return(data.table('Time [s]' = total_seconds))
+  })
+  filenames <- list.files(directory, pattern = '*time\\.txt', recursive = TRUE)
+  filenames <- grep('train_', filenames, invert = TRUE, value = TRUE)
+  test <- tstrsplit(filenames, '/', keep=1)[[1]]
+  filenames[grepl('richoux_regular', filenames, fixed=TRUE)] <- gsub('richoux_regular', 'Richoux-Regular', filenames[grepl('richoux_regular', filenames, fixed=TRUE)])
+  filenames[grepl('richoux_strict', filenames, fixed=TRUE)] <- gsub('richoux_strict', 'Richoux-Strict', filenames[grepl('richoux_strict', filenames, fixed=TRUE)])
+  dataset <- tstrsplit(tstrsplit(filenames, '_time', keep=1)[[1]], '/', keep=2)[[1]]
+  names(times) <- paste(test, dataset, sep='.')
+  df <- rbindlist(times, idcol='filename')
+  df[, c("Test", "Rest") := tstrsplit(filename, '\\.')]
+  df <- df[, Rest := gsub('(train_|test_)', '', Rest)]
+  df[, c("Dataset", "Part_Train", "Part_Test") := tstrsplit(Rest, '_')]
+  return(df)
+}
+
+dscript_df <- extract_dscript_time(dscript_res)
+dscript_df[, Model := 'D-SCRIPT']
+all_times <- rbind(all_times, dscript_df[,  c('Test', 'Model', 'Dataset', 'Time [s]')])
+
+# Topsy-Turvy
+tt_df <- extract_dscript_time(tt_res)
+tt_df[, Model := 'Topsy-Turvy']
+all_times <- rbind(all_times, tt_df[,  c('Test', 'Model', 'Dataset', 'Time [s]')])
+
 all_times$Dataset <- stringr::str_to_title(all_times$Dataset)
+
 all_times <- all_times[, Dataset := factor(Dataset, 
-                                           levels = c("Huang", "Guo", "Du", "Pan", "Richoux-Regular", "Richoux-Strict", "Richoux"))]
+                                           levels = c("Huang", "Guo", "Du", "Pan", "Richoux-Regular", "Richoux-Strict", "Richoux", "Dscript"))]
 
 ##### original 
 # training data size
 sprint_data_dir <- '../algorithms/SPRINT/data/original/'
-training_files <- list.files(path=sprint_data_dir, pattern = 'train_pos')
-train_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
+training_files_pos <- list.files(path=sprint_data_dir, pattern = 'train_pos')
+training_files_neg <- list.files(path=sprint_data_dir, pattern = 'train_neg')
+train_sizes_pos <- sapply(paste0(sprint_data_dir, training_files_pos), function(x){
   as.integer(system2("wc",
                      args = c("-l",
                               x,
                               " | awk '{print $1}'"),
-                     stdout = TRUE)) * 2
+                     stdout = TRUE))
 }
 )
-training_files[grepl('richoux', training_files, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed=TRUE)])
-names(train_sizes) <- stringr::str_to_title(tstrsplit(training_files, '_', keep=1)[[1]])
+train_sizes_neg <- sapply(paste0(sprint_data_dir, training_files_neg), function(x){
+  as.integer(system2("wc",
+                     args = c("-l",
+                              x,
+                              " | awk '{print $1}'"),
+                     stdout = TRUE))
+}
+)
+train_sizes <- train_sizes_pos + train_sizes_neg
+training_files_pos[grepl('richoux', training_files_pos, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files_pos[grepl('richoux', training_files_pos, fixed=TRUE)])
+names(train_sizes) <- stringr::str_to_title(tstrsplit(training_files_pos, '_', keep=1)[[1]])
 #train_sizes <- prettyNum(train_sizes, big.mark = ',')
 
 all_times_orig <- all_times[Test == 'original']
@@ -108,32 +198,43 @@ all_times_orig[, Model := gsub('RF_', 'RF-', Model)]
 all_times_orig[, Model := gsub('SVM_', 'SVM-', Model)]
 all_times_orig <- all_times_orig[, Model := factor(Model, 
                                          levels=c("RF-PCA","SVM-PCA", "RF-MDS", "SVM-MDS",
-                                                  "RF-node2vec",  "SVM-node2vec", "SPRINT", 
+                                                  "RF-node2vec",  "SVM-node2vec", "Harmonic Function", 
+                                                  "Local and Global Consistency", "SPRINT", 
                                                   "Richoux-FC", "Richoux-LSTM",  
-                                                  "DeepFE", "PIPR"))]
+                                                  "DeepFE", "PIPR", "D-SCRIPT", "Topsy-Turvy"))]
 all_times_orig[, n_train := train_sizes[as.character(Dataset)]]
+all_times_orig <- all_times_orig[!is.na(n_train), ]
+
 
 # visualization
+colors <- c('#e6194b', '#f032e6', '#ffe119', '#4363d8', '#f58231', '#911eb4',
+                     '#3cb44b','#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324',
+                     '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075')
 
-
-ggplot(all_times_orig, aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+
+ggplot(all_times_orig[!is.na(Dataset)], aes(x=n_train, y = `Time [s]`, color = Model, group=Model, shape=Model))+
   geom_point(size=3)+
-  geom_line(size=2, alpha=0.5)+
+  geom_line(size=2, alpha=0.7)+
   scale_x_continuous(breaks = unique(all_times_orig$n_train), 
-                     labels = paste0(c('HUANG (', 'GUO (', 'DU (', 'PAN (', 'RICHOUX-REGULAR (', 'RICHOUX-STRICT ('),
+                     labels = paste0(c('D-SCRIPT UNBALANCED (', 'HUANG (', 'GUO (', 'DU (', 'PAN (', 'RICHOUX-REGULAR (', 'RICHOUX-STRICT ('),
                                      unique(all_times_orig$n_train), rep(')', 6)),
-                     guide = guide_axis(n.dodge = 2))+
+                     guide = guide_axis(check.overlap = T),
+                     trans = 'log10', 
+                     limits = c(min(unique(all_times_orig$n_train)), max(unique(all_times_orig$n_train))))+
   labs(x = "Dataset (n training)", y = "Time [s]") +
   geom_hline(yintercept = 1800, color='red') +
   geom_hline(yintercept = 3600, color='red') +
-  geom_hline(yintercept = 7200, color='red') +
-  geom_text(aes(0, 1800, label = '30 min', vjust = -1, hjust=0), color='red') +
-  geom_text(aes(0, 3600, label = '1 h', vjust = -1, hjust=0), color='red') +
-  geom_text(aes(0, 7200, label = '2 h', vjust = -1, hjust=0), color='red') +
-  scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
+  geom_hline(yintercept = 36000, color='red') +
+  geom_hline(yintercept = 86400, color='red') +
+  geom_text(aes(min(unique(all_times_orig$n_train)), 1800, label = '30 min', vjust = -1, hjust=0), color='red', check_overlap = T) +
+  geom_text(aes(min(unique(all_times_orig$n_train)), 3600, label = '1 h', vjust = -1, hjust=0), color='red', check_overlap = T) +
+  geom_text(aes(min(unique(all_times_orig$n_train)), 36000, label = '10 h', vjust = -1, hjust=0), color='red', check_overlap = T) +
+  geom_text(aes(min(unique(all_times_orig$n_train)), 86400, label = '24 h', vjust = -1, hjust=0), color='red', check_overlap = T) +
+  scale_y_continuous(trans='log10')+
+  scale_color_manual(values = colors)+
+  scale_shape_manual(values = c(0, 15, 1, 16, 2, 3, 4, 17, 5, 6, 18, 7, 8, 19, 9))+
   theme_bw()+
-  theme(text = element_text(size=20))
-ggsave("./plots/all_times_original.pdf",height=4, width=12)
+  theme(text = element_text(size=15), axis.text.x = element_text(angle = 15, hjust=1))
+ggsave("./plots/all_times_original.pdf",height=6, width=12)
 
 # without pipr
 ggplot(all_times_orig[Model != "PIPR"], aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+

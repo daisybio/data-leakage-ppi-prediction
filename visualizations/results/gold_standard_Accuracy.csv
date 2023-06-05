@@ -1,4 +1,5 @@
 Model,Dataset,Accuracy
+degree_cons,gold_standard,0.5
 RF_MDS,gold_standard,0.504111589302183
 SVM_MDS,gold_standard,0.507646787580695
 RF_node2vec,gold_standard,0.509218389906644
@@ -9,6 +10,6 @@ DeepFE,gold_standard,0.5183
 deepPPI_FC,gold_standard,0.5242
 deepPPI_LSTM,gold_standard,0.515
 PIPR,gold_standard,0.5216
-SPRINT,gold_standard,0.5123
+SPRINT,gold_standard,0.515
 D-SCRIPT,gold_standard,0.5034
 Topsy_Turvy,gold_standard,0.5588

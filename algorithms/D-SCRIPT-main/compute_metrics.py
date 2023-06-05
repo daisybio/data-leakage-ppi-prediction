@@ -5,9 +5,9 @@ import os
 def calculate_metrics(y_true, y_pred):
     from sklearn.metrics import roc_auc_score, average_precision_score
     print(' ===========  test ===========')
-    y_pred = np.round(y_pred).astype(np.int8)
     auc_test = roc_auc_score(y_true, y_pred)
     pr_test = average_precision_score(y_true, y_pred)
+    y_pred = np.round(y_pred).astype(np.int8)
     tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score = calculate_performance(
         len(y_pred), y_pred, y_true)
     return tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score, auc_test, pr_test
@@ -38,7 +38,7 @@ def calculate_performance(test_num, pred_y, labels):
     return tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score
 
 
-partition = True
+partition = False
 rewired = False
 algorithm = 'topsyturvy'
 if partition:
@@ -101,6 +101,8 @@ else:
         result_file.write(f'{algorithm}\t{dataset}\tSpecificity\t{specificity}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tMCC\t{MCC}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tF1\t{f1_score}\t{split}\n')
+        result_file.write(f'{algorithm}\t{dataset}\tAUC\t{auc}\t{split}\n')
+        result_file.write(f'{algorithm}\t{dataset}\tAUPR\t{pr}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tTP\t{tp}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tFP\t{fp}\t{split}\n')
         result_file.write(f'{algorithm}\t{dataset}\tTN\t{tn}\t{split}\n')

@@ -1,6 +1,5 @@
 Model,Dataset,Recall
-degree_cons,dscript,0.927590221187427
-degree_hf,dscript,0.927590221187427
+degree_cons,dscript,0
 RF_MDS,dscript,0.556461001164144
 SVM_MDS,dscript,0.487077997671711
 RF_node2vec,dscript,0.551594746716698

@@ -1,6 +1,5 @@
 Model,Dataset,Specificity
-degree_cons,dscript,0.713853317811409
-degree_hf,dscript,0.778579743888242
+degree_cons,dscript,1
 RF_MDS,dscript,0.994481955762515
 SVM_MDS,dscript,0.99522700814901
 RF_node2vec,dscript,0.99500469043152

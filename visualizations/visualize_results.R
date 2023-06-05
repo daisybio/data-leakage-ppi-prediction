@@ -151,7 +151,21 @@ partition_dscript_sizes <- sapply(paste0(dscript_data_dir, training_files), func
 filenames <- tstrsplit(tstrsplit(training_files, '.txt', keep=1)[[1]], '_', keep=c(1,3))
 names(partition_dscript_sizes) <- paste(filenames[[1]], filenames[[2]])
 partition_dscript_sizes <- prettyNum(partition_dscript_sizes, big.mark = ',')
-breaksList <- c(0.2, seq(0.5, 1.0, 0.055))
+
+breaksList <- c(min(result_mat, na.rm = T), seq(0.5, 1.0, 0.005))
+
+compute_number_colors <- function(mat) {
+  breaks <- c(min(mat, na.rm = T), seq(0.5, 1.0, 0.0051))
+  color <- colorRampPalette(rev(brewer.pal(n = 9, name =
+                                             "RdYlBu")))(100)
+  rgb_colors <- col2rgb(pheatmap:::scale_colours(as.matrix(mat), col = color, breaks = breaks, na_col = "#DDDDDD"))
+  luminance <- rgb_colors * c(0.299, 0.587, 0.114)
+  luminance <- luminance['red', ]+luminance['green', ] + luminance['blue', ]
+  number_color <- ifelse(luminance < 125, "grey90", "grey30")
+  return(number_color)
+}
+
+number_color <- compute_number_colors(t(result_mat))
 
 pheatmap(t(result_mat),
          annotation_row = annotation_col,
@@ -161,15 +175,17 @@ pheatmap(t(result_mat),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
          gaps_col = 7,
-         gaps_row = c(8,15,20,25),
+         gaps_row = c(8,15,21,27),
          display_numbers = TRUE,
+         number_color = number_color,
          legend = FALSE,
          #filename = paste0('plots/heatmap_results_', measure, '.pdf'),
          #width=8,
          #height=10,
          cex = 1,
-         color = colorRampPalette(rev(brewer.pal(n = 11, name = "RdYlBu")))(length(breaksList)), 
          breaks = breaksList,
+         color = colorRampPalette(rev(brewer.pal(n = 9, name =
+                                                   "RdYlBu")))(100),
          labels_row = c(
            paste0('GOLD STANDARD (', original_sizes['gold'], '/', original_dscript_sizes['gold'], ')'),
            paste0('HUANG (', original_sizes['huang'], '/', original_dscript_sizes['huang'], ')'),
@@ -214,6 +230,8 @@ pheatmap(t(result_mat),
                         'Harmonic\nFunction', 'Global and\nLocal Consistency')
 )
 
+number_color <- compute_number_colors(t(result_mat[, 2:8]))
+
 pheatmap(t(result_mat[, 2:8]),
          #annotation_row = annotation_col[annotation_col$Test == 'Original', 'Dataset', drop=FALSE],
          annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
@@ -222,22 +240,68 @@ pheatmap(t(result_mat[, 2:8]),
          cluster_cols = FALSE,
          gaps_col = 7,
          display_numbers = TRUE,
+         number_color = number_color,
          legend = FALSE,
-         #filename = 'plots/heatmap_results_original_quer.pdf',
-         #width=6,
-         #height=5.2,
+         filename = 'plots/heatmap_results_original_quer.pdf',
+         width=8,
+         height=6.8,
          fontsize = 11,
+         breaks = breaksList,
+         color = colorRampPalette(rev(brewer.pal(n = 9, name =
+                                                   "RdYlBu")))(100),
          labels_row = c(
            #paste0('Gold (', original_sizes['gold'], ')'),
-           paste0('HUANG\n(', original_sizes['huang'], ')'),
-                        paste0('GUO\n(', original_sizes['guo'], ')'),
-                        paste0('DU\n(', original_sizes['du'], ')'),
-                        paste0('PAN\n(', original_sizes['pan'], ')'),
-                        paste0('RICHOUX-\nREGULAR\n(', original_sizes['richoux-regular'], ')'),
-                        paste0('RICHOUX-\nSTRICT\n(', original_sizes['richoux-strict'], ')'),
-           paste0('D-SCRIPT\nUNBALANCED\n(', original_sizes['dscript'], ')')
+           paste0('HUANG\n(', original_sizes['huang'], '/', original_dscript_sizes['huang'], ')'),
+                        paste0('GUO\n(', original_sizes['guo'], '/', original_dscript_sizes['guo'], ')'),
+                        paste0('DU\n(', original_sizes['du'], '/', original_dscript_sizes['du'], ')'),
+                        paste0('PAN\n(', original_sizes['pan'], '/', original_dscript_sizes['pan'], ')'),
+                        paste0('RICHOUX-\nREGULAR\n(', original_sizes['richoux-regular'], '/', original_dscript_sizes['richoux-regular'], ')'),
+                        paste0('RICHOUX-\nSTRICT\n(', original_sizes['richoux-strict'], '/', original_dscript_sizes['richoux-strict'], ')'),
+           paste0('D-SCRIPT\nUNBALANCED\n(', original_sizes['dscript'], '/', original_dscript_sizes['dscript'], ')')
          ),
-         labels_col = c('SPRINT',
+         labels_col = c('SPRINT\n(AUPR)',
+                        'Richoux-\nFC',
+                        'Richoux-\nLSTM',
+                        'DeepFE',
+                        'PIPR',
+                        'D-SCRIPT',
+                        'Topsy-Turvy',
+                        'RF-PCA',
+                        'SVM-PCA',
+                        'RF-MDS',
+                        'SVM-MDS',
+                        'RF-\nnode2vec',
+                        'SVM-\nnode2vec',
+                        'Harmonic\nFunction',
+                        'Global and\nLocal Cons.')
+)
+
+number_color <- compute_number_colors(t(result_mat[, 9:15]))
+pheatmap(t(result_mat[, 9:15]),
+         #annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE],
+         annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
+                                              'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
+         cluster_rows = FALSE,
+         cluster_cols = FALSE,
+         legend = FALSE,
+         gaps_col = 5,
+         display_numbers = TRUE,
+         number_color = number_color,
+         breaks = breaksList,
+         color = colorRampPalette(rev(brewer.pal(n = 9, name =
+                                                   "RdYlBu")))(100),
+         filename = 'plots/heatmap_results_rewired_quer.pdf',
+         width=7,
+         height=5,
+         labels_row = c(paste0('HUANG\n(', rewired_sizes['huang'], ')'),
+                        paste0('GUO\n(', rewired_sizes['guo'], ')'),
+                        paste0('DU\n(', rewired_sizes['du'], ')'),
+                        paste0('PAN\n(', rewired_sizes['pan'], ')'),
+                        paste0('RICHOUX-REGULAR\n(', rewired_sizes['richoux-regular'], ')'),
+                        paste0('RICHOUX-STRICT\n(', rewired_sizes['richoux-strict'], ')'),
+                        paste0('D-SCRIPT\nUNBALANCED\n(', rewired_sizes['dscript'], ')')
+         ),
+         labels_col = c('SPRINT\n(AUPR)',
                         'Richoux-\nFC',
                         'Richoux-\nLSTM',
                         'DeepFE',
@@ -254,67 +318,65 @@ pheatmap(t(result_mat[, 2:8]),
                         'Global and\nLocal Cons.')
 )
 
-pheatmap(t(result_mat[, 8:13]),
-         #annotation_row = annotation_col[annotation_col$Test == 'Rewired', 'Dataset', drop=FALSE],
-         annotation_colors = list(Dataset = c('Huang'='#E69F00','Guo'='#56B4E9', 'Du'='#009E73',
-                                              'Pan'='#F0E442','Richoux-Regular'='#0072B2','Richoux-Strict'='#CC79A7')),
-         cluster_rows = FALSE,
-         cluster_cols = FALSE,
-         legend = FALSE,
-         gaps_col = 5,
-         display_numbers = TRUE,
-         filename = 'plots/heatmap_results_rewired_quer.pdf',
-         width=6,
-         height=4,
-         labels_row = c(paste0('HUANG\n(', rewired_sizes['huang'], ')'),
-                        paste0('GUO\n(', rewired_sizes['guo'], ')'),
-                        paste0('DU\n(', rewired_sizes['du'], ')'),
-                        paste0('PAN\n(', rewired_sizes['pan'], ')'),
-                        paste0('RICHOUX-REGULAR\n(', rewired_sizes['richoux-regular'], ')'),
-                        paste0('RICHOUX-STRICT\n(', rewired_sizes['richoux-strict'], ')')
-         ),
-         labels_col = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
-                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
-)
-
-pheatmap(result_mat[, 15:ncol(result_mat)],
+number_color <- compute_number_colors(result_mat[, 16:ncol(result_mat)])
+pheatmap(result_mat[, 16:ncol(result_mat)],
          #annotation_col = annotation_col[!annotation_col$Test %in% c('Original', 'Rewired'), "Dataset"],
          #annotation_colors = list(Dataset = c('HUANG'='#E69F00','GUO'='#56B4E9', 'DU'='#009E73',
         #                                      'PAN'='#F0E442','RICHOUX'='#0072B2'),
         #                          Test = c('Inter->Intra-1'='#888888', 'Inter->Intra-0'='#44AA99', 'Intra-0->Intra-1'='#661100')),
-        main = TeX('Train on $\\it{INTER}$, test on $\\it{INTRA}_1$        Train on $\\it{INTER}$, test on $\\it{INTRA}_0$        Train on $\\it{INTRA}_0$, test on $\\it{INTRA}_1$'),
-         cluster_rows = FALSE,
-         cluster_cols = FALSE,
-         legend = FALSE,
-         gaps_row = 5,
-         gaps_col = c(5, 10, 15),
-         display_numbers = TRUE,
+        main = TeX('Train on $\\it{INTER}$, test on $\\it{INTRA}_1$                    Train on $\\it{INTER}$, test on $\\it{INTRA}_0$                    Train on $\\it{INTRA}_0$, test on $\\it{INTRA}_1$'),
+        cluster_rows = FALSE,
+        cluster_cols = FALSE,
+        legend = FALSE,
+        gaps_row = 7,
+        gaps_col = c(6, 12),
+        display_numbers = TRUE,
+        number_color = number_color,
+        breaks = breaksList,
+        color = colorRampPalette(rev(brewer.pal(n = 9, name =
+                                                  "RdYlBu")))(100),
         fontsize = 10,
         fontsize_number = 11,
         fontsize_row = 11,
         fontsize_col = 11,
-         filename = 'plots/heatmap_results_partitions.pdf',
-         width=10,
-         height=8,
-         labels_col = c(#partition both ->1
+        filename = 'plots/heatmap_results_partitions.pdf',
+        width=12,
+        height=10,
+        labels_col = c(#partition both ->1
            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
            paste0('GUO\n(', partition_sizes['guo both'], ')'),
            paste0('DU\n(', partition_sizes['du both'], ')'),
            paste0('PAN\n(', partition_sizes['pan both'], ')'),
            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
+           paste0('D-SCRIPT\nUNBALANCED\n(', partition_sizes['dscript both'], ')'),
            #partition both -> 0
            paste0('HUANG\n(', partition_sizes['huang both'], ')'),
            paste0('GUO\n(', partition_sizes['guo both'], ')'),
            paste0('DU\n(', partition_sizes['du both'], ')'),
            paste0('PAN\n(', partition_sizes['pan both'], ')'),
            paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux both'], ')'),
+           paste0('D-SCRIPT\nUNBALANCED\n(', partition_sizes['dscript both'], ')'),
            #partition 0 -> 1
            paste0('HUANG\n(', partition_sizes['huang 0'], ')'),
            paste0('GUO\n(', partition_sizes['guo 0'], ')'),
            paste0('DU\n(', partition_sizes['du 0'], ')'),
            paste0('PAN\n(', partition_sizes['pan 0'], ')'),
-           paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux 0'], ')')
+           paste0('RICHOUX-\nUNIPROT\n(', partition_sizes['richoux 0'], ')'),
+           paste0('D-SCRIPT\nUNBALANCED\n(', partition_sizes['dscript 0'], ')')
          ),
-         labels_row = c('SPRINT', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
-                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec')
+         labels_row = c('SPRINT\n(AUPR)',
+                        'Richoux-\nFC',
+                        'Richoux-\nLSTM',
+                        'DeepFE',
+                        'PIPR',
+                        'D-SCRIPT',
+                        'Topsy Turvy',
+                        'RF-PCA',
+                        'SVM-PCA',
+                        'RF-MDS',
+                        'SVM-MDS',
+                        'RF-\nnode2vec',
+                        'SVM-\nnode2vec',
+                        'Harmonic\nFunction',
+                        'Global and\nLocal Cons.')
 )

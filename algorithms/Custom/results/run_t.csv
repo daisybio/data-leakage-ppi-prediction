@@ -1,7 +1,16 @@
 Filename,Algorithm,Time [s],Test,Dataset,Encoding,Part_Train,Part_Test,Model
-gold_standard_MDS,RF,75.8566172122955,gold,standard,MDS,,,RF_MDS
-gold_standard_PCA,RF,62.5613276958466,gold,standard,PCA,,,RF_PCA
-gold_standard_PCA,SVM,20631.8218986988,gold,standard,PCA,,,SVM_PCA
+gold_standard_MDS,RF,70.8103656768799,gold,standard,MDS,,,RF_MDS
+gold_standard_MDS,SVM,25473.3043129444,gold,standard,MDS,,,SVM_MDS
+gold_standard_node2vec,RF,72.3525822162628,gold,standard,node2vec,,,RF_node2vec
+gold_standard_node2vec,SVM,17094.6649162769,gold,standard,node2vec,,,SVM_node2vec
+gold_standard_PCA,RF,77.5980429649353,gold,standard,PCA,,,RF_PCA
+gold_standard_PCA,SVM,19284.1865625381,gold,standard,PCA,,,SVM_PCA
+original_dscript_MDS,RF,185.341637611389,original,dscript,MDS,,,RF_MDS
+original_dscript_MDS,SVM,31987.5806562901,original,dscript,MDS,,,SVM_MDS
+original_dscript_node2vec,RF,142.828232526779,original,dscript,node2vec,,,RF_node2vec
+original_dscript_node2vec,SVM,35554.3966405392,original,dscript,node2vec,,,SVM_node2vec
+original_dscript_PCA,RF,150.52662396431,original,dscript,PCA,,,RF_PCA
+original_dscript_PCA,SVM,58512.4901387692,original,dscript,PCA,,,SVM_PCA
 original_du_MDS,RF,5.75452589988709,original,du,MDS,,,RF_MDS
 original_du_MDS,SVM,493.794574022293,original,du,MDS,,,SVM_MDS
 original_du_node2vec,RF,6.59523820877075,original,du,node2vec,,,RF_node2vec
@@ -38,6 +47,12 @@ original_Richoux-Strict_node2vec,RF,26.6649632453919,original,Richoux-Strict,nod
 original_Richoux-Strict_node2vec,SVM,1126.13742041588,original,Richoux-Strict,node2vec,,,SVM_node2vec
 original_Richoux-Strict_PCA,RF,27.5728487968445,original,Richoux-Strict,PCA,,,RF_PCA
 original_Richoux-Strict_PCA,SVM,1331.57580256462,original,Richoux-Strict,PCA,,,SVM_PCA
+rewired_dscript_MDS,RF,157.381404399872,rewired,dscript,MDS,,,RF_MDS
+rewired_dscript_MDS,SVM,27548.8628106117,rewired,dscript,MDS,,,SVM_MDS
+rewired_dscript_node2vec,RF,138.031553506851,rewired,dscript,node2vec,,,RF_node2vec
+rewired_dscript_node2vec,SVM,71211.5072305203,rewired,dscript,node2vec,,,SVM_node2vec
+rewired_dscript_PCA,RF,137.951224565506,rewired,dscript,PCA,,,RF_PCA
+rewired_dscript_PCA,SVM,66778.0405859947,rewired,dscript,PCA,,,SVM_PCA
 rewired_du_MDS,RF,5.3224401473999,rewired,du,MDS,,,RF_MDS
 rewired_du_MDS,SVM,441.426220655441,rewired,du,MDS,,,SVM_MDS
 rewired_du_node2vec,RF,6.58797121047974,rewired,du,node2vec,,,RF_node2vec
@@ -74,93 +89,171 @@ rewired_Richoux-Strict_node2vec,RF,26.0833075046539,rewired,Richoux-Strict,node2
 rewired_Richoux-Strict_node2vec,SVM,1149.18385767937,rewired,Richoux-Strict,node2vec,,,SVM_node2vec
 rewired_Richoux-Strict_PCA,RF,27.0353684425354,rewired,Richoux-Strict,PCA,,,RF_PCA
 rewired_Richoux-Strict_PCA,SVM,1367.87658262253,rewired,Richoux-Strict,PCA,,,SVM_PCA
-partition_du_MDS,RF,2.93289518356323,partition,du,MDS,both,0,RF_MDS_both_0
-partition_du_MDS,SVM,99.4128801822662,partition,du,MDS,both,0,SVM_MDS_both_0
-partition_du_MDS,RF,2.86115765571594,partition,du,MDS,both,1,RF_MDS_both_1
-partition_du_MDS,SVM,72.3589625358582,partition,du,MDS,both,1,SVM_MDS_both_1
-partition_du_MDS,RF,2.97757768630981,partition,du,MDS,0,1,RF_MDS_0_1
-partition_du_MDS,SVM,105.234617471695,partition,du,MDS,0,1,SVM_MDS_0_1
-partition_du_node2vec,RF,3.57250809669495,partition,du,node2vec,both,0,RF_node2vec_both_0
-partition_du_node2vec,SVM,66.6430957317352,partition,du,node2vec,both,0,SVM_node2vec_both_0
-partition_du_node2vec,RF,3.31926608085632,partition,du,node2vec,both,1,RF_node2vec_both_1
-partition_du_node2vec,SVM,42.2380564212799,partition,du,node2vec,both,1,SVM_node2vec_both_1
-partition_du_node2vec,RF,3.55490350723267,partition,du,node2vec,0,1,RF_node2vec_0_1
-partition_du_node2vec,SVM,58.5311779975891,partition,du,node2vec,0,1,SVM_node2vec_0_1
-partition_du_PCA,RF,3.10135555267334,partition,du,PCA,both,0,RF_PCA_both_0
-partition_du_PCA,SVM,70.4909875392914,partition,du,PCA,both,0,SVM_PCA_both_0
-partition_du_PCA,RF,2.9177405834198,partition,du,PCA,both,1,RF_PCA_both_1
-partition_du_PCA,SVM,37.0055952072144,partition,du,PCA,both,1,SVM_PCA_both_1
-partition_du_PCA,RF,2.97276306152344,partition,du,PCA,0,1,RF_PCA_0_1
-partition_du_PCA,SVM,51.0218787193298,partition,du,PCA,0,1,SVM_PCA_0_1
-partition_guo_MDS,RF,0.774601697921753,partition,guo,MDS,both,0,RF_MDS_both_0
-partition_guo_MDS,SVM,6.00178861618042,partition,guo,MDS,both,0,SVM_MDS_both_0
-partition_guo_MDS,RF,0.723652124404907,partition,guo,MDS,both,1,RF_MDS_both_1
-partition_guo_MDS,SVM,2.63315844535828,partition,guo,MDS,both,1,SVM_MDS_both_1
-partition_guo_MDS,RF,1.07993769645691,partition,guo,MDS,0,1,RF_MDS_0_1
-partition_guo_MDS,SVM,5.34905099868774,partition,guo,MDS,0,1,SVM_MDS_0_1
-partition_guo_node2vec,RF,1.1263267993927,partition,guo,node2vec,both,0,RF_node2vec_both_0
-partition_guo_node2vec,SVM,5.23321485519409,partition,guo,node2vec,both,0,SVM_node2vec_both_0
-partition_guo_node2vec,RF,1.0429310798645,partition,guo,node2vec,both,1,RF_node2vec_both_1
-partition_guo_node2vec,SVM,2.38779878616333,partition,guo,node2vec,both,1,SVM_node2vec_both_1
-partition_guo_node2vec,RF,1.46032285690308,partition,guo,node2vec,0,1,RF_node2vec_0_1
-partition_guo_node2vec,SVM,4.76648998260498,partition,guo,node2vec,0,1,SVM_node2vec_0_1
-partition_guo_PCA,RF,2.95174217224121,partition,guo,PCA,both,0,RF_PCA_both_0
-partition_guo_PCA,SVM,5.31843590736389,partition,guo,PCA,both,0,SVM_PCA_both_0
-partition_guo_PCA,RF,0.832767009735107,partition,guo,PCA,both,1,RF_PCA_both_1
-partition_guo_PCA,SVM,2.24406504631042,partition,guo,PCA,both,1,SVM_PCA_both_1
-partition_guo_PCA,RF,1.06328201293945,partition,guo,PCA,0,1,RF_PCA_0_1
-partition_guo_PCA,SVM,4.53445196151733,partition,guo,PCA,0,1,SVM_PCA_0_1
-partition_huang_MDS,RF,0.642351150512695,partition,huang,MDS,both,0,RF_MDS_both_0
-partition_huang_MDS,SVM,2.2679271697998,partition,huang,MDS,both,0,SVM_MDS_both_0
-partition_huang_MDS,RF,0.621319532394409,partition,huang,MDS,both,1,RF_MDS_both_1
-partition_huang_MDS,SVM,1.82854247093201,partition,huang,MDS,both,1,SVM_MDS_both_1
-partition_huang_MDS,RF,0.486790418624878,partition,huang,MDS,0,1,RF_MDS_0_1
-partition_huang_MDS,SVM,1.21032166481018,partition,huang,MDS,0,1,SVM_MDS_0_1
-partition_huang_node2vec,RF,1.5459566116333,partition,huang,node2vec,both,0,RF_node2vec_both_0
-partition_huang_node2vec,SVM,2.84318089485168,partition,huang,node2vec,both,0,SVM_node2vec_both_0
-partition_huang_node2vec,RF,1.76499891281128,partition,huang,node2vec,both,1,RF_node2vec_both_1
-partition_huang_node2vec,SVM,2.68798565864563,partition,huang,node2vec,both,1,SVM_node2vec_both_1
-partition_huang_node2vec,RF,1.49742388725281,partition,huang,node2vec,0,1,RF_node2vec_0_1
-partition_huang_node2vec,SVM,2.12716484069824,partition,huang,node2vec,0,1,SVM_node2vec_0_1
-partition_huang_PCA,RF,0.872016429901123,partition,huang,PCA,both,0,RF_PCA_both_0
-partition_huang_PCA,SVM,2.16877484321594,partition,huang,PCA,both,0,SVM_PCA_both_0
-partition_huang_PCA,RF,0.64269232749939,partition,huang,PCA,both,1,RF_PCA_both_1
-partition_huang_PCA,SVM,1.5521674156189,partition,huang,PCA,both,1,SVM_PCA_both_1
-partition_huang_PCA,RF,0.475429773330689,partition,huang,PCA,0,1,RF_PCA_0_1
-partition_huang_PCA,SVM,1.15079188346863,partition,huang,PCA,0,1,SVM_PCA_0_1
-partition_pan_MDS,RF,6.57301783561707,partition,pan,MDS,both,0,RF_MDS_both_0
-partition_pan_MDS,SVM,643.255110740662,partition,pan,MDS,both,0,SVM_MDS_both_0
-partition_pan_MDS,RF,6.25299668312073,partition,pan,MDS,both,1,RF_MDS_both_1
-partition_pan_MDS,SVM,507.934987306595,partition,pan,MDS,both,1,SVM_MDS_both_1
-partition_pan_MDS,RF,7.55979681015015,partition,pan,MDS,0,1,RF_MDS_0_1
-partition_pan_MDS,SVM,721.13835811615,partition,pan,MDS,0,1,SVM_MDS_0_1
-partition_pan_node2vec,RF,7.9412636756897,partition,pan,node2vec,both,0,RF_node2vec_both_0
-partition_pan_node2vec,SVM,264.87033867836,partition,pan,node2vec,both,0,SVM_node2vec_both_0
-partition_pan_node2vec,RF,7.60058569908142,partition,pan,node2vec,both,1,RF_node2vec_both_1
-partition_pan_node2vec,SVM,172.302421569824,partition,pan,node2vec,both,1,SVM_node2vec_both_1
-partition_pan_node2vec,RF,8.44550967216492,partition,pan,node2vec,0,1,RF_node2vec_0_1
-partition_pan_node2vec,SVM,237.717302322388,partition,pan,node2vec,0,1,SVM_node2vec_0_1
-partition_pan_PCA,RF,5.79902601242065,partition,pan,PCA,both,0,RF_PCA_both_0
-partition_pan_PCA,SVM,210.558661222458,partition,pan,PCA,both,0,SVM_PCA_both_0
-partition_pan_PCA,RF,5.50625586509705,partition,pan,PCA,both,1,RF_PCA_both_1
-partition_pan_PCA,SVM,153.547202110291,partition,pan,PCA,both,1,SVM_PCA_both_1
-partition_pan_PCA,RF,6.56609153747559,partition,pan,PCA,0,1,RF_PCA_0_1
-partition_pan_PCA,SVM,208.550577402115,partition,pan,PCA,0,1,SVM_PCA_0_1
-partition_richoux_MDS,RF,12.129832983017,partition,richoux,MDS,both,0,RF_MDS_both_0
-partition_richoux_MDS,SVM,1104.72380638123,partition,richoux,MDS,both,0,SVM_MDS_both_0
-partition_richoux_MDS,RF,11.9039466381073,partition,richoux,MDS,both,1,RF_MDS_both_1
-partition_richoux_MDS,SVM,937.798670530319,partition,richoux,MDS,both,1,SVM_MDS_both_1
-partition_richoux_MDS,RF,8.98190593719482,partition,richoux,MDS,0,1,RF_MDS_0_1
-partition_richoux_MDS,SVM,696.560520648956,partition,richoux,MDS,0,1,SVM_MDS_0_1
-partition_richoux_node2vec,RF,11.4804463386536,partition,richoux,node2vec,both,0,RF_node2vec_both_0
-partition_richoux_node2vec,SVM,626.204441547394,partition,richoux,node2vec,both,0,SVM_node2vec_both_0
-partition_richoux_node2vec,RF,11.0018672943115,partition,richoux,node2vec,both,1,RF_node2vec_both_1
-partition_richoux_node2vec,SVM,396.795082330704,partition,richoux,node2vec,both,1,SVM_node2vec_both_1
-partition_richoux_node2vec,RF,8.79782652854919,partition,richoux,node2vec,0,1,RF_node2vec_0_1
-partition_richoux_node2vec,SVM,273.369309186935,partition,richoux,node2vec,0,1,SVM_node2vec_0_1
-partition_richoux_PCA,RF,10.5814447402954,partition,richoux,PCA,both,0,RF_PCA_both_0
-partition_richoux_PCA,SVM,606.659698724747,partition,richoux,PCA,both,0,SVM_PCA_both_0
-partition_richoux_PCA,RF,10.2820453643799,partition,richoux,PCA,both,1,RF_PCA_both_1
-partition_richoux_PCA,SVM,420.690137147903,partition,richoux,PCA,both,1,SVM_PCA_both_1
-partition_richoux_PCA,RF,7.53930521011353,partition,richoux,PCA,0,1,RF_PCA_0_1
-partition_richoux_PCA,SVM,297.339695453644,partition,richoux,PCA,0,1,SVM_PCA_0_1
+partition_dscript_MDS,RF,85.2199559211731,partition,dscript,MDS,both,0,RF_MDS_both_0
+partition_dscript_MDS,SVM,12921.1361525059,partition,dscript,MDS,both,0,SVM_MDS_both_0
+partition_dscript_MDS,RF,83.9814667701721,partition,dscript,MDS,both,1,RF_MDS_both_1
+partition_dscript_MDS,SVM,11947.7474446297,partition,dscript,MDS,both,1,SVM_MDS_both_1
+partition_dscript_MDS,RF,53.9801390171051,partition,dscript,MDS,0,1,RF_MDS_0_1
+partition_dscript_MDS,SVM,7082.03332805634,partition,dscript,MDS,0,1,SVM_MDS_0_1
+partition_dscript_node2vec,RF,69.5698442459107,partition,dscript,node2vec,both,0,RF_node2vec_both_0
+partition_dscript_node2vec,SVM,8083.31114435196,partition,dscript,node2vec,both,0,SVM_node2vec_both_0
+partition_dscript_node2vec,RF,67.7693891525269,partition,dscript,node2vec,both,1,RF_node2vec_both_1
+partition_dscript_node2vec,SVM,7230.64162635803,partition,dscript,node2vec,both,1,SVM_node2vec_both_1
+partition_dscript_node2vec,RF,57.1322267055512,partition,dscript,node2vec,0,1,RF_node2vec_0_1
+partition_dscript_node2vec,SVM,5569.43794178963,partition,dscript,node2vec,0,1,SVM_node2vec_0_1
+partition_dscript_PCA,RF,72.3441834449768,partition,dscript,PCA,both,0,RF_PCA_both_0
+partition_dscript_PCA,SVM,16350.7826240063,partition,dscript,PCA,both,0,SVM_PCA_both_0
+partition_dscript_PCA,RF,61.844446182251,partition,dscript,PCA,both,1,RF_PCA_both_1
+partition_dscript_PCA,SVM,15831.0214216709,partition,dscript,PCA,both,1,SVM_PCA_both_1
+partition_dscript_PCA,RF,50.0676717758179,partition,dscript,PCA,0,1,RF_PCA_0_1
+partition_dscript_PCA,SVM,6490.62576961517,partition,dscript,PCA,0,1,SVM_PCA_0_1
+partition_du_MDS,RF,4.48895406723022,partition,du,MDS,both,0,RF_MDS_both_0
+partition_du_MDS,SVM,207.513514995575,partition,du,MDS,both,0,SVM_MDS_both_0
+partition_du_MDS,RF,4.28820109367371,partition,du,MDS,both,1,RF_MDS_both_1
+partition_du_MDS,SVM,165.252675533295,partition,du,MDS,both,1,SVM_MDS_both_1
+partition_du_MDS,RF,3.7777247428894,partition,du,MDS,0,1,RF_MDS_0_1
+partition_du_MDS,SVM,126.235988616943,partition,du,MDS,0,1,SVM_MDS_0_1
+partition_du_node2vec,RF,4.92638778686523,partition,du,node2vec,both,0,RF_node2vec_both_0
+partition_du_node2vec,SVM,113.954678058624,partition,du,node2vec,both,0,SVM_node2vec_both_0
+partition_du_node2vec,RF,4.90070414543152,partition,du,node2vec,both,1,RF_node2vec_both_1
+partition_du_node2vec,SVM,71.6545288562775,partition,du,node2vec,both,1,SVM_node2vec_both_1
+partition_du_node2vec,RF,4.43561768531799,partition,du,node2vec,0,1,RF_node2vec_0_1
+partition_du_node2vec,SVM,62.8291091918945,partition,du,node2vec,0,1,SVM_node2vec_0_1
+partition_du_PCA,RF,4.84025406837463,partition,du,PCA,both,0,RF_PCA_both_0
+partition_du_PCA,SVM,128.191735982895,partition,du,PCA,both,0,SVM_PCA_both_0
+partition_du_PCA,RF,4.42611384391785,partition,du,PCA,both,1,RF_PCA_both_1
+partition_du_PCA,SVM,78.5119843482971,partition,du,PCA,both,1,SVM_PCA_both_1
+partition_du_PCA,RF,3.55061364173889,partition,du,PCA,0,1,RF_PCA_0_1
+partition_du_PCA,SVM,67.5883498191834,partition,du,PCA,0,1,SVM_PCA_0_1
+partition_guo_MDS,RF,1.36617803573608,partition,guo,MDS,both,0,RF_MDS_both_0
+partition_guo_MDS,SVM,8.61948800086975,partition,guo,MDS,both,0,SVM_MDS_both_0
+partition_guo_MDS,RF,1.18088006973267,partition,guo,MDS,both,1,RF_MDS_both_1
+partition_guo_MDS,SVM,5.29467964172363,partition,guo,MDS,both,1,SVM_MDS_both_1
+partition_guo_MDS,RF,1.10045313835144,partition,guo,MDS,0,1,RF_MDS_0_1
+partition_guo_MDS,SVM,5.04166316986084,partition,guo,MDS,0,1,SVM_MDS_0_1
+partition_guo_node2vec,RF,1.74747824668884,partition,guo,node2vec,both,0,RF_node2vec_both_0
+partition_guo_node2vec,SVM,7.48916220664978,partition,guo,node2vec,both,0,SVM_node2vec_both_0
+partition_guo_node2vec,RF,1.67226672172546,partition,guo,node2vec,both,1,RF_node2vec_both_1
+partition_guo_node2vec,SVM,4.52654790878296,partition,guo,node2vec,both,1,SVM_node2vec_both_1
+partition_guo_node2vec,RF,1.58609533309937,partition,guo,node2vec,0,1,RF_node2vec_0_1
+partition_guo_node2vec,SVM,4.77185559272766,partition,guo,node2vec,0,1,SVM_node2vec_0_1
+partition_guo_PCA,RF,16.0227675437927,partition,guo,PCA,both,0,RF_PCA_both_0
+partition_guo_PCA,SVM,7.83905410766602,partition,guo,PCA,both,0,SVM_PCA_both_0
+partition_guo_PCA,RF,1.25346374511719,partition,guo,PCA,both,1,RF_PCA_both_1
+partition_guo_PCA,SVM,4.41862559318543,partition,guo,PCA,both,1,SVM_PCA_both_1
+partition_guo_PCA,RF,1.13959693908691,partition,guo,PCA,0,1,RF_PCA_0_1
+partition_guo_PCA,SVM,4.37735438346863,partition,guo,PCA,0,1,SVM_PCA_0_1
+partition_huang_MDS,RF,1.45274019241333,partition,huang,MDS,both,0,RF_MDS_both_0
+partition_huang_MDS,SVM,3.66276168823242,partition,huang,MDS,both,0,SVM_MDS_both_0
+partition_huang_MDS,RF,0.778009414672852,partition,huang,MDS,both,1,RF_MDS_both_1
+partition_huang_MDS,SVM,2.23199868202209,partition,huang,MDS,both,1,SVM_MDS_both_1
+partition_huang_MDS,RF,0.60488224029541,partition,huang,MDS,0,1,RF_MDS_0_1
+partition_huang_MDS,SVM,1.69195461273193,partition,huang,MDS,0,1,SVM_MDS_0_1
+partition_huang_node2vec,RF,2.79785180091858,partition,huang,node2vec,both,0,RF_node2vec_both_0
+partition_huang_node2vec,SVM,4.56428480148315,partition,huang,node2vec,both,0,SVM_node2vec_both_0
+partition_huang_node2vec,RF,2.06047677993774,partition,huang,node2vec,both,1,RF_node2vec_both_1
+partition_huang_node2vec,SVM,3.20773386955261,partition,huang,node2vec,both,1,SVM_node2vec_both_1
+partition_huang_node2vec,RF,1.71493101119995,partition,huang,node2vec,0,1,RF_node2vec_0_1
+partition_huang_node2vec,SVM,2.56906819343567,partition,huang,node2vec,0,1,SVM_node2vec_0_1
+partition_huang_PCA,RF,1.34655284881592,partition,huang,PCA,both,0,RF_PCA_both_0
+partition_huang_PCA,SVM,3.43062376976013,partition,huang,PCA,both,0,SVM_PCA_both_0
+partition_huang_PCA,RF,0.764394044876099,partition,huang,PCA,both,1,RF_PCA_both_1
+partition_huang_PCA,SVM,2.04741191864014,partition,huang,PCA,both,1,SVM_PCA_both_1
+partition_huang_PCA,RF,0.553792476654053,partition,huang,PCA,0,1,RF_PCA_0_1
+partition_huang_PCA,SVM,1.50357866287231,partition,huang,PCA,0,1,SVM_PCA_0_1
+partition_pan_MDS,RF,8.58459210395813,partition,pan,MDS,both,0,RF_MDS_both_0
+partition_pan_MDS,SVM,731.957684755325,partition,pan,MDS,both,0,SVM_MDS_both_0
+partition_pan_MDS,RF,8.40038299560547,partition,pan,MDS,both,1,RF_MDS_both_1
+partition_pan_MDS,SVM,626.200630426407,partition,pan,MDS,both,1,SVM_MDS_both_1
+partition_pan_MDS,RF,11.5339488983154,partition,pan,MDS,0,1,RF_MDS_0_1
+partition_pan_MDS,SVM,960.742961406708,partition,pan,MDS,0,1,SVM_MDS_0_1
+partition_pan_node2vec,RF,9.51894187927246,partition,pan,node2vec,both,0,RF_node2vec_both_0
+partition_pan_node2vec,SVM,264.428555250168,partition,pan,node2vec,both,0,SVM_node2vec_both_0
+partition_pan_node2vec,RF,9.96378397941589,partition,pan,node2vec,both,1,RF_node2vec_both_1
+partition_pan_node2vec,SVM,147.517734527588,partition,pan,node2vec,both,1,SVM_node2vec_both_1
+partition_pan_node2vec,RF,11.0933978557587,partition,pan,node2vec,0,1,RF_node2vec_0_1
+partition_pan_node2vec,SVM,242.294084787369,partition,pan,node2vec,0,1,SVM_node2vec_0_1
+partition_pan_PCA,RF,7.43828892707825,partition,pan,PCA,both,0,RF_PCA_both_0
+partition_pan_PCA,SVM,250.082159042358,partition,pan,PCA,both,0,SVM_PCA_both_0
+partition_pan_PCA,RF,7.15008902549744,partition,pan,PCA,both,1,RF_PCA_both_1
+partition_pan_PCA,SVM,145.131298780441,partition,pan,PCA,both,1,SVM_PCA_both_1
+partition_pan_PCA,RF,9.55643773078918,partition,pan,PCA,0,1,RF_PCA_0_1
+partition_pan_PCA,SVM,232.157862901688,partition,pan,PCA,0,1,SVM_PCA_0_1
+partition_richoux_MDS,RF,14.1811456680298,partition,richoux,MDS,both,0,RF_MDS_both_0
+partition_richoux_MDS,SVM,948.871438980103,partition,richoux,MDS,both,0,SVM_MDS_both_0
+partition_richoux_MDS,RF,13.6970446109772,partition,richoux,MDS,both,1,RF_MDS_both_1
+partition_richoux_MDS,SVM,697.171490907669,partition,richoux,MDS,both,1,SVM_MDS_both_1
+partition_richoux_MDS,RF,16.3835136890411,partition,richoux,MDS,0,1,RF_MDS_0_1
+partition_richoux_MDS,SVM,1310.13999295235,partition,richoux,MDS,0,1,SVM_MDS_0_1
+partition_richoux_node2vec,RF,13.6017754077911,partition,richoux,node2vec,both,0,RF_node2vec_both_0
+partition_richoux_node2vec,SVM,556.068982839584,partition,richoux,node2vec,both,0,SVM_node2vec_both_0
+partition_richoux_node2vec,RF,12.5147860050201,partition,richoux,node2vec,both,1,RF_node2vec_both_1
+partition_richoux_node2vec,SVM,284.749482393265,partition,richoux,node2vec,both,1,SVM_node2vec_both_1
+partition_richoux_node2vec,RF,16.4380664825439,partition,richoux,node2vec,0,1,RF_node2vec_0_1
+partition_richoux_node2vec,SVM,520.068662881851,partition,richoux,node2vec,0,1,SVM_node2vec_0_1
+partition_richoux_PCA,RF,12.0510666370392,partition,richoux,PCA,both,0,RF_PCA_both_0
+partition_richoux_PCA,SVM,553.862504243851,partition,richoux,PCA,both,0,SVM_PCA_both_0
+partition_richoux_PCA,RF,12.0524899959564,partition,richoux,PCA,both,1,RF_PCA_both_1
+partition_richoux_PCA,SVM,316.502003669739,partition,richoux,PCA,both,1,SVM_PCA_both_1
+partition_richoux_PCA,RF,14.0521173477173,partition,richoux,PCA,0,1,RF_PCA_0_1
+partition_richoux_PCA,SVM,598.326094150543,partition,richoux,PCA,0,1,SVM_PCA_0_1
+gold_standard_deg,Local and Global Consistency,1075.37704229355,gold,gold,,,,Local and Global Consistency
+original_deg_NA,Harmonic Function,3047.71919226646,original,guo,,,,Harmonic Function
+original_deg_NA,Local and Global Consistency,207.047353982925,original,guo,,,,Local and Global Consistency
+original_deg_NA,Harmonic Function,43.9679253101349,original,huang,,,,Harmonic Function
+original_deg_NA,Local and Global Consistency,46.3333857059479,original,huang,,,,Local and Global Consistency
+original_deg_NA,Harmonic Function,129.537786006928,original,du,,,,Harmonic Function
+original_deg_NA,Local and Global Consistency,60.542596578598,original,du,,,,Local and Global Consistency
+original_deg_NA,Harmonic Function,333.368030071259,original,pan,,,,Harmonic Function
+original_deg_NA,Local and Global Consistency,84.3123390674591,original,pan,,,,Local and Global Consistency
+original_deg_NA,Harmonic Function,127.281282901764,original,Richoux-Regular,,,,Harmonic Function
+original_deg_NA,Local and Global Consistency,52.9269912242889,original,Richoux-Regular,,,,Local and Global Consistency
+original_deg_NA,Harmonic Function,109.911983251572,original,Richoux-Strict,,,,Harmonic Function
+original_deg_NA,Local and Global Consistency,68.8460795879364,original,Richoux-Strict,,,,Local and Global Consistency
+original_deg_NA,Local and Global Consistency,893.083615064621,original,dscript,,,,Local and Global Consistency
+partition_deg_NA,Harmonic Function,7.0276415348053,partition,guo,,both,0,Harmonic Function
+partition_deg_NA,Local and Global Consistency,4.74681615829468,partition,guo,,both,0,Local and Global Consistency
+partition_deg_NA,Harmonic Function,2.08678388595581,partition,guo,,both,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,0.771606206893921,partition,guo,,both,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,1.98259902000427,partition,guo,,0,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,0.730804920196533,partition,guo,,0,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,1.31885886192322,partition,huang,,both,0,Harmonic Function
+partition_deg_NA,Local and Global Consistency,0.692255973815918,partition,huang,,both,0,Local and Global Consistency
+partition_deg_NA,Harmonic Function,0.934162855148315,partition,huang,,both,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,0.400419473648071,partition,huang,,both,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,0.722216129302979,partition,huang,,0,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,0.321884155273438,partition,huang,,0,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,41.3290946483612,partition,du,,both,0,Harmonic Function
+partition_deg_NA,Local and Global Consistency,18.0305006504059,partition,du,,both,0,Local and Global Consistency
+partition_deg_NA,Harmonic Function,21.5433988571167,partition,du,,both,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,7.00208759307861,partition,du,,both,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,19.4185056686401,partition,du,,0,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,6.32977342605591,partition,du,,0,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,109.754789829254,partition,pan,,both,0,Harmonic Function
+partition_deg_NA,Local and Global Consistency,39.142942905426,partition,pan,,both,0,Local and Global Consistency
+partition_deg_NA,Harmonic Function,44.7860682010651,partition,pan,,both,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,12.4618074893951,partition,pan,,both,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,78.8265790939331,partition,pan,,0,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,18.661913394928,partition,pan,,0,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,37.9062445163727,partition,richoux,,both,0,Harmonic Function
+partition_deg_NA,Local and Global Consistency,14.2359597682953,partition,richoux,,both,0,Local and Global Consistency
+partition_deg_NA,Harmonic Function,16.7876069545746,partition,richoux,,both,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,3.99585294723511,partition,richoux,,both,1,Local and Global Consistency
+partition_deg_NA,Harmonic Function,29.419429063797,partition,richoux,,0,1,Harmonic Function
+partition_deg_NA,Local and Global Consistency,5.83354306221008,partition,richoux,,0,1,Local and Global Consistency
+partition_deg_NA,Local and Global Consistency,745.401541233063,partition,dscript,,both,0,Local and Global Consistency
+partition_deg_NA,Local and Global Consistency,471.260401725769,partition,dscript,,both,1,Local and Global Consistency
+partition_deg_NA,Local and Global Consistency,336.246470928192,partition,dscript,,0,1,Local and Global Consistency
+rewired_deg_NA,Harmonic Function,5865.97568845749,rewired,guo,,,,Harmonic Function
+rewired_deg_NA,Local and Global Consistency,614.682658672333,rewired,guo,,,,Local and Global Consistency
+rewired_deg_NA,Harmonic Function,3.50505876541138,rewired,huang,,,,Harmonic Function
+rewired_deg_NA,Local and Global Consistency,1.73761534690857,rewired,huang,,,,Local and Global Consistency
+rewired_deg_NA,Harmonic Function,77.4316613674164,rewired,du,,,,Harmonic Function
+rewired_deg_NA,Local and Global Consistency,22.3850476741791,rewired,du,,,,Local and Global Consistency
+rewired_deg_NA,Harmonic Function,249.37566447258,rewired,pan,,,,Harmonic Function
+rewired_deg_NA,Local and Global Consistency,54.2665009498596,rewired,pan,,,,Local and Global Consistency
+rewired_deg_NA,Harmonic Function,82.7454159259796,rewired,Richoux-Regular,,,,Harmonic Function
+rewired_deg_NA,Local and Global Consistency,17.8132128715515,rewired,Richoux-Regular,,,,Local and Global Consistency
+rewired_deg_NA,Harmonic Function,89.3030366897583,rewired,Richoux-Strict,,,,Harmonic Function
+rewired_deg_NA,Local and Global Consistency,26.4598689079285,rewired,Richoux-Strict,,,,Local and Global Consistency
+rewired_deg_NA,Local and Global Consistency,878.856590509415,rewired,dscript,,,,Local and Global Consistency

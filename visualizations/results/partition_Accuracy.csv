@@ -108,11 +108,8 @@ SVM_node2vec,richoux,0.478786636605862,0->1
 SVM_node2vec,richoux,0.631780794267548,both->0
 SVM_node2vec,richoux,0.660483705677393,both->1
 degree_cons,dscript,0.5,0->1
-degree_hf,dscript,0.5,0->1
-degree_cons,dscript,0.77973304988797,both->0
-degree_hf,dscript,0.796851485646467,both->0
-degree_cons,dscript,0.812869997632015,both->1
-degree_hf,dscript,0.82838029836609,both->1
+degree_cons,dscript,0.5,both->0
+degree_cons,dscript,0.5,both->1
 degree_cons,du,0.499896672866295,0->1
 degree_hf,du,0.499896672866295,0->1
 degree_cons,du,0.851315789473684,both->0

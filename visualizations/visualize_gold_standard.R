@@ -22,6 +22,7 @@ file_names <- tstrsplit(list.files(custom_res, pattern='^gold.*.csv'), '.csv', k
 names(custom_results) <- file_names
 custom_results <- rbindlist(custom_results, idcol = 'filename')
 custom_results[, c('dataset', 'encoding', 'method') := tstrsplit(filename, '_', keep=c(1,3,4))]
+custom_results[is.na(method), method := 'degree']
 custom_results[, Model := paste(method, encoding, sep = '_')]
 if(measure == 'Recall'){
   custom_results <- custom_results[V1 == 'Sensitivity']
@@ -94,7 +95,7 @@ all_results$Dataset <- 'gold_standard'
 
 all_results <- all_results[, Model := factor(Model, 
                                              levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
-                                                      "RF_node2vec",  "SVM_node2vec", "SPRINT", 
+                                                      "RF_node2vec",  "SVM_node2vec", "degree_cons", "SPRINT", 
                                                       "deepPPI_FC", "deepPPI_LSTM",  
                                                       "DeepFE", "PIPR", "D-SCRIPT", "Topsy_Turvy"))]
 fwrite(all_results, file=paste0('results/gold_standard_', measure, '.csv'))

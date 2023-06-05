@@ -13,6 +13,7 @@ all_degrees[Dataset == 'GOLD_STANDARD', Dataset := 'GOLD STANDARD']
 all_degrees[Dataset == 'RICHOUX_REGULAR', Dataset := 'RICHOUX-REGULAR']
 all_degrees[Dataset == 'RICHOUX_STRICT', Dataset := 'RICHOUX-STRICT']
 all_degrees[Dataset == 'RICHOUX', Dataset := 'RICHOUX-UNIPROT']
+all_degrees[Dataset == 'DSCRIPT', Dataset := 'D-SCRIPT UNBAL.']
 all_degrees[, Test := stringr::str_to_title(Test)]
 all_degrees[, Test := factor(Test, levels = c('Original', 'Rewired', 'Partition'))]
 all_degrees[, Network := stringr::str_to_title(Network)]
@@ -23,7 +24,7 @@ ggplot(all_degrees, aes(x=Degree, fill=Network))+
   facet_wrap(Test~Dataset, scales = 'free', nrow = 3)+
   theme_bw()+
   xlim(0, 20)
-ggsave('plots/node_degrees_pos_vs_neg.pdf', height = 6, width=12)
+ggsave('plots/node_degrees_pos_vs_neg.pdf', height = 6, width=14)
 
 ggplot(all_degrees[Test == 'Original' & Dataset %in% c('HUANG', 'PAN') & Degree <= 15], aes(x=Degree, fill=Network))+
   geom_histogram(binwidth=1, position = 'dodge')+
@@ -53,7 +54,7 @@ ggplot(all_degrees, aes(x=Degree, fill=Split))+
   values = brewer.pal(6, "Set1"))+
   xlim(0, 20)
 
-ggsave('plots/node_degrees_train_vs_test.pdf', height = 6, width=12)
+ggsave('plots/node_degrees_train_vs_test.pdf', height = 6, width=14)
 
 orig_vs_rewired <- merge(all_degrees[Test == 'Original'], all_degrees[Test == 'Rewired'], by=c('Node', 'Dataset', 'Split', 'Network'))
 colnames(orig_vs_rewired) <- c('Node', 'Dataset', 'Split', 'Network', 'Degree original', 'Original', 'Degree rewired', 'Rewired')

@@ -20,14 +20,17 @@ for(run in c('original', 'rewired')){
   all_sets[, filename := gsub('richoux_', 'richoux-', filename)]
   all_sets[, c('dataset', 'set') := tstrsplit(filename, '_', keep=c(1, 2))]
   all_sets <- all_sets[, -'filename']
-  all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict'))]
+  all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'dscript'))]
   all_sets <- all_sets[order(dataset)]
   
   plot_list <- list()
   
-  for (ds in c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict')){
+  for (ds in c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'dscript')){
     train <- unique(all_sets[set == 'train' & dataset == ds, Protein])
     test <- unique(all_sets[set == 'test' & dataset == ds, Protein])
+    if(ds == 'dscript'){
+      ds <- 'd-script unbal.'
+    }
     venn_plot <- venn.diagram(list(train, test), 
                               category.names = c('Training', 'Test'), 
                               main = stringr::str_to_upper(ds),
@@ -68,8 +71,9 @@ for(run in c('original', 'rewired')){
                    gTree(children=plot_list[['pan']]), 
                    gTree(children=plot_list[['richoux-regular']]), 
                    gTree(children=plot_list[['richoux-strict']]), 
+                   gTree(children=plot_list[['d-script unbal.']]), 
                    nrow = 1)
-  ggsave(paste0('plots/venn_overlaps_', run, '.pdf'), g, height = 2, width = 15)
+  ggsave(paste0('plots/venn_overlaps_', run, '.pdf'), g, height = 2, width = 18)
 }
 
 
@@ -87,7 +91,7 @@ all_sets[, data_part := paste(dataset, partition, sep='_')]
 all_sets[, both_0 := ifelse(partition %in% c('0', 'both'), T, F)]
 all_sets[, both_1 := ifelse(partition %in% c('1', 'both'), T, F)]
 all_sets[, p0_p1 := ifelse(partition %in% c('0', '1'), T, F)]
-all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux'))]
+all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux', 'dscript'))]
 all_sets <- all_sets[order(dataset)]
 
 plot_list <- list()
@@ -98,7 +102,6 @@ for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
   p_both <- unique(all_sets[partition == 'both' & dataset == ds, Protein])
   if(ds == 'richoux'){
     ds <- 'richoux-uniprot'
-  } 
   venn_plot <- venn.diagram(x = list(p_0, p_1, p_both), 
                category.names = TeX(c('$\\it{INTRA}_0$', '$\\it{INTRA}_1$', '$\\it{INTER}$')), 
                main = stringr::str_to_upper(ds),
@@ -133,6 +136,42 @@ for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
                rotation = 1)
   plot_list <- append(plot_list, setNames(list(venn_plot), ds))
 }
+p_0 <- unique(all_sets[partition == '0' & dataset == 'dscript', Protein])
+p_1 <- unique(all_sets[partition == '1' & dataset == 'dscript', Protein])
+p_both <- unique(all_sets[partition == 'both' & dataset == 'dscript', Protein])
+venn_plot <- venn.diagram(x = list(p_0, p_1, p_both), 
+                          category.names = TeX(c('$\\it{INTRA}_0$', '$\\it{INTRA}_1$', '$\\it{INTER}$')), 
+                          main = stringr::str_to_upper('D-SCRIPT UNBALANCED'),
+                          filename = NULL,
+                          disable.logging = TRUE,
+                          # Output features
+                          imagetype="png" ,
+                          height = 3, 
+                          width = 3, 
+                          units = 'cm',
+                          resolution = 600,
+                          compression = "lzw",
+                          
+                          # Circles
+                          lwd = 2,
+                          lty = 'blank',
+                          fill = myCol,
+                          
+                          # Numbers
+                          cex = 1.5,
+                          fontface = "bold",
+                          fontfamily = "sans",
+                          
+                          # Set names
+                          main.cex = 1.5,
+                          main.pos = c(0.5, 1),
+                          main.fontfamily = "sans",
+                          cat.cex = 1.5,
+                          cat.default.pos = "outer",
+                          cat.pos = c(320, 40, 180),
+                          cat.fontfamily = "sans",
+                          rotation = 1)
+plot_list <- append(plot_list, setNames(list(venn_plot), 'dscript'))
 
 all_sets <- lapply(list.files(path='../Datasets_PPIs/Hippiev2.3', full.names = T, pattern = '^Intra(0|1|2)_(pos|neg)_rr.txt'), 
                    fread, header=F)
@@ -185,6 +224,6 @@ g <- arrangeGrob(gTree(children=plot_list[['huang']]),
              gTree(children=plot_list[['du']]), 
              gTree(children=plot_list[['pan']]), 
              gTree(children=plot_list[['richoux-uniprot']]), 
-             gTree(children=plot_list[['gold']]), 
+             gTree(children=plot_list[['dscript']]), 
              nrow=2)
-ggsave('plots/venn_overlaps_partitions.pdf', g, height = 5, width = 15)
+ggsave('plots/venn_overlaps_partitions.pdf', g, height = 5, width = 17)
