@@ -132,7 +132,7 @@ def get_length_dict(organism):
 
 
 if __name__ == "__main__":
-    # for bitscore_normalied: execute in the Datasets_PPIs/SwissProt directory:
+    # for bitscore_normalized: execute in the Datasets_PPIs/SwissProt directory:
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
     #path_to_similarities = 'network_data/SIMAP2/submatrix.tsv'

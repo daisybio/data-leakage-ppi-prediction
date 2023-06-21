@@ -1,6 +1,7 @@
 import numpy as np
 from networkx.algorithms import node_classification
 
+
 def calculate_scores(y_true, y_pred):
     from sklearn.metrics import confusion_matrix, f1_score, matthews_corrcoef
     # Print out the scores

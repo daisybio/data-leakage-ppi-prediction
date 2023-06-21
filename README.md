@@ -31,6 +31,9 @@ The **Richoux** datasets were obtained from their [Gitlab](https://gitlab.univ-n
 The **regular** dataset is in [`algorithms/DeepPPI/data/mirror/`](algorithms/DeepPPI/data/mirror/), the **strict** one in
 [`algorithms/DeepPPI/data/mirror/double/`](algorithms/DeepPPI/data/mirror/double/). 
 
+The **unbalanced D-SCRIPT** dataset was obtained from their [Zenodo repository](https://doi.org/10.5281/zenodo.5140612). 
+It is in [`algorithms/D-SCRIPT-main/dscript-data/`](algorithms/D-SCRIPT-main/dscript-data/).
+
 All original datasets were rewritten into the format used by SPRINT and split 
 into train and test with [`algorithms/SPRINT/create_SPRINT_datasets.py`](algorithms/SPRINT/create_SPRINT_datasets.py).
 They are in in [`algorithms/SPRINT/data/original`](algorithms/SPRINT/data/original).
@@ -38,7 +41,7 @@ This script was also used to **rewire** and split the datasets (`generate_RDPN`)
 Before you run this script, you have to run [`compute_sim_matrix.py`](algorithms/Custom/compute_sim_matrix.py). 
 
 ### Partitions
-Calculate the protein lengths with this code in the Datasets_PPIs/SwissProt directory:
+Calculate the protein lengths with this code in the Datasets_PPIs/SwissProt directory for the length-normalization of the bitscores:
 ```
 awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
 awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
@@ -49,11 +52,11 @@ team of SIMAP2. They sent back the similarity data which we make available under
 [https://doi.org/10.6084/m9.figshare.21510939](https://doi.org/10.6084/m9.figshare.21510939) (`submatrix.tsv.gz`). 
 Download this and unzip it in `network_data/SIMAP2`.
 
-We preprocessed this data in order to give it to the KaHIP kaffpa algorithm with [simap_preprocessing.py](simap_preprocessing.py):
+We preprocessed this data in order to give it to the KaHIP kaffpa algorithm with [simap_preprocessing.py](Datasets_PPIs/Hippiev2.3/simap_preprocessing.py):
 
 1. We separated the file to obtain only human-human and yeast-yeast protein similarities
 2. We converted the edge lists to networks and converted the Uniprot node labels to integer labels because KaHIP needs `METIS` files as input. These files can only handle integer node labels
-3. We exported the networks as `METIS` files with bitscores as edge weights: [human](network_data/SIMAP2/human_networks/only_human_bitscore.graph), [yeast](network_data/SIMAP2/yeast_networks/only_yeast_bitscore.graph)
+3. We exported the networks as `METIS` files with normalized bitscores as edge weights: [human](network_data/SIMAP2/human_networks/only_human_bitscore_normalized.graph), [yeast](network_data/SIMAP2/yeast_networks/only_yeast_bitscore_normalized.graph)
 
 If you're using a **Mac**, you can use our compiled KaHIP version. On **Linux**, make sure you have OpenMPI installed and run the following commands: 
 ```
@@ -71,7 +74,7 @@ Then, feed the METIS files to the KaHIP kaffpa algorithm with the following comm
 
 The output files containing the partitioning was mapped back to the original UniProt IDs in [kahip.py](kahip.py). Nodelists: [human](network_data/SIMAP2/human_networks/only_human_partition_nodelist.txt), [yeast](network_data/SIMAP2/yeast_networks/only_yeast_partition_nodelist.txt).
 
-The PPIs from the 6 original datasets were then split according to the KaHIP partitions into blocks
+The PPIs from the 7 original datasets were then split according to the KaHIP partitions into blocks
 Inter, Intra-0, and Intra-1 with [rewrite_datasets.py](rewrite_datasets.py) and are in [`algorithms/SPRINT/data/partitions`](algorithms/SPRINT/data/partitions).
 
 ### Gold Standard Dataset
@@ -111,11 +114,11 @@ less Datasets_PPIs/Hippiev2.3/sim_intra1_intra_2.out.clstr| grep -E '([OPQ][0-9]
 ```
 and filtered out of training, validation, and testing. 
 All Python code for this task can be found in [create_gold_standard.py](create_gold_standard.py). 
-The data is available at [https://doi.org/10.6084/m9.figshare.21591618.v1](https://doi.org/10.6084/m9.figshare.21591618.v1).
+The data is available at [https://doi.org/10.6084/m9.figshare.21591618.v2](https://doi.org/10.6084/m9.figshare.21591618.v2).
 ## Methods
 
 ### Custom baseline ML methods
-Our 6 implemented baseline ML methods are implemented in [`algorithms/Custom/`](algorithms/Custom). 
+Our 6 implemented similarity-based baseline ML methods are implemented in [`algorithms/Custom/`](algorithms/Custom). 
 
 1. We converted the SIMAP2 similarity table into an all-against-all similarity matrix in [`algorithms/Custom/compute_sim_matrix.py`](algorithms/Custom/compute_sim_matrix.py).
 2. We reduced the dimensionality of this matrix via PCA, MDS, and node2vec in [`algorithms/Custom/compute_dim_red.py`](algorithms/Custom/compute_dim_red.py):
@@ -137,7 +140,7 @@ cd snap/examples/node2vec
 ./node2vec -i:../../../algorithms/Custom/data/yeast.edgelist -o:../../../algorithms/Custom/data/yeast.emb
 ./node2vec -i:../../../algorithms/Custom/data/human.edgelist -o:../../../algorithms/Custom/data/human.emb
 ```
-The RF and SVM are implemented in [algorithms/Custom/learn_models.py](algorithms/Custom/learn_models.py). 
+The RF, SVM, and the 2 node topology methods are implemented in [algorithms/Custom/learn_models.py](algorithms/Custom/learn_models.py). 
 All tests are executed in [algorithms/Custom/run.py](algorithms/Custom/run.py).
 Results were saved to the [results folder](algorithms/Custom/results).
 ### DeepFE
@@ -155,6 +158,25 @@ The code was pulled from their [GitHub Repository](https://github.com/muhaochen/
 Activate the **PIPR environment** for running all PIPR code! 
 All tests are run via [the shell slurm script](algorithms/seq_ppi/binary/model/lasagna/run_PIPR.sh) or [algorithms/seq_ppi/binary/model/lasagna/train_all_datasets.py](algorithms/seq_ppi/binary/model/lasagna/train_all_datasets.py).
 Results were saved to the [results folder](algorithms/seq_ppi/binary/model/lasagna/results).
+
+### D-SCRIPT and Topsy-Turvy
+The code was pulled from their [GitHub Repository](https://github.com/samsledje/D-SCRIPT). 
+Embeddings were calculated for all human and all yeast proteins:
+```{bash}
+dscript embed --seqs Datasets_PPIs/SwissProt/human_swissprot.fasta --outfile human_embedding.h5
+dscript embed --seqs Datasets_PPIs/SwissProt/yeast_swissprot.fasta --outfile yeast_embedding.h5
+```
+All tests can be run via the slurm scripts in the
+[D-SCRIPT folder](algorithms/D-SCRIPT-main) or via command line:
+```{bash}
+dscript train --train train.txt --test test.txt --embedding embedding.h5 --save-prefix ./models/dscript_model -o ./results_dscript/result_training.txt -d 0
+dscript evaluate --test test.txt --embedding embedding.h5 --model ./models/dscript_model_final.sav  -o ./results_dscript/result.txt -d 0
+
+dscript train --topsy-turvy --train train.txt --test test.txt --embedding embedding.h5 --save-prefix ./models/tt_model -o ./results_tt/result_training.txt -d 0
+dscript evaluate --test test.txt --embedding embedding.h5 --model ./models/tt_model_final.sav  -o ./results_tt/result.txt -d 0
+```
+Result metrics were calulated with [compute_metrics.py](algorithms/D-SCRIPT-main/compute_metrics.py).
+
 
 ### SPRINT
 The code was pulled from their [GitHub Repository](https://github.com/lucian-ilie/SPRINT). 

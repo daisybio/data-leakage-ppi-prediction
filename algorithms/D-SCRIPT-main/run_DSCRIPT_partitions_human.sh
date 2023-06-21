@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for DATASET in dscript #huang pan richoux
+for DATASET in dscript huang pan richoux
 do
   echo dataset ${DATASET}
   for TRAIN in "both" "0"
