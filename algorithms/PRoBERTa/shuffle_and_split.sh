@@ -13,7 +13,7 @@ mkdir -p "$OUTPUT"
 
 echo "Shuffling data"
 grep "\S" "$INPUT" | sort | uniq | shuf > "$OUTPUT/$PREFIX.temp"
-TOTAL_LINES=$(wc -l "$OUTPUT/$PREFIX.temp" | cut -f1 -d" ")
+TOTAL_LINES=$(wc -l "$OUTPUT/$PREFIX.temp" |grep -oE '\d+')
 # Round up to prevent examples from being lost
 SHARD_LINES=$(echo "scale=0; ($TOTAL_LINES/10) + 1" | bc -l)
 

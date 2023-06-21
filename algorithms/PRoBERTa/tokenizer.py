@@ -5,10 +5,9 @@ import sentencepiece as spm
 import json
 
 
-path  = 'all.tab'
-int_path = 'interact.json'
-seq_path = 'pretraining_data.txt'
-model_path = 'm_reviewed.model'
+path  = '../../Datasets_PPIs/SwissProt/yeast_swissprot.tab'
+seq_path = 'pretraining_data_yeast.txt'
+model_path = 'BPE model/m_reviewed.model'
 
 def filter_seqs():
 	"""
@@ -43,7 +42,7 @@ def tokenize_family_data(model):
 	sfam = sfam[['Tokenized Sequence', 'Protein families']]
 	sfam.to_csv('Finetune_fam_data.csv', index=False)
 
-def tokenize_interact_data(model):
+def tokenize_interact_data(model, int_path):
 	"""
 	input: a JSON file with 'from', 'to' and 'link' for each interaction
 	output: a .csv of the tokenized version of the input file
@@ -58,12 +57,15 @@ def tokenize_interact_data(model):
 		out.append([" ".join(model.encode_as_pieces(row[0]))," ".join(model.encode_as_pieces(row[1])),row[2]])
 	print(out[101])
 	out_df = pd.DataFrame(out, columns=df.columns)
-	out_df.to_csv('Finetune_interact_tokenized.csv',index=False)
+	out_path = f'{int_path.split(".json")[0]}_Finetune_interact_tokenized.csv'
+	out_df.to_csv(out_path, index=False)
+
 
 if __name__ == "__main__":
 	filter_seqs()
-	spm.SentencePieceTrainer.Train('--input=pretraining_data.txt --model_prefix=m_reviewed --vocab_size=10000 --character_coverage=1.0 --model_type=bpe --max_sentence_length=1024')
+	spm.SentencePieceTrainer.Train('--input=pretraining_data_yeast.txt --model_prefix=m_reviewed --vocab_size=10000 --character_coverage=1.0 --model_type=bpe --max_sentence_length=1024')
 	model = spm.SentencePieceProcessor()
 	model.load(model_path)
-	tokenize_family_data(model)
-	tokenize_interact_data(model)
+	#tokenize_family_data(model)
+	for path in ['data/original/guo_train.json', 'data/original/guo_test.json']:
+		tokenize_interact_data(model, path)
