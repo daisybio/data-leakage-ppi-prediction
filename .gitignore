@@ -207,3 +207,5 @@ fabric.properties
 visualizations/visualizations.Rproj
 ncbi-blast-2.13.0+
 /algorithms/PRoBERTa/fairseq/
+/algorithms/PRoBERTa/BPE model/
+/algorithms/PRoBERTa/Pretraining/
