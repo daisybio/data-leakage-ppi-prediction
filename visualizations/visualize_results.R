@@ -230,6 +230,72 @@ pheatmap(t(result_mat),
                         'Harmonic\nFunction', 'Global and\nLocal Cons.')
 )
 
+# library(ComplexHeatmap)
+# library(circlize)
+# svg('~/Downloads/heatmap_wide.svg', width=21, height=8.5)
+# breaks <- c(min(result_mat, na.rm = T), seq(0.5, 1.0, 0.0051))
+# Heatmap(result_mat,
+#         row_split = factor(c(rep('Published Methods', 7), rep('Baseline ML', nrow(result_mat)-7)), levels = c('Published Methods', 'Baseline ML')),
+#         column_split = factor(c(rep('Train: Original, Test: Original, 80/20', 8), rep('Train: Rewired, Test: Original, 80/20', 7), rep('Train: INTER, Test: INTRA-0', 6), rep('Train: INTER, Test: INTRA-1', 6), rep('Train: INTRA-0, Test: INTRA-1', 6)), levels = c('Train: Original, Test: Original, 80/20', 'Train: Rewired, Test: Original, 80/20', 'Train: INTER, Test: INTRA-0', 'Train: INTER, Test: INTRA-1', 'Train: INTRA-0, Test: INTRA-1')),
+#         cluster_rows = FALSE,
+#         cluster_columns = FALSE,
+#         cluster_row_slices = FALSE,
+#         cluster_column_slices = FALSE,
+#         layer_fun = function(j, i, x, y, w, h, fill) {
+#           grid.text(sprintf('%.2f', pindex(result_mat, i, j)),
+#                     x = x, y = y, gp = gpar(col =
+#                                               ifelse(
+#                                                 (col2rgb(fill) * c(0.299, 0.587, 0.114))['red', ] + (col2rgb(fill) * c(0.299, 0.587, 0.114))['green', ] + (col2rgb(fill) * c(0.299, 0.587, 0.114))['blue', ] < 125,
+#                                                 "grey90", "grey30"),
+#                                             fontsize = 12))
+#         },
+#         show_heatmap_legend = FALSE,
+#         col = colorRamp2(breaks, colorRampPalette(rev(brewer.pal(n = 9, name =
+#                                                                        "RdYlBu")))(100)),
+#         column_labels = c(
+#            paste0('GOLD (', original_sizes['gold'], ')'),
+#            paste0('HUANG(', original_sizes['huang'], ')'),
+#            paste0('GUO(', original_sizes['guo'], ')'),
+#            paste0('DU (', original_sizes['du'], ')'),
+#            paste0('PAN (', original_sizes['pan'], ')'),
+#            paste0('RICHOUX-REG.\n(', original_sizes['richoux-regular'], ')'),
+#            paste0('RICHOUX-STR.\n(', original_sizes['richoux-strict'], ')'),
+#            paste0('D-SCR. UNBAL. \n(', original_sizes['dscript'], ')'),
+#            #rewired
+#            paste0('HUANG (', rewired_sizes['huang'], ')'),
+#            paste0('GUO (', rewired_sizes['guo'], ')'),
+#            paste0('DU (', rewired_sizes['du'], ')'),
+#            paste0('PAN (', rewired_sizes['pan'], ')'),
+#            paste0('RICHOUX-REG.\n(', rewired_sizes['richoux-regular'], ')'),
+#            paste0('RICHOUX-STR.\n(', rewired_sizes['richoux-strict'], ')'),
+#            paste0('D-SCR. UNBAL.\n(', rewired_sizes['dscript'], ')'),
+#            #partition both -> 0
+#            paste0('HUANG (', partition_sizes['huang both'], ')'),
+#            paste0('GUO (', partition_sizes['guo both'], ')'),
+#            paste0('DU (', partition_sizes['du both'], ')'),
+#            paste0('PAN (', partition_sizes['pan both'], ')'),
+#            paste0('RICHOUX-UNI.\n(', partition_sizes['richoux both'], ')'),
+#            paste0('D-SCR. UNBAL.\n(', partition_sizes['dscript both'], ')'),
+#            #partition both ->1
+#            paste0('HUANG (', partition_sizes['huang both'], ')'),
+#            paste0('GUO (', partition_sizes['guo both'], ')'),
+#            paste0('DU (', partition_sizes['du both'], ')'),
+#            paste0('PAN (', partition_sizes['pan both'], ')'),
+#            paste0('RICHOUX-UNI.\n(', partition_sizes['richoux both'], ')'),
+#            paste0('D-SCR. UNBAL.\n(', partition_sizes['dscript both'], ')'),
+#            #partition 0 -> 1
+#            paste0('HUANG (', partition_sizes['huang 0'], ')'),
+#            paste0('GUO (', partition_sizes['guo 0'], ')'),
+#            paste0('DU (', partition_sizes['du 0'], ')'),
+#            paste0('PAN (', partition_sizes['pan 0'], ')'),
+#            paste0('RICHOUX-UNI.\n(', partition_sizes['richoux 0'], ')'),
+#            paste0('D-SCR. UNBAL.\n(', partition_sizes['dscript 0'], ')')
+#          ),
+#         row_labels = c('SPRINT\n(AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
+#                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec',
+#                         'Harmonic\nFunction', 'Global and\nLocal Cons.')
+# )
+# dev.off()
 # number_color <- compute_number_colors(t(result_mat[, 2:8]))
 # 
 # pheatmap(t(result_mat[, 2:8]),

@@ -289,16 +289,14 @@ if __name__ == '__main__':
     elif prefix == 'gold_standard_unbalanced_':
         datasets = ['gold_standard_unbalanced']
     elif partition:
-        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1']
-        #datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
-        #            'guo_both_0', 'guo_both_1', 'guo_0_1',
-        #            'huang_both_0', 'huang_both_1', 'huang_0_1',
-        #            'du_both_0', 'du_both_1', 'du_0_1',
-        #            'pan_both_0', 'pan_both_1', 'pan_0_1',
-        #            'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
+                    'guo_both_0', 'guo_both_1', 'guo_0_1',
+                    'huang_both_0', 'huang_both_1', 'huang_0_1',
+                    'du_both_0', 'du_both_1', 'du_0_1',
+                    'pan_both_0', 'pan_both_1', 'pan_0_1',
+                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
     else:
-        datasets = ['dscript']
-        #datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+        datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
     for dataset in datasets:
         t_start = time()
         print(f'####################### {dataset} Dataset #######################')

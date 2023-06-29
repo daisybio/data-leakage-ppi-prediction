@@ -7,6 +7,6 @@
 #SBATCH --error=part_PIPR.err
 #SBATCH --mem=150G
 
-#python train_all_datasets.py original
-#python train_all_datasets.py rewired
+python train_all_datasets.py original
+python train_all_datasets.py rewired
 python train_all_datasets.py partition
