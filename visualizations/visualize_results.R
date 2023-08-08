@@ -232,9 +232,9 @@ pheatmap(t(result_mat),
 
 # library(ComplexHeatmap)
 # library(circlize)
-# svg('~/Downloads/heatmap_wide.svg', width=21, height=8.5)
+# png('~/Downloads/heatmap_wide_transparent.png', width=21, height=8.5, units = 'in', res=800, bg='transparent')
 # breaks <- c(min(result_mat, na.rm = T), seq(0.5, 1.0, 0.0051))
-# Heatmap(result_mat,
+# hm <- Heatmap(result_mat,
 #         row_split = factor(c(rep('Published Methods', 7), rep('Baseline ML', nrow(result_mat)-7)), levels = c('Published Methods', 'Baseline ML')),
 #         column_split = factor(c(rep('Train: Original, Test: Original, 80/20', 8), rep('Train: Rewired, Test: Original, 80/20', 7), rep('Train: INTER, Test: INTRA-0', 6), rep('Train: INTER, Test: INTRA-1', 6), rep('Train: INTRA-0, Test: INTRA-1', 6)), levels = c('Train: Original, Test: Original, 80/20', 'Train: Rewired, Test: Original, 80/20', 'Train: INTER, Test: INTRA-0', 'Train: INTER, Test: INTRA-1', 'Train: INTRA-0, Test: INTRA-1')),
 #         cluster_rows = FALSE,
@@ -295,6 +295,7 @@ pheatmap(t(result_mat),
 #                         'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec',
 #                         'Harmonic\nFunction', 'Global and\nLocal Cons.')
 # )
+# draw(hm, background='transparent')
 # dev.off()
 # number_color <- compute_number_colors(t(result_mat[, 2:8]))
 # 

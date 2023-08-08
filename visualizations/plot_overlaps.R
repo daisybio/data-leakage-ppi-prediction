@@ -100,7 +100,7 @@ for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
   p_0 <- unique(all_sets[partition == '0' & dataset == ds, Protein])
   p_1 <- unique(all_sets[partition == '1' & dataset == ds, Protein])
   p_both <- unique(all_sets[partition == 'both' & dataset == ds, Protein])
-  if(ds == 'richoux'){
+  if(ds == 'richoux')
     ds <- 'richoux-uniprot'
   venn_plot <- venn.diagram(x = list(p_0, p_1, p_both), 
                category.names = TeX(c('$\\it{INTRA}_0$', '$\\it{INTRA}_1$', '$\\it{INTER}$')), 
@@ -225,5 +225,6 @@ g <- arrangeGrob(gTree(children=plot_list[['huang']]),
              gTree(children=plot_list[['pan']]), 
              gTree(children=plot_list[['richoux-uniprot']]), 
              gTree(children=plot_list[['dscript']]), 
-             nrow=2)
-ggsave('plots/venn_overlaps_partitions.pdf', g, height = 5, width = 17)
+             ncol =2)
+ggsave('~/Downloads/venn_overlaps_partitions.png', g, height = 12, width = 11)
+#ggsave('plots/venn_overlaps_partitions.pdf', g, height = 5, width = 17)
