@@ -215,7 +215,7 @@ ggplot(all_times_orig[!is.na(Dataset)], aes(x=n_train, y = `Time [s]`, color = M
   geom_point(size=3)+
   geom_line(size=2, alpha=0.7)+
   scale_x_continuous(breaks = unique(all_times_orig$n_train), 
-                     labels = paste0(c('D-SCRIPT UNBALANCED (', 'HUANG (', 'GUO (', 'DU (', 'PAN (', 'RICHOUX-REGULAR (', 'RICHOUX-STRICT ('),
+                     labels = paste0(c('D-SCRIPT UNBALANCED (', 'DU (', 'GUO (', 'HUANG (', 'PAN (', 'RICHOUX-REGULAR (', 'RICHOUX-STRICT ('),
                                      unique(all_times_orig$n_train), rep(')', 6)),
                      guide = guide_axis(check.overlap = T),
                      trans = 'log10', 

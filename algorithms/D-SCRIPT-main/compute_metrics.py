@@ -40,6 +40,7 @@ def calculate_performance(test_num, pred_y, labels):
 
 partition = False
 rewired = False
+gold_epochs = True
 algorithm = 'topsyturvy'
 if partition:
     result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
@@ -79,11 +80,18 @@ else:
         folder = f'results_{algorithm}/rewired'
         datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "dscript"]
         split = 'Rewired'
+    elif gold_epochs:
+        folder = f'results_{algorithm}/original'
+        datasets = ['gold_01', 'gold_02', 'gold_03', 'gold_04', 'gold_05', 'gold_06', 'gold_07', 'gold_08', 'gold_09', 'gold_10']
+        split = 'Original'
     else:
         folder = f'results_{algorithm}/original'
         datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold", "dscript"]
         split = 'Original'
-    result_file = open(f"{folder}/all_results.tsv", "w")
+    if gold_epochs:
+        result_file = open(f"{folder}/all_results_gold.tsv", "w")
+    else:
+        result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
     for dataset in datasets:
         print(f"########## Dataset: {dataset} ##########")

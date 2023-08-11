@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
 from keras import backend as K
+from tensorflow.keras import callbacks
 import random
 
 
@@ -401,16 +402,20 @@ if __name__ == "__main__":
         rewired = False
         original = False
         prefix = 'gold_standard_unbalanced_'
+    if args[1] == 'split_train':
+        split_train = True
+    else:
+        split_train = False
 
     if rewired or original:
-        datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular']
+        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular', 'dscript']
     elif partition:
-        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
-                    'huang_both_0', 'huang_both_1', 'huang_0_1',
+        datasets = ['huang_both_0', 'huang_both_1', 'huang_0_1',
                     'guo_both_0','guo_both_1','guo_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
-                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1',
+                    'dscript_both_0', 'dscript_both_1', 'dscript_0_1']
     elif args[0] == 'gold':
         datasets = ['gold_standard']
     else:
@@ -469,18 +474,49 @@ if __name__ == "__main__":
                       optimizer=sgd,
                       metrics=[tf.keras.metrics.Precision()])
 
+        callbacks_list = [
+            callbacks.EarlyStopping(monitor='val_precision', patience=5, verbose=1),
+            callbacks.ModelCheckpoint(filepath=f'best_models/{prefix}{dataset}_es.h5',
+                                      monitor='val_precision', save_best_only=True, verbose=1)
+        ]
+
         if dataset.startswith('gold_standard'):
             # feed data into model
+            if split_train:
+                hist = model.fit(
+                    {'left': np.array(X_train[:, 0:sequence_len]),
+                     'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
+                    {'ppi_pred': y_train},
+                    validation_data=[{'left': np.array(X_val[:, 0:sequence_len]),
+                                      'right': np.array(X_val[:, sequence_len:sequence_len * 2])},
+                                     {'ppi_pred': y_val}],
+                    epochs=nb_epoch,
+                    batch_size=batch_size,
+                    verbose=1,
+                    callbacks=callbacks_list
+                )
+            else:
+                hist = model.fit(
+                    {'left': np.array(X_train[:, 0:sequence_len]),
+                     'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
+                    {'ppi_pred': y_train},
+                    validation_data=[{'left': np.array(X_val[:, 0:sequence_len]),
+                     'right': np.array(X_val[:, sequence_len:sequence_len * 2])},
+                    {'ppi_pred': y_val}],
+                    epochs=nb_epoch,
+                    batch_size=batch_size,
+                    verbose=1
+                )
+        elif split_train:
             hist = model.fit(
                 {'left': np.array(X_train[:, 0:sequence_len]),
                  'right': np.array(X_train[:, sequence_len:sequence_len * 2])},
                 {'ppi_pred': y_train},
-                validation_data=[{'left': np.array(X_val[:, 0:sequence_len]),
-                 'right': np.array(X_val[:, sequence_len:sequence_len * 2])},
-                {'ppi_pred': y_val}],
+                validation_split=0.1,
                 epochs=nb_epoch,
                 batch_size=batch_size,
-                verbose=1
+                verbose=1,
+                callbacks=callbacks_list
             )
         else:
             # feed data into model
@@ -506,6 +542,10 @@ if __name__ == "__main__":
             X_test = scaler.transform(X_test)
         print(f'Test: {int(len(y_test[:, 1]))} ({int(sum(y_test[:, 1]))}/{int(len(y_test[:, 1])) - int(sum(y_test[:, 1]))})')
 
+        if split_train:
+            print('Evaluating on the best model')
+            model = tf.keras.models.load_model(f'best_models/{prefix}{dataset}_es.h5')
+            dataset = f'{dataset}_es'
         predictions_test = model.predict([np.array(X_test[:, 0:sequence_len]),
                                           np.array(X_test[:, sequence_len:sequence_len * 2])])
 

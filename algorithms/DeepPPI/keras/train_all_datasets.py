@@ -175,6 +175,7 @@ def make_parser():
                         help='File containing weights to load. You must also give a test set with this option.')
     parser.add_argument('-name', type=str,
                         help='Name complement to produced files, written at the end of the name file.')
+    parser.add_argument('-split_train', type=str2bool, nargs='?', const=True, default=False, help='For the early stopping / 10% of training := validation setting.')
     return parser
 
 
@@ -318,9 +319,10 @@ if __name__ == '__main__':
     test_set_pos = args.test_pos
     test_set_neg = args.test_neg
 
+    split_train = args.split_train
+
     if int(patience) == 0:
         patience = args.epochs
-
 
     # Result files will be saved using a name starting with file_name
     now = datetime.datetime.now()
@@ -341,8 +343,18 @@ if __name__ == '__main__':
         val_data = (val_data, val_labels)
         callbacks_list = [
             callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
-                                        verbose=1)]
-        callbacks_list.append(callbacks.EarlyStopping(monitor='val_acc', patience=patience, verbose=1))
+                                        verbose=1),
+            callbacks.EarlyStopping(monitor='val_acc', patience=patience, verbose=1),
+            callbacks.ModelCheckpoint(filepath='best_models/' + file_name + '.h5',
+                                      monitor='val_acc', save_best_only=True, verbose=1)]
+    elif split_train:
+        callbacks_list = [
+            callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
+                                        verbose=1),
+            callbacks.EarlyStopping(monitor='val_acc', patience=patience, verbose=1),
+            callbacks.ModelCheckpoint(filepath='best_models/' + file_name + '.h5',
+                                      monitor='val_acc', save_best_only=True, verbose=1)
+        ]
     else:
         callbacks_list = [callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=5, min_lr=0.0008, cooldown=1,
                                                       verbose=1),
@@ -365,6 +377,13 @@ if __name__ == '__main__':
                             batch_size=batch_size,
                             callbacks=callbacks_list,
                             validation_data=val_data)
+    elif split_train:
+        history = model.fit(train_data,
+                            labels,
+                            epochs=epochs,
+                            batch_size=batch_size,
+                            callbacks=callbacks_list,
+                            validation_split=0.1)
     else:
         history = model.fit(train_data,
                             labels,
@@ -386,6 +405,9 @@ if __name__ == '__main__':
         f.write(f'n_test,{len(test_labels)}\n')
         f.write(f'n_test_pos,{sum(test_labels)}\n')
         f.write(f'n_test_neg,{len(test_labels) - sum(test_labels)}\n')
+    if split_train:
+        print('Evaluating on the best model')
+        model = tf.keras.models.load_model(f'best_models/{file_name}.h5')
     score, acc = model.evaluate(test_data, test_labels)
     predict = model.predict(test_data, batch_size=batch_size, verbose=1)
     predict = np.reshape(predict, -1)
