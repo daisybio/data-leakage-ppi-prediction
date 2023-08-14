@@ -1,0 +1,9 @@
+,Score
+Accuracy,0.5194
+Precision,0.5099
+Recall,0.9963
+Specificity,0.0426
+MCC,0.1292
+F1,0.6746
+AUC,0.6516
+AUPR,0.6319
