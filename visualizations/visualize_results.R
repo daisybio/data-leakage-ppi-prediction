@@ -5,14 +5,25 @@ library(pheatmap)
 library(latex2exp)
 
 measure <- 'Accuracy'
+es <- TRUE
 
-original_results <- fread(paste0('results/original_', measure, '.csv'))
-gold_standard_results <- fread(paste0('results/gold_standard_', measure, '.csv'))
-original_results <- rbind(original_results, gold_standard_results)
-original_results$Test <- 'Original'
-rewired_results <- fread(paste0('results/rewired_', measure, '.csv'))
-rewired_results$Test <- 'Rewired'
-partition_results <- fread(paste0('results/partition_', measure, '.csv'))
+if(es){
+  original_results <- fread(paste0('results/original_', measure, '_es.csv'))
+  gold_standard_results <- fread(paste0('results/gold_standard_', measure, '_es.csv'))
+  original_results <- rbind(original_results, gold_standard_results)
+  original_results$Test <- 'Original'
+  rewired_results <- fread(paste0('results/rewired_', measure, '_es.csv'))
+  rewired_results$Test <- 'Rewired'
+  partition_results <- fread(paste0('results/partition_', measure, '_es.csv'))
+}else{
+  original_results <- fread(paste0('results/original_', measure, '.csv'))
+  gold_standard_results <- fread(paste0('results/gold_standard_', measure, '.csv'))
+  original_results <- rbind(original_results, gold_standard_results)
+  original_results$Test <- 'Original'
+  rewired_results <- fread(paste0('results/rewired_', measure, '.csv'))
+  rewired_results$Test <- 'Rewired'
+  partition_results <- fread(paste0('results/partition_', measure, '.csv')) 
+}
 colnames(partition_results) <- c('Model', 'Dataset', measure, 'Test')
 
 all_results <- rbind(original_results, rewired_results)
@@ -174,8 +185,9 @@ pheatmap(t(result_mat),
                                   ),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
-         gaps_col = 7,
-         gaps_row = c(8,15,21,27),
+         gaps_col = 5,
+         #gaps_row = c(8,15,21,27),
+         gaps_row = c(7,14,20,26),
          display_numbers = TRUE,
          number_color = number_color,
          legend = FALSE,
@@ -187,7 +199,7 @@ pheatmap(t(result_mat),
          color = colorRampPalette(rev(brewer.pal(n = 9, name =
                                                    "RdYlBu")))(100),
          labels_row = c(
-           paste0('GOLD STANDARD (', original_sizes['gold'], '/', original_dscript_sizes['gold'], ')'),
+           #paste0('GOLD STANDARD (', original_sizes['gold'], '/', original_dscript_sizes['gold'], ')'),
            paste0('HUANG (', original_sizes['huang'], '/', original_dscript_sizes['huang'], ')'),
            paste0('GUO (', original_sizes['guo'], '/', original_dscript_sizes['guo'], ')'),
            paste0('DU (', original_sizes['du'], '/', original_dscript_sizes['du'], ')'),
@@ -225,9 +237,12 @@ pheatmap(t(result_mat),
            paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], '/', partition_dscript_sizes['richoux 0'], ')'),
            paste0('D-SCRIPT UNBALANCED (', partition_sizes['dscript 0'], '/', partition_dscript_sizes['dscript 0'], ')')
          ),
-         labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
-                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
-                        'Harmonic\nFunction', 'Global and\nLocal Consistency')
+         #labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
+        #                'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
+        #                'Harmonic\nFunction', 'Global and\nLocal Consistency')
+        labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
+                                       'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
+                                       'Harmonic\nFunction', 'Global and\nLocal Consistency')
 )
 
 number_color <- compute_number_colors(t(result_mat[, 2:8]))
