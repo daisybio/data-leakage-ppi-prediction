@@ -125,12 +125,14 @@ def main(args):
     device = args.device
     use_cuda = (device >= 0) and torch.cuda.is_available()
     if use_cuda:
-        torch.cuda.set_device(device)
-        log(
-            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
-        )
+        #torch.cuda.set_device(device)
+        #log(
+        #    f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
+        #)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
         log("Using CPU")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load Model
     model_path = args.model
