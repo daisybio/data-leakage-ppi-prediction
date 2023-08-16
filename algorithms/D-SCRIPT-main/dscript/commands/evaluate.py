@@ -123,7 +123,7 @@ def main(args):
 
     # Set Device
     device = args.device
-    use_cuda = (device >= 0) and torch.cuda.is_available()
+    use_cuda = torch.cuda.is_available()
     if use_cuda:
         #torch.cuda.set_device(device)
         #log(

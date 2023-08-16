@@ -725,17 +725,16 @@ def main(args):
 
     # Set the device
     device = args.device
-    use_cuda = (device > -1) and torch.cuda.is_available()
+    use_cuda = torch.cuda.is_available()
     if use_cuda:
-        torch.cuda.set_device(device)
-        log(
-            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}",
-            file=output,
-            print_also=True,
-        )
+        # torch.cuda.set_device(device)
+        # log(
+        #    f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
+        # )
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
-        log("Using CPU", file=output, print_also=True)
-        device = "cpu"
+        log("Using CPU")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if args.seed is not None:
         np.random.seed(args.seed)
