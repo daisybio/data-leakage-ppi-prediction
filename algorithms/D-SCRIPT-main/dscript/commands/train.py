@@ -440,7 +440,7 @@ def train_model(args, output):
     # Create data sets
 
     batch_size = args.batch_size
-    use_cuda = (args.device > -1) and torch.cuda.is_available()
+    use_cuda = torch.cuda.is_available()
     train_fi = args.train
     test_fi = args.test
     no_augment = args.no_augment
@@ -732,6 +732,7 @@ def main(args):
         #    f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
         # )
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        log(f'Using device {device}')
     else:
         log("Using CPU")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
