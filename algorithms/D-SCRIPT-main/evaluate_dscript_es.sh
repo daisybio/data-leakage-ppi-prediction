@@ -8,7 +8,7 @@
 #SBATCH --error=evaluate_dscript_original.err
 #SBATCH --mem=300G
 #SBATCH --time=24:00:00
-#SBATCH --partition=compms-gpu-a40
+#SBATCH --partition=jlab-gpu01
 
 echo evaluate d-script with manual early stopping. See best epochs in table
 echo ORIGINAL
@@ -33,7 +33,7 @@ do
         fi
 	echo evaluating on model $MODEL
 
-	dscript evaluate --test data/original/${DATASET}_test.txt --embedding $EMBEDDING --model $MODEL -o ./results_dscript/original/${DATASET}_es.txt
+	dscript evaluate --test data/original/${DATASET}_test.txt --embedding $EMBEDDING --model $MODEL -o ~/tmp_eval_out.txt
 done
 
 #echo REWIRED
