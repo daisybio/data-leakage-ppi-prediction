@@ -3,8 +3,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --job-name=eval_tt
-#SBATCH --output=evaluate_tt_original.out
-#SBATCH --error=evaluate_tt_original.err
+#SBATCH --output=evaluate_tt_%A_%a.out
+#SBATCH --error=evaluate_tt_%A_%a.err
 #SBATCH --mem=300G
 #SBATCH --time=24:00:00
 #SBATCH --partition=shared-cpu

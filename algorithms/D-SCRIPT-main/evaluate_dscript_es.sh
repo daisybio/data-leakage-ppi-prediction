@@ -3,8 +3,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --job-name=eval_dscript
-#SBATCH --output=evaluate_dscript.out
-#SBATCH --error=evaluate_dscript.err
+#SBATCH --output=evaluate_dscript_%A_%a.out
+#SBATCH --error=evaluate_dscript_%A_%a.err
 #SBATCH --mem=300G
 #SBATCH --time=24:00:00
 #SBATCH --partition=shared-cpu
@@ -62,7 +62,7 @@ do
         EPOCH=${bestepochs[$DATASET]}
         MODEL="./models/${DATASET}_both_0_dscript_partitions_epoch${EPOCH}.sav"
         TESTSET="data/partitions/${DATASET}_partition_0.txt"
-        OUTFILE="./results_dscript/partitions/${DATASET}_both_0_es.txt"
+        OUTFILE="./results_dscript/partitions/${DATASET}_both_0_es"
         combis[$index]="$TESTSET $EMBEDDING $MODEL $OUTFILE"
         index=$((index+1))
 done
@@ -79,7 +79,7 @@ do
         EPOCH=${bestepochs[$DATASET]}
         MODEL="./models/${DATASET}_both_1_dscript_partitions_epoch${EPOCH}.sav"
         TESTSET="data/partitions/${DATASET}_partition_1.txt"
-        OUTFILE="./results_dscript/partitions/${DATASET}_both_1_es.txt"
+        OUTFILE="./results_dscript/partitions/${DATASET}_both_1_es"
         combis[$index]="$TESTSET $EMBEDDING $MODEL $OUTFILE"
         index=$((index+1))
 done
@@ -96,7 +96,7 @@ do
         EPOCH=${bestepochs[$DATASET]}
         MODEL="./models/${DATASET}_0_1_dscript_partitions_epoch${EPOCH}.sav"
         TESTSET="data/partitions/${DATASET}_partition_1.txt"
-        OUTFILE="./results_dscript/partitions/${DATASET}_0_1_es.txt"
+        OUTFILE="./results_dscript/partitions/${DATASET}_0_1_es"
         combis[$index]="$TESTSET $EMBEDDING $MODEL $OUTFILE"
         index=$((index+1))
 done
