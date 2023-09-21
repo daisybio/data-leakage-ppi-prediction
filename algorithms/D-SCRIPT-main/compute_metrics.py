@@ -38,22 +38,30 @@ def calculate_performance(test_num, pred_y, labels):
     return tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score
 
 
-partition = False
-rewired = False
-gold_epochs = True
+partition = True
+rewired = True
+gold_epochs = False
+early_stopping = True
 algorithm = 'topsyturvy'
 if partition:
-    result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
+    if early_stopping:
+        result_file = open(f"results_{algorithm}/partitions/all_results_es.tsv", "w")
+    else:
+        result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
     for dataset in ["du","guo","huang", "richoux", "pan", "dscript"]:
         print(f"########## Dataset: {dataset} ##########")
         for train in ["both", "0"]:
             for test in ["0", "1"]:
-                if train == "0" and test == "0" or not os.path.isfile(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv"):
+                if early_stopping:
+                    file = f"results_{algorithm}/partitions/{dataset}_{train}_{test}_es.predictions.tsv"
+                else:
+                    file = f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv"
+                if train == "0" and test == "0" or not os.path.isfile(file):
                     continue
                 y_pred = []
                 y_true = []
-                with open(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv", "r") as f:
+                with open(file, "r") as f:
                     for line in f:
                         y_pred.append(float(line.strip().split("\t")[3]))
                         y_true.append(float(line.strip().split("\t")[2]))
@@ -91,13 +99,20 @@ else:
     if gold_epochs:
         result_file = open(f"{folder}/all_results_gold.tsv", "w")
     else:
-        result_file = open(f"{folder}/all_results.tsv", "w")
+        if early_stopping:
+            result_file = open(f"{folder}/all_results_es.tsv", "w")
+        else:
+            result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
     for dataset in datasets:
         print(f"########## Dataset: {dataset} ##########")
         y_pred = []
         y_true = []
-        with open(f"{folder}/{dataset}.txt.predictions.tsv", "r") as f:
+        if early_stopping:
+            file = f"{folder}/{dataset}_es.txt.predictions.tsv"
+        else:
+            file = f"{folder}/{dataset}.txt.predictions.tsv"
+        with open(file, "r") as f:
             for line in f:
                 y_pred.append(float(line.strip().split("\t")[3]))
                 y_true.append(float(line.strip().split("\t")[2]))

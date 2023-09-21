@@ -292,7 +292,12 @@ all_results <-
   rbind(all_results, sprint_results[, c('Model', 'Dataset', measure, 'Partition'), with = FALSE])
 
 # D-Script
-dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+if(es){
+  dscript_results <- fread(paste0(dscript_res, 'all_results_es.tsv'))
+}else{
+  dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+}
+
 if (measure == 'Accuracy') {
   wide_df <-
     dcast(dscript_results[Dataset == 'dscript',], Model + Dataset + Split ~ Metric, value.var =
@@ -314,7 +319,12 @@ all_results <-
                                        FALSE])
 
 # Topsy_Turvy
-tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+if(es){
+  tt_results <- fread(paste0(tt_res, 'all_results_es.tsv'))
+}else{
+  tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+}
+
 if (measure == 'Accuracy') {
   wide_df <-
     dcast(tt_results[Dataset == 'dscript',], Model + Dataset + Split ~ Metric, value.var =
@@ -365,54 +375,3 @@ if(es){
   fwrite(all_results, file = paste0('results/partition_', measure, '.csv'))
 }
 
-# training data size
-sprint_data_dir <- '../algorithms/SPRINT/data/partitions/'
-training_files <- list.files(path = sprint_data_dir, pattern = 'pos')
-train_sizes <-
-  sapply(paste0(sprint_data_dir, training_files), function(x) {
-    as.integer(system2(
-      "wc",
-      args = c("-l",
-               x,
-               " | awk '{print $1}'"),
-      stdout = TRUE
-    )) * 2
-  })
-filenames <- tstrsplit(training_files, '_', keep = c(1, 3))
-names(train_sizes) <- paste(filenames[[1]], filenames[[2]])
-train_sizes <- prettyNum(train_sizes, big.mark = ',')
-
-ggplot(all_results, aes(
-  x = Dataset,
-  y = get(measure),
-  color = Model,
-  group = Model
-)) +
-  geom_line(size = 1, alpha = 0.7) +
-  geom_point(size = 3) +
-  scale_x_discrete(
-    labels = c(
-      "huang" = paste0("Huang\n(", train_sizes["huang 0"], "|\n", train_sizes["huang both"], ")"),
-      "guo" = paste0("Guo\n(", train_sizes["guo 0"], "|\n", train_sizes["guo both"], ")"),
-      "du" = paste0("Du\n(", train_sizes["du 0"], "|\n", train_sizes["du both"], ")"),
-      "pan" = paste0("Pan\n(", train_sizes["pan 0"], "|\n", train_sizes["pan both"], ")"),
-      "richoux" = paste0("Richoux\n(", train_sizes["richoux 0"], "|\n", train_sizes["richoux both"], ")")
-    )
-  ) +
-  ylim(0.4, 1.0) +
-  facet_wrap( ~ Partition) +
-  labs(x = "Dataset\n(n training partition 0|both)", y = paste0(
-    measure,
-    "/",
-    ifelse(measure == 'Accuracy', 'AUC', 'AUPR'),
-    " for SPRINT"
-  )) +
-  #scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
-  theme_bw() +
-  theme(text = element_text(size = 20),
-        axis.text.x = element_text(
-          angle = 0,
-          vjust = 0.5,
-          hjust = 0.5
-        ))
-#ggsave(paste0("plots/all_results_partition_", measure, ".png"),height=8, width=18)

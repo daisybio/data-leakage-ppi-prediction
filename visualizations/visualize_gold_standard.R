@@ -147,7 +147,12 @@ all_results <-
                                       FALSE])
 
 # DSCRIPT
-dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+if(es){
+  dscript_results <- fread(paste0(dscript_res, 'all_results_es.tsv'))
+}else{
+  dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+}
+
 dscript_results <-
   dscript_results[Dataset == 'gold' & Metric == measure]
 colnames(dscript_results) <-
@@ -158,7 +163,12 @@ all_results <-
                                        FALSE])
 
 # TopsyTurvy
-tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+if(es){
+  tt_results <- fread(paste0(tt_res, 'all_results_es.tsv'))
+}else{
+  tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+}
+
 tt_results <- tt_results[Dataset == 'gold' & Metric == measure]
 colnames(tt_results) <-
   c('Model', 'Dataset', 'Metric', measure, 'Split')

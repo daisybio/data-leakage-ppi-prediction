@@ -185,15 +185,14 @@ pheatmap(t(result_mat),
                                   ),
          cluster_rows = FALSE,
          cluster_cols = FALSE,
-         gaps_col = 5,
+         gaps_col = c(1,7),
          gaps_row = c(8,15,21,27),
-         #gaps_row = c(7,14,20,26),
          display_numbers = TRUE,
          number_color = number_color,
          legend = FALSE,
-         #filename = paste0('plots/heatmap_results_', measure, '.pdf'),
-         #width=8,
-         #height=10,
+         filename = paste0('plots/heatmap_results_', measure, '.pdf'),
+         width=10,
+         height=11,
          cex = 1,
          breaks = breaksList,
          color = colorRampPalette(rev(brewer.pal(n = 9, name =
@@ -237,12 +236,9 @@ pheatmap(t(result_mat),
            paste0('RICHOUX-UNIPROT (', partition_sizes['richoux 0'], '/', partition_dscript_sizes['richoux 0'], ')'),
            paste0('D-SCRIPT UNBALANCED (', partition_sizes['dscript 0'], '/', partition_dscript_sizes['dscript 0'], ')')
          ),
-         #labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
-        #                'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
-        #                'Harmonic\nFunction', 'Global and\nLocal Consistency')
-        labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR',
-                                       'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
-                                       'Harmonic\nFunction', 'Global and\nLocal Consistency')
+         labels_col = c('SPRINT (AUPR)', 'Richoux-\nFC', 'Richoux-\nLSTM', 'DeepFE', 'PIPR', 'D-SCRIPT', 'Topsy Turvy',
+                        'RF-PCA', 'SVM-PCA', 'RF-MDS', 'SVM-MDS', 'RF-\nnode2vec', 'SVM-\nnode2vec', 
+                        'Harmonic\nFunction', 'Global and\nLocal Consistency')
 )
 
 number_color <- compute_number_colors(t(result_mat[, 2:8]))

@@ -242,7 +242,12 @@ all_results <-
   rbind(all_results, sprint_results[, c('Model', 'Dataset', measure), with = FALSE])
 
 # D-Script
-dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+if(es){
+  dscript_results <- fread(paste0(dscript_res, 'all_results_es.tsv'))
+}else{
+  dscript_results <- fread(paste0(dscript_res, 'all_results.tsv'))
+}
+
 if (measure == 'Accuracy') {
   balanced_accuracy <-
     0.5 * (dscript_results[Dataset == 'dscript' &
@@ -262,7 +267,12 @@ all_results <-
                                        FALSE])
 
 # Topsy_Turvy
-tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+if(es){
+  tt_results <- fread(paste0(tt_res, 'all_results_es.tsv'))
+}else{
+  tt_results <- fread(paste0(tt_res, 'all_results.tsv'))
+}
+
 if (measure == 'Accuracy') {
   balanced_accuracy <-
     0.5 * (tt_results[Dataset == 'dscript' &
@@ -320,58 +330,3 @@ if(es){
 }else{
   fwrite(all_results, file = paste0('results/rewired_', measure, '.csv'))
 }
-
-# training data size
-sprint_data_dir <- '../algorithms/SPRINT/data/rewired/'
-training_files <-
-  list.files(path = sprint_data_dir, pattern = 'train_pos')
-train_sizes <-
-  sapply(paste0(sprint_data_dir, training_files), function(x) {
-    as.integer(system2(
-      "wc",
-      args = c("-l",
-               x,
-               " | awk '{print $1}'"),
-      stdout = TRUE
-    )) * 2
-  })
-training_files[grepl('richoux', training_files, fixed = TRUE)] <-
-  gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed =
-                                                       TRUE)])
-names(train_sizes) <- tstrsplit(training_files, '_', keep = 1)[[1]]
-train_sizes <- prettyNum(train_sizes, big.mark = ',')
-
-ggplot(all_results, aes(
-  x = Dataset,
-  y = get(measure),
-  color = Model,
-  group = Model
-)) +
-  geom_line(size = 1, alpha = 0.7) +
-  geom_point(size = 3) +
-  scale_x_discrete(
-    labels = c(
-      "huang" = paste0("Huang (", train_sizes["huang"], ")"),
-      "guo" = paste0("Guo (", train_sizes["guo"], ")"),
-      "du" = paste0("Du (", train_sizes["du"], ")"),
-      "pan" = paste0("Pan (", train_sizes["pan"], ")"),
-      "richoux-regular" = paste("Richoux regular (", train_sizes["richoux-regular"], ")"),
-      "richoux-strict" = paste("Richoux strict (", train_sizes["richoux-strict"], ")")
-    )
-  ) +
-  #ylim(0.5, 1.0)+
-  labs(x = "Dataset (n training)", y = paste0(
-    measure,
-    "/",
-    ifelse(measure == 'Accuracy', 'AUC', 'AUPR'),
-    " for SPRINT"
-  )) +
-  #scale_color_manual(values = c(brewer.pal(12, "Paired")[-11], '#FF3393', '#21D5C1'))+
-  theme_bw() +
-  theme(text = element_text(size = 20),
-        axis.text.x = element_text(
-          angle = 45,
-          vjust = 0.5,
-          hjust = 0.5
-        ))
-#ggsave(paste("plots/all_results_rewired_", measure, ".png"),height=8, width=12)
