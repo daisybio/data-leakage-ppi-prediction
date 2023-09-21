@@ -43,10 +43,17 @@ def learn_rf(train_features, train_labels, test_features, test_labels):
 def learn_SVM(train_features, train_labels, test_features, test_labels):
     import numpy as np
     from sklearn.svm import SVC
-    clf = SVC(random_state=42)
+    from sklearn.preprocessing import StandardScaler
+    clf = SVC(random_state=42, max_iter=1000)
+    scaler = StandardScaler()
+    print("Scaling feature matrix ...")
+    train_features = scaler.fit_transform(train_features)
+    print(f'Scaler mean for first 10 features: {scaler.mean_[:10]}')
     print("Fitting SVM ...")
     clf.fit(train_features, train_labels)
     print("Predicting ...")
+    test_features = scaler.fit_transform(test_features)
+    print(f'Scaler mean for first 10 features: {scaler.mean_[:10]}')
     y_pred = clf.predict(test_features)
     y_pred = np.array(np.where(y_pred > 0.5, 1, 0), dtype=int)
     return calculate_scores(y_true=test_labels, y_pred=y_pred)
