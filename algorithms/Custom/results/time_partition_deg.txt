@@ -31,3 +31,6 @@ richoux_0_1	Local and Global Consistency	5.833543062210083
 dscript_both_0	Local and Global Consistency	745.4015412330627
 dscript_both_1	Local and Global Consistency	471.26040172576904
 dscript_0_1	Local and Global Consistency	336.24647092819214
+dscript_both_0	Local and Global Consistency	1307.522513628006
+dscript_both_1	Local and Global Consistency	671.6849398612976
+dscript_0_1	Local and Global Consistency	427.5384466648102
