@@ -1,0 +1,5 @@
+[2023-08-26-16:31:03] D-SCRIPT Version 0.2.2
+[2023-08-26-16:31:03] Called as: /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/dscript train --topsy-turvy --train data/partitions/dscript_partition_both.txt --test data/partitions/dscript_partition_0.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/dscript_both_0_tt_partitions -o results_topsyturvy/train_dscript_both_0.txt
+[2023-08-26-16:31:03] Loaded 366608 training pairs
+[2023-08-26-16:31:03] Loaded 149215 test pairs
+[2023-08-26-16:31:03] Loading embeddings...
