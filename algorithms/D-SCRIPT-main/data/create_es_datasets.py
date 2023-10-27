@@ -27,7 +27,7 @@ def split_dataset(file):
         new_val_filename = file.replace('.txt', '_val_es.txt')
     else:
         new_train_filename = file.replace('.txt', '_es.txt')
-        new_val_filename = file.replace('.txt', '_val_es.txt')
+        new_val_filename = file.replace('_train.txt', '_val_es.txt')
 
     with open(new_train_filename, 'w') as f:
         for ppi in train:
