@@ -2,8 +2,8 @@ library(data.table)
 library(ggplot2)
 library(RColorBrewer)
 
-measure <- 'Accuracy'
-es <- TRUE
+measure <- 'F1'
+es <- FALSE
 
 #### result prefixes
 custom_res <- '../algorithms/Custom/results/'

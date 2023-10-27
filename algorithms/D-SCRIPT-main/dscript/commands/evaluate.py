@@ -125,10 +125,11 @@ def main(args):
     device = args.device
     use_cuda = torch.cuda.is_available()
     if use_cuda:
-        #torch.cuda.set_device(device)
-        #log(
-        #    f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
-        #)
+        device = get_freer_gpu()
+        torch.cuda.set_device(device)
+        log(
+            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
+        )
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
         log("Using CPU")
@@ -192,6 +193,13 @@ def main(args):
     plot_eval_predictions(labels, phats, outPath)
 
     outFile.close()
+
+
+def get_freer_gpu():
+    import os
+    os.system('nvidia-smi -q -d Memory |grep -A4 GPU|grep Free >tmp')
+    memory_available = [int(x.split()[2]) for x in open('tmp', 'r').readlines()]
+    return np.argmax(memory_available)
 
 
 if __name__ == "__main__":

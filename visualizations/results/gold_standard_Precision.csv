@@ -1,11 +1,11 @@
 Model,Dataset,Precision
 degree_cons,gold_standard,0.5
-RF_MDS,gold_standard,0.514016243122871
-SVM_MDS,gold_standard,0.51195338779433
-RF_node2vec,gold_standard,0.522657450076805
-SVM_node2vec,gold_standard,0.532693530670058
-RF_PCA,gold_standard,0.537009263343626
-SVM_PCA,gold_standard,0.504625183238134
+RF_MDS,gold_standard,0.523792048929664
+SVM_MDS,gold_standard,0.50466108389951
+RF_node2vec,gold_standard,0.515420950263962
+SVM_node2vec,gold_standard,0.513806549789177
+RF_PCA,gold_standard,0.546014971378248
+SVM_PCA,gold_standard,0.51316881744774
 DeepFE,gold_standard,0.5204
 deepPPI_FC,gold_standard,0.5331
 deepPPI_LSTM,gold_standard,0.5135

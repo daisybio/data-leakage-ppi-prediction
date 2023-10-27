@@ -12,23 +12,27 @@ def read_train_file(path, skipon_var, skipon_val, model):
             str_line = line.strip()
             if eval(skipon_var) == skipon_val:
                 break
-            if any(s in str_line for s in ['original', 'rewired', 'partition']):
-                setting = [s for s in ['original', 'rewired', 'partition'] if s in str_line][0]
+            if any(s in str_line for s in ['original', 'rewired', 'partition', 'gold']):
+                setting = [s for s in ['original', 'rewired', 'partition', 'gold'] if s in str_line][0]
             if any(ds in str_line for ds in
-                   ['guo_', 'huang_', 'du_', 'pan_', 'richoux_regular_', 'richoux_strict_', 'richoux_', 'dscript_']):
-                dataset = [ds for ds in ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict', 'richoux', 'dscript'] if
+                   ['guo_', 'huang_', 'du_', 'pan_', 'richoux_regular_', 'richoux_strict_', 'richoux_', 'dscript_', 'gold_']):
+                dataset = [ds for ds in ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict', 'richoux', 'dscript', 'gold'] if
                            ds in str_line][0]
+                if dataset == 'dscript':
+                    dataset = 'D-SCRIPT UNBAL.'
                 if 'both_' in str_line or '0_' in str_line:
                     if 'both_' in str_line:
-                        dataset += '_both'
+                        dataset += ' INTER->'
                     else:
-                        dataset += '_0'
+                        dataset += ' INTRA0->'
                     if '0_es' in str_line:
-                        dataset += '_0'
+                        dataset += 'INTRA0'
                     else:
-                        dataset += '_1'
-            if any(m == str_line for m in ['FC', 'LSTM']):
-                model = 'Richoux_' + str_line
+                        dataset += 'INTRA1'
+            if 'FC_' in str_line:
+                model = 'Richoux_FC'
+            elif 'LSTM_' in str_line:
+                model = 'Richoux_LSTM'
             if str_line.startswith('Epoch'):
                 epoch = str_line.split(' ')[1].split(':')[0]
             if line.strip().__contains__('val_loss'):
@@ -49,9 +53,10 @@ def read_train_file(path, skipon_var, skipon_val, model):
 df_richoux_orig = read_train_file('algorithms/DeepPPI/keras/es_deepPPI.out', skipon_var='str_line', skipon_val='rewired', model='')
 df_richoux_rest = read_train_file('algorithms/DeepPPI/keras/es_gold_deepPPI.out', skipon_var='epoch', skipon_val='-1', model='')
 df_deepFE = read_train_file('algorithms/DeepFE-PPI/deepFE_es.out', skipon_var='epoch', skipon_val='-1', model='DeepFE')
+df_deepFE_gold = read_train_file('algorithms/DeepFE-PPI/deepFE_es_gold.out', skipon_var='epoch', skipon_val='-1', model='DeepFE')
 df_pipr = read_train_file('algorithms/seq_ppi/binary/model/lasagna/es_PIPR.out',  skipon_var='epoch', skipon_val='-1', model='PIPR')
 df_pipr_rest = read_train_file('algorithms/seq_ppi/binary/model/lasagna/es_gold_PIPR.out',  skipon_var='epoch', skipon_val='-1', model='PIPR')
-df = pd.concat([df_richoux_orig, df_richoux_rest, df_deepFE, df_pipr, df_pipr_rest])
+df = pd.concat([df_richoux_orig, df_richoux_rest, df_deepFE, df_deepFE_gold, df_pipr, df_pipr_rest])
 
 df.to_csv('early_stopping_df.csv', index=False)
 

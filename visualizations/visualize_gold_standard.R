@@ -88,9 +88,9 @@ if (es) {
                 1)[[1]]
 } else{
   deepPPI_results <-
-    lapply(paste0(deepPPI_res, list.files(deepPPI_res, pattern = 'gold.*.csv')), fread)
+    lapply(paste0(deepPPI_res, list.files(deepPPI_res, pattern = 'gold_standard.csv')), fread)
   file_names <-
-    tstrsplit(list.files(deepPPI_res, pattern = 'gold.*.csv'),
+    tstrsplit(list.files(deepPPI_res, pattern = 'gold_standard.csv'),
               '.csv',
               keep =
                 1)[[1]]

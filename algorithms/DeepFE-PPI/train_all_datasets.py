@@ -402,7 +402,7 @@ if __name__ == "__main__":
         rewired = False
         original = False
         prefix = 'gold_standard_unbalanced_'
-    if args[1] == 'split_train':
+    if len(args) > 1 and args[1] == 'split_train':
         split_train = True
     else:
         split_train = False

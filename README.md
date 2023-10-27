@@ -49,7 +49,7 @@ team of SIMAP2. They sent back the similarity data which we make available under
 [https://doi.org/10.6084/m9.figshare.21510939](https://doi.org/10.6084/m9.figshare.21510939) (`submatrix.tsv.gz`). 
 Download this and unzip it in `network_data/SIMAP2`.
 
-We preprocessed this data in order to give it to the KaHIP kaffpa algorithm with [simap_preprocessing.py](simap_preprocessing.py):
+We preprocessed this data in order to give it to the KaHIP kaffpa algorithm with [simap_preprocessing.py](Datasets_PPIs/Hippiev2.3/simap_preprocessing.py):
 
 1. We separated the file to obtain only human-human and yeast-yeast protein similarities
 2. We converted the edge lists to networks and converted the Uniprot node labels to integer labels because KaHIP needs `METIS` files as input. These files can only handle integer node labels
