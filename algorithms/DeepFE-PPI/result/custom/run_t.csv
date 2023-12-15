@@ -9,7 +9,7 @@ time_partition_du_0_1,3819.04335069656,partition,du,0,1,DeepFE_0_1
 time_partition_du_both_0,4580.03239774704,partition,du,both,0,DeepFE_both_0
 time_partition_du_both_1,4201.54419445992,partition,du,both,1,DeepFE_both_1
 time_rewired_du,1198.89230489731,rewired,du,,,DeepFE
-time_gold_standard_test,8370.29712629318,gold,standard,test,,DeepFE_test_NA
+time_original_gold,8370.29712629318,original,gold,,,DeepFE
 time_original_guo,379.259001493454,original,guo,,,DeepFE
 time_partition_guo_0_1,1366.12094426155,partition,guo,0,1,DeepFE_0_1
 time_partition_guo_both_0,1289.93155884743,partition,guo,both,0,DeepFE_both_0

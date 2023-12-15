@@ -1,0 +1,15 @@
+Model,Dataset,Recall
+degree_cons,gold_standard,1
+RF_MDS,gold_standard,0.164540424223793
+SVM_MDS,gold_standard,0.490931447894251
+RF_node2vec,gold_standard,0.217374321315574
+SVM_node2vec,gold_standard,0.633061208546541
+RF_PCA,gold_standard,0.238241623117123
+SVM_PCA,gold_standard,0.522594528127882
+DeepFE,gold_standard,0
+deepPPI_FC,gold_standard,0.5368
+deepPPI_LSTM,gold_standard,0.5819
+PIPR,gold_standard,0.6675
+SPRINT,gold_standard,0.5145
+D-SCRIPT,gold_standard,0.1499
+Topsy_Turvy,gold_standard,0.0814

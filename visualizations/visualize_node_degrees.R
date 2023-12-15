@@ -1,6 +1,7 @@
 library(data.table)
 library(ggplot2)
 library(RColorBrewer)
+library(latex2exp)
 
 all_degrees <- fread('../algorithms/SPRINT/data/node_degrees.csv')
 all_degrees$Test <- factor(all_degrees$Test, levels = c('original', 'rewired', 'partition'))

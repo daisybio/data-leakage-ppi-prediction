@@ -18,6 +18,7 @@ custom_times <- lapply(paste0(custom_res, list.files(custom_res, pattern='time*'
 file_names <- tstrsplit(list.files(custom_res, pattern='time*'), '.txt', keep=1)[[1]]
 file_names[grepl('richoux_regular', file_names, fixed=TRUE)] <- gsub('richoux_regular', 'Richoux-Regular', file_names[grepl('richoux_regular', file_names, fixed=TRUE)])
 file_names[grepl('richoux_strict', file_names, fixed=TRUE)] <- gsub('richoux_strict', 'Richoux-Strict', file_names[grepl('richoux_strict', file_names, fixed=TRUE)])
+file_names[grepl('gold_standard', file_names, fixed=TRUE)] <- gsub('gold_standard', 'original_gold', file_names[grepl('gold_standard', file_names, fixed=TRUE)])
 file_names <- tstrsplit(file_names, '_', keep=c(2, 3, 4))
 names(custom_times) <- paste(file_names[[1]], file_names[[2]], file_names[[3]], sep='_')
 custom_times_df <- rbindlist(custom_times[!grepl('partition|deg', names(custom_times))], idcol = 'filename')
@@ -47,8 +48,9 @@ fwrite(all_times_custom, '../algorithms/Custom/results/run_t.csv')
 all_times <- rbind(all_times, all_times_custom[, c('Test', 'Model', 'Dataset','Time [s]')])
 
 # deepFE
-deepFE_times <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = 'time*', recursive = TRUE)), fread)
-file_names <- tstrsplit(basename(list.files(deepFE_res, pattern = 'time*', recursive = TRUE)), '.txt', keep=1)[[1]]
+deepFE_times <- lapply(paste0(deepFE_res, list.files(deepFE_res, pattern = 'time_(original|rewired|partition|gold)_(dscript|du|standard_test|guo|huang|pan|richoux|richoux_regular|richoux_strict)(_0_1|_both_0|_both_1|).txt', recursive = TRUE)), fread)
+file_names <- tstrsplit(basename(list.files(deepFE_res, pattern = 'time_(original|rewired|partition|gold)_(dscript|du|standard_test|guo|huang|pan|richoux|richoux_regular|richoux_strict)(_0_1|_both_0|_both_1|).txt', recursive = TRUE)), '.txt', keep=1)[[1]]
+file_names[grepl('gold_standard_test', file_names, fixed=TRUE)] <- gsub('gold_standard_test', 'original_gold', file_names[grepl('gold_standard_test', file_names, fixed=TRUE)])
 file_names[grepl('richoux_regular', file_names, fixed=TRUE)] <- gsub('richoux_regular', 'Richoux-Regular', file_names[grepl('richoux_regular', file_names, fixed=TRUE)])
 file_names[grepl('richoux_strict', file_names, fixed=TRUE)] <- gsub('richoux_strict', 'Richoux-Strict', file_names[grepl('richoux_strict', file_names, fixed=TRUE)])
 names(deepFE_times) <- file_names 
@@ -65,6 +67,7 @@ all_times <- rbind(all_times, deepFE_times[, c('Test', 'Model', 'Dataset', 'Time
 # deepPPI
 deepPPI_times <- fread(paste0(deepPPI_res, 'all_times.txt'))
 colnames(deepPPI_times) <- c('Filename', 'Time [s]')
+deepPPI_times <- deepPPI_times[!grepl("_es", deepPPI_times$Filename)]
 deepPPI_times$Filename[grepl('richoux_regular', deepPPI_times$Filename, fixed=TRUE)] <- gsub('richoux_regular', 'Richoux-Regular', deepPPI_times$Filename[grepl('richoux_regular', deepPPI_times$Filename, fixed=TRUE)])
 deepPPI_times$Filename[grepl('richoux_strict', deepPPI_times$Filename, fixed=TRUE)] <- gsub('richoux_strict', 'Richoux-Strict', deepPPI_times$Filename[grepl('richoux_strict', deepPPI_times$Filename, fixed=TRUE)])
 deepPPI_times <- deepPPI_times[, c('Model', 'Test', 'Dataset', 'Part_Train', 'Part_Test') := tstrsplit(Filename, '_', fill=NA)]
@@ -79,6 +82,7 @@ all_times <- rbind(all_times, deepPPI_times[,  c('Test', 'Model', 'Dataset', 'Ti
 # seq_ppi
 seq_ppi_times <-  fread(paste0(seqppi_res, 'all_times.txt'))
 colnames(seq_ppi_times) <- c('Filename', 'Time [s]')
+seq_ppi_times <- seq_ppi_times[!grepl("_es", seq_ppi_times$Filename)]
 seq_ppi_times$Filename[grepl('richoux_regular', seq_ppi_times$Filename, fixed=TRUE)] <- gsub('richoux_regular', 'richoux-regular', seq_ppi_times$Filename[grepl('richoux_regular', seq_ppi_times$Filename, fixed=TRUE)])
 seq_ppi_times$Filename[grepl('richoux_strict', seq_ppi_times$Filename, fixed=TRUE)] <- gsub('richoux_strict', 'richoux-strict', seq_ppi_times$Filename[grepl('richoux_strict', seq_ppi_times$Filename, fixed=TRUE)])
 seq_ppi_times <- seq_ppi_times[, c('Test', 'Dataset', 'Part_Train', 'Part_Test') := tstrsplit(Filename, '_', fill=NA)]
@@ -213,7 +217,7 @@ colors <- c('#e6194b', '#f032e6', '#ffe119', '#4363d8', '#f58231', '#911eb4',
 
 ggplot(all_times_orig[!is.na(Dataset)], aes(x=n_train, y = `Time [s]`, color = Model, group=Model, shape=Model))+
   geom_point(size=3)+
-  geom_line(size=2, alpha=0.7)+
+  geom_line(size=2, alpha=0.6)+
   scale_x_continuous(breaks = unique(all_times_orig$n_train), 
                      labels = paste0(c('D-SCRIPT UNBALANCED (', 'DU (', 'GUO (', 'HUANG (', 'PAN (', 'RICHOUX-REGULAR (', 'RICHOUX-STRICT ('),
                                      unique(all_times_orig$n_train), rep(')', 6)),
@@ -236,98 +240,21 @@ ggplot(all_times_orig[!is.na(Dataset)], aes(x=n_train, y = `Time [s]`, color = M
   theme(text = element_text(size=15), axis.text.x = element_text(angle = 15, hjust=1))
 ggsave("./plots/all_times_original.pdf",height=6, width=12)
 
-# without pipr
-ggplot(all_times_orig[Model != "PIPR"], aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+
+# without pipr, dscript, tt
+ggplot(all_times_orig[!Model %in% c("PIPR", "D-SCRIPT", "Topsy-Turvy")], aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+
   geom_point(size=3)+
   geom_line(size=2, alpha=0.5)+
   scale_x_continuous(breaks = unique(all_times_orig$n_train), 
-                     labels = paste0(c('Huang (', 'Guo (', 'Du (', 'Pan (', 'Richoux Regular (', 'Richoux Strict ('),
-                                     unique(all_times_orig$n_train), rep(')', 6)),
-                     guide = guide_axis(n.dodge = 2))+
+                     labels = paste0(c('D-Script Unbal. (','Huang (', 'Guo (', 'Du (', 'Pan (', 'Richoux Regular (', 'Richoux Strict ('),
+                                     unique(all_times_orig$n_train), rep(')', 7)),
+                     guide = guide_axis(n.dodge = 2),
+                     trans = 'log10', )+
   labs(x = "Dataset (n training)", y = "Time [s]") +
   geom_hline(yintercept = 1800, color='red') +
   geom_hline(yintercept = 3600, color='red') +
   geom_text(aes(0, 1800, label = '30 min', vjust = -1, hjust=0), color='red') +
   geom_text(aes(0, 3600, label = '1 h', vjust = -1, hjust=0), color='red')+
-  scale_color_manual(values = brewer.pal(12, "Paired")[-c(11, 12)])+
+  scale_color_manual(values =colors)+
+  scale_y_continuous(trans='log10')+
   theme_bw()+
   theme(text = element_text(size=20))
-
-##### rewired
-# training data size
-sprint_data_dir <- '../algorithms/SPRINT/data/rewired/'
-training_files <- list.files(path=sprint_data_dir, pattern = 'train_pos')
-train_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
-  as.integer(system2("wc",
-                     args = c("-l",
-                              x,
-                              " | awk '{print $1}'"),
-                     stdout = TRUE)) * 2
-}
-)
-training_files[grepl('richoux', training_files, fixed=TRUE)] <- gsub('richoux_*', 'richoux-', training_files[grepl('richoux', training_files, fixed=TRUE)])
-names(train_sizes) <- stringr::str_to_title(tstrsplit(training_files, '_', keep=1)[[1]])
-#train_sizes <- prettyNum(train_sizes, big.mark = ',')
-
-all_times_rew <- all_times[Test == 'rewired']
-all_times_rew <- all_times_rew[, Model := factor(Model, 
-                                                   levels=c("RF_PCA","SVM_PCA", "RF_MDS", "SVM_MDS",
-                                                            "RF_node2vec",  "SVM_node2vec", "SPRINT", 
-                                                            "DeepPPI_FC", "DeepPPI_LSTM",  
-                                                            "DeepFE", "PIPR"))]
-all_times_rew[, n_train := train_sizes[as.character(Dataset)]]
-
-ggplot(all_times_rew, aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+
-  geom_point(size=3)+
-  geom_line(size=2, alpha=0.5)+
-  scale_x_continuous(breaks = unique(all_times_rew$n_train), 
-                     labels = paste0(c('Huang (', 'Guo (', 'Du (', 'Pan (', 'Richoux regular (', 'Richoux strict ('),
-                                     unique(all_times_orig$n_train), rep(')', 6)),
-                     guide = guide_axis(n.dodge = 2))+
-  labs(x = "Dataset (n training)", y = "Time [s]") +
-  geom_hline(yintercept = 1800, color='red') +
-  geom_hline(yintercept = 3600, color='red') +
-  geom_hline(yintercept = 7200, color='red') +
-  geom_text(aes(0, 1800, label = '30 min', vjust = -1, hjust=0), color='red') +
-  geom_text(aes(0, 3600, label = '1 h', vjust = -1, hjust=0), color='red') +
-  geom_text(aes(0, 7200, label = '2 h', vjust = -1, hjust=0), color='red') +
-  scale_color_manual(values = brewer.pal(12, "Paired")[-11])+
-  theme_bw()+
-  theme(text = element_text(size=20))
-ggsave("./plots/all_times_rewired.pdf",height=8, width=12)
-
-#### partitions
-sprint_data_dir <- '../algorithms/SPRINT/data/partitions/'
-training_files <- list.files(path=sprint_data_dir, pattern = 'pos')
-partition_sizes <- sapply(paste0(sprint_data_dir, training_files), function(x){
-  as.integer(system2("wc",
-                     args = c("-l",
-                              x,
-                              " | awk '{print $1}'"),
-                     stdout = TRUE)) * 2
-}
-)
-filenames <- tstrsplit(training_files, '_', keep=c(1,3))
-names(partition_sizes) <- stringr::str_to_title(paste(filenames[[1]], filenames[[2]]))
-
-all_times_part <- all_times[Test == 'partition']
-all_times_part[, training_dataset := stringr::str_to_title(paste(Dataset, lapply(strsplit(all_times_part$Model, '_'), function(x) x[length(x)-1])))]
-all_times_part[, n_train := partition_sizes[as.character(training_dataset)]]
-
-ggplot(all_times_part, aes(x=n_train, y = `Time [s]`, color = Model, group=Model))+
-  geom_point(size=3)+
-  geom_line(size=2, alpha=0.5)+
-  labs(x = "Dataset (n training)", y = "Time [s]") +
-  scale_x_continuous(breaks = unique(all_times_part[, .(training_dataset, n_train)])$n_train, 
-                     labels = paste0(unique(all_times_part[, .(training_dataset, n_train)])$training_dataset,
-                                     rep(' (', 6),
-                                     unique(all_times_part[, .(training_dataset, n_train)])$n_train, 
-                                     rep(')', 6)),
-                     guide = guide_axis(n.dodge = 6))+
-  geom_hline(yintercept = 1800, color='red') +
-  geom_hline(yintercept = 3600, color='red')+
-  geom_text(aes(0, 1800, label = '30 min', vjust = -1, hjust=0), color='red') +
-  geom_text(aes(0, 3600, label = '1 h', vjust = -1, hjust=0), color='red')+
-  theme_bw()+
-  theme(text = element_text(size=10))
-
