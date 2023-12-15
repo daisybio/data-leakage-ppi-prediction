@@ -40,19 +40,29 @@ def calculate_performance(test_num, pred_y, labels):
 
 partition = False
 rewired = False
-algorithm = 'topsyturvy'
+gold_epochs = False
+early_stopping = False
+robustness=True
+algorithm = 'dscript'
 if partition:
-    result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
+    if early_stopping:
+        result_file = open(f"results_{algorithm}/partitions/all_results_es.tsv", "w")
+    else:
+        result_file = open(f"results_{algorithm}/partitions/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
     for dataset in ["du","guo","huang", "richoux", "pan", "dscript"]:
         print(f"########## Dataset: {dataset} ##########")
         for train in ["both", "0"]:
             for test in ["0", "1"]:
-                if train == "0" and test == "0" or not os.path.isfile(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv"):
+                if early_stopping:
+                    file = f"results_{algorithm}/partitions/{dataset}_{train}_{test}_es.predictions.tsv"
+                else:
+                    file = f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv"
+                if train == "0" and test == "0" or not os.path.isfile(file):
                     continue
                 y_pred = []
                 y_true = []
-                with open(f"results_{algorithm}/partitions/{dataset}_{train}_{test}.predictions.tsv", "r") as f:
+                with open(file, "r") as f:
                     for line in f:
                         y_pred.append(float(line.strip().split("\t")[3]))
                         y_true.append(float(line.strip().split("\t")[2]))
@@ -74,22 +84,65 @@ if partition:
                 result_file.write(f'{algorithm}\t{dataset}\tTN\t{tn}\t{split}\n')
                 result_file.write(f'{algorithm}\t{dataset}\tFN\t{fn}\t{split}\n')
     result_file.close()
+elif robustness:
+    result_file = open(f"results_{algorithm}/robustness_results.tsv", "w")
+    result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
+    datasets = ["huang", "guo", "du", "pan", "richoux_regular"]
+    for dataset in datasets:
+        for split in [0, 1, 2]:
+            print(f"########## Dataset: {dataset} ##########")
+            y_pred = []
+            y_true = []
+            file = f"robustness_tests/robustness_{dataset}_{algorithm}_original_{split}.txt.predictions.tsv"
+            with open(file, "r") as f:
+                for line in f:
+                    y_pred.append(float(line.strip().split("\t")[3]))
+                    y_true.append(float(line.strip().split("\t")[2]))
+            tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score, auc, pr = calculate_metrics(y_true, y_pred)
+            result_file.write(f'{algorithm}\t{dataset}\tAccuracy\t{accuracy}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tPrecision\t{precision}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tSensitivity\t{sensitivity}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tRecall\t{recall}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tSpecificity\t{specificity}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tMCC\t{MCC}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tF1\t{f1_score}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tAUC\t{auc}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tAUPR\t{pr}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tTP\t{tp}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tFP\t{fp}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tTN\t{tn}\t{split}\n')
+            result_file.write(f'{algorithm}\t{dataset}\tFN\t{fn}\t{split}\n')
+    result_file.close()
 else:
     if rewired:
         folder = f'results_{algorithm}/rewired'
         datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "dscript"]
         split = 'Rewired'
+    elif gold_epochs:
+        folder = f'results_{algorithm}/original'
+        datasets = ['gold_01', 'gold_02', 'gold_03', 'gold_04', 'gold_05', 'gold_06', 'gold_07', 'gold_08', 'gold_09', 'gold_10']
+        split = 'Original'
     else:
         folder = f'results_{algorithm}/original'
         datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold", "dscript"]
         split = 'Original'
-    result_file = open(f"{folder}/all_results.tsv", "w")
+    if gold_epochs:
+        result_file = open(f"{folder}/all_results_gold.tsv", "w")
+    else:
+        if early_stopping:
+            result_file = open(f"{folder}/all_results_es.tsv", "w")
+        else:
+            result_file = open(f"{folder}/all_results.tsv", "w")
     result_file.write("Model\tDataset\tMetric\tValue\tSplit\n")
     for dataset in datasets:
         print(f"########## Dataset: {dataset} ##########")
         y_pred = []
         y_true = []
-        with open(f"{folder}/{dataset}.txt.predictions.tsv", "r") as f:
+        if early_stopping:
+            file = f"{folder}/{dataset}_es.txt.predictions.tsv"
+        else:
+            file = f"{folder}/{dataset}.txt.predictions.tsv"
+        with open(file, "r") as f:
             for line in f:
                 y_pred.append(float(line.strip().split("\t")[3]))
                 y_true.append(float(line.strip().split("\t")[2]))

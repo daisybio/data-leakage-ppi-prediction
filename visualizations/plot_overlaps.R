@@ -102,6 +102,7 @@ for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
   p_both <- unique(all_sets[partition == 'both' & dataset == ds, Protein])
   if(ds == 'richoux')
     ds <- 'richoux-uniprot'
+  }
   venn_plot <- venn.diagram(x = list(p_0, p_1, p_both), 
                category.names = TeX(c('$\\it{INTRA}_0$', '$\\it{INTRA}_1$', '$\\it{INTER}$')), 
                main = stringr::str_to_upper(ds),
@@ -135,7 +136,9 @@ for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
                cat.fontfamily = "sans",
                rotation = 1)
   plot_list <- append(plot_list, setNames(list(venn_plot), ds))
-}
+  
+  }
+
 p_0 <- unique(all_sets[partition == '0' & dataset == 'dscript', Protein])
 p_1 <- unique(all_sets[partition == '1' & dataset == 'dscript', Protein])
 p_both <- unique(all_sets[partition == 'both' & dataset == 'dscript', Protein])

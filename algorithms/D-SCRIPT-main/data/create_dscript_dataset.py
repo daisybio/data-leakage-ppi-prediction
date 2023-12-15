@@ -116,9 +116,6 @@ if __name__ == '__main__':
     # execute in the Datasets_PPIs/SwissProt directory:
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
-    create_gold_standard('Intra0', unbalanced=True)
-    create_gold_standard('Intra1', unbalanced=True)
-    create_gold_standard('Intra2', unbalanced=True)
     create_gold_standard('Intra0')
     create_gold_standard('Intra1')
     create_gold_standard('Intra2')

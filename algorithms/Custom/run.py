@@ -30,8 +30,7 @@ def load_data(name, encoding, partition=False, partition_train='0', partition_te
 
 
 def run_partitioning_tests():
-    #for name in ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux']:
-    for name in ['dscript']:
+    for name in ['guo', 'huang', 'du', 'pan', 'richoux', 'dscript']:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             for partition_train in ['both', '0']:
                 for partition_test in ['0', '1']:
@@ -67,7 +66,7 @@ def run_simpler_algorithms(rewire=False):
         prefix = 'rewired_'
     else:
         prefix = 'original_'
-    dataset_list = ['dscript', 'guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+    dataset_list = ['guo', 'huang', 'du', 'pan', 'richoux_regular', 'richoux_strict', 'dscript']
     for name in dataset_list:
         for encoding in ['PCA', 'MDS', 'node2vec']:
             t_start = time()

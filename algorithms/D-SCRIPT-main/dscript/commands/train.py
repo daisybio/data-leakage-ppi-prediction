@@ -440,7 +440,7 @@ def train_model(args, output):
     # Create data sets
 
     batch_size = args.batch_size
-    use_cuda = (args.device > -1) and torch.cuda.is_available()
+    use_cuda = torch.cuda.is_available()
     train_fi = args.train
     test_fi = args.test
     no_augment = args.no_augment
@@ -518,6 +518,19 @@ def train_model(args, output):
         )
     else:
         glider_mat, glider_map = (None, None)
+
+    use_cuda = torch.cuda.is_available()
+    if use_cuda:
+        device = get_freer_gpu()
+        torch.cuda.set_device(device)
+        log(
+            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
+        )
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        log(f'Using device {device}')
+    else:
+        log("Using CPU")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if args.checkpoint is None:
 
@@ -725,17 +738,6 @@ def main(args):
 
     # Set the device
     device = args.device
-    use_cuda = (device > -1) and torch.cuda.is_available()
-    if use_cuda:
-        torch.cuda.set_device(device)
-        log(
-            f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}",
-            file=output,
-            print_also=True,
-        )
-    else:
-        log("Using CPU", file=output, print_also=True)
-        device = "cpu"
 
     if args.seed is not None:
         np.random.seed(args.seed)
@@ -743,6 +745,13 @@ def main(args):
     train_model(args, output)
 
     output.close()
+
+
+def get_freer_gpu():
+    import os
+    os.system('nvidia-smi -q -d Memory |grep -A5 GPU|grep Free >tmp')
+    memory_available = [int(x.split()[2]) for x in open('tmp', 'r').readlines()]
+    return int(np.argmax(memory_available))
 
 
 if __name__ == "__main__":

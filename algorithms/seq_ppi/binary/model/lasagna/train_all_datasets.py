@@ -12,6 +12,7 @@ from keras import Model
 from keras.layers import Input, GRU, Bidirectional, MaxPool1D, GlobalAveragePooling1D, Dense, LeakyReLU, Conv1D, concatenate, multiply
 import tensorflow as tf
 from tensorflow.keras.optimizers import Adam,  RMSprop
+from tensorflow.keras import callbacks
 import numpy as np
 from time import time
 
@@ -281,6 +282,10 @@ if __name__ == '__main__':
         partition = False
         rewired = False
         prefix = 'gold_standard_unbalanced_'
+    if len(args) > 1 and args[1] == 'split_train':
+        split_train = True
+    else:
+        split_train = False
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
@@ -289,14 +294,14 @@ if __name__ == '__main__':
     elif prefix == 'gold_standard_unbalanced_':
         datasets = ['gold_standard_unbalanced']
     elif partition:
-        datasets = ['dscript_both_0', 'dscript_both_1', 'dscript_0_1',
-                    'guo_both_0', 'guo_both_1', 'guo_0_1',
+        datasets = ['guo_both_0', 'guo_both_1', 'guo_0_1',
                     'huang_both_0', 'huang_both_1', 'huang_0_1',
                     'du_both_0', 'du_both_1', 'du_0_1',
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
-                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1']
+                    'richoux_both_0', 'richoux_both_1', 'richoux_0_1',
+                    'dscript_both_0', 'dscript_both_1', 'dscript_0_1']
     else:
-        datasets = ['dscript', 'huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict']
+        datasets = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict', 'dscript']
     for dataset in datasets:
         t_start = time()
         print(f'####################### {dataset} Dataset #######################')
@@ -347,16 +352,43 @@ if __name__ == '__main__':
         merge_model = build_model(seq_size, dim)
         adam = Adam(learning_rate=0.001, amsgrad=True, epsilon=1e-6)
         merge_model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
+        callbacks_list = [
+            callbacks.EarlyStopping(monitor='val_accuracy', patience=5, verbose=1),
+            callbacks.ModelCheckpoint(filepath=f'best_models/{prefix}{dataset}_es.h5',
+                                      monitor='val_accuracy', save_best_only=True, verbose=1)
+        ]
         print(f'Dim train: {X_train[0].shape}')
         if dataset == 'gold_standard':
             print(f'Dim val: {X_val[0].shape}')
-            hist = merge_model.fit(X_train, y_train,
-                                   validation_data=(X_val, y_val),
-                                   batch_size=batch_size,
-                                   epochs=n_epochs)
+            if split_train:
+                hist = merge_model.fit(X_train, y_train,
+                                       validation_data=(X_val, y_val),
+                                       batch_size=batch_size,
+                                       epochs=n_epochs,
+                                       verbose=1,
+                                       callbacks=callbacks_list)
+            else:
+                hist = merge_model.fit(X_train, y_train,
+                                       validation_data=(X_val, y_val),
+                                       batch_size=batch_size,
+                                       epochs=n_epochs)
+        elif split_train:
+            hist = merge_model.fit(
+                X_train,
+                y_train,
+                validation_split=0.1,
+                epochs=n_epochs,
+                batch_size=batch_size,
+                verbose=1,
+                callbacks=callbacks_list
+            )
         else:
             hist = merge_model.fit(X_train, y_train, batch_size=batch_size, epochs=n_epochs)
         print('Predicting ...')
+        if split_train:
+            print('Evaluating on the best model')
+            merge_model = tf.keras.models.load_model(f'best_models/{prefix}{dataset}_es.h5')
+            dataset = f'{dataset}_es'
         y_pred = merge_model.predict(X_test)
         print('Exporting results ...')
         write_results(path=f'results/{prefix}{dataset}.csv', y_true=y_test, y_pred=y_pred)
