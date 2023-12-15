@@ -1,6 +1,7 @@
 import numpy as np
 from networkx.algorithms import node_classification
 
+
 def calculate_scores(y_true, y_pred):
     from sklearn.metrics import confusion_matrix, f1_score, matthews_corrcoef
     # Print out the scores
@@ -36,7 +37,6 @@ def learn_rf(train_features, train_labels, test_features, test_labels):
     # Use the forest's predict method on the test data
     print("Predicting ...")
     y_pred = rf.predict(test_features)
-    #y_pred = np.array(np.where(y_pred > 0.5, 1, 0), dtype=int)
     return calculate_scores(y_true=test_labels, y_pred=y_pred)
 
 
@@ -55,7 +55,6 @@ def learn_SVM(train_features, train_labels, test_features, test_labels):
     test_features = scaler.transform(test_features)
     print(f'Scaler mean for first 10 features: {scaler.mean_[:10]}')
     y_pred = clf.predict(test_features)
-    y_pred = np.array(np.where(y_pred > 0.5, 1, 0), dtype=int)
     return calculate_scores(y_true=test_labels, y_pred=y_pred)
 
 
