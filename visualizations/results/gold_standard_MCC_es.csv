@@ -1,0 +1,15 @@
+Model,Dataset,MCC
+degree_cons,gold_standard,0
+RF_MDS,gold_standard,0.0205403128753787
+SVM_MDS,gold_standard,0.00907191000402251
+RF_node2vec,gold_standard,0.015943186531481
+SVM_node2vec,gold_standard,0.0349772729164197
+RF_PCA,gold_standard,0.0486141690608655
+SVM_PCA,gold_standard,0.0268259211598689
+DeepFE,gold_standard,
+deepPPI_FC,gold_standard,0.0505
+deepPPI_LSTM,gold_standard,0.0411
+PIPR,gold_standard,0.0434
+SPRINT,gold_standard,0.5145
+D-SCRIPT,gold_standard,0.1693
+Topsy_Turvy,gold_standard,0.1386

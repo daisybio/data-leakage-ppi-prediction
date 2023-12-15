@@ -1,4 +1,4 @@
-/Users/judithbernett/miniforge3/envs/PPIs_MA/bin/python /Users/judithbernett/PycharmProjects/PPIs_MA/visualizations/dataset_properties.py
+******************** normal *****************************
 ############ original ############
 ############ huang ############
 Unique proteins in whole set: 2571
@@ -24,6 +24,10 @@ Overlap between training and testing: 5398=32.0% of training, 93.1% of testing
 Unique proteins in whole set: 15831
 Unique proteins in training: 15512=98.0%, testing: 610=3.9%
 Overlap between training and testing: 291=1.9% of training, 47.7% of testing
+############ dscript ############
+Unique proteins in whole set: 14227
+Unique proteins in training: 14227=100.0%, testing: 13937=98.0%
+Overlap between training and testing: 13937=98.0% of training, 100.0% of testing
 ############ rewired ############
 ############ huang ############
 Unique proteins in whole set: 2268
@@ -49,70 +53,222 @@ Overlap between training and testing: 5326=31.8% of training, 91.8% of testing
 Unique proteins in whole set: 15798
 Unique proteins in training: 15477=98.0%, testing: 610=3.9%
 Overlap between training and testing: 289=1.9% of training, 47.4% of testing
+############ dscript ############
+Unique proteins in whole set: 14227
+Unique proteins in training: 14227=100.0%, testing: 13937=98.0%
+Overlap between training and testing: 13937=98.0% of training, 100.0% of testing
 ############ huang ############
 ############ Partition both_0 ############
-Unique proteins in whole set: 2264
-Unique proteins in training: 1841=81.3%, testing: 1157=51.1%
-Overlap between training and testing: 734=39.9% of training, 63.4% of testing
+Unique proteins in whole set: 2224
+Unique proteins in training: 1833=82.4%, testing: 1127=50.7%
+Overlap between training and testing: 736=40.2% of training, 65.3% of testing
 ############ Partition both_1 ############
-Unique proteins in whole set: 2159
-Unique proteins in training: 1841=85.3%, testing: 958=44.4%
-Overlap between training and testing: 640=34.8% of training, 66.8% of testing
+Unique proteins in whole set: 2182
+Unique proteins in training: 1833=84.0%, testing: 919=42.1%
+Overlap between training and testing: 570=31.1% of training, 62.0% of testing
 ############ Partition 0_1 ############
-Unique proteins in whole set: 2115
-Unique proteins in training: 1157=54.7%, testing: 958=45.3%
+Unique proteins in whole set: 2046
+Unique proteins in training: 1127=55.1%, testing: 919=44.9%
 Overlap between training and testing: 0=0.0% of training, 0.0% of testing
 ############ guo ############
 ############ Partition both_0 ############
-Unique proteins in whole set: 2385
-Unique proteins in training: 1921=80.5%, testing: 1598=67.0%
-Overlap between training and testing: 1134=59.0% of training, 71.0% of testing
+Unique proteins in whole set: 2371
+Unique proteins in training: 2034=85.8%, testing: 1428=60.2%
+Overlap between training and testing: 1091=53.6% of training, 76.4% of testing
 ############ Partition both_1 ############
-Unique proteins in whole set: 2035
-Unique proteins in training: 1921=94.4%, testing: 692=34.0%
-Overlap between training and testing: 578=30.1% of training, 83.5% of testing
+Unique proteins in whole set: 2159
+Unique proteins in training: 2034=94.2%, testing: 815=37.7%
+Overlap between training and testing: 690=33.9% of training, 84.7% of testing
 ############ Partition 0_1 ############
-Unique proteins in whole set: 2290
-Unique proteins in training: 1598=69.8%, testing: 692=30.2%
+Unique proteins in whole set: 2243
+Unique proteins in training: 1428=63.7%, testing: 815=36.3%
 Overlap between training and testing: 0=0.0% of training, 0.0% of testing
 ############ du ############
 ############ Partition both_0 ############
-Unique proteins in whole set: 4219
-Unique proteins in training: 3816=90.4%, testing: 2374=56.3%
-Overlap between training and testing: 1971=51.7% of training, 83.0% of testing
+Unique proteins in whole set: 4211
+Unique proteins in training: 3844=91.3%, testing: 2317=55.0%
+Overlap between training and testing: 1950=50.7% of training, 84.2% of testing
 ############ Partition both_1 ############
-Unique proteins in whole set: 4016
-Unique proteins in training: 3816=95.0%, testing: 1495=37.2%
-Overlap between training and testing: 1295=33.9% of training, 86.6% of testing
+Unique proteins in whole set: 4053
+Unique proteins in training: 3844=94.8%, testing: 1582=39.0%
+Overlap between training and testing: 1373=35.7% of training, 86.8% of testing
 ############ Partition 0_1 ############
-Unique proteins in whole set: 3869
-Unique proteins in training: 2374=61.4%, testing: 1495=38.6%
+Unique proteins in whole set: 3899
+Unique proteins in training: 2317=59.4%, testing: 1582=40.6%
 Overlap between training and testing: 0=0.0% of training, 0.0% of testing
 ############ pan ############
 ############ Partition both_0 ############
-Unique proteins in whole set: 8412
-Unique proteins in training: 6876=81.7%, testing: 5247=62.4%
-Overlap between training and testing: 3711=54.0% of training, 70.7% of testing
+Unique proteins in whole set: 8146
+Unique proteins in training: 6545=80.3%, testing: 4872=59.8%
+Overlap between training and testing: 3271=50.0% of training, 67.1% of testing
 ############ Partition both_1 ############
-Unique proteins in whole set: 7580
-Unique proteins in training: 6876=90.7%, testing: 2971=39.2%
-Overlap between training and testing: 2267=33.0% of training, 76.3% of testing
+Unique proteins in whole set: 7513
+Unique proteins in training: 6545=87.1%, testing: 3427=45.6%
+Overlap between training and testing: 2459=37.6% of training, 71.8% of testing
 ############ Partition 0_1 ############
-Unique proteins in whole set: 8218
-Unique proteins in training: 5247=63.8%, testing: 2971=36.2%
+Unique proteins in whole set: 8299
+Unique proteins in training: 4872=58.7%, testing: 3427=41.3%
 Overlap between training and testing: 0=0.0% of training, 0.0% of testing
 ############ richoux ############
 ############ Partition both_0 ############
-Unique proteins in whole set: 17008
-Unique proteins in training: 16159=95.0%, testing: 8503=50.0%
-Overlap between training and testing: 7654=47.4% of training, 90.0% of testing
+Unique proteins in whole set: 16789
+Unique proteins in training: 15439=92.0%, testing: 9115=54.3%
+Overlap between training and testing: 7765=50.3% of training, 85.2% of testing
 ############ Partition both_1 ############
-Unique proteins in whole set: 17056
-Unique proteins in training: 16159=94.7%, testing: 7736=45.4%
-Overlap between training and testing: 6839=42.3% of training, 88.4% of testing
+Unique proteins in whole set: 16415
+Unique proteins in training: 15439=94.1%, testing: 6742=41.1%
+Overlap between training and testing: 5766=37.3% of training, 85.5% of testing
 ############ Partition 0_1 ############
-Unique proteins in whole set: 16239
-Unique proteins in training: 8503=52.4%, testing: 7736=47.6%
+Unique proteins in whole set: 15857
+Unique proteins in training: 9115=57.5%, testing: 6742=42.5%
 Overlap between training and testing: 0=0.0% of training, 0.0% of testing
-
-Process finished with exit code 0
+############ dscript ############
+############ Partition both_0 ############
+Unique proteins in whole set: 17659
+Unique proteins in training: 14213=80.5%, testing: 10481=59.4%
+Overlap between training and testing: 7035=49.5% of training, 67.1% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 14213
+Unique proteins in training: 14213=100.0%, testing: 7178=50.5%
+Overlap between training and testing: 7178=50.5% of training, 100.0% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 17659
+Unique proteins in training: 10481=59.4%, testing: 7178=40.6%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing
+******************** length_restricted *****************************
+############ original ############
+############ huang ############
+Unique proteins in whole set: 2053
+Unique proteins in training: 1883=91.7%, testing: 1001=48.8%
+Overlap between training and testing: 831=44.1% of training, 83.0% of testing
+############ guo ############
+Unique proteins in whole set: 2209
+Unique proteins in training: 2207=99.9%, testing: 1778=80.5%
+Overlap between training and testing: 1776=80.5% of training, 99.9% of testing
+############ du ############
+Unique proteins in whole set: 3977
+Unique proteins in training: 3813=95.9%, testing: 2730=68.6%
+Overlap between training and testing: 2566=67.3% of training, 94.0% of testing
+############ pan ############
+Unique proteins in whole set: 7587
+Unique proteins in training: 7166=94.5%, testing: 4714=62.1%
+Overlap between training and testing: 4293=59.9% of training, 91.1% of testing
+############ richoux_regular ############
+Unique proteins in whole set: 16640
+Unique proteins in training: 16261=97.7%, testing: 5569=33.5%
+Overlap between training and testing: 5190=31.9% of training, 93.2% of testing
+############ richoux_strict ############
+Unique proteins in whole set: 15318
+Unique proteins in training: 15042=98.2%, testing: 532=3.5%
+Overlap between training and testing: 256=1.7% of training, 48.1% of testing
+############ dscript ############
+Unique proteins in whole set: 14214
+Unique proteins in training: 14214=100.0%, testing: 13924=98.0%
+Overlap between training and testing: 13924=98.0% of training, 100.0% of testing
+############ rewired ############
+############ huang ############
+Unique proteins in whole set: 1835
+Unique proteins in training: 1616=88.1%, testing: 1009=55.0%
+Overlap between training and testing: 790=48.9% of training, 78.3% of testing
+############ guo ############
+Unique proteins in whole set: 2206
+Unique proteins in training: 2197=99.6%, testing: 1755=79.6%
+Overlap between training and testing: 1746=79.5% of training, 99.5% of testing
+############ du ############
+Unique proteins in whole set: 3783
+Unique proteins in training: 3540=93.6%, testing: 2719=71.9%
+Overlap between training and testing: 2476=69.9% of training, 91.1% of testing
+############ pan ############
+Unique proteins in whole set: 7030
+Unique proteins in training: 6424=91.4%, testing: 4642=66.0%
+Overlap between training and testing: 4036=62.8% of training, 86.9% of testing
+############ richoux_regular ############
+Unique proteins in whole set: 16634
+Unique proteins in training: 16185=97.3%, testing: 5573=33.5%
+Overlap between training and testing: 5124=31.7% of training, 91.9% of testing
+############ richoux_strict ############
+Unique proteins in whole set: 15282
+Unique proteins in training: 15008=98.2%, testing: 526=3.4%
+Overlap between training and testing: 252=1.7% of training, 47.9% of testing
+############ dscript ############
+Unique proteins in whole set: 14214
+Unique proteins in training: 14214=100.0%, testing: 13923=98.0%
+Overlap between training and testing: 13923=98.0% of training, 100.0% of testing
+############ huang ############
+############ Partition both_0 ############
+Unique proteins in whole set: 1728
+Unique proteins in training: 1442=83.4%, testing: 828=47.9%
+Overlap between training and testing: 542=37.6% of training, 65.5% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 1774
+Unique proteins in training: 1442=81.3%, testing: 811=45.7%
+Overlap between training and testing: 479=33.2% of training, 59.1% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 1639
+Unique proteins in training: 828=50.5%, testing: 811=49.5%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing
+############ guo ############
+############ Partition both_0 ############
+Unique proteins in whole set: 2052
+Unique proteins in training: 1752=85.4%, testing: 1215=59.2%
+Overlap between training and testing: 915=52.2% of training, 75.3% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 1877
+Unique proteins in training: 1752=93.3%, testing: 736=39.2%
+Overlap between training and testing: 611=34.9% of training, 83.0% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 1951
+Unique proteins in training: 1215=62.3%, testing: 736=37.7%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing
+############ du ############
+############ Partition both_0 ############
+Unique proteins in whole set: 3753
+Unique proteins in training: 3403=90.7%, testing: 2018=53.8%
+Overlap between training and testing: 1668=49.0% of training, 82.7% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 3632
+Unique proteins in training: 3403=93.7%, testing: 1468=40.4%
+Overlap between training and testing: 1239=36.4% of training, 84.4% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 3486
+Unique proteins in training: 2018=57.9%, testing: 1468=42.1%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing
+############ pan ############
+############ Partition both_0 ############
+Unique proteins in whole set: 6652
+Unique proteins in training: 5370=80.7%, testing: 3892=58.5%
+Overlap between training and testing: 2610=48.6% of training, 67.1% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 6362
+Unique proteins in training: 5370=84.4%, testing: 2982=46.9%
+Overlap between training and testing: 1990=37.1% of training, 66.7% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 6874
+Unique proteins in training: 3892=56.6%, testing: 2982=43.4%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing
+############ richoux ############
+############ Partition both_0 ############
+Unique proteins in whole set: 15985
+Unique proteins in training: 14646=91.6%, testing: 8626=54.0%
+Overlap between training and testing: 7287=49.8% of training, 84.5% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 15645
+Unique proteins in training: 14646=93.6%, testing: 6458=41.3%
+Overlap between training and testing: 5459=37.3% of training, 84.5% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 15084
+Unique proteins in training: 8626=57.2%, testing: 6458=42.8%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing
+############ dscript ############
+############ Partition both_0 ############
+Unique proteins in whole set: 16015
+Unique proteins in training: 14200=88.7%, testing: 8838=55.2%
+Overlap between training and testing: 7023=49.5% of training, 79.5% of testing
+############ Partition both_1 ############
+Unique proteins in whole set: 14200
+Unique proteins in training: 14200=100.0%, testing: 7177=50.5%
+Overlap between training and testing: 7177=50.5% of training, 100.0% of testing
+############ Partition 0_1 ############
+Unique proteins in whole set: 16015
+Unique proteins in training: 8838=55.2%, testing: 7177=44.8%
+Overlap between training and testing: 0=0.0% of training, 0.0% of testing

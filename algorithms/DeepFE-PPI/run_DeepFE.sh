@@ -10,8 +10,8 @@
 #SBATCH --time=24:00:00
 #SBATCH --partition=jlab-gpu01
 
-#mkdir best_models
-#python train_all_datasets.py original split_train
-#python train_all_datasets.py rewired split_train
-#python train_all_datasets.py partition split_train
+mkdir best_models
+python train_all_datasets.py original split_train
+python train_all_datasets.py rewired split_train
+python train_all_datasets.py partition split_train
 python train_all_datasets.py gold split_train

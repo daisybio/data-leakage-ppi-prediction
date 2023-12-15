@@ -440,10 +440,10 @@ def rewrite_dscript(rewired=False):
 
 if __name__ == '__main__':
    sys.path.append('../../')
-   #rewrite_guo(rewired=False)
-   #rewrite_huang(rewired=False)
-   #rewrite_du(rewired=False)
-   #rewrite_pan(rewired=False)
-   #rewrite_richoux(dataset='regular', rewired=False)
-   #rewrite_richoux(dataset='strict', rewired=False)
-   rewrite_dscript(rewired=True)
+   rewrite_guo(rewired=False)
+   rewrite_huang(rewired=False)
+   rewrite_du(rewired=False)
+   rewrite_pan(rewired=False)
+   rewrite_richoux(dataset='regular', rewired=False)
+   rewrite_richoux(dataset='strict', rewired=False)
+   rewrite_dscript(rewired=False)

@@ -27,7 +27,7 @@ do
   done
 done
 
-for DATASET in huang richoux pan
+for DATASET in huang richoux pan dscript
 do
   for TRAIN in "both" "0"
   do

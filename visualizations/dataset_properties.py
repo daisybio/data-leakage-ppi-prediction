@@ -1,27 +1,40 @@
 import numpy as np
 
 
-def process_dataset(path, prots):
+def process_dataset(path, prots, sep):
     with open(path, 'r') as f:
         for line in f:
-            line = line.strip().split(' ')
+            line = line.strip().split(sep)
             prots.add(line[0])
             prots.add(line[1])
     return prots
 
 
 def load_dataset(folder, dataset):
-    prots_tr = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_train_pos.txt', set())
-    prots_tr = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_train_neg.txt', prots_tr)
-    prots_te = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_test_pos.txt', set())
-    prots_te = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_test_neg.txt', prots_te)
+    prots_tr = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_train_pos.txt', set(), ' ')
+    prots_tr = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_train_neg.txt', prots_tr, ' ')
+    prots_te = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_test_pos.txt', set(), ' ')
+    prots_te = process_dataset(f'../algorithms/SPRINT/data/{folder}/{dataset}_test_neg.txt', prots_te, ' ')
     return prots_tr, prots_te
 
+
+def load_dscript_dataset(folder, dataset):
+    prots_tr = process_dataset(f'../algorithms/D-SCRIPT-main/data/{folder}/{dataset}_train.txt', set(), '\t')
+    prots_te = process_dataset(f'../algorithms/D-SCRIPT-main/data/{folder}/{dataset}_test.txt', set(), '\t')
+    return prots_tr, prots_te
+
+
 def load_partition_dataset(dataset, partition_tr, partition_te):
-    prots_tr = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_tr}_pos.txt', set())
-    prots_tr = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_tr}_neg.txt', prots_tr)
-    prots_te = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_te}_pos.txt', set())
-    prots_te = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_te}_neg.txt', prots_te)
+    prots_tr = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_tr}_pos.txt', set(), ' ')
+    prots_tr = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_tr}_neg.txt', prots_tr, ' ')
+    prots_te = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_te}_pos.txt', set(), ' ')
+    prots_te = process_dataset(f'../algorithms/SPRINT/data/partitions/{dataset}_partition_{partition_te}_neg.txt', prots_te, ' ')
+    return prots_tr, prots_te
+
+
+def load_partition_dscript_dataset(dataset, partition_tr, partition_te):
+    prots_tr = process_dataset(f'../algorithms/D-SCRIPT-main/data/partitions/{dataset}_partition_{partition_tr}.txt', set(), '\t')
+    prots_te = process_dataset(f'../algorithms/D-SCRIPT-main/data/partitions/{dataset}_partition_{partition_te}.txt', set(), '\t')
     return prots_tr, prots_te
 
 
@@ -68,33 +81,44 @@ def calculate_bitscores(prots_tr, prots_te, bitscores):
 #human_bitscores_inv = {f'{node_dict[x[1]]}_{node_dict[x[0]]}': x[2] for x in (line.strip().split(' ') for line in lines)}
 #human_bitscores.update(human_bitscores_inv)
 
-for test in ['original', 'rewired']:
-    print(f'############ {test} ############')
-    for dataset in ['huang', 'guo', 'du' ,'pan', 'richoux_regular', 'richoux_strict']:
-        print(f'############ {dataset} ############')
-        prots_tr, prots_te = load_dataset(test, dataset)
-        len_tr = len(prots_tr)
-        len_te = len(prots_te)
-        whole_set = len(prots_tr.union(prots_te))
-        intersect_set = len(prots_tr.intersection(prots_te))
-        print(f'Unique proteins in whole set: {whole_set}')
-        print(f'Unique proteins in training: {len_tr}={round(100*len_tr/whole_set, 1)}%, testing: {len_te}={round(100*len_te/whole_set, 1)}%')
-        print(f'Overlap between training and testing: {intersect_set}={round(100*intersect_set/len_tr, 1)}% of training, {round(100*intersect_set/len_te, 1)}% of testing')
-        #human_mat = calculate_bitscores(prots_tr, prots_te, human_bitscores)
-        #np.savetxt(f'../network_data/SIMAP2/datasets/{dataset}.tsv', human_mat, delimiter='\t', fmt='%s')
 
-for dataset in ['huang', 'guo', 'du' ,'pan', 'richoux']:
-    print(f'############ {dataset} ############')
-    for partition in ['both_0', 'both_1', '0_1']:
-        print(f'############ Partition {partition} ############')
-        partition = partition.split('_')
-        prots_tr, prots_te = load_partition_dataset(dataset, partition[0], partition[1])
-        len_tr = len(prots_tr)
-        len_te = len(prots_te)
-        whole_set = len(prots_tr.union(prots_te))
-        intersect_set = len(prots_tr.intersection(prots_te))
-        print(f'Unique proteins in whole set: {whole_set}')
-        print(
-            f'Unique proteins in training: {len_tr}={round(100 * len_tr / whole_set, 1)}%, testing: {len_te}={round(100 * len_te / whole_set, 1)}%')
-        print(
-            f'Overlap between training and testing: {intersect_set}={round(100 * intersect_set / len_tr, 1)}% of training, {round(100 * intersect_set / len_te, 1)}% of testing')
+with open('log_all_overlaps', 'w') as f:
+    for ds_setting in ['normal', 'length_restricted']:
+        f.write(f'******************** {ds_setting} *****************************\n')
+        for test in ['original', 'rewired']:
+            f.write(f'############ {test} ############\n')
+            for dataset in ['huang', 'guo', 'du' ,'pan', 'richoux_regular', 'richoux_strict', 'dscript']:
+                f.write(f'############ {dataset} ############\n')
+                if ds_setting == 'normal':
+                    prots_tr, prots_te = load_dataset(test, dataset)
+                else:
+                    prots_tr, prots_te = load_dscript_dataset(test, dataset)
+                len_tr = len(prots_tr)
+                len_te = len(prots_te)
+                whole_set = len(prots_tr.union(prots_te))
+                intersect_set = len(prots_tr.intersection(prots_te))
+                f.write(f'Unique proteins in whole set: {whole_set}\n')
+                f.write(f'Unique proteins in training: {len_tr}={round(100*len_tr/whole_set, 1)}%, testing: {len_te}={round(100*len_te/whole_set, 1)}%\n')
+                f.write(f'Overlap between training and testing: {intersect_set}={round(100*intersect_set/len_tr, 1)}% of training, {round(100*intersect_set/len_te, 1)}% of testing\n')
+                #human_mat = calculate_bitscores(prots_tr, prots_te, human_bitscores)
+                #np.savetxt(f'../network_data/SIMAP2/datasets/{dataset}.tsv', human_mat, delimiter='\t', fmt='%s')
+
+        for dataset in ['huang', 'guo', 'du' ,'pan', 'richoux', 'dscript']:
+            f.write(f'############ {dataset} ############\n')
+            for partition in ['both_0', 'both_1', '0_1']:
+                f.write(f'############ Partition {partition} ############\n')
+                partition = partition.split('_')
+                if ds_setting == 'normal':
+                    prots_tr, prots_te = load_partition_dataset(dataset, partition[0], partition[1])
+                else:
+                    prots_tr, prots_te = load_partition_dscript_dataset(dataset, partition[0], partition[1])
+                len_tr = len(prots_tr)
+                len_te = len(prots_te)
+                whole_set = len(prots_tr.union(prots_te))
+                intersect_set = len(prots_tr.intersection(prots_te))
+                f.write(f'Unique proteins in whole set: {whole_set}\n')
+                f.write(
+                    f'Unique proteins in training: {len_tr}={round(100 * len_tr / whole_set, 1)}%, testing: {len_te}={round(100 * len_te / whole_set, 1)}%\n')
+                f.write(
+                    f'Overlap between training and testing: {intersect_set}={round(100 * intersect_set / len_tr, 1)}% of training, {round(100 * intersect_set / len_te, 1)}% of testing\n')
+

@@ -10,7 +10,7 @@
 #SBATCH --time=72:00:00
 #SBATCH --partition=shared-gpu
 
-#mkdir best_models
+mkdir best_models
 python train_all_datasets.py original split_train
 python train_all_datasets.py rewired split_train
 python train_all_datasets.py partition split_train

@@ -8,7 +8,7 @@
 #SBATCH --mem=15G
 
 
-for DATASET in guo huang du pan richoux_regular richoux_strict
+for DATASET in guo huang du pan richoux_regular richoux_strict dscript
 do
   echo dataset ${DATASET}
   echo FC
