@@ -102,7 +102,7 @@ def read_from_SPRINT(encoding, emd, id_dict, path, label):
     return ppis
 
 
-def construct_line_graph(dataset, prefix):
+def construct_line_graph(dataset, prefix, seed=None):
     import networkx as nx
     factor = 1
     if prefix == 'partition_':
@@ -137,10 +137,16 @@ def construct_line_graph(dataset, prefix):
         prefix = prefix.split('_')[0]
         if dataset == 'dscript':
             factor = 10
-        ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
-        ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
-        ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test')
-        ppis_test.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_neg.txt', '0', 'test'))
+        if seed is None:
+            ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_pos.txt', '1', 'training')
+            ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_train_neg.txt', '0', 'training'))
+            ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_pos.txt', '1', 'test')
+            ppis_test.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/{dataset}_test_neg.txt', '0', 'test'))
+        else:
+            ppis_train = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/multiple_random_splits/{dataset}_train_pos_{seed}.txt', '1', 'training')
+            ppis_train.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/multiple_random_splits/{dataset}_train_neg_{seed}.txt', '0', 'training'))
+            ppis_test = read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/multiple_random_splits/{dataset}_test_pos_{seed}.txt', '1', 'test')
+            ppis_test.extend(read_dataset_as_edgelist(f'../SPRINT/data/{prefix}/multiple_random_splits/{dataset}_test_neg_{seed}.txt', '0', 'test'))
 
     ppis_train = balance_ppis_list(ppis_train, 'training', factor=factor)
     ppis_test = balance_ppis_list(ppis_test, 'test', factor=factor)
@@ -169,7 +175,7 @@ def read_dataset_as_edgelist(path, label, split):
     return edgelist
 
 
-def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
+def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False, seed=None):
     if dataset in ['guo', 'du']:
         organism = 'yeast'
     else:
@@ -183,13 +189,20 @@ def load_from_SPRINT(encoding='PCA', dataset='huang', rewire=False):
         factor = 10
     else:
         factor = 1
-    train_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_pos.txt', '1')
-    train_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_neg.txt', '0')
+    if seed is not None:
+        print(f'Training on seed {seed} ...')
+        train_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_train_pos_{seed}.txt', '1')
+        train_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_train_neg_{seed}.txt', '0')
+        test_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_test_pos_{seed}.txt', '1')
+        test_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_test_neg_{seed}.txt', '0')
+    else:
+        train_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_pos.txt', '1')
+        train_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_train_neg.txt', '0')
+        test_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_pos.txt', '1')
+        test_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_neg.txt', '0')
     train_pos.update(train_neg)
     train_pos = balance_set(train_pos, id_dict, encoding, emd, factor=factor)
 
-    test_pos = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_pos.txt', '1')
-    test_neg = read_from_SPRINT(encoding, emd, id_dict, f'../SPRINT/data/{folder}/{dataset}_test_neg.txt', '0')
     test_pos.update(test_neg)
     test_pos = balance_set(test_pos, id_dict, encoding, emd, factor=factor)
 
