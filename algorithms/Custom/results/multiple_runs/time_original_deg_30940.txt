@@ -1,0 +1,4 @@
+huang	Harmonic Function	3.775623321533203
+huang	Local and Global Consistency	2.573086977005005
+guo	Harmonic Function	4.5982372760772705
+guo	Local and Global Consistency	1.1079201698303223
