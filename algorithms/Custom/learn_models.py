@@ -3,7 +3,12 @@ from networkx.algorithms import node_classification
 
 
 def calculate_scores(y_true, y_pred):
-    from sklearn.metrics import confusion_matrix, f1_score, matthews_corrcoef
+    from sklearn.metrics import confusion_matrix, f1_score, matthews_corrcoef, roc_auc_score, average_precision_score
+    # Calculate AUC and AUPR
+    y_pred = np.array(y_pred, dtype=float)
+    y_true = np.array(y_true, dtype=int)
+    auc = roc_auc_score(y_true=y_true, y_score=y_pred)
+    aupr = average_precision_score(y_true=y_true, y_score=y_pred)
     # Print out the scores
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
     acc = (tp + tn) / (tp + fp + tn + fn)
@@ -18,12 +23,16 @@ def calculate_scores(y_true, y_pred):
     print('Specificity:', round(spec, 4))
     print('F1:', round(f1, 4))
     print('MCC:', round(mcc, 4))
+    print('AUC:', round(auc, 4))
+    print('AUPR:', round(aupr, 4))
     return {'Accuracy': acc,
             'Precision': prec,
             'Sensitivity': sens,
             'Specificity': spec,
             'F1': f1,
-            'MCC': mcc}
+            'MCC': mcc,
+            'AUC': auc,
+            'AUPR': aupr}
 
 
 def learn_rf(train_features, train_labels, test_features, test_labels):

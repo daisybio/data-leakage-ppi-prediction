@@ -13,7 +13,7 @@ declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in SPRINT
+	for MODEL in Custom #Richoux_FC SPRINT
 	do
 		for DATASET in huang guo
 		do
