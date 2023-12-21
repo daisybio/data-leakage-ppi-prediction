@@ -1,0 +1,42 @@
+[2023-10-27-17:03:35] D-SCRIPT Version 0.2.2
+[2023-10-27-17:03:35] Called as: /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/dscript train --train data/original/guo_train_es.txt --test data/original/guo_val_es.txt --embedding /nfs/scratch/jbernett/yeast_embedding.h5 --save-prefix models/es_original_guo -o es_original_guo_train.txt
+[2023-10-27-17:03:35] Loaded 12618 training pairs
+[2023-10-27-17:03:35] Loaded 701 test pairs
+[2023-10-27-17:03:35] Loading embeddings...
+[2023-10-27-17:04:07] Initializing embedding model with:
+[2023-10-27-17:04:07] 	projection_dim: 100
+[2023-10-27-17:04:07] 	dropout_p: 0.5
+[2023-10-27-17:04:07] Initializing contact model with:
+[2023-10-27-17:04:07] 	hidden_dim: 50
+[2023-10-27-17:04:07] 	kernel_width: 7
+[2023-10-27-17:04:07] Initializing interaction model with:
+[2023-10-27-17:04:07] 	do_poool: False
+[2023-10-27-17:04:07] 	pool_width: 9
+[2023-10-27-17:04:07] 	do_w: True
+[2023-10-27-17:04:07] 	do_sigmoid: True
+[2023-10-27-17:04:07] ModelInteraction(
+  (activation): LogisticActivation()
+  (embedding): FullyConnectedEmbed(
+    (transform): Linear(in_features=6165, out_features=100, bias=True)
+    (drop): Dropout(p=0.5, inplace=False)
+    (activation): ReLU()
+  )
+  (contact): ContactCNN(
+    (hidden): FullyConnected(
+      (conv): Conv2d(200, 50, kernel_size=(1, 1), stride=(1, 1))
+      (batchnorm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation): ReLU()
+    )
+    (conv): Conv2d(50, 1, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+    (batchnorm): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (activation): Sigmoid()
+  )
+  (maxPool): MaxPool2d(kernel_size=9, stride=9, padding=4, dilation=1, ceil_mode=False)
+)
+[2023-10-27-17:04:08] Using save prefix "models/es_original_guo"
+[2023-10-27-17:04:08] Training with Adam: lr=0.001, weight_decay=0
+[2023-10-27-17:04:08] 	num_epochs: 10
+[2023-10-27-17:04:08] 	batch_size: 25
+[2023-10-27-17:04:08] 	interaction weight: 0.35
+[2023-10-27-17:04:08] 	contact map weight: 0.65
+[2023-10-27-17:04:15] [1/10] training 0.8%: Loss=1.43536, Accuracy=50.000%, MSE=0.49819
