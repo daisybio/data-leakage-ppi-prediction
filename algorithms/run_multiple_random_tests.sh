@@ -7,13 +7,13 @@
 #SBATCH --error=multiple_random_tests_%A_%a.err
 #SBATCH --partition=shared-gpu
 #SBATCH --mem=100G
-#SBATCH --array=0-39
+#SBATCH --array=0-79
 
 declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in Custom #Richoux_FC SPRINT
+	for MODEL in DeepFE #PIPR D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
 	do
 		for DATASET in huang guo
 		do
@@ -29,11 +29,6 @@ parameters=${combis[$SLURM_ARRAY_TASK_ID]}
 
 # Split the parameters string into an array
 IFS=' ' read -r -a params_array <<< "$parameters"
-
-#setting=${parameters[0]}
-#model=${parameters[1]}
-#dataset=${parameters[2]}
-#seed=${parameters[3]}
 
 # Assign individual elements to variables
 setting=${params_array[0]}
@@ -60,6 +55,41 @@ elif [ "$model" == "Richoux_FC" ]; then
   test_neg=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_test_neg_${seed}.txt
   python train_all_datasets.py -name FC_${setting}_${dataset}_${seed} -train_pos $train_pos -train_neg $train_neg -test_pos $test_pos -test_neg $test_neg -model fc2_20_2dense -epochs 25 -batch 2048
   cd ../..
+elif [ "$model" == "DeepFE" ]; then
+  # DeepFE
+  cd DeepFE-PPI
+  python train_all_datasets.py $setting $dataset $seed
+  cd ..
+elif [ "$model" == "D-SCRIPT" ]; then
+  # D-SCRIPT: activate dscript env
+  if [[ "$dataset" == "guo" ||  "$dataset" == "du" ]] ; then
+    EMBEDDING='/nfs/scratch/jbernett/yeast_embedding.h5'
+  else
+    EMBEDDING='/nfs/scratch/jbernett/human_embedding.h5'
+  fi
+  cd D-SCRIPT-main
+  train_file=data/multiple_runs/${setting}_${dataset}_train_${seed}.txt
+  test_file=data/multiple_runs/${setting}_${dataset}_test_${seed}.txt
+  outfile="${setting}_${dataset}_${seed}_train.txt"
+  timefile="${setting}_${dataset}_${seed}_time.txt"
+  model_name="${dataset}_${seed}_dscript_${setting}"
+  { time dscript train --train ${train_file} --test ${test_file} --embedding $EMBEDDING --save-prefix ./models/${model_name} -o results_dscript/multiple_runs/${outfile}; } 2> results_dscript/multiple_runs/${timefile}
+  cd ..
+elif [ "$model" == "Topsy-Turvy" ]; then
+  # Topsy-Turvy: activate dscript env
+  if [[ "$dataset" == "guo" ||  "$dataset" == "du" ]] ; then
+    EMBEDDING='/nfs/scratch/jbernett/yeast_embedding.h5'
+  else
+    EMBEDDING='/nfs/scratch/jbernett/human_embedding.h5'
+  fi
+  cd D-SCRIPT-main
+  train_file=data/multiple_runs/${setting}_${dataset}_train_${seed}.txt
+  test_file=data/multiple_runs/${setting}_${dataset}_test_${seed}.txt
+  outfile="${setting}_${dataset}_${seed}_train.txt"
+  timefile="${setting}_${dataset}_${seed}_time.txt"
+  model_name="${dataset}_${seed}_tt_${setting}"
+  { time dscript train --topsy-turvy --train ${train_file} --test ${test_file} --embedding $EMBEDDING --save-prefix ./models/${model_name} -o results_topsyturvy/multiple_runs/${outfile}; } 2> results_topsyturvy/multiple_runs/${timefile}
+  cd ..
 else
   # SPRINT
   cd SPRINT

@@ -1,5 +1,6 @@
 import random
 
+
 def balance_ppis_list(ppis, factor=1):
     pos_ppis = set(x for x in ppis if x[2] == '1')
     pos_len = len(pos_ppis)
@@ -29,21 +30,9 @@ def balance_ppis_list(ppis, factor=1):
     return ppis
 
 
-def create_dataset(dataset, folder, fold, organism):
-    universe = set()
-    with open(f"../../../Datasets_PPIs/SwissProt/{organism}_proteins_lengths.txt") as universe_file:
-        for line in universe_file:
-            protein, length = line.strip().split('\t')
-            if float(length) > 50 and float(length) < 1000:
-                universe.add(protein)
-
-    ppis = set()
-    if dataset == 'dscript':
-        factor = 10
-    else:
-        factor = 1
-    with open(f"../../SPRINT/data/{folder}/{dataset}_{fold}_pos.txt", "r") as f_in_pos, \
-            open(f"../../SPRINT/data/{folder}/{dataset}_{fold}_neg.txt", "r") as f_in_neg:
+def process_files_from_sprint(ppis, pos_file, neg_file, universe, folder, fold, factor=1, seed=None):
+    with open(pos_file, "r") as f_in_pos, \
+            open(neg_file, "r") as f_in_neg:
 
         # Process positive examples
         for line in f_in_pos:
@@ -59,9 +48,38 @@ def create_dataset(dataset, folder, fold, organism):
 
     ppis = balance_ppis_list(ppis, factor=factor)
 
-    with open(f"{folder}/{dataset}_{fold}.txt", "w") as f_out:
-        for ppi in ppis:
-            f_out.write(f"{ppi[0]}\t{ppi[1]}\t{ppi[2]}\n")
+    if seed is not None:
+        with open(f"multiple_runs/{folder}_{dataset}_{fold}_{seed}.txt", "w") as f_out:
+            for ppi in ppis:
+                f_out.write(f"{ppi[0]}\t{ppi[1]}\t{ppi[2]}\n")
+    else:
+        with open(f"{folder}/{dataset}_{fold}.txt", "w") as f_out:
+            for ppi in ppis:
+                f_out.write(f"{ppi[0]}\t{ppi[1]}\t{ppi[2]}\n")
+
+
+def create_dataset(dataset, folder, fold, organism, multiple_random_splits=False):
+    universe = set()
+    with open(f"../../../Datasets_PPIs/SwissProt/{organism}_proteins_lengths.txt") as universe_file:
+        for line in universe_file:
+            protein, length = line.strip().split('\t')
+            if 50 < float(length) < 1000:
+                universe.add(protein)
+
+    ppis = set()
+    if dataset == 'dscript':
+        factor = 10
+    else:
+        factor = 1
+    if multiple_random_splits:
+        for seed in ["7413", "17612", "29715", "30940", "31191", "42446", "50495", "60688", "75212", "81645"]:
+            pos_file = f"../../SPRINT/data/{folder}/multiple_random_splits/{dataset}_{fold}_pos_{seed}.txt"
+            neg_file = f"../../SPRINT/data/{folder}/multiple_random_splits/{dataset}_{fold}_neg_{seed}.txt"
+            process_files_from_sprint(ppis, pos_file, neg_file, universe, folder, fold, factor, seed)
+    else:
+        process_files_from_sprint(ppis, f"../../SPRINT/data/{folder}/{dataset}_{fold}_pos.txt",
+                                  f"../../SPRINT/data/{folder}/{dataset}_{fold}_neg.txt",
+                                  universe, folder, fold, factor)
 
 
 def create_gold_standard(name, unbalanced=False):
@@ -116,12 +134,13 @@ if __name__ == '__main__':
     # execute in the Datasets_PPIs/SwissProt directory:
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' yeast_swissprot_oneliner.fasta > yeast_proteins_lengths.txt
     # awk '/^>/ {printf("%s\t",substr($0,2)); next;} {print length}' human_swissprot_oneliner.fasta > human_proteins_lengths.txt
-    create_gold_standard('Intra0')
-    create_gold_standard('Intra1')
-    create_gold_standard('Intra2')
+    #create_gold_standard('Intra0')
+    #create_gold_standard('Intra1')
+    #create_gold_standard('Intra2')
 
     for dataset in ['guo', 'du']:
         print(dataset)
+        '''
         create_dataset(dataset, 'original', 'train', 'yeast')
         create_dataset(dataset, 'original', 'test', 'yeast')
         create_dataset(dataset, 'rewired', 'train', 'yeast')
@@ -129,9 +148,15 @@ if __name__ == '__main__':
         create_dataset(dataset, 'partitions', 'partition_0', 'yeast')
         create_dataset(dataset, 'partitions', 'partition_1', 'yeast')
         create_dataset(dataset, 'partitions', 'partition_both', 'yeast')
+        '''
+        create_dataset(dataset, 'original', 'train', 'yeast', multiple_random_splits=True)
+        create_dataset(dataset, 'original', 'test', 'yeast', multiple_random_splits=True)
+        create_dataset(dataset, 'rewired', 'train', 'yeast', multiple_random_splits=True)
+        create_dataset(dataset, 'rewired', 'test', 'yeast', multiple_random_splits=True)
     for dataset in ['huang', 'pan', 'richoux', 'dscript']:
         print(dataset)
         if dataset == 'richoux':
+            '''
             create_dataset('richoux_regular', 'original', 'train', 'human')
             create_dataset('richoux_regular', 'original', 'test', 'human')
             create_dataset('richoux_regular', 'rewired', 'train', 'human')
@@ -143,7 +168,17 @@ if __name__ == '__main__':
             create_dataset(dataset, 'partitions', 'partition_0', 'human')
             create_dataset(dataset, 'partitions', 'partition_1', 'human')
             create_dataset(dataset, 'partitions', 'partition_both', 'human')
+            '''
+            create_dataset('richoux_regular', 'original', 'train', 'human', multiple_random_splits=True)
+            create_dataset('richoux_regular', 'original', 'test', 'human', multiple_random_splits=True)
+            create_dataset('richoux_regular', 'rewired', 'train', 'human', multiple_random_splits=True)
+            create_dataset('richoux_regular', 'rewired', 'test', 'human', multiple_random_splits=True)
+            create_dataset('richoux_strict', 'original', 'train', 'human', multiple_random_splits=True)
+            create_dataset('richoux_strict', 'original', 'test', 'human', multiple_random_splits=True)
+            create_dataset('richoux_strict', 'rewired', 'train', 'human', multiple_random_splits=True)
+            create_dataset('richoux_strict', 'rewired', 'test', 'human', multiple_random_splits=True)
         else:
+            '''
             create_dataset(dataset, 'original', 'train', 'human')
             create_dataset(dataset, 'original', 'test', 'human')
             create_dataset(dataset, 'rewired', 'train', 'human')
@@ -151,3 +186,8 @@ if __name__ == '__main__':
             create_dataset(dataset, 'partitions', 'partition_0', 'human')
             create_dataset(dataset, 'partitions', 'partition_1', 'human')
             create_dataset(dataset, 'partitions', 'partition_both', 'human')
+            '''
+            create_dataset(dataset, 'original', 'train', 'human', multiple_random_splits=True)
+            create_dataset(dataset, 'original', 'test', 'human', multiple_random_splits=True)
+            create_dataset(dataset, 'rewired', 'train', 'human', multiple_random_splits=True)
+            create_dataset(dataset, 'rewired', 'test', 'human', multiple_random_splits=True)

@@ -1,5 +1,6 @@
 from sklearn.metrics import roc_auc_score, average_precision_score
 import numpy as np
+from itertools import product
 
 def calculate_auc_aupr(y_pred, y_true):
     y_pred = np.array(y_pred, dtype=float)
@@ -11,6 +12,7 @@ def calculate_auc_aupr(y_pred, y_true):
 
 partition = False
 rewired = False
+multiple_runs = True
 if partition:
     result_file = open("partitions/all_results.tsv", "w")
     result_file.write("Dataset\tTrain\tTest\tAUC\tAUPR\n")
@@ -35,6 +37,12 @@ else:
     if rewired:
         folder = 'rewired'
         datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "dscript"]
+    elif multiple_runs:
+        folder = 'multiple_runs'
+        datasets = ["guo", "huang"]
+        settings = ["original", "rewired"]
+        seeds = ["17612", "29715", "30940", "31191", "42446", "50495", "60688", "7413", "75212", "81645"]
+        datasets = [f"{setting}_{dataset}_{seed}" for dataset, seed, setting in product(datasets, seeds, settings)]
     else:
         folder = 'original'
         datasets = ["du", "guo", "huang", "pan", "richoux_regular", "richoux_strict", "gold_standard", "dscript"]
