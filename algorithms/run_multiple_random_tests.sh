@@ -13,7 +13,7 @@ declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in PIPR #DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
+	for MODEL in Richoux-LSTM #PIPR DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
 	do
 		for DATASET in huang guo
 		do
@@ -54,6 +54,15 @@ elif [ "$model" == "Richoux_FC" ]; then
   test_pos=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_test_pos_${seed}.txt
   test_neg=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_test_neg_${seed}.txt
   python train_all_datasets.py -name FC_${setting}_${dataset}_${seed} -train_pos $train_pos -train_neg $train_neg -test_pos $test_pos -test_neg $test_neg -model fc2_20_2dense -epochs 25 -batch 2048
+  cd ../..
+elif [ "$model" == "Richoux_LSTM" ]; then
+  #Richoux-LSTM
+  cd DeepPPI/keras
+  train_pos=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_train_pos_${seed}.txt
+  train_neg=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_train_neg_${seed}.txt
+  test_pos=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_test_pos_${seed}.txt
+  test_neg=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_test_neg_${seed}.txt
+  python train_all_datasets.py -name LSTM_${setting}_${dataset}_${seed} -train_pos $train_pos -train_neg $train_neg -test_pos $test_pos -test_neg $test_neg -model lstm32_3conv3_2dense_shared -epochs 100 -batch 2048
   cd ../..
 elif [ "$model" == "DeepFE" ]; then
   # DeepFE
