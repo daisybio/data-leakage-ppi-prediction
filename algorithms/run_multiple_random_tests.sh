@@ -7,7 +7,7 @@
 #SBATCH --error=multiple_random_tests_%A_%a.err
 #SBATCH --partition=shared-gpu
 #SBATCH --mem=100G
-#SBATCH --array=0-79
+#SBATCH --array=0-39
 
 declare -a combis
 index=0
