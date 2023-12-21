@@ -40,7 +40,7 @@ def process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t):
     return X, class_labels
 
 
-def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
+def read_in_dataset(dataset, test, partition, seq_size, rewired=False, seed=None):
     if dataset.startswith('gold_standard_unbalanced'):
         datasets = ['gold_standard_unbalanced_train', 'gold_standard_unbalanced_val', 'gold_standard_unbalanced_test']
     elif dataset.startswith('gold_standard'):
@@ -109,8 +109,12 @@ def read_in_dataset(dataset, test, partition, seq_size, rewired=False):
         else:
             folder = 'original'
         print(f'Getting {folder} ...')
-        train_file_pos = f'../../../../SPRINT/data/{folder}/{dataset}_{prefix}_pos.txt'
-        train_file_neg = f'../../../../SPRINT/data/{folder}/{dataset}_{prefix}_neg.txt'
+        if seed is None:
+            train_file_pos = f'../../../../SPRINT/data/{folder}/{dataset}_{prefix}_pos.txt'
+            train_file_neg = f'../../../../SPRINT/data/{folder}/{dataset}_{prefix}_neg.txt'
+        else:
+            train_file_pos = f'../../../../SPRINT/data/{folder}/multiple_random_splits/{dataset}_{prefix}_pos_{seed}.txt'
+            train_file_neg = f'../../../../SPRINT/data/{folder}/multiple_random_splits/{dataset}_{prefix}_neg_{seed}.txt'
         ppis = read_ppis_from_sprint(train_file_pos, train_file_neg, id2index)
     print('Embedding ...')
     X, class_labels = process_ppis(ppis, id2index, seqs, seq_size, dim, seq2t)
@@ -284,8 +288,21 @@ if __name__ == '__main__':
         prefix = 'gold_standard_unbalanced_'
     if len(args) > 1 and args[1] == 'split_train':
         split_train = True
+        datasets = None
+        seed = None
+    elif len(args) > 1:
+        split_train = False
+        datasets = [arg for arg in args[1].split(',')]
+        print(f'Using dataset list {datasets}')
+        if len(args) > 2:
+            seed = int(args[2])
+            print(f'Using seed {seed}')
+        else:
+            seed = None
     else:
         split_train = False
+        seed = None
+        datasets = None
     seq_size = 2000
     n_epochs = 50
     batch_size = 256
@@ -300,7 +317,7 @@ if __name__ == '__main__':
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
                     'richoux_both_0', 'richoux_both_1', 'richoux_0_1',
                     'dscript_both_0', 'dscript_both_1', 'dscript_0_1']
-    else:
+    elif datasets is None:
         datasets = ['huang', 'guo', 'du', 'pan', 'richoux_regular', 'richoux_strict', 'dscript']
     for dataset in datasets:
         t_start = time()
@@ -339,9 +356,9 @@ if __name__ == '__main__':
                 f'Test: {int(len(y_test[:, 0]))} ({int(sum(y_test[:, 0]))}/{int(len(y_test[:, 0])) - int(sum(y_test[:, 0]))}),')
         else:
             print('Reading training data ...')
-            dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size, rewired=rewired)
+            dim, X_train, y_train = read_in_dataset(dataset=dataset, test=False, partition=partition, seq_size=seq_size, rewired=rewired, seed=seed)
             print('Reading test data ...')
-            dim_test, X_test, y_test = read_in_dataset(dataset=dataset, test=True, partition=partition, seq_size=seq_size, rewired=rewired)
+            dim_test, X_test, y_test = read_in_dataset(dataset=dataset, test=True, partition=partition, seq_size=seq_size, rewired=rewired, seed=seed)
             print('###########################')
             print(
                 f'The {dataset} dataset contains {int(len(y_train[:, 0]) + len(y_test[:, 0]))} samples ({int(sum(y_train[:, 0]) + sum(y_test[:, 0]))} positives, {int(len(y_train[:, 0]) + len(y_test[:, 0]) - sum(y_train[:, 0]) - sum(y_test[:, 0]))} negatives).\n'
@@ -391,7 +408,12 @@ if __name__ == '__main__':
             dataset = f'{dataset}_es'
         y_pred = merge_model.predict(X_test)
         print('Exporting results ...')
-        write_results(path=f'results/{prefix}{dataset}.csv', y_true=y_test, y_pred=y_pred)
-        with open(f'results/all_times.txt', 'a+') as f:
-            f.write(f'{prefix}{dataset}\t{time() - t_start}')
+        if seed is None:
+            write_results(path=f'results/{prefix}{dataset}.csv', y_true=y_test, y_pred=y_pred)
+            with open(f'results/all_times.txt', 'a+') as f:
+                f.write(f'{prefix}{dataset}\t{time() - t_start}')
+        else:
+            write_results(path=f'results/multiple_runs/{prefix}{dataset}_{seed}.csv', y_true=y_test, y_pred=y_pred)
+            with open(f'results/multiple_runs/all_times.txt', 'a+') as f:
+                f.write(f'{prefix}{dataset}_{seed}\t{time() - t_start}')
 

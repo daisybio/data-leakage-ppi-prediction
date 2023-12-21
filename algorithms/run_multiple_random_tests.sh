@@ -13,7 +13,7 @@ declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in DeepFE #PIPR D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
+	for MODEL in PIPR #DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
 	do
 		for DATASET in huang guo
 		do
@@ -58,6 +58,11 @@ elif [ "$model" == "Richoux_FC" ]; then
 elif [ "$model" == "DeepFE" ]; then
   # DeepFE
   cd DeepFE-PPI
+  python train_all_datasets.py $setting $dataset $seed
+  cd ..
+elif [ "$model" == "PIPR" ]; then
+  # PIPR activate pipr
+  cd seq_ppi/binary/model/lasagna
   python train_all_datasets.py $setting $dataset $seed
   cd ..
 elif [ "$model" == "D-SCRIPT" ]; then
