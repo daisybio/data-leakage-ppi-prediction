@@ -751,6 +751,8 @@ def get_freer_gpu():
     import os
     os.system('nvidia-smi -q -d Memory |grep -A5 GPU|grep Free >tmp')
     memory_available = [int(x.split()[2]) for x in open('tmp', 'r').readlines()]
+    log(f'Available memory: {memory_available}', print_also=True)
+    log(f'Using GPU {np.argmax(memory_available)}', print_also=True)
     return int(np.argmax(memory_available))
 
 
