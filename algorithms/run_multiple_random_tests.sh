@@ -10,13 +10,12 @@
 #SBATCH --gres=gpu:1
 #SBATCH --array=0-39
 
-export LD_LIBRARY_PATH=/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib
 
 declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in Richoux_LSTM #PIPR DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
+	for MODEL in PIPR #DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC Richoux_LSTM SPRINT
 	do
 		for DATASET in huang guo
 		do
@@ -51,6 +50,7 @@ if [ "$model" == "Custom" ]; then
   cd ..
 elif [ "$model" == "Richoux_FC" ]; then
   #Richoux-FC
+  export LD_LIBRARY_PATH=/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib
   cd DeepPPI/keras
   train_pos=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_train_pos_${seed}.txt
   train_neg=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_train_neg_${seed}.txt
@@ -60,6 +60,7 @@ elif [ "$model" == "Richoux_FC" ]; then
   cd ../..
 elif [ "$model" == "Richoux_LSTM" ]; then
   #Richoux-LSTM
+  export LD_LIBRARY_PATH=/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib
   cd DeepPPI/keras
   train_pos=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_train_pos_${seed}.txt
   train_neg=../../SPRINT/data/${setting}/multiple_random_splits/${dataset}_train_neg_${seed}.txt
@@ -69,11 +70,13 @@ elif [ "$model" == "Richoux_LSTM" ]; then
   cd ../..
 elif [ "$model" == "DeepFE" ]; then
   # DeepFE
+  export LD_LIBRARY_PATH=/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib
   cd DeepFE-PPI
   python train_all_datasets.py $setting $dataset $seed
   cd ..
 elif [ "$model" == "PIPR" ]; then
   # PIPR activate pipr
+  export LD_LIBRARY_PATH=/nfs/home/students/jbernett/.conda/envs/pipr/lib
   cd seq_ppi/binary/model/lasagna
   python train_all_datasets.py $setting $dataset $seed
   cd ..
