@@ -528,11 +528,11 @@ def train_model(args, output):
         torch.cuda.set_device(device)
         log(
             f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
-        )
+        , print_also=True)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        log(f'Using device {device}')
+        log(f'Using device {device}', print_also=True)
     else:
-        log("Using CPU")
+        log("Using CPU", print_also=True)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if args.checkpoint is None:
