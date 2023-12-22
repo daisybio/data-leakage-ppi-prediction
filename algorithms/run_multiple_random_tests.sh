@@ -6,14 +6,17 @@
 #SBATCH --output=multiple_random_tests_%A_%a.out
 #SBATCH --error=multiple_random_tests_%A_%a.err
 #SBATCH --partition=shared-gpu
-#SBATCH --mem=100G
+#SBATCH --mem=350G
+#SBATCH --gres=gpu:1
 #SBATCH --array=0-39
+
+export LD_LIBRARY_PATH=/nfs/home/students/jbernett/.conda/envs/deep_PPIs/lib
 
 declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in Richoux-LSTM #PIPR DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
+	for MODEL in Richoux_LSTM #PIPR DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC SPRINT
 	do
 		for DATASET in huang guo
 		do
