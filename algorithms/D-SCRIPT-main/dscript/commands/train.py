@@ -521,7 +521,10 @@ def train_model(args, output):
 
     use_cuda = torch.cuda.is_available()
     if use_cuda:
-        device = get_freer_gpu()
+        if torch.cuda.device_count() == 1:
+            device = 0
+        else:
+            device = get_freer_gpu()
         torch.cuda.set_device(device)
         log(
             f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
