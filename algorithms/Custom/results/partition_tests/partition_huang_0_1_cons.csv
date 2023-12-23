@@ -4,3 +4,5 @@ Sensitivity,1.0
 Specificity,0.0
 F1,0.6666666666666666
 MCC,0.0
+AUC,0.5
+AUPR,0.5
