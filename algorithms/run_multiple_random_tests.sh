@@ -2,9 +2,9 @@
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=30
-#SBATCH --job-name=multiple_random_tests
-#SBATCH --output=multiple_random_tests_%A_%a.out
-#SBATCH --error=multiple_random_tests_%A_%a.err
+#SBATCH --job-name=multiple_random_tests_tt
+#SBATCH --output=multiple_random_tests_tt_%A_%a.out
+#SBATCH --error=multiple_random_tests_tt_%A_%a.err
 #SBATCH --partition=shared-gpu
 #SBATCH --mem=350G
 #SBATCH --gres=gpu:1
@@ -15,7 +15,7 @@ declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in PIPR #DeepFE D-SCRIPT Topsy-Turvy Custom Richoux_FC Richoux_LSTM SPRINT
+	for MODEL in Topsy-Turvy #Custom Richoux_FC Richoux_LSTM SPRINT PIPR DeepFE D-SCRIPT
 	do
 		for DATASET in huang guo
 		do
