@@ -123,6 +123,9 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=F
                     'pan_both_0', 'pan_both_1', 'pan_0_1',
                     'richoux_both_0', 'richoux_both_1', 'richoux_0_1',
                     'dscript_both_0', 'dscript_both_1', 'dscript_0_1']
+        else:
+            # append "_both_0", "_both_1", "_0_1" to all dataset_list names
+            dataset_list = [f'{name}_both_0' for name in dataset_list] + [f'{name}_both_1' for name in dataset_list] + [f'{name}_0_1' for name in dataset_list]
     elif gold:
         prefix = 'gold_standard_'
         dataset_list = ['gold_standard']
