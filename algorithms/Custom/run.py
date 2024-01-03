@@ -139,7 +139,11 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=F
         lg = construct_line_graph(dataset=name, prefix=prefix, seed=seed)
         print('Constructed line graph!')
         time_preprocess = time() - t_start
-        scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Harmonic function')
+        try:
+            scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Harmonic function')
+        except:
+            print('Harmonic function failed!')
+            scores_hf = {}
         if seed is not None:
             export_scores(scores_hf,
                           f'results/multiple_runs/{prefix}{name}_hf_{seed}.csv')
