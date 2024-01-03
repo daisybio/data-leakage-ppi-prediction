@@ -7,14 +7,14 @@
 #SBATCH --error=eval_ds_tt_%A_%a.err
 #SBATCH --partition=shared-cpu
 #SBATCH --mem=100G
-#SBATCH --array=0-39
+#SBATCH --array=0-79
 
 
 declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in D-SCRIPT #Topsy-Turvy #Custom Richoux_FC Richoux_LSTM SPRINT PIPR DeepFE
+	for MODEL in D-SCRIPT Topsy-Turvy
 	do
 		for DATASET in huang guo
 		do
@@ -27,6 +27,15 @@ do
 	done
 done
 parameters=${combis[$SLURM_ARRAY_TASK_ID]}
+
+# Split the parameters string into an array
+IFS=' ' read -r -a params_array <<< "$parameters"
+
+# Assign individual elements to variables
+setting=${params_array[0]}
+model=${params_array[1]}
+dataset=${params_array[2]}
+seed=${params_array[3]}
 
 cd D-SCRIPT-main
 
@@ -44,6 +53,9 @@ if [ "$model" == "D-SCRIPT" ]; then
 elif [ "$model" == "Topsy-Turvy" ]; then
   outfile="results_topsyturvy/multiple_runs/${setting}_${dataset}_${seed}.txt"
   model_path="models/${dataset}_${seed}_tt_${setting}_final.sav"
+fi
+
+echo $test_file $embedding $model_path $outfile
 
 dscript evaluate --test $test_file  --embedding $embedding --model $model_path -o $outfile
 
