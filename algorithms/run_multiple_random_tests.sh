@@ -8,14 +8,14 @@
 #SBATCH --partition=shared-gpu
 #SBATCH --mem=350G
 #SBATCH --gres=gpu:1
-#SBATCH --array=0-39
+#SBATCH --array=0-319
 
 
 declare -a combis
 index=0
 for SETTING in original rewired
 do
-	for MODEL in Topsy-Turvy #Custom Richoux_FC Richoux_LSTM SPRINT PIPR DeepFE D-SCRIPT
+	for MODEL in Custom Richoux_FC Richoux_LSTM SPRINT PIPR DeepFE D-SCRIPT Topsy-Turvy
 	do
 		for DATASET in huang guo
 		do

@@ -1,0 +1,40 @@
+  0%|          | 0/2185 [00:00<?, ?it/s]  0%|          | 1/2185 [00:02<1:32:55,  2.55s/it]  0%|          | 9/2185 [00:04<17:35,  2.06it/s]    1%|          | 15/2185 [00:09<23:20,  1.55it/s]  2%|▏         | 44/2185 [00:11<06:35,  5.41it/s]  2%|▏         | 53/2185 [00:16<10:17,  3.45it/s] 75%|███████▌  | 1645/2185 [00:16<00:02, 221.93it/s] 93%|█████████▎| 2037/2185 [00:19<00:00, 187.11it/s]100%|██████████| 2185/2185 [00:20<00:00, 105.74it/s]terminate called after throwing an instance of 'c10::Error'
+  what():  could not unlink the shared memory file /torch_1905798_1449595177_0
+Exception raised from close at ../aten/src/ATen/MapAllocator.cpp:512 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x57 (0x7fe2428a34d7 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::string const&) + 0x64 (0x7fe24286d36b in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libc10.so)
+frame #2: at::RefcountedMapAllocator::close() + 0xd1 (0x7fe223b03ca1 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: THManagedMapAllocator::close() + 0x4b (0x7fe26ccfdccb in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libshm.so)
+frame #4: <unknown function> + 0x4d53 (0x7fe26ccfdd53 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libshm.so)
+frame #5: <unknown function> + 0x4d4c88 (0x7fe23bb78c88 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x3ee45 (0x7fe242888e45 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libc10.so)
+frame #7: c10::TensorImpl::~TensorImpl() + 0x1be (0x7fe24288169e in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libc10.so)
+frame #8: c10::TensorImpl::~TensorImpl() + 0x9 (0x7fe2428817b9 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libc10.so)
+frame #9: <unknown function> + 0x75acd8 (0x7fe23bdfecd8 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libtorch_python.so)
+frame #10: THPVariable_subclass_dealloc(_object*) + 0x325 (0x7fe23bdff085 in /nfs/home/students/jbernett/miniconda3/envs/dscript/lib/python3.8/site-packages/torch/lib/libtorch_python.so)
+frame #11: <unknown function> + 0x114ae8 (0x5621b8abbae8 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #12: <unknown function> + 0x121dc8 (0x5621b8ac8dc8 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #13: _PyFunction_Vectorcall + 0x138 (0x5621b8ad0838 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #14: _PyEval_EvalFrameDefault + 0x3aa (0x5621b8ac069a in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #15: _PyFunction_Vectorcall + 0x106 (0x5621b8ad0806 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #16: _PyEval_EvalFrameDefault + 0x4b8b (0x5621b8ac4e7b in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #17: _PyFunction_Vectorcall + 0x106 (0x5621b8ad0806 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #18: _PyEval_EvalFrameDefault + 0x3aa (0x5621b8ac069a in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #19: _PyEval_EvalCodeWithName + 0x2f1 (0x5621b8abf261 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #20: PyEval_EvalCodeEx + 0x39 (0x5621b8b71fd9 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #21: PyEval_EvalCode + 0x1b (0x5621b8b71f9b in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #22: <unknown function> + 0x1eb929 (0x5621b8b92929 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #23: <unknown function> + 0x1ea923 (0x5621b8b91923 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #24: <unknown function> + 0x9a00f (0x5621b8a4100f in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #25: PyRun_SimpleFileExFlags + 0x364 (0x5621b8a40b13 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #26: <unknown function> + 0x8cfdc (0x5621b8a33fdc in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #27: Py_BytesMain + 0x39 (0x5621b8b657b9 in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+frame #28: <unknown function> + 0x29d90 (0x7fe27d429d90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #29: __libc_start_main + 0x80 (0x7fe27d429e40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #30: <unknown function> + 0x1be6bd (0x5621b8b656bd in /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/python)
+
+/var/spool/slurmd/job358975/slurm_script: line 130: 1905791 Aborted                 (core dumped) dscript train --topsy-turvy --train ${train_file} --test ${test_file} --embedding $EMBEDDING --save-prefix ./models/${model_name} -o results_topsyturvy/multiple_runs/${outfile}
+
+real	235m53,738s
+user	202m3,037s
+sys	45m46,272s
