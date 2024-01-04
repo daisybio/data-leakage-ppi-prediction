@@ -1,1 +1,3 @@
 gold_standard	Local and Global Consistency	1075.3770422935486
+gold_standard	Harmonic Function	218.91155314445496
+gold_standard	Local and Global Consistency	1109.2703981399536

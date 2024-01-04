@@ -228,7 +228,7 @@ if __name__ == "__main__":
         run_degree_algorithm(rewire=False, partition=True)
     elif args[0] == 'gold_standard':
         print('########################### GOLD STANDARD ###########################')
-        run_gold_standard()
+        #run_gold_standard()
         run_degree_algorithm(rewire=False, partition=False, gold=True)
     else:
         print('########################### GOLD STANDARD UNBALANCED ###########################')
