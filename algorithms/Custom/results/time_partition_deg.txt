@@ -82,3 +82,9 @@ richoux_both_1	Harmonic Function	1.2513062953948975
 richoux_both_1	Local and Global Consistency	4.266326427459717
 richoux_0_1	Harmonic Function	1.626647710800171
 richoux_0_1	Local and Global Consistency	6.034607172012329
+dscript_both_0	Harmonic Function	131.01262855529785
+dscript_both_0	Local and Global Consistency	893.8208930492401
+dscript_both_1	Harmonic Function	102.59710693359375
+dscript_both_1	Local and Global Consistency	616.6977963447571
+dscript_0_1	Harmonic Function	61.32931876182556
+dscript_0_1	Local and Global Consistency	385.752388715744
