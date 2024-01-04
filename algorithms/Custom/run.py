@@ -152,7 +152,7 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=F
                           f'results/multiple_runs/{prefix}{name}_hf_{seed}.csv')
         else:
             export_scores(scores_hf,
-                          f'results/multiple_runs/{prefix}{name}_hf.csv')
+                          f'results/{prefix}{name}_hf.csv')
         time_elapsed_hf = time() - t_start
         print(f'time elapsed: {time_elapsed_hf}')
         scores_cons = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Local and global consistency')
@@ -169,7 +169,7 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=F
                 f.write(f'{name}\tHarmonic Function\t{time_elapsed_hf}\n')
                 f.write(f'{name}\tLocal and Global Consistency\t{time_elapsed_cons}\n')
         else:
-            with open(f'results/multiple_runs/time_{prefix}deg.txt', 'a+') as f:
+            with open(f'results/time_{prefix}deg.txt', 'a+') as f:
                 f.write(f'{name}\tHarmonic Function\t{time_elapsed_hf}\n')
                 f.write(f'{name}\tLocal and Global Consistency\t{time_elapsed_cons}\n')
 
@@ -224,7 +224,7 @@ if __name__ == "__main__":
         run_degree_algorithm(rewire=True, partition=False, dataset_list=dataset_list, seed=seed)
     elif args[0] == 'partition':
         print('########################### PARTITION ###########################')
-        run_partitioning_tests(dataset_list=dataset_list)
+        #run_partitioning_tests(dataset_list=dataset_list)
         run_degree_algorithm(rewire=False, partition=True)
     elif args[0] == 'gold_standard':
         print('########################### GOLD STANDARD ###########################')
