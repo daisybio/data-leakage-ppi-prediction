@@ -1,11 +1,11 @@
 Model,Dataset,Recall
 degree_cons,gold_standard,1
-RF_MDS,gold_standard,0.164540424223793
-SVM_MDS,gold_standard,0.490931447894251
-RF_node2vec,gold_standard,0.217374321315574
-SVM_node2vec,gold_standard,0.633061208546541
-RF_PCA,gold_standard,0.238241623117123
-SVM_PCA,gold_standard,0.522594528127882
+RF_MDS,gold_standard,0.163387642176453
+SVM_MDS,gold_standard,0.646441746080541
+RF_node2vec,gold_standard,0.221553845552908
+SVM_node2vec,gold_standard,0.65208390297254
+RF_PCA,gold_standard,0.253035659391331
+SVM_PCA,gold_standard,0.521864432831233
 DeepFE,gold_standard,0.4664
 deepPPI_FC,gold_standard,0.405
 deepPPI_LSTM,gold_standard,0.607

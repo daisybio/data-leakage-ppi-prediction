@@ -5,24 +5,67 @@ library(gridExtra)
 library(ggplot2)
 library(latex2exp)
 
+only_pos=F
+only_neg=T
+
+# Prep data function
+prep_data <- function(run, partition=F, only_pos=F, only_neg=F){
+  if(partition){
+    if(only_pos){
+      all_sets <- lapply(list.files(path='../algorithms/SPRINT/data/partitions', full.names = T, recursive = T, pattern = '*_pos.txt'), 
+                         fread, header=F)
+      names(all_sets) <- tstrsplit(list.files(path='../algorithms/SPRINT/data/partitions', recursive = T, pattern = '*_pos.txt'), '.txt', keep=1)[[1]]
+    }else if(only_neg){
+      all_sets <- lapply(list.files(path='../algorithms/SPRINT/data/partitions', full.names = T, recursive = T, pattern = '*_neg.txt'), 
+                         fread, header=F)
+      names(all_sets) <- tstrsplit(list.files(path='../algorithms/SPRINT/data/partitions', recursive = T, pattern = '*_neg.txt'), '.txt', keep=1)[[1]]
+    }else{
+      all_sets <- lapply(list.files(path='../algorithms/SPRINT/data/partitions', full.names = T, recursive = T, pattern = '*_(pos|neg).txt'), 
+                         fread, header=F)
+      names(all_sets) <- tstrsplit(list.files(path='../algorithms/SPRINT/data/partitions', recursive = T, pattern = '*_(pos|neg).txt'), '.txt', keep=1)[[1]]
+    }
+    all_sets <- lapply(all_sets, function(x){
+      return(unique(melt(x, measure.vars = c('V1', 'V2'), value.name = 'Protein')[, -'variable']))
+    })
+    all_sets <- rbindlist(all_sets, idcol='filename')
+    all_sets[, c('dataset', 'partition') := tstrsplit(filename, '_', keep=c(1,3))]
+    all_sets <- all_sets[, -'filename']
+    all_sets[, data_part := paste(dataset, partition, sep='_')]
+    all_sets[, both_0 := ifelse(partition %in% c('0', 'both'), T, F)]
+    all_sets[, both_1 := ifelse(partition %in% c('1', 'both'), T, F)]
+    all_sets[, p0_p1 := ifelse(partition %in% c('0', '1'), T, F)]
+    all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux', 'dscript'))]
+  }else{
+    if(only_pos){
+      all_sets <- lapply(list.files(path=paste0('../algorithms/SPRINT/data/', run), full.names = T, recursive = T, pattern = '*_pos.txt'), 
+                         fread, header=F)
+      names(all_sets) <- tstrsplit(list.files(path=paste0('../algorithms/SPRINT/data/', run), recursive = T, pattern = '*_pos.txt'), '.txt', keep=1)[[1]]
+    }else if(only_neg){
+      all_sets <- lapply(list.files(path=paste0('../algorithms/SPRINT/data/', run), full.names = T, recursive = T, pattern = '*_neg.txt'), 
+                         fread, header=F)
+      names(all_sets) <- tstrsplit(list.files(path=paste0('../algorithms/SPRINT/data/', run), recursive = T, pattern = '*_neg.txt'), '.txt', keep=1)[[1]]
+    }else{
+      all_sets <- lapply(list.files(path=paste0('../algorithms/SPRINT/data/', run), full.names = T, recursive = T, pattern = '*_(pos|neg).txt'), 
+                         fread, header=F)
+      names(all_sets) <- tstrsplit(list.files(path=paste0('../algorithms/SPRINT/data/', run), recursive = T, pattern = '*_(pos|neg).txt'), '.txt', keep=1)[[1]]
+    }
+    all_sets <- lapply(all_sets, function(x){
+      return(unique(melt(x, measure.vars = c('V1', 'V2'), value.name = 'Protein')[, -'variable']))
+    })
+    all_sets <- rbindlist(all_sets, idcol='filename')
+    all_sets[, filename := gsub('richoux_', 'richoux-', filename)]
+    all_sets[, c('dataset', 'set') := tstrsplit(filename, '_', keep=c(1, 2))]
+    all_sets <- all_sets[, -'filename']
+    all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'dscript'))]
+  }
+  all_sets <- all_sets[order(dataset)]
+}
+
 
 for(run in c('original', 'rewired')){
   print(run)
   myCol <- brewer.pal(4, "Set2")[c(3,4)]
-
-  all_sets <- lapply(list.files(path=paste0('../algorithms/SPRINT/data/', run), full.names = T, recursive = T), 
-                     fread, header=F)
-  names(all_sets) <- tstrsplit(list.files(path=paste0('../algorithms/SPRINT/data/', run), recursive = T), '.txt', keep=1)[[1]]
-  all_sets <- lapply(all_sets, function(x){
-    return(unique(melt(x, measure.vars = c('V1', 'V2'), value.name = 'Protein')[, -'variable']))
-  })
-  all_sets <- rbindlist(all_sets, idcol='filename')
-  all_sets[, filename := gsub('richoux_', 'richoux-', filename)]
-  all_sets[, c('dataset', 'set') := tstrsplit(filename, '_', keep=c(1, 2))]
-  all_sets <- all_sets[, -'filename']
-  all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'dscript'))]
-  all_sets <- all_sets[order(dataset)]
-  
+  all_sets <- prep_data(run, partition=F, only_pos = only_pos, only_neg = only_neg)
   plot_list <- list()
   
   for (ds in c('huang', 'guo', 'du', 'pan', 'richoux-regular', 'richoux-strict', 'dscript')){
@@ -73,27 +116,18 @@ for(run in c('original', 'rewired')){
                    gTree(children=plot_list[['richoux-strict']]), 
                    gTree(children=plot_list[['d-script unbal.']]), 
                    nrow = 1)
-  ggsave(paste0('plots/venn_overlaps_', run, '.pdf'), g, height = 2, width = 18)
+  if(only_pos){
+    ggsave(paste0('plots/venn_overlaps_', run, '_pos.pdf'), g, height = 2, width = 18)
+  }else if(only_neg){
+    ggsave(paste0('plots/venn_overlaps_', run, '_neg.pdf'), g, height = 2, width = 18)
+  }else{
+    ggsave(paste0('plots/venn_overlaps_', run, '.pdf'), g, height = 2, width = 18)
+  }
 }
 
 
 myCol <- brewer.pal(4, "Set2")[c(2, 3, 4)]
-all_sets <- lapply(list.files(path='../algorithms/SPRINT/data/partitions', full.names = T, recursive = T), 
-                   fread, header=F)
-names(all_sets) <- tstrsplit(list.files(path='../algorithms/SPRINT/data/partitions', recursive = T), '.txt', keep=1)[[1]]
-all_sets <- lapply(all_sets, function(x){
-  return(unique(melt(x, measure.vars = c('V1', 'V2'), value.name = 'Protein')[, -'variable']))
-})
-all_sets <- rbindlist(all_sets, idcol='filename')
-all_sets[, c('dataset', 'partition') := tstrsplit(filename, '_', keep=c(1,3))]
-all_sets <- all_sets[, -'filename']
-all_sets[, data_part := paste(dataset, partition, sep='_')]
-all_sets[, both_0 := ifelse(partition %in% c('0', 'both'), T, F)]
-all_sets[, both_1 := ifelse(partition %in% c('1', 'both'), T, F)]
-all_sets[, p0_p1 := ifelse(partition %in% c('0', '1'), T, F)]
-all_sets[, dataset := factor(dataset, levels=c('huang', 'guo', 'du', 'pan', 'richoux', 'dscript'))]
-all_sets <- all_sets[order(dataset)]
-
+all_sets <- prep_data('partition', partition=T, only_pos = only_pos, only_neg = only_neg)
 plot_list <- list()
 
 for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
@@ -102,7 +136,6 @@ for (ds in c('huang', 'guo', 'du', 'pan', 'richoux')){
   p_both <- unique(all_sets[partition == 'both' & dataset == ds, Protein])
   if(ds == 'richoux')
     ds <- 'richoux-uniprot'
-  }
   venn_plot <- venn.diagram(x = list(p_0, p_1, p_both), 
                category.names = TeX(c('$\\it{INTRA}_0$', '$\\it{INTRA}_1$', '$\\it{INTER}$')), 
                main = stringr::str_to_upper(ds),
@@ -228,6 +261,12 @@ g <- arrangeGrob(gTree(children=plot_list[['huang']]),
              gTree(children=plot_list[['pan']]), 
              gTree(children=plot_list[['richoux-uniprot']]), 
              gTree(children=plot_list[['dscript']]), 
-             ncol =2)
-ggsave('~/Downloads/venn_overlaps_partitions.png', g, height = 12, width = 11)
-#ggsave('plots/venn_overlaps_partitions.pdf', g, height = 5, width = 17)
+             nrow =2)
+#ggsave('~/Downloads/venn_overlaps_partitions.png', g, height = 12, width = 11)
+if(only_pos){
+  ggsave('plots/venn_overlaps_partitions_pos.pdf', g, height = 5, width = 17)
+}else if(only_neg){
+  ggsave('plots/venn_overlaps_partitions_neg.pdf', g, height = 5, width = 17)
+}else{
+  ggsave('plots/venn_overlaps_partitions.pdf', g, height = 5, width = 17)
+}

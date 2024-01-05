@@ -142,17 +142,17 @@ def run_degree_algorithm(rewire=False, partition=False, gold=False, unbalanced=F
         lg = construct_line_graph(dataset=name, prefix=prefix, seed=seed)
         print('Constructed line graph!')
         time_preprocess = time() - t_start
-        #try:
-        #    scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Harmonic function')
-        #except:
-        #    print('Harmonic function failed!')
-        #    scores_hf = {}
-        #if seed is not None:
-        #    export_scores(scores_hf,
-        #                  f'results/multiple_runs/{prefix}{name}_hf_{seed}.csv')
-        #else:
-        #    export_scores(scores_hf,
-        #                  f'results/{prefix}{name}_hf.csv')
+        try:
+            scores_hf = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Harmonic function')
+        except:
+            print('Harmonic function failed!')
+            scores_hf = {}
+        if seed is not None:
+            export_scores(scores_hf,
+                          f'results/multiple_runs/{prefix}{name}_hf_{seed}.csv')
+        else:
+            export_scores(scores_hf,
+                          f'results/{prefix}{name}_hf.csv')
         time_elapsed_hf = time() - t_start
         print(f'time elapsed: {time_elapsed_hf}')
         scores_cons = semi_supervised_analysis(lg, shuffle_labels=False, rewired=False, method_name='Local and global consistency')
@@ -224,11 +224,11 @@ if __name__ == "__main__":
         run_degree_algorithm(rewire=True, partition=False, dataset_list=dataset_list, seed=seed)
     elif args[0] == 'partition':
         print('########################### PARTITION ###########################')
-        #run_partitioning_tests(dataset_list=dataset_list)
+        run_partitioning_tests(dataset_list=dataset_list)
         run_degree_algorithm(rewire=False, partition=True)
     elif args[0] == 'gold_standard':
         print('########################### GOLD STANDARD ###########################')
-        #run_gold_standard()
+        run_gold_standard()
         run_degree_algorithm(rewire=False, partition=False, gold=True)
     else:
         print('########################### GOLD STANDARD UNBALANCED ###########################')
