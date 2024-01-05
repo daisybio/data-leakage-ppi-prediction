@@ -1,0 +1,15 @@
+Model,Dataset,AUC
+degree_cons,gold_standard,0.5
+RF_MDS,gold_standard,0.505859975407316
+SVM_MDS,gold_standard,0.497771288041808
+RF_node2vec,gold_standard,0.510898011796414
+SVM_node2vec,gold_standard,0.514784578727394
+RF_PCA,gold_standard,0.518905625576391
+SVM_PCA,gold_standard,0.512546111281894
+DeepFE,gold_standard,0.5209
+deepPPI_FC,gold_standard,0.5244
+deepPPI_LSTM,gold_standard,0.5148
+PIPR,gold_standard,0.5319
+SPRINT,gold_standard,0.515
+D-SCRIPT,gold_standard,0.499192640637254
+Topsy_Turvy,gold_standard,0.587491412608293
