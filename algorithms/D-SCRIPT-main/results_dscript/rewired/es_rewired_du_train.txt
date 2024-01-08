@@ -1,0 +1,5 @@
+[2023-10-27-17:05:30] D-SCRIPT Version 0.2.2
+[2023-10-27-17:05:30] Called as: /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/dscript train --train data/rewired/du_train_es.txt --test data/rewired/du_val_es.txt --embedding /nfs/scratch/jbernett/yeast_embedding.h5 --save-prefix ./models/es_rewired_du -o results_dscript/rewired/es_rewired_du_train.txt
+[2023-10-27-17:05:30] Loaded 39020 training pairs
+[2023-10-27-17:05:30] Loaded 2168 test pairs
+[2023-10-27-17:05:30] Loading embeddings...

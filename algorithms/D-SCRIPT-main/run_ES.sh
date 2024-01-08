@@ -1,10 +1,11 @@
+#!/bin/bash
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=10
 #SBATCH --gpus-per-task=1
 #SBATCH --job-name=train_dscript_es
 #SBATCH --output=train_dscript_es_%A_%a.out
 #SBATCH --error=train_dscript_es_%A_%a.err
-#SBATCH --mem=100G
+#SBATCH --mem=150G
 #SBATCH --time=24:00:00
 #SBATCH --partition=shared-gpu
 #SBATCH --array=0-19

@@ -1,0 +1,87 @@
+[2023-10-27-17:01:33] D-SCRIPT Version 0.2.2
+[2023-10-27-17:01:33] Called as: /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/dscript train --train data/original/huang_train_es.txt --test data/original/huang_val_es.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix models/es_original_huang -o es_original_huang_train.txt
+[2023-10-27-17:01:33] Loaded 6836 training pairs
+[2023-10-27-17:01:33] Loaded 380 test pairs
+[2023-10-27-17:01:33] Loading embeddings...
+[2023-10-27-17:01:55] Initializing embedding model with:
+[2023-10-27-17:01:55] 	projection_dim: 100
+[2023-10-27-17:01:55] 	dropout_p: 0.5
+[2023-10-27-17:01:55] Initializing contact model with:
+[2023-10-27-17:01:55] 	hidden_dim: 50
+[2023-10-27-17:01:55] 	kernel_width: 7
+[2023-10-27-17:01:55] Initializing interaction model with:
+[2023-10-27-17:01:55] 	do_poool: False
+[2023-10-27-17:01:55] 	pool_width: 9
+[2023-10-27-17:01:55] 	do_w: True
+[2023-10-27-17:01:55] 	do_sigmoid: True
+[2023-10-27-17:01:55] ModelInteraction(
+  (activation): LogisticActivation()
+  (embedding): FullyConnectedEmbed(
+    (transform): Linear(in_features=6165, out_features=100, bias=True)
+    (drop): Dropout(p=0.5, inplace=False)
+    (activation): ReLU()
+  )
+  (contact): ContactCNN(
+    (hidden): FullyConnected(
+      (conv): Conv2d(200, 50, kernel_size=(1, 1), stride=(1, 1))
+      (batchnorm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (activation): ReLU()
+    )
+    (conv): Conv2d(50, 1, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3))
+    (batchnorm): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (activation): Sigmoid()
+  )
+  (maxPool): MaxPool2d(kernel_size=9, stride=9, padding=4, dilation=1, ceil_mode=False)
+)
+[2023-10-27-17:02:08] Using save prefix "models/es_original_huang"
+[2023-10-27-17:02:08] Training with Adam: lr=0.001, weight_decay=0
+[2023-10-27-17:02:08] 	num_epochs: 10
+[2023-10-27-17:02:08] 	batch_size: 25
+[2023-10-27-17:02:08] 	interaction weight: 0.35
+[2023-10-27-17:02:08] 	contact map weight: 0.65
+[2023-10-27-17:02:12] [1/10] training 1.5%: Loss=1.36146, Accuracy=54.000%, MSE=0.458517
+[2023-10-27-17:02:14] [1/10] training 2.9%: Loss=1.37185, Accuracy=52.500%, MSE=0.473187
+[2023-10-27-17:02:16] [1/10] training 4.4%: Loss=1.40544, Accuracy=50.333%, MSE=0.494562
+[2023-10-27-17:02:19] [1/10] training 5.8%: Loss=1.38942, Accuracy=51.000%, MSE=0.487879
+[2023-10-27-17:02:21] [1/10] training 7.3%: Loss=1.39696, Accuracy=50.800%, MSE=0.489882
+[2023-10-27-17:02:23] [1/10] training 8.8%: Loss=1.38452, Accuracy=50.667%, MSE=0.490975
+[2023-10-27-17:02:25] [1/10] training 10.2%: Loss=1.36719, Accuracy=51.286%, MSE=0.484761
+[2023-10-27-17:02:27] [1/10] training 11.7%: Loss=1.37211, Accuracy=51.000%, MSE=0.487593
+[2023-10-27-17:02:29] [1/10] training 13.1%: Loss=1.3713, Accuracy=50.556%, MSE=0.491819
+[2023-10-27-17:02:31] [1/10] training 14.6%: Loss=1.35795, Accuracy=51.000%, MSE=0.487334
+[2023-10-27-17:02:34] [1/10] training 16.1%: Loss=1.36067, Accuracy=50.727%, MSE=0.489964
+[2023-10-27-17:02:36] [1/10] training 17.5%: Loss=1.34045, Accuracy=51.417%, MSE=0.48302
+[2023-10-27-17:02:38] [1/10] training 19.0%: Loss=1.34362, Accuracy=50.923%, MSE=0.487797
+[2023-10-27-17:02:40] [1/10] training 20.4%: Loss=1.34873, Accuracy=50.429%, MSE=0.492619
+[2023-10-27-17:02:42] [1/10] training 21.9%: Loss=1.34814, Accuracy=50.267%, MSE=0.494153
+[2023-10-27-17:02:45] [1/10] training 23.4%: Loss=1.33554, Accuracy=50.562%, MSE=0.491063
+[2023-10-27-17:02:47] [1/10] training 24.8%: Loss=1.33274, Accuracy=50.529%, MSE=0.491328
+[2023-10-27-17:02:49] [1/10] training 26.3%: Loss=1.32318, Accuracy=50.778%, MSE=0.48878
+[2023-10-27-17:02:51] [1/10] training 27.7%: Loss=1.32962, Accuracy=50.211%, MSE=0.494312
+[2023-10-27-17:02:53] [1/10] training 29.2%: Loss=1.33079, Accuracy=49.950%, MSE=0.496807
+[2023-10-27-17:02:55] [1/10] training 30.7%: Loss=1.32388, Accuracy=50.143%, MSE=0.494819
+[2023-10-27-17:02:58] [1/10] training 32.1%: Loss=1.31723, Accuracy=50.182%, MSE=0.494267
+[2023-10-27-17:03:00] [1/10] training 33.6%: Loss=1.31671, Accuracy=50.043%, MSE=0.495577
+[2023-10-27-17:03:02] [1/10] training 35.0%: Loss=1.31421, Accuracy=50.000%, MSE=0.495936
+[2023-10-27-17:03:04] [1/10] training 36.5%: Loss=1.31278, Accuracy=49.840%, MSE=0.497416
+[2023-10-27-17:03:06] [1/10] training 38.0%: Loss=1.30705, Accuracy=49.923%, MSE=0.496485
+[2023-10-27-17:03:09] [1/10] training 39.4%: Loss=1.30094, Accuracy=50.148%, MSE=0.494222
+[2023-10-27-17:03:11] [1/10] training 40.9%: Loss=1.29395, Accuracy=50.286%, MSE=0.492743
+[2023-10-27-17:03:13] [1/10] training 42.3%: Loss=1.2885, Accuracy=50.379%, MSE=0.491729
+[2023-10-27-17:03:15] [1/10] training 43.8%: Loss=1.28816, Accuracy=50.267%, MSE=0.492779
+[2023-10-27-17:03:17] [1/10] training 45.3%: Loss=1.28177, Accuracy=50.387%, MSE=0.491477
+[2023-10-27-17:03:19] [1/10] training 46.7%: Loss=1.27944, Accuracy=50.344%, MSE=0.491822
+[2023-10-27-17:03:21] [1/10] training 48.2%: Loss=1.28097, Accuracy=50.091%, MSE=0.494214
+[2023-10-27-17:03:23] [1/10] training 49.6%: Loss=1.27972, Accuracy=49.971%, MSE=0.495304
+[2023-10-27-17:03:26] [1/10] training 51.1%: Loss=1.27394, Accuracy=50.143%, MSE=0.493538
+[2023-10-27-17:03:28] [1/10] training 52.6%: Loss=1.27018, Accuracy=50.222%, MSE=0.492703
+[2023-10-27-17:03:30] [1/10] training 54.0%: Loss=1.26989, Accuracy=50.027%, MSE=0.494501
+[2023-10-27-17:03:32] [1/10] training 55.5%: Loss=1.26649, Accuracy=50.132%, MSE=0.493446
+[2023-10-27-17:03:35] [1/10] training 56.9%: Loss=1.25862, Accuracy=50.359%, MSE=0.491066
+[2023-10-27-17:03:45] [1/10] training 58.4%: Loss=1.25929, Accuracy=50.200%, MSE=0.492578
+[2023-10-27-17:03:47] [1/10] training 59.9%: Loss=1.25705, Accuracy=50.171%, MSE=0.492776
+[2023-10-27-17:04:08] [1/10] training 61.3%: Loss=1.25537, Accuracy=50.071%, MSE=0.493638
+[2023-10-27-17:04:10] [1/10] training 62.8%: Loss=1.25436, Accuracy=49.977%, MSE=0.494479
+[2023-10-27-17:04:12] [1/10] training 64.2%: Loss=1.25155, Accuracy=49.955%, MSE=0.494583
+[2023-10-27-17:04:15] [1/10] training 65.7%: Loss=1.24812, Accuracy=50.000%, MSE=0.494053
+[2023-10-27-17:04:17] [1/10] training 67.2%: Loss=1.2475, Accuracy=49.870%, MSE=0.495233

@@ -1,0 +1,3 @@
+[2023-10-27-17:07:27] D-SCRIPT Version 0.2.2
+[2023-10-27-17:07:27] Called as: /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/dscript train --train data/partitions/guo_partition_0_train_es.txt --test data/partitions/dscript_partition_1_val_es.txt --embedding /nfs/scratch/jbernett/yeast_embedding.h5 --save-prefix ./models/es_partitions_guo_0_1 -o results_dscript/partitions/es_partitions_guo_0_1_train.txt
+[2023-10-27-17:07:27] Loaded 6386 training pairs

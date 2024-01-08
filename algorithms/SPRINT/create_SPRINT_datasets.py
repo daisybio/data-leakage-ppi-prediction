@@ -1,3 +1,4 @@
+import argparse
 import sys
 import random
 from sklearn.model_selection import train_test_split
@@ -14,27 +15,27 @@ def clean_dataset(ppis):
     print(f'Original number of PPIs: {n_ppis}'
           f'({len([ppi for ppi in ppis if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis if ppi[2] == "0"])} neg)')
 
-    ppis = {(ppi[0], ppi[1], ppi[2]) for ppi in ppis}
-    print(f'Number of duplicates: {n_ppis-len(ppis)}')
+    ppis = list(dict.fromkeys([(ppi[0], ppi[1], ppi[2]) for ppi in ppis]))
+    print(f'Number of duplicates: {n_ppis - len(ppis)}')
 
-    pos_ppis = {ppi for ppi in ppis if ppi[2] == '1'}
-    pos_ppis = pos_ppis.union({(ppi[1], ppi[0], ppi[2]) for ppi in pos_ppis})
-    neg_ppis = {ppi for ppi in ppis if ppi[2] == '0'}
-    neg_ppis = neg_ppis.union({(ppi[1], ppi[0], ppi[2]) for ppi in neg_ppis})
-    intersect_ppis = pos_ppis.intersection(neg_ppis)
+    pos_ppis = dict.fromkeys([ppi for ppi in ppis if ppi[2] == '1'])
+    pos_ppis.update(dict.fromkeys([(ppi[1], ppi[0], ppi[2]) for ppi in pos_ppis]))
+    neg_ppis = dict.fromkeys([ppi for ppi in ppis if ppi[2] == '0'])
+    neg_ppis.update(dict.fromkeys([(ppi[1], ppi[0], ppi[2]) for ppi in neg_ppis]))
+    intersect_ppis = set(pos_ppis).intersection(set(neg_ppis))
     print(f'Number of overlaps between pos and neg: {len(intersect_ppis)}')
     ppis = [[ppi[0], ppi[1], ppi[2]] for ppi in ppis if ppi not in intersect_ppis]
     return ppis
 
 
 def balance_ppis(ppis_train, ppis_test, organism, factor=1):
-    print(f'Current status: n={len(ppis_train+ppis_test)},'
+    print(f'Current status: n={len(ppis_train + ppis_test)},'
           f'n_train={len(ppis_train)} ({len([ppi for ppi in ppis_train if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_train if ppi[2] == "0"])} neg), '
           f'n_test={len(ppis_test)} ({len([ppi for ppi in ppis_test if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_test if ppi[2] == "0"])} neg)'
           )
     ppis_train = balance_ppis_list(ppis_train, organism, factor=factor)
     ppis_test = balance_ppis_list(ppis_test, organism, factor=factor)
-    print(f'New status: n={len(ppis_train+ppis_test)},'
+    print(f'New status: n={len(ppis_train + ppis_test)},'
           f'n_train={len(ppis_train)} ({len([ppi for ppi in ppis_train if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_train if ppi[2] == "0"])} neg), '
           f'n_test={len(ppis_test)} ({len([ppi for ppi in ppis_test if ppi[2] == "1"])} pos/{len([ppi for ppi in ppis_test if ppi[2] == "0"])} neg)'
           )
@@ -47,6 +48,7 @@ def balance_ppis_list(ppis, organism, factor=1):
     pos_len = len(pos_ppis)
     neg_ppis = [x for x in ppis if x[2] == '0']
     neg_len = len(neg_ppis)
+    random.seed(42)
     if neg_len > (pos_len * factor):
         print(f'randomly dropping negatives ({pos_len} positives, {neg_len} negatives)...')
         to_delete = set(random.sample(range(len(neg_ppis)), len(neg_ppis) - (factor * len(pos_ppis))))
@@ -171,17 +173,26 @@ def generate_RDPN(ppis, expected=True, add_mirrors=False):
     if add_mirrors:
         mirror_edgelist = [[ppi[1], ppi[0], ppi[2]] for ppi in ppis_rewired]
         ppis_rewired.extend(mirror_edgelist)
-
+    # shuffle list order
+    random.shuffle(ppis_rewired)
     return ppis_rewired
 
 
-def write_sprint(data, prefix, rewired):
+def write_sprint(data, prefix, rewired, random_state=42):
     if rewired:
-        pos_file = open(f'data/rewired/{prefix}_pos.txt', 'w')
-        neg_file = open(f'data/rewired/{prefix}_neg.txt', 'w')
+        if random_state == 42:
+            pos_file = open(f'data/rewired/{prefix}_pos.txt', 'w')
+            neg_file = open(f'data/rewired/{prefix}_neg.txt', 'w')
+        else:
+            pos_file = open(f'data/rewired/multiple_random_splits/{prefix}_pos_{random_state}.txt', 'w')
+            neg_file = open(f'data/rewired/multiple_random_splits/{prefix}_neg_{random_state}.txt', 'w')
     else:
-        pos_file = open(f'data/original/{prefix}_pos.txt', 'w')
-        neg_file = open(f'data/original/{prefix}_neg.txt', 'w')
+        if random_state == 42:
+            pos_file = open(f'data/original/{prefix}_pos.txt', 'w')
+            neg_file = open(f'data/original/{prefix}_neg.txt', 'w')
+        else:
+            pos_file = open(f'data/original/multiple_random_splits/{prefix}_pos_{random_state}.txt', 'w')
+            neg_file = open(f'data/original/multiple_random_splits/{prefix}_neg_{random_state}.txt', 'w')
     for ppi in data:
         if ppi[2] == '0':
             neg_file.write(f'{ppi[0]} {ppi[1]}\n')
@@ -191,7 +202,7 @@ def write_sprint(data, prefix, rewired):
     neg_file.close()
 
 
-def rewrite_guo(rewired=False):
+def rewrite_guo(rewired=False, random_state=42):
     print('############################ GUO DATASET ############################')
     ppis = []
     with open('../../algorithms/seq_ppi/yeast/preprocessed/protein.actions.tsv') as f:
@@ -199,13 +210,12 @@ def rewrite_guo(rewired=False):
             line_split = line.strip().split('\t')
             ppis.append(line_split)
     ppis = clean_dataset(ppis)
-    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=42)
+    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=random_state)
     if rewired:
         ppis_train = generate_RDPN(ppis_train)
     ppis_train, ppis_test = balance_ppis(ppis_train, ppis_test, organism='yeast')
-    write_sprint(ppis_train, 'guo_train', rewired)
-    write_sprint(ppis_test, 'guo_test', rewired)
-
+    write_sprint(data=ppis_train, prefix='guo_train', rewired=rewired, random_state=random_state)
+    write_sprint(data=ppis_test, prefix='guo_test', rewired=rewired, random_state=random_state)
 
 def read_huang_file(path):
     prot_list = []
@@ -219,7 +229,7 @@ def read_huang_file(path):
     return prot_list
 
 
-def rewrite_huang(rewired=False):
+def rewrite_huang(rewired=False, random_state=42):
     print('############################ HUANG DATASET ############################')
     ppis = []
     prots_pos_A = read_huang_file('../DeepFE-PPI/dataset/human/positive/Protein_A.txt')
@@ -233,15 +243,15 @@ def rewrite_huang(rewired=False):
         if prots_neg_A[i] != '' and prots_neg_B[i] != '':
             ppis.append([prots_neg_A[i], prots_neg_B[i], '0'])
     ppis = clean_dataset(ppis)
-    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=42)
+    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=random_state)
     if rewired:
         ppis_train = generate_RDPN(ppis_train)
     ppis_train, ppis_test = balance_ppis(ppis_train, ppis_test, organism='human')
-    write_sprint(ppis_train, 'huang_train', rewired)
-    write_sprint(ppis_test, 'huang_test', rewired)
+    write_sprint(data=ppis_train, prefix='huang_train', rewired=rewired, random_state=random_state)
+    write_sprint(data=ppis_test, prefix='huang_test', rewired=rewired, random_state=random_state)
 
 
-def rewrite_du(rewired=False):
+def rewrite_du(rewired=False, random_state=42):
     print('############################ DU DATASET ############################')
     ppis = []
     with open('../../Datasets_PPIs/Du_yeast_DIP/SupplementaryS1.csv') as f:
@@ -249,15 +259,15 @@ def rewrite_du(rewired=False):
             line_split = line.strip().split(',')
             ppis.append(line_split)
     ppis = clean_dataset(ppis)
-    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=42)
+    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=random_state)
     if rewired:
         ppis_train = generate_RDPN(ppis_train)
     ppis_train, ppis_test = balance_ppis(ppis_train, ppis_test, organism='yeast')
-    write_sprint(ppis_train, 'du_train', rewired)
-    write_sprint(ppis_test, 'du_test', rewired)
+    write_sprint(data=ppis_train, prefix='du_train', rewired=rewired, random_state=random_state)
+    write_sprint(data=ppis_test, prefix='du_test', rewired=rewired, random_state=random_state)
 
 
-def rewrite_pan(rewired=False):
+def rewrite_pan(rewired=False, random_state=42):
     print('############################ PAN DATASET ############################')
     from algorithms.Custom.load_datasets import make_swissprot_to_dict
     prefix_dict, seq_dict = make_swissprot_to_dict('../../Datasets_PPIs/SwissProt/human_swissprot.fasta')
@@ -280,12 +290,12 @@ def rewrite_pan(rewired=False):
                     if uniprot_id0 != '' and uniprot_id1 != '':
                         ppis.append([uniprot_id0, uniprot_id1, label])
     ppis = clean_dataset(ppis)
-    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=42)
+    ppis_train, ppis_test = train_test_split(ppis, test_size=0.2, random_state=random_state)
     if rewired:
         ppis_train = generate_RDPN(ppis_train)
     ppis_train, ppis_test = balance_ppis(ppis_train, ppis_test, organism='human')
-    write_sprint(ppis_train, 'pan_train', rewired)
-    write_sprint(ppis_test, 'pan_test', rewired)
+    write_sprint(data=ppis_train, prefix='pan_train', rewired=rewired, random_state=random_state)
+    write_sprint(data=ppis_test, prefix='pan_test', rewired=rewired, random_state=random_state)
 
 
 def iterate_pan(prefix_dict, seq_dict, path_to_pan):
@@ -331,7 +341,7 @@ def iterate_fasta(prefix_dict, seq_dict, path_to_fasta):
         old_id = lines[i].strip().split('>')[1]
         if old_id not in encountered_ids:
             encountered_ids.append(old_id)
-            seq = lines[i+1].strip()
+            seq = lines[i + 1].strip()
             first_n = seq[0:n]
             if first_n not in prefix_dict.keys():
                 uniprot_id = ''
@@ -439,11 +449,31 @@ def rewrite_dscript(rewired=False):
 
 
 if __name__ == '__main__':
-   sys.path.append('../../')
-   rewrite_guo(rewired=False)
-   rewrite_huang(rewired=False)
-   rewrite_du(rewired=False)
-   rewrite_pan(rewired=False)
-   rewrite_richoux(dataset='regular', rewired=False)
-   rewrite_richoux(dataset='strict', rewired=False)
-   rewrite_dscript(rewired=False)
+    sys.path.append('../../')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--rewire', action='store_true')
+    parser.add_argument('--nr_random_splits', type=int, default=1, help='Number of random splits')
+    args = parser.parse_args()
+    rewire = False
+    if args.rewire:
+        print('Rewiring ...')
+        rewire = True
+    if args.nr_random_splits == 1:
+        rewrite_guo(rewired=rewire)
+        rewrite_huang(rewired=rewire)
+        rewrite_du(rewired=rewire)
+        rewrite_pan(rewired=rewire)
+        rewrite_richoux(dataset='regular', rewired=rewire)
+        rewrite_richoux(dataset='strict', rewired=rewire)
+        rewrite_dscript(rewired=False)
+    else:
+        # set random seed for reproducibility
+        for i in range(args.nr_random_splits):
+            random.seed(i)
+            # generate a new random seed
+            random_state = random.randint(1, 100000)
+            print(f'Random state: {random_state}')
+            rewrite_guo(rewired=rewire, random_state=random_state)
+            rewrite_huang(rewired=rewire, random_state=random_state)
+            rewrite_du(rewired=rewire, random_state=random_state)
+            rewrite_pan(rewired=rewire, random_state=random_state)

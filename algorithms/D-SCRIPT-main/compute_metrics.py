@@ -42,8 +42,9 @@ partition = False
 rewired = False
 gold_epochs = False
 early_stopping = False
-robustness=True
-algorithm = 'dscript'
+robustness = False
+multiple_runs = True
+algorithm = 'topsyturvy'
 if partition:
     if early_stopping:
         result_file = open(f"results_{algorithm}/partitions/all_results_es.tsv", "w")
@@ -112,6 +113,41 @@ elif robustness:
             result_file.write(f'{algorithm}\t{dataset}\tFP\t{fp}\t{split}\n')
             result_file.write(f'{algorithm}\t{dataset}\tTN\t{tn}\t{split}\n')
             result_file.write(f'{algorithm}\t{dataset}\tFN\t{fn}\t{split}\n')
+    result_file.close()
+elif multiple_runs:
+    folder = f'results_{algorithm}/multiple_runs'
+    seeds = ['7413', '17612', '29715', '30940', '31191', '42446', '50495', '60688', '75212', '81645']
+    datasets = ['guo', 'huang']
+    splits = ['original', 'rewired']
+    result_file = open(f"{folder}/all_results.tsv", "w")
+    result_file.write("Model\tDataset\tSeed\tMetric\tValue\tSplit\n")
+
+    for split in splits:
+        for dataset in datasets:
+            for seed in seeds:
+                print(f"########## Split: {split}, Dataset: {dataset}, Seed: {seed} ##########")
+                file = f'{folder}/{split}_{dataset}_{seed}.txt.predictions.tsv'
+                y_pred = []
+                y_true = []
+                with open(file, "r") as f:
+                    for line in f:
+                        y_pred.append(float(line.strip().split("\t")[3]))
+                        y_true.append(float(line.strip().split("\t")[2]))
+                tp, fp, tn, fn, accuracy, precision, sensitivity, recall, specificity, MCC, f1_score, auc, pr = calculate_metrics(
+                    y_true, y_pred)
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tAccuracy\t{accuracy}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tPrecision\t{precision}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tSensitivity\t{sensitivity}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tRecall\t{recall}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tSpecificity\t{specificity}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tMCC\t{MCC}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tF1\t{f1_score}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tAUC\t{auc}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tAUPR\t{pr}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tTP\t{tp}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tFP\t{fp}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tTN\t{tn}\t{split}\n')
+                result_file.write(f'{algorithm}\t{dataset}\t{seed}\tFN\t{fn}\t{split}\n')
     result_file.close()
 else:
     if rewired:

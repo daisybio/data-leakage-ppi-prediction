@@ -521,15 +521,18 @@ def train_model(args, output):
 
     use_cuda = torch.cuda.is_available()
     if use_cuda:
-        device = get_freer_gpu()
+        if torch.cuda.device_count() == 1:
+            device = 0
+        else:
+            device = get_freer_gpu()
         torch.cuda.set_device(device)
         log(
             f"Using CUDA device {device} - {torch.cuda.get_device_name(device)}"
-        )
+        , print_also=True)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        log(f'Using device {device}')
+        log(f'Using device {device}', print_also=True)
     else:
-        log("Using CPU")
+        log("Using CPU", print_also=True)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if args.checkpoint is None:
@@ -751,6 +754,8 @@ def get_freer_gpu():
     import os
     os.system('nvidia-smi -q -d Memory |grep -A5 GPU|grep Free >tmp')
     memory_available = [int(x.split()[2]) for x in open('tmp', 'r').readlines()]
+    log(f'Available memory: {memory_available}', print_also=True)
+    log(f'Using GPU {np.argmax(memory_available)}', print_also=True)
     return int(np.argmax(memory_available))
 
 

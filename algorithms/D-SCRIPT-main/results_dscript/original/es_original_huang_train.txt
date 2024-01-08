@@ -1,0 +1,5 @@
+[2023-10-27-15:05:30] D-SCRIPT Version 0.2.2
+[2023-10-27-15:05:30] Called as: /nfs/home/students/jbernett/miniconda3/envs/dscript/bin/dscript train --train data/original/huang_train_es.txt --test data/original/huang_val_es.txt --embedding /nfs/scratch/jbernett/human_embedding.h5 --save-prefix ./models/es_original_huang -o results_dscript/original/es_original_huang_train.txt
+[2023-10-27-15:05:30] Loaded 6836 training pairs
+[2023-10-27-15:05:30] Loaded 380 test pairs
+[2023-10-27-15:05:30] Loading embeddings...

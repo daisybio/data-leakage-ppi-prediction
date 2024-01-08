@@ -209,7 +209,7 @@ def process_sequence_pairs(wv, maxlen, size, pos_seq_protein_A, neg_seq_protein_
     return feature_protein_AB, label
 
 
-def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
+def get_training_dataset(wv, maxlen, size, dataset, partition, rewired, seed=None):
     if partition:
         datasets=['dscript_both_0','dscript_both_1','dscript_0_1',
                   'guo_both_0','guo_both_1','guo_0_1',
@@ -255,8 +255,12 @@ def get_training_dataset(wv, maxlen, size, dataset, partition, rewired):
         else:
             organism='human'
         print(f'Getting {folder} dataset ...')
-        train_file_pos = f'../SPRINT/data/{folder}/{dataset}_train_pos.txt'
-        train_file_neg = f'../SPRINT/data/{folder}/{dataset}_train_neg.txt'
+        if seed is None:
+            train_file_pos = f'../SPRINT/data/{folder}/{dataset}_train_pos.txt'
+            train_file_neg = f'../SPRINT/data/{folder}/{dataset}_train_neg.txt'
+        else:
+            train_file_pos = f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_train_pos_{seed}.txt'
+            train_file_neg = f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_train_neg_{seed}.txt'
     pos_seq_protein_A, pos_seq_protein_B, neg_seq_protein_A, neg_seq_protein_B = read_sprint_files(train_file_pos,
                                                                                                    train_file_neg,
                                                                                                    organism)
@@ -284,7 +288,7 @@ def get_test_partition(wv, maxlen, size, dataset):
     return feature_protein_AB, label
 
 
-def get_test_set(wv, maxlen, size, dataset, rewired):
+def get_test_set(wv, maxlen, size, dataset, rewired, seed=None):
     if dataset.startswith('gold_standard'):
         organism = 'human'
         if dataset == 'gold_standard_val':
@@ -308,8 +312,12 @@ def get_test_set(wv, maxlen, size, dataset, rewired):
             organism = 'yeast'
         else:
             organism = 'human'
-        test_file_pos = f'../SPRINT/data/{folder}/{dataset}_test_pos.txt'
-        test_file_neg = f'../SPRINT/data/{folder}/{dataset}_test_neg.txt'
+        if seed is None:
+            test_file_pos = f'../SPRINT/data/{folder}/{dataset}_test_pos.txt'
+            test_file_neg = f'../SPRINT/data/{folder}/{dataset}_test_neg.txt'
+        else:
+            test_file_pos = f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_test_pos_{seed}.txt'
+            test_file_neg = f'../SPRINT/data/{folder}/multiple_random_splits/{dataset}_test_neg_{seed}.txt'
     pos_A_test, pos_B_test, neg_A_test, neg_B_test = read_sprint_files(test_file_pos,
                                                                        test_file_neg,
                                                                        organism)
@@ -404,10 +412,23 @@ if __name__ == "__main__":
         prefix = 'gold_standard_unbalanced_'
     if len(args) > 1 and args[1] == 'split_train':
         split_train = True
+        datasets = None
+        seed = None
+    elif len(args) > 1:
+        split_train = False
+        datasets = [arg for arg in args[1].split(',')]
+        print(f'Using dataset list {datasets}')
+        if len(args) > 2:
+            seed = int(args[2])
+            print(f'Using seed {seed}')
+        else:
+            seed = None
     else:
         split_train = False
+        seed = None
+        datasets = None
 
-    if rewired or original:
+    if (rewired or original) and datasets is None:
         datasets = ['huang', 'guo', 'du', 'pan', 'richoux_strict', 'richoux_regular', 'dscript']
     elif partition:
         datasets = ['huang_both_0', 'huang_both_1', 'huang_0_1',
@@ -419,7 +440,7 @@ if __name__ == "__main__":
     elif args[0] == 'gold':
         datasets = ['gold_standard']
     else:
-        datasets = ['gold_standard_unbalanced']
+        datasets = datasets
 
     for dataset in datasets:
         print(f'Dataset: {dataset}')
@@ -435,7 +456,7 @@ if __name__ == "__main__":
 
         # get training data
         t_start = time()
-        X_train, y_train = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset, partition=partition, rewired=rewired)
+        X_train, y_train = get_training_dataset(model_wv.wv, maxlen, size, dataset=dataset, partition=partition, rewired=rewired, seed=seed)
         y_train = utils.to_categorical(y_train)
         print('dataset is loaded')
         print(f'Train: {int(len(y_train[:, 1]))} ({int(sum(y_train[:, 1]))}/{int(len(y_train[:, 1])) - int(sum(y_train[:, 1]))})')
@@ -459,6 +480,11 @@ if __name__ == "__main__":
             result_dir = f'result/custom/{dataset.split("_")[0]}/'
             mkdir(result_dir)
             plot_dir = f'plot/custom/{dataset.split("_")[0]}/'
+            mkdir(plot_dir)
+        elif seed is not None:
+            result_dir = f'result/multiple_runs/'
+            mkdir(result_dir)
+            plot_dir = f'plot/multiple_runs/'
             mkdir(plot_dir)
         else:
             result_dir = f'result/custom/{dataset}/'
@@ -530,10 +556,13 @@ if __name__ == "__main__":
             )
 
         print('******   model created!  ******')
-        training_vis(hist, plot_dir, f'training_vis_{dataset}')
+        if seed is None:
+            training_vis(hist, plot_dir, f'training_vis_{dataset}')
+        else:
+            training_vis(hist, plot_dir, f'training_vis_{dataset}_{seed}')
 
         if not partition:
-            X_test, y_test = get_test_set(model_wv.wv, maxlen, size, dataset, rewired)
+            X_test, y_test = get_test_set(model_wv.wv, maxlen, size, dataset, rewired, seed)
             y_test = utils.to_categorical(y_test)
             X_test = scaler.transform(X_test)
         else:
@@ -572,9 +601,16 @@ if __name__ == "__main__":
                                'display.precision', 4,
                                ):
             print(sc)
-        sc.to_csv(result_dir + f'{prefix}scores_{dataset}.csv')
+        if seed is None:
+            sc.to_csv(result_dir + f'{prefix}scores_{dataset}.csv')
+        else:
+            sc.to_csv(result_dir + f'{prefix}scores_{dataset}_{seed}.csv')
         time_elapsed = time() - t_start
         print(f'time elapsed: {time_elapsed}')
-        with open(result_dir + f'time_{prefix}{dataset}.txt', 'w') as f:
-            f.write(str(time_elapsed))
+        if seed is None:
+            with open(result_dir + f'time_{prefix}{dataset}.txt', 'w') as f:
+                f.write(str(time_elapsed))
+        else:
+            with open(result_dir + f'time_{prefix}{dataset}_{seed}.txt', 'w') as f:
+                f.write(str(time_elapsed))
         K.clear_session()

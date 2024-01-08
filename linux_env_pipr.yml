@@ -1,41 +1,47 @@
 name: pipr
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
   - _libgcc_mutex=0.1
   - _openmp_mutex=4.5
+  - bzip2=1.0.8
   - c-ares=1.18.1
-  - ca-certificates=2022.6.15
+  - ca-certificates=2023.11.17
   - cached-property=1.5.2
   - cached_property=1.5.2
+  - cuda-version=11.8
+  - cudatoolkit=11.8.0
+  - cudnn=8.8.0.121
   - h5py=3.7.0
   - hdf5=1.12.1
   - keyutils=1.6.1
-  - krb5=1.19.3
+  - krb5=1.21.2
   - ld_impl_linux-64=2.36.1
   - libblas=3.9.0
   - libcblas=3.9.0
-  - libcurl=7.83.1
+  - libcurl=8.4.0
   - libedit=3.1.20191231
   - libev=4.33
-  - libffi=3.2.1
+  - libffi=3.4.2
   - libgcc-ng=12.1.0
   - libgfortran-ng=12.1.0
   - libgfortran5=12.1.0
   - libgomp=12.1.0
   - liblapack=3.9.0
-  - libnghttp2=1.47.0
+  - libnghttp2=1.52.0
+  - libnsl=2.0.1
   - libopenblas=0.3.20
-  - libssh2=1.10.0
+  - libssh2=1.11.0
   - libstdcxx-ng=12.1.0
-  - libzlib=1.2.12
+  - libuuid=2.38.1
+  - libzlib=1.2.13
   - ncurses=6.3
   - numpy=1.23.1
-  - openssl=1.1.1q
+  - openssl=3.2.0
   - pip=22.1.2
-  - python=3.8.0
+  - python=3.8.13
   - python_abi=3.8
   - readline=8.1.2
   - setuptools=63.2.0
@@ -43,60 +49,61 @@ dependencies:
   - tk=8.6.12
   - wheel=0.37.1
   - xz=5.2.5
-  - zlib=1.2.12
+  - zlib=1.2.13
+  - zstd=1.5.5
   - pip:
-    - absl-py==1.2.0
-    - astunparse==1.6.3
-    - cachetools==5.2.0
-    - certifi==2022.6.15
-    - charset-normalizer==2.1.0
-    - cycler==0.11.0
-    - flatbuffers==2.0
-    - fonttools==4.34.4
-    - gast==0.5.3
-    - gensim==4.1.2
-    - google-auth==2.9.1
-    - google-auth-oauthlib==0.4.6
-    - google-pasta==0.2.0
-    - grpcio==1.47.0
-    - idna==3.3
-    - importlib-metadata==4.12.0
-    - joblib==1.1.0
-    - keras==2.8.0
-    - keras-preprocessing==1.1.2
-    - kiwisolver==1.4.4
-    - libclang==14.0.1
-    - markdown==3.4.1
-    - matplotlib==3.5.1
-    - networkx==2.8
-    - oauthlib==3.2.0
-    - opt-einsum==3.3.0
-    - packaging==21.3
-    - pandas==1.4.2
-    - pillow==9.2.0
-    - protobuf==3.20.1
-    - pyasn1==0.4.8
-    - pyasn1-modules==0.2.8
-    - pyparsing==3.0.9
-    - python-dateutil==2.8.2
-    - pytz==2022.1
-    - requests==2.28.1
-    - requests-oauthlib==1.3.1
-    - rsa==4.9
-    - scikit-learn==1.0.2
-    - scipy==1.8.1
-    - six==1.16.0
-    - smart-open==6.0.0
-    - tensorboard==2.8.0
-    - tensorboard-data-server==0.6.1
-    - tensorboard-plugin-wit==1.8.1
-    - tensorflow==2.8.0
-    - tensorflow-io-gcs-filesystem==0.26.0
-    - termcolor==1.1.0
-    - tf-estimator-nightly==2.8.0.dev2021122109
-    - threadpoolctl==3.1.0
-    - typing-extensions==4.3.0
-    - urllib3==1.26.10
-    - werkzeug==2.1.2
-    - wrapt==1.14.1
-    - zipp==3.8.1
+      - absl-py==1.2.0
+      - astunparse==1.6.3
+      - cachetools==5.2.0
+      - certifi==2022.6.15
+      - charset-normalizer==2.1.0
+      - cycler==0.11.0
+      - flatbuffers==2.0
+      - fonttools==4.34.4
+      - gast==0.5.3
+      - gensim==4.1.2
+      - google-auth==2.9.1
+      - google-auth-oauthlib==0.4.6
+      - google-pasta==0.2.0
+      - grpcio==1.47.0
+      - idna==3.3
+      - importlib-metadata==4.12.0
+      - joblib==1.1.0
+      - keras==2.8.0
+      - keras-preprocessing==1.1.2
+      - kiwisolver==1.4.4
+      - libclang==14.0.1
+      - markdown==3.4.1
+      - matplotlib==3.5.1
+      - networkx==2.8
+      - oauthlib==3.2.0
+      - opt-einsum==3.3.0
+      - packaging==21.3
+      - pandas==1.4.2
+      - pillow==9.2.0
+      - protobuf==3.20.1
+      - pyasn1==0.4.8
+      - pyasn1-modules==0.2.8
+      - pyparsing==3.0.9
+      - python-dateutil==2.8.2
+      - pytz==2022.1
+      - requests==2.28.1
+      - requests-oauthlib==1.3.1
+      - rsa==4.9
+      - scikit-learn==1.0.2
+      - scipy==1.8.1
+      - six==1.16.0
+      - smart-open==6.0.0
+      - tensorboard==2.8.0
+      - tensorboard-data-server==0.6.1
+      - tensorboard-plugin-wit==1.8.1
+      - tensorflow==2.8.0
+      - tensorflow-io-gcs-filesystem==0.26.0
+      - termcolor==1.1.0
+      - tf-estimator-nightly==2.8.0.dev2021122109
+      - threadpoolctl==3.1.0
+      - typing-extensions==4.3.0
+      - urllib3==1.26.10
+      - werkzeug==2.1.2
+      - wrapt==1.14.1
+      - zipp==3.8
